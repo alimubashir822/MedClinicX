@@ -179,7 +179,6 @@ export default function Blog() {
 
                 <Link
                   href={`/blog/${post.id}`}
-                  onClick={(e) => e.preventDefault()} // Keep local for demo
                   className="text-xs font-semibold text-brand-indigo group-hover:text-white transition-colors flex items-center space-x-1 self-start cursor-pointer"
                 >
                   <span>Read full article</span>
