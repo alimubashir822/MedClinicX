@@ -8,7 +8,8 @@ import { Activity, Menu, X, ChevronDown, Sparkles } from "lucide-react";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [solutionsDropdownOpen, setSolutionsDropdownOpen] = useState(false);
+  const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
   const pathname = usePathname();
 
   const solutions = [
@@ -17,10 +18,23 @@ export default function Navbar() {
     { name: "AI Medical Receptionist System", href: "/solutions/ai-medical-receptionist" },
   ];
 
-  const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
+  const services = [
+    { name: "Healthcare Websites", href: "/services/healthcare-websites" },
+    { name: "AI Healthcare Solutions", href: "/services/ai-healthcare-solutions" },
+    { name: "Patient Portal Development", href: "/services/patient-portal-development" },
+    { name: "Healthcare SaaS Development", href: "/services/healthcare-saas-development" },
+    { name: "Telemedicine Solutions", href: "/services/telemedicine-solutions" },
+    { name: "Healthcare Automation", href: "/services/healthcare-automation" },
+    { name: "Mobile Healthcare Apps", href: "/services/mobile-healthcare-apps" },
+    { name: "Healthcare SEO & Growth", href: "/services/healthcare-seo-growth" },
+  ];
+
+  const toggleSolutionsDropdown = () => setSolutionsDropdownOpen(!solutionsDropdownOpen);
+  const toggleServicesDropdown = () => setServicesDropdownOpen(!servicesDropdownOpen);
   const closeAll = () => {
     setIsOpen(false);
-    setDropdownOpen(false);
+    setSolutionsDropdownOpen(false);
+    setServicesDropdownOpen(false);
   };
 
   return (
@@ -45,24 +59,29 @@ export default function Navbar() {
         {/* Desktop Links */}
         <div className="hidden md:flex items-center space-x-8">
           {/* Solutions Dropdown */}
-          <div className="relative">
+          <div 
+            className="relative"
+            onMouseLeave={() => setSolutionsDropdownOpen(false)}
+          >
             <button
-              onClick={toggleDropdown}
-              onMouseEnter={() => setDropdownOpen(true)}
+              onClick={toggleSolutionsDropdown}
+              onMouseEnter={() => {
+                setSolutionsDropdownOpen(true);
+                setServicesDropdownOpen(false);
+              }}
               className="flex items-center space-x-1 font-medium text-sm text-gray-300 hover:text-white transition-colors py-2"
             >
               <span>Solutions</span>
-              <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${dropdownOpen ? "rotate-180" : ""}`} />
+              <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${solutionsDropdownOpen ? "rotate-180" : ""}`} />
             </button>
 
             {/* Dropdown Panel */}
             <AnimatePresence>
-              {dropdownOpen && (
+              {solutionsDropdownOpen && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
-                  onMouseLeave={() => setDropdownOpen(false)}
                   className="absolute left-0 mt-2 w-64 glass-panel rounded-xl shadow-2xl p-2 z-50 border border-brand-border"
                 >
                   {solutions.map((item) => (
@@ -80,17 +99,64 @@ export default function Navbar() {
             </AnimatePresence>
           </div>
 
-          <Link
-            href="/services"
-            className={`font-medium text-sm transition-colors ${
-              pathname?.startsWith("/services") ? "text-brand-cyan font-semibold" : "text-gray-300 hover:text-white"
-            }`}
+          {/* Services Dropdown */}
+          <div 
+            className="relative"
+            onMouseLeave={() => setServicesDropdownOpen(false)}
           >
-            Services
-          </Link>
+            <button
+              onClick={toggleServicesDropdown}
+              onMouseEnter={() => {
+                setServicesDropdownOpen(true);
+                setSolutionsDropdownOpen(false);
+              }}
+              className={`flex items-center space-x-1 font-medium text-sm transition-colors py-2 ${
+                pathname?.startsWith("/services") ? "text-brand-cyan font-semibold" : "text-gray-300 hover:text-white"
+              }`}
+            >
+              <span>Services</span>
+              <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${servicesDropdownOpen ? "rotate-180" : ""}`} />
+            </button>
+
+            {/* Dropdown Panel */}
+            <AnimatePresence>
+              {servicesDropdownOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  className="absolute left-0 mt-2 w-[520px] glass-panel rounded-xl shadow-2xl p-3 z-50 border border-brand-border grid grid-cols-2 gap-2"
+                >
+                  {services.map((item) => (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      onClick={closeAll}
+                      className="block px-3.5 py-2.5 text-xs font-medium text-gray-300 hover:text-white rounded-lg hover:bg-brand-cyan/10 hover:border-l-2 hover:border-brand-cyan transition-all"
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                  <div className="col-span-2 border-t border-brand-border/60 mt-1 pt-2">
+                    <Link
+                      href="/services"
+                      onClick={closeAll}
+                      className="block text-center text-xs font-bold text-brand-cyan hover:text-white transition-colors"
+                    >
+                      All Services Directory &rarr;
+                    </Link>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
 
           <Link
             href="/website-development"
+            onMouseEnter={() => {
+              setSolutionsDropdownOpen(false);
+              setServicesDropdownOpen(false);
+            }}
             className={`font-medium text-sm transition-colors ${
               pathname === "/website-development" ? "text-brand-cyan font-semibold" : "text-gray-300 hover:text-white"
             }`}
@@ -100,6 +166,10 @@ export default function Navbar() {
 
           <Link
             href="/blog"
+            onMouseEnter={() => {
+              setSolutionsDropdownOpen(false);
+              setServicesDropdownOpen(false);
+            }}
             className={`font-medium text-sm transition-colors ${
               pathname === "/blog" ? "text-brand-cyan font-semibold" : "text-gray-300 hover:text-white"
             }`}
@@ -109,6 +179,10 @@ export default function Navbar() {
 
           <Link
             href="/about"
+            onMouseEnter={() => {
+              setSolutionsDropdownOpen(false);
+              setServicesDropdownOpen(false);
+            }}
             className={`font-medium text-sm transition-colors ${
               pathname === "/about" ? "text-brand-cyan font-semibold" : "text-gray-300 hover:text-white"
             }`}
@@ -118,6 +192,10 @@ export default function Navbar() {
 
           <Link
             href="/contact"
+            onMouseEnter={() => {
+              setSolutionsDropdownOpen(false);
+              setServicesDropdownOpen(false);
+            }}
             className={`font-medium text-sm transition-colors ${
               pathname === "/contact" ? "text-brand-cyan font-semibold" : "text-gray-300 hover:text-white"
             }`}
@@ -176,13 +254,28 @@ export default function Navbar() {
 
               <div className="border-t border-brand-border my-2" />
 
-              <Link
-                href="/services"
-                onClick={closeAll}
-                className="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-brand-cyan/10 rounded-lg transition-colors"
-              >
-                Services
-              </Link>
+              <div>
+                <p className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Services</p>
+                <div className="mt-2 space-y-1">
+                  <Link
+                    href="/services"
+                    onClick={closeAll}
+                    className="block px-3 py-2 text-sm font-bold text-white hover:text-brand-cyan hover:bg-brand-cyan/10 rounded-lg transition-colors"
+                  >
+                    All Services Directory &rarr;
+                  </Link>
+                  {services.map((item) => (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      onClick={closeAll}
+                      className="block px-3 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-brand-cyan/10 rounded-lg transition-colors pl-6"
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
 
               <Link
                 href="/website-development"
