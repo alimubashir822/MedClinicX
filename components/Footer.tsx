@@ -39,7 +39,7 @@ export default function Footer() {
 
           {/* Solutions Column */}
           <div>
-            <h3 className="text-white font-semibold font-display text-sm tracking-wider uppercase mb-4">Solutions</h3>
+            <h3 className="text-white font-semibold font-display text-sm tracking-wider uppercase mb-4">Solutions & Tools</h3>
             <ul className="space-y-2.5 text-sm text-gray-400">
               <li>
                 <Link href="/solutions/ai-patient-portal" className="hover:text-brand-cyan transition-colors">
@@ -57,13 +57,21 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/website-development" className="hover:text-brand-cyan transition-colors">
-                  Website Development
+                <Link href="/demo?tab=audit" className="hover:text-brand-cyan transition-colors flex items-center space-x-1">
+                  <span>AI Website Audit</span>
+                  <ExternalLink className="w-3 h-3 text-brand-cyan" />
                 </Link>
               </li>
               <li>
-                <Link href="/demo" className="hover:text-brand-cyan transition-colors">
-                  Live Demos
+                <Link href="/demo?tab=roi" className="hover:text-brand-cyan transition-colors flex items-center space-x-1">
+                  <span>ROI Calculator</span>
+                  <ExternalLink className="w-3 h-3 text-brand-cyan" />
+                </Link>
+              </li>
+              <li>
+                <Link href="/demo?tab=content" className="hover:text-brand-cyan transition-colors flex items-center space-x-1">
+                  <span>AI Content Generator</span>
+                  <ExternalLink className="w-3 h-3 text-brand-cyan" />
                 </Link>
               </li>
             </ul>
@@ -96,31 +104,53 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Service & Tools */}
+          {/* Service Column */}
           <div>
-            <h3 className="text-white font-semibold font-display text-sm tracking-wider uppercase mb-4">Services & Tools</h3>
+            <h3 className="text-white font-semibold font-display text-sm tracking-wider uppercase mb-4">Services</h3>
             <ul className="space-y-2.5 text-sm text-gray-400">
               <li>
-                <Link href="/website-development" className="hover:text-brand-cyan transition-colors">
-                  Website Development
+                <Link href="/services" className="hover:text-brand-cyan font-semibold text-white transition-colors">
+                  All Services Hub &rarr;
                 </Link>
               </li>
               <li>
-                <Link href="/demo?tab=audit" className="hover:text-brand-cyan transition-colors flex items-center space-x-1">
-                  <span>AI Website Audit</span>
-                  <ExternalLink className="w-3 h-3 text-brand-cyan" />
+                <Link href="/services/healthcare-websites" className="hover:text-brand-cyan transition-colors">
+                  Healthcare Websites
                 </Link>
               </li>
               <li>
-                <Link href="/demo?tab=roi" className="hover:text-brand-cyan transition-colors flex items-center space-x-1">
-                  <span>ROI Calculator</span>
-                  <ExternalLink className="w-3 h-3 text-brand-cyan" />
+                <Link href="/services/ai-healthcare-solutions" className="hover:text-brand-cyan transition-colors">
+                  AI Healthcare Solutions
                 </Link>
               </li>
               <li>
-                <Link href="/demo?tab=content" className="hover:text-brand-cyan transition-colors flex items-center space-x-1">
-                  <span>AI Content Generator</span>
-                  <ExternalLink className="w-3 h-3 text-brand-cyan" />
+                <Link href="/services/patient-portal-development" className="hover:text-brand-cyan transition-colors">
+                  Patient Portal Development
+                </Link>
+              </li>
+              <li>
+                <Link href="/services/healthcare-saas-development" className="hover:text-brand-cyan transition-colors">
+                  Healthcare SaaS Development
+                </Link>
+              </li>
+              <li>
+                <Link href="/services/telemedicine-solutions" className="hover:text-brand-cyan transition-colors">
+                  Telemedicine Solutions
+                </Link>
+              </li>
+              <li>
+                <Link href="/services/healthcare-automation" className="hover:text-brand-cyan transition-colors">
+                  Healthcare Automation
+                </Link>
+              </li>
+              <li>
+                <Link href="/services/mobile-healthcare-apps" className="hover:text-brand-cyan transition-colors">
+                  Mobile Healthcare Apps
+                </Link>
+              </li>
+              <li>
+                <Link href="/services/healthcare-seo-growth" className="hover:text-brand-cyan transition-colors">
+                  Healthcare SEO & Growth
                 </Link>
               </li>
             </ul>

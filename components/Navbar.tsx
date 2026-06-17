@@ -81,6 +81,15 @@ export default function Navbar() {
           </div>
 
           <Link
+            href="/services"
+            className={`font-medium text-sm transition-colors ${
+              pathname?.startsWith("/services") ? "text-brand-cyan font-semibold" : "text-gray-300 hover:text-white"
+            }`}
+          >
+            Services
+          </Link>
+
+          <Link
             href="/website-development"
             className={`font-medium text-sm transition-colors ${
               pathname === "/website-development" ? "text-brand-cyan font-semibold" : "text-gray-300 hover:text-white"
@@ -166,6 +175,14 @@ export default function Navbar() {
               </div>
 
               <div className="border-t border-brand-border my-2" />
+
+              <Link
+                href="/services"
+                onClick={closeAll}
+                className="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-brand-cyan/10 rounded-lg transition-colors"
+              >
+                Services
+              </Link>
 
               <Link
                 href="/website-development"
