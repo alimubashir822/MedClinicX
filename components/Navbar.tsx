@@ -58,47 +58,6 @@ export default function Navbar() {
 
         {/* Desktop Links */}
         <div className="hidden md:flex items-center space-x-8">
-          {/* Solutions Dropdown */}
-          <div 
-            className="relative"
-            onMouseLeave={() => setSolutionsDropdownOpen(false)}
-          >
-            <button
-              onClick={toggleSolutionsDropdown}
-              onMouseEnter={() => {
-                setSolutionsDropdownOpen(true);
-                setServicesDropdownOpen(false);
-              }}
-              className="flex items-center space-x-1 font-medium text-sm text-gray-300 hover:text-white transition-colors py-2"
-            >
-              <span>Solutions</span>
-              <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${solutionsDropdownOpen ? "rotate-180" : ""}`} />
-            </button>
-
-            {/* Dropdown Panel */}
-            <AnimatePresence>
-              {solutionsDropdownOpen && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  className="absolute left-0 mt-2 w-64 glass-panel rounded-xl shadow-2xl p-2 z-50 border border-brand-border"
-                >
-                  {solutions.map((item) => (
-                    <Link
-                      key={item.name}
-                      href={item.href}
-                      onClick={closeAll}
-                      className="block px-4 py-3 text-sm font-medium text-gray-300 hover:text-white rounded-lg hover:bg-brand-cyan/10 hover:border-l-2 hover:border-brand-cyan transition-all"
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-
           {/* Services Dropdown */}
           <div 
             className="relative"
@@ -125,6 +84,7 @@ export default function Navbar() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
+                  style={{ backgroundColor: "rgba(5, 7, 16, 0.96)" }}
                   className="absolute left-0 mt-2 w-[520px] glass-panel rounded-xl shadow-2xl p-3 z-50 border border-brand-border grid grid-cols-2 gap-2"
                 >
                   {services.map((item) => (
@@ -152,16 +112,16 @@ export default function Navbar() {
           </div>
 
           <Link
-            href="/website-development"
+            href="/about"
             onMouseEnter={() => {
               setSolutionsDropdownOpen(false);
               setServicesDropdownOpen(false);
             }}
             className={`font-medium text-sm transition-colors ${
-              pathname === "/website-development" ? "text-brand-cyan font-semibold" : "text-gray-300 hover:text-white"
+              pathname === "/about" ? "text-brand-cyan font-semibold" : "text-gray-300 hover:text-white"
             }`}
           >
-            Website Development
+            About
           </Link>
 
           <Link
@@ -177,18 +137,47 @@ export default function Navbar() {
             Blog
           </Link>
 
-          <Link
-            href="/about"
-            onMouseEnter={() => {
-              setSolutionsDropdownOpen(false);
-              setServicesDropdownOpen(false);
-            }}
-            className={`font-medium text-sm transition-colors ${
-              pathname === "/about" ? "text-brand-cyan font-semibold" : "text-gray-300 hover:text-white"
-            }`}
+          {/* Solutions Dropdown */}
+          <div 
+            className="relative"
+            onMouseLeave={() => setSolutionsDropdownOpen(false)}
           >
-            About
-          </Link>
+            <button
+              onClick={toggleSolutionsDropdown}
+              onMouseEnter={() => {
+                setSolutionsDropdownOpen(true);
+                setServicesDropdownOpen(false);
+              }}
+              className="flex items-center space-x-1 font-medium text-sm text-gray-300 hover:text-white transition-colors py-2"
+            >
+              <span>Solutions</span>
+              <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${solutionsDropdownOpen ? "rotate-180" : ""}`} />
+            </button>
+
+            {/* Dropdown Panel */}
+            <AnimatePresence>
+              {solutionsDropdownOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  style={{ backgroundColor: "rgba(5, 7, 16, 0.96)" }}
+                  className="absolute left-0 mt-2 w-64 glass-panel rounded-xl shadow-2xl p-2 z-50 border border-brand-border"
+                >
+                  {solutions.map((item) => (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      onClick={closeAll}
+                      className="block px-4 py-3 text-sm font-medium text-gray-300 hover:text-white rounded-lg hover:bg-brand-cyan/10 hover:border-l-2 hover:border-brand-cyan transition-all"
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
 
           <Link
             href="/contact"
@@ -236,24 +225,7 @@ export default function Navbar() {
             className="md:hidden mt-2 glass-panel rounded-2xl overflow-hidden shadow-2xl border border-brand-border"
           >
             <div className="px-4 py-5 space-y-4">
-              <div>
-                <p className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Solutions</p>
-                <div className="mt-2 space-y-1">
-                  {solutions.map((item) => (
-                    <Link
-                      key={item.name}
-                      href={item.href}
-                      onClick={closeAll}
-                      className="block px-3 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-brand-cyan/10 rounded-lg transition-colors"
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-
-              <div className="border-t border-brand-border my-2" />
-
+              {/* Services */}
               <div>
                 <p className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Services</p>
                 <div className="mt-2 space-y-1">
@@ -277,22 +249,9 @@ export default function Navbar() {
                 </div>
               </div>
 
-              <Link
-                href="/website-development"
-                onClick={closeAll}
-                className="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-brand-cyan/10 rounded-lg transition-colors"
-              >
-                Website Development
-              </Link>
+              <div className="border-t border-brand-border my-2" />
 
-              <Link
-                href="/blog"
-                onClick={closeAll}
-                className="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-brand-cyan/10 rounded-lg transition-colors"
-              >
-                Blog
-              </Link>
-
+              {/* About */}
               <Link
                 href="/about"
                 onClick={closeAll}
@@ -301,20 +260,56 @@ export default function Navbar() {
                 About
               </Link>
 
+              <div className="border-t border-brand-border my-2" />
+
+              {/* Blog */}
               <Link
-                href="/faq"
+                href="/blog"
                 onClick={closeAll}
                 className="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-brand-cyan/10 rounded-lg transition-colors"
               >
-                FAQ
+                Blog
               </Link>
 
+              <div className="border-t border-brand-border my-2" />
+
+              {/* Solutions */}
+              <div>
+                <p className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Solutions</p>
+                <div className="mt-2 space-y-1">
+                  {solutions.map((item) => (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      onClick={closeAll}
+                      className="block px-3 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-brand-cyan/10 rounded-lg transition-colors"
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              <div className="border-t border-brand-border my-2" />
+
+              {/* Contact */}
               <Link
                 href="/contact"
                 onClick={closeAll}
                 className="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-brand-cyan/10 rounded-lg transition-colors"
               >
                 Get In Touch
+              </Link>
+
+              <div className="border-t border-brand-border my-2" />
+
+              {/* FAQ */}
+              <Link
+                href="/faq"
+                onClick={closeAll}
+                className="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-brand-cyan/10 rounded-lg transition-colors"
+              >
+                FAQ
               </Link>
 
               <div className="pt-2">
