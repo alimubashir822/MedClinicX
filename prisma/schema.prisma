@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String   @default("password")
+  role      String   // ADMIN, DOCTOR, PATIENT, STAFF
+  createdAt DateTime @default(now())
+  
+  patient   Patient?
+  doctor    Doctor?
+}
+
+model Patient {
+  id             String        @id @default(uuid())
+  userId         String        @unique
+  user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  medicalHistory String        @default("")
+  documents      String        @default("[]") // JSON string representing documents
+  appointments   Appointment[]
+}
+
+model Doctor {
+  id           String        @id @default(uuid())
+  userId       String        @unique
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  specialty    String
+  clinic       String
+  appointments Appointment[]
+}
+
+model Appointment {
+  id        String   @id @default(uuid())
+  patientId String
+  patient   Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  doctorId  String
+  doctor    Doctor   @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  date      DateTime
+  status    String   // PENDING, CONFIRMED, COMPLETED, CANCELLED
+  notes     String   @default("")
+}
+
+model Message {
+  id         String   @id @default(uuid())
+  senderId   String
+  receiverId String
+  content    String
+  createdAt  DateTime @default(now())
+}
