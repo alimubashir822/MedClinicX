@@ -250,62 +250,118 @@ function TechArchitectureDiagram() {
 }
 
 // ─────────────────────────────────────────────────────────────
-// Table of Contents Sidebar
+// Floating TOC Popup
 // ─────────────────────────────────────────────────────────────
-function TableOfContents({ activeSection }: { activeSection: string }) {
+function FloatingTOC({ activeSection, visible }: { activeSection: string; visible: boolean }) {
+  const [open, setOpen] = useState(false);
+
+  const scrollTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    setOpen(false);
+  };
+
+  const activeItem = tocItems.find((t) => t.id === activeSection);
+
   return (
-    <aside className="hidden xl:block w-52 shrink-0">
-      <div className="sticky top-24 h-fit">
-        {/* Header */}
-        <div className="flex items-center gap-2 mb-5 px-1">
-          <List className="w-3.5 h-3.5 text-brand-cyan" />
-          <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Contents</span>
-        </div>
-
-        {/* TOC Items */}
-        <nav className="space-y-0.5">
-          {tocItems.map((item) => {
-            const isActive = activeSection === item.id;
-            return (
-              <a
-                key={item.id}
-                href={`#${item.id}`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.getElementById(item.id)?.scrollIntoView({ behavior: "smooth", block: "start" });
-                }}
-                className={`group flex items-center gap-2.5 px-3 py-2 rounded-lg transition-all duration-200 ${
-                  isActive
-                    ? "bg-brand-cyan/10 border border-brand-cyan/20 text-white"
-                    : "text-gray-600 hover:text-gray-400 hover:bg-brand-bg/60 border border-transparent"
-                }`}
-              >
-                {/* Active indicator bar */}
-                <span className={`w-0.5 h-4 rounded-full shrink-0 transition-all duration-200 ${isActive ? "bg-brand-cyan" : "bg-brand-border"}`} />
-                <span className={`text-[9px] font-bold shrink-0 transition-colors ${isActive ? "text-brand-cyan" : "text-gray-600 group-hover:text-gray-500"}`}>
-                  {item.num}
-                </span>
-                <span className={`text-[11px] font-semibold truncate transition-colors ${isActive ? "text-white" : ""}`}>
-                  {item.label}
-                </span>
-              </a>
-            );
-          })}
-        </nav>
-
-        {/* CTA at bottom of TOC */}
-        <div className="mt-6 p-3.5 rounded-xl border border-brand-cyan/20 bg-brand-cyan/5">
-          <p className="text-[10px] font-bold text-brand-cyan mb-1">Ready to build?</p>
-          <p className="text-[9px] text-gray-500 leading-relaxed mb-2.5">Get a free healthcare website audit.</p>
-          <Link
-            href="/contact"
-            className="block text-center text-[10px] font-bold text-brand-bg bg-brand-cyan hover:bg-brand-cyan/90 py-1.5 px-3 rounded-lg transition-all"
+    <>
+      {/* Floating button + panel — fixed bottom-right */}
+      <AnimatePresence>
+        {visible && (
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            transition={{ duration: 0.25 }}
+            className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2"
           >
-            Book Call →
-          </Link>
-        </div>
-      </div>
-    </aside>
+            {/* Popup Panel */}
+            <AnimatePresence>
+              {open && (
+                <motion.div
+                  initial={{ opacity: 0, y: 12, scale: 0.97 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 12, scale: 0.97 }}
+                  transition={{ duration: 0.2 }}
+                  className="bg-[#060F1E] border border-brand-border rounded-2xl shadow-2xl shadow-black/60 overflow-hidden w-56"
+                >
+                  {/* Panel header */}
+                  <div className="px-4 py-3 border-b border-brand-border/60 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <List className="w-3.5 h-3.5 text-brand-cyan" />
+                      <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">On This Page</span>
+                    </div>
+                    <button
+                      onClick={() => setOpen(false)}
+                      className="w-5 h-5 rounded-full bg-brand-border/60 hover:bg-brand-border flex items-center justify-center transition-colors"
+                    >
+                      <ChevronDown className="w-3 h-3 text-gray-400" />
+                    </button>
+                  </div>
+
+                  {/* TOC items */}
+                  <nav className="p-2 max-h-[60vh] overflow-y-auto">
+                    {tocItems.map((item) => {
+                      const isActive = activeSection === item.id;
+                      return (
+                        <button
+                          key={item.id}
+                          onClick={() => scrollTo(item.id)}
+                          className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-left transition-all duration-150 ${
+                            isActive
+                              ? "bg-brand-cyan/12 border border-brand-cyan/20"
+                              : "hover:bg-brand-bg/80 border border-transparent"
+                          }`}
+                        >
+                          <span className={`text-[9px] font-bold shrink-0 w-5 ${
+                            isActive ? "text-brand-cyan" : "text-gray-600"
+                          }`}>{item.num}</span>
+                          <span className={`w-0.5 h-3.5 rounded-full shrink-0 transition-colors ${
+                            isActive ? "bg-brand-cyan" : "bg-brand-border/60"
+                          }`} />
+                          <span className={`text-[11px] font-semibold truncate ${
+                            isActive ? "text-white" : "text-gray-500"
+                          }`}>{item.label}</span>
+                          {isActive && (
+                            <span className="ml-auto w-1.5 h-1.5 rounded-full bg-brand-cyan shrink-0 animate-pulse" />
+                          )}
+                        </button>
+                      );
+                    })}
+                  </nav>
+
+                  {/* Mini CTA */}
+                  <div className="px-4 py-3 border-t border-brand-border/60">
+                    <Link
+                      href="/contact"
+                      onClick={() => setOpen(false)}
+                      className="flex items-center justify-center gap-1.5 text-[10px] font-bold text-brand-bg bg-brand-cyan hover:bg-brand-cyan/90 py-2 px-3 rounded-lg transition-all w-full"
+                    >
+                      <Sparkles className="w-3 h-3" />
+                      Book Free Consultation
+                    </Link>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Trigger Button */}
+            <button
+              onClick={() => setOpen((v) => !v)}
+              className={`flex items-center gap-2.5 pl-3.5 pr-4 py-2.5 rounded-2xl border shadow-lg shadow-black/40 transition-all duration-200 ${
+                open
+                  ? "bg-brand-cyan text-brand-bg border-brand-cyan"
+                  : "bg-[#060F1E] text-gray-300 border-brand-border hover:border-brand-cyan/40 hover:text-white"
+              }`}
+            >
+              <List className={`w-4 h-4 shrink-0 transition-colors ${open ? "text-brand-bg" : "text-brand-cyan"}`} />
+              <span className="text-[11px] font-bold">
+                {open ? "Close" : (activeItem ? `${activeItem.num} · ${activeItem.label}` : "Contents")}
+              </span>
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
 
@@ -345,9 +401,11 @@ function SectionHeader({ badge, icon, title, subtitle }: { badge: string; icon: 
 // Main Page Component
 // ─────────────────────────────────────────────────────────────
 export default function HealthcareWebsitesClient() {
-  const [activeFaq, setActiveFaq]       = useState<number | null>(null);
-  const [activeSection, setActiveSection] = useState("hero");
+  const [activeFaq, setActiveFaq]         = useState<number | null>(null);
+  const [activeSection, setActiveSection]  = useState("hero");
+  const [tocVisible, setTocVisible]        = useState(false);
 
+  // Track active section
   useEffect(() => {
     const sections = document.querySelectorAll("section[id]");
     const observer = new IntersectionObserver(
@@ -362,11 +420,21 @@ export default function HealthcareWebsitesClient() {
     return () => observer.disconnect();
   }, []);
 
+  // Show floating TOC after scrolling past hero (~300px)
+  useEffect(() => {
+    const onScroll = () => setTocVisible(window.scrollY > 300);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-6 md:py-12 relative">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 md:py-12 relative">
       {/* Ambient glows */}
       <div className="fixed top-0 right-1/4 w-[500px] h-[500px] bg-brand-cyan/4 rounded-full blur-[120px] -z-10 pointer-events-none" />
       <div className="fixed bottom-1/3 left-1/4 w-[500px] h-[500px] bg-brand-indigo/4 rounded-full blur-[120px] -z-10 pointer-events-none" />
+
+      {/* Floating TOC Popup */}
+      <FloatingTOC activeSection={activeSection} visible={tocVisible} />
 
       {/* Back / Breadcrumb */}
       <div className="mb-10 flex items-center justify-between">
@@ -383,14 +451,8 @@ export default function HealthcareWebsitesClient() {
         </nav>
       </div>
 
-      {/* ── Two-Column Layout: TOC + Content ─────────────────── */}
-      <div className="flex gap-10 items-start">
-
-        {/* LEFT: Sticky Table of Contents */}
-        <TableOfContents activeSection={activeSection} />
-
-        {/* RIGHT: Main Content */}
-        <div className="flex-1 min-w-0 space-y-0">
+      {/* Full-width content */}
+      <div className="space-y-0">
 
           {/* ═══ 01 · HERO ═══════════════════════════════════════ */}
           <section id="hero" className="scroll-mt-20 pb-24">
@@ -965,8 +1027,7 @@ export default function HealthcareWebsitesClient() {
             </div>
           </section>
 
-        </div>{/* /main content */}
-      </div>{/* /two-column layout */}
+      </div>{/* /content */}
     </div>
   );
 }
