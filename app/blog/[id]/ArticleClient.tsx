@@ -15,7 +15,7 @@ import {
   BookOpen,
   ChevronDown
 } from "lucide-react";
-import { BlogPost, blogPosts } from "../blogData";
+import { BlogPost, blogPosts, getPostSlug } from "../blogData";
 
 interface ArticleClientProps {
   post: BlogPost;
@@ -573,7 +573,7 @@ export default function ArticleClient({ post }: ArticleClientProps) {
                 <div className="mt-6 pt-3 border-t border-brand-border flex items-center justify-between text-[10px] text-gray-500">
                   <span>{relatedPost.date}</span>
                   <Link 
-                    href={`/blog/${relatedPost.id}`}
+                    href={`/blog/${getPostSlug(relatedPost.title)}`}
                     className="text-brand-indigo group-hover:text-white font-bold transition-colors flex items-center space-x-1"
                   >
                     <span>Read Article</span>

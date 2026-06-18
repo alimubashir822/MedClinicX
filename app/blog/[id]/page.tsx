@@ -1,6 +1,6 @@
 import { Metadata } from "next";
-import { notFound } from "next/navigation";
-import { blogPosts } from "../blogData";
+import { notFound, redirect } from "next/navigation";
+import { blogPosts, getPostSlug } from "../blogData";
 import ArticleClient from "./ArticleClient";
 
 interface PageProps {
@@ -9,15 +9,17 @@ interface PageProps {
 
 // Pre-render blog posts at build time (Performance Optimization)
 export async function generateStaticParams() {
-  return Object.keys(blogPosts).map((id) => ({
-    id,
+  return Object.values(blogPosts).map((post) => ({
+    id: getPostSlug(post.title),
   }));
 }
 
 // Generate dynamic SEO Metadata
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id } = await params;
-  const post = blogPosts[id];
+  const post = Object.values(blogPosts).find(
+    (p) => getPostSlug(p.title) === id || p.id === id
+  );
 
   if (!post) {
     return {
@@ -26,7 +28,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
-  const canonicalUrl = `https://medclinicx.com/blog/${id}`;
+  const canonicalUrl = `https://medclinicx.com/blog/${getPostSlug(post.title)}`;
 
   return {
     title: `${post.title} | Med Clinic X Insights`,
@@ -64,10 +66,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function BlogArticlePage({ params }: PageProps) {
   const { id } = await params;
-  const post = blogPosts[id];
+  const post = Object.values(blogPosts).find(
+    (p) => getPostSlug(p.title) === id || p.id === id
+  );
 
   if (!post) {
     notFound();
+  }
+
+  const expectedSlug = getPostSlug(post.title);
+  if (id !== expectedSlug) {
+    redirect(`/blog/${expectedSlug}`);
   }
 
   // Define structured JSON-LD data for SEO crawling
@@ -109,7 +118,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
         "@type": "ListItem",
         "position": 4,
         "name": post.title,
-        "item": `https://medclinicx.com/blog/${id}`
+        "item": `https://medclinicx.com/blog/${expectedSlug}`
       }
     ]
   };
@@ -138,7 +147,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
     },
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": `https://medclinicx.com/blog/${id}`
+      "@id": `https://medclinicx.com/blog/${expectedSlug}`
     }
   };
 

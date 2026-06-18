@@ -644,3 +644,13 @@ export async function ingestVitalReading(payload: VitalTelemetryPayload): Promis
     relatedPostIds: ["post-1", "post-4", "post-2"]
   }
 };
+
+export function getPostSlug(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "") // remove non-alphanumeric except spaces/hyphens
+    .replace(/\s+/g, "-")          // replace spaces with hyphens
+    .replace(/-+/g, "-")           // collapse consecutive hyphens
+    .replace(/^-+|-+$/g, "");     // trim hyphens
+}
+
