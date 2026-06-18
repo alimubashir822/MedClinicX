@@ -455,8 +455,8 @@ export default function HealthcareWebsitesClient() {
       <div className="space-y-0">
 
           {/* ═══ 01 · HERO ═══════════════════════════════════════ */}
-          <section id="hero" className="scroll-mt-20 pb-24 pt-8 md:pt-16">
-            <div className="max-w-3xl mx-auto text-center">
+          <section id="hero" className="scroll-mt-20 pb-24 md:pb-28 pt-8 md:pt-16">
+            <div className="w-full text-center">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -493,7 +493,7 @@ export default function HealthcareWebsitesClient() {
           </section>
 
           {/* ═══ 02 · TRUST BAR ══════════════════════════════════ */}
-          <section id="trust" className="scroll-mt-20 pb-24">
+          <section id="trust" className="scroll-mt-20 pb-24 md:pb-28">
             <div className="space-y-8">
               <p className="text-center text-[10px] font-bold text-slate-500 uppercase tracking-widest">
                 Trusted by Healthcare Organizations Across the United States
@@ -517,7 +517,7 @@ export default function HealthcareWebsitesClient() {
           </section>
 
           {/* ═══ 03 · PROBLEM ════════════════════════════════════ */}
-          <section id="problem" className="scroll-mt-20 pb-24">
+          <section id="problem" className="scroll-mt-20 pb-24 md:pb-28">
             <SectionHeader
               badge="Pain Awareness"
               icon={<AlertCircle className="w-4 h-4 text-brand-cyan" />}
@@ -559,7 +559,7 @@ export default function HealthcareWebsitesClient() {
           </section>
 
           {/* ═══ 04 · SOLUTION OVERVIEW ══════════════════════════ */}
-          <section id="solution" className="scroll-mt-20 pb-24">
+          <section id="solution" className="scroll-mt-20 pb-24 md:pb-28">
             <SectionHeader
               badge="Transformation"
               icon={<Sparkles className="w-4 h-4 text-brand-cyan" />}
@@ -620,8 +620,8 @@ export default function HealthcareWebsitesClient() {
             </div>
           </section>
 
-          {/* ═══ 05 · CORE SERVICES ══════════════════════════════ */}
-          <section id="services" className="scroll-mt-20 pb-24">
+          {/* ═══ 05 · SERVICES ═══════════════════════════════════ */}
+          <section id="services" className="scroll-mt-20 pb-24 md:pb-28">
             <SectionHeader
               badge="Core Offerings"
               icon={<Layers className="w-4 h-4 text-brand-cyan" />}
@@ -632,9 +632,9 @@ export default function HealthcareWebsitesClient() {
               {[
                 { col:6, icon:<Users className="w-5 h-5 text-brand-cyan" />,         title:"Medical Practice Website Design",    desc:"Professional medical websites for doctors, physicians, and healthcare practices. Designed to communicate expertise and convert visitors into patients.", tags:["Primary care","Specialists","Private practices","Medical clinics","Healthcare groups"] },
                 { col:6, icon:<Laptop className="w-5 h-5 text-brand-cyan" />,         title:"Healthcare Website Development",     desc:"Secure, HIPAA-conscious infrastructure, patient intake workflows, and custom medical integrations. Fast, clean Next.js/React platforms — no templates.", tags:["Custom websites","Medical web apps","Patient portals","Healthcare dashboards","SaaS platforms"] },
-                { col:4, icon:<Layers className="w-4.5 h-4.5 text-brand-cyan" />,    title:"Healthcare Website Redesign",        desc:"Modernize outdated platforms while preserving SEO rankings. Full speed audit, mobile optimization, and improved navigation.", features:["Speed audit upgrades","Responsive mobile grids","Preserved SEO rankings"] },
-                { col:4, icon:<Lock className="w-4.5 h-4.5 text-brand-cyan" />,      title:"Patient Portal Development",         desc:"Secure dashboards connecting providers and patients. Medical files, prescriptions, scheduling, and installment billing.", features:["Patient login credentials","Diagnostic reports","Secure message lockers"] },
-                { col:4, icon:<Cpu className="w-4.5 h-4.5 text-brand-cyan" />,       title:"AI Healthcare Solutions",            desc:"AI-powered tools to enhance patient communication, reduce admin hours, and streamline follow-up workflows.", features:["AI Healthcare Assistants","Appointment automation","SMS communication flows"] },
+                { col:4, icon:<Layers className="w-5 h-5 text-brand-cyan" />,    title:"Healthcare Website Redesign",        desc:"Modernize outdated platforms while preserving SEO rankings. Full speed audit, mobile optimization, and improved navigation.", features:["Speed audit upgrades","Responsive mobile grids","Preserved SEO rankings"] },
+                { col:4, icon:<Lock className="w-5 h-5 text-brand-cyan" />,      title:"Patient Portal Development",         desc:"Secure dashboards connecting providers and patients. Medical files, prescriptions, scheduling, and installment billing.", features:["Patient login credentials","Diagnostic reports","Secure message lockers"] },
+                { col:4, icon:<Cpu className="w-5 h-5 text-brand-cyan" />,       title:"AI Healthcare Solutions",            desc:"AI-powered tools to enhance patient communication, reduce admin hours, and streamline follow-up workflows.", features:["AI Healthcare Assistants","Appointment automation","SMS communication flows"] },
               ].map((card,i)=>(
                 <div key={i} className={`lg:col-span-${card.col} glass-panel p-6 rounded-2xl border border-brand-border hover:border-brand-cyan/30 hover:shadow-[0_0_30px_rgba(6,182,212,0.08)] hover:-translate-y-0.5 transition-all duration-300 flex flex-col group`}>
                   <div className="w-10 h-10 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center mb-4 group-hover:bg-brand-cyan/20 group-hover:scale-105 transition-all duration-300">{card.icon}</div>
@@ -643,19 +643,22 @@ export default function HealthcareWebsitesClient() {
                   <div className="border-t border-brand-border/40 pt-4">
                     {"tags" in card ? (
                       <>
-                        <span className="text-[9px] uppercase font-bold text-brand-cyan tracking-wider block mb-2">Ideal for:</span>
+                        <span className="text-[10px] uppercase font-bold text-brand-cyan tracking-widest block mb-2.5">Ideal for:</span>
                         <div className="flex flex-wrap gap-1.5">
-                          {card.tags?.map((t,ti)=><span key={ti} className="bg-brand-bg border border-brand-border/60 text-[9px] text-gray-400 px-2 py-1 rounded-md">{t}</span>)}
+                          {card.tags?.map((t,ti)=><span key={ti} className="bg-brand-bg/85 border border-brand-border text-xs text-slate-300 px-2.5 py-1 rounded-lg">{t}</span>)}
                         </div>
                       </>
                     ) : (
-                      <ul className="space-y-1.5">
-                        {card.features?.map((f,fi)=>(
-                          <li key={fi} className="flex items-center gap-1.5 text-[10px] text-gray-500 font-medium">
-                            <CheckCircle2 className="w-3 h-3 text-brand-cyan shrink-0" />{f}
-                          </li>
-                        ))}
-                      </ul>
+                      <>
+                        <span className="text-[10px] uppercase font-bold text-brand-cyan tracking-widest block mb-2.5">Key Features:</span>
+                        <ul className="space-y-1.5">
+                          {card.features?.map((f,fi)=>(
+                            <li key={fi} className="flex items-center gap-2 text-xs text-slate-300 font-normal">
+                              <CheckCircle2 className="w-3.5 h-3.5 text-brand-cyan shrink-0" />{f}
+                            </li>
+                          ))}
+                        </ul>
+                      </>
                     )}
                   </div>
                 </div>
@@ -673,7 +676,7 @@ export default function HealthcareWebsitesClient() {
           </section>
 
           {/* ═══ 06 · FEATURES / CAPABILITIES ═══════════════════ */}
-          <section id="features" className="scroll-mt-20 pb-24">
+          <section id="features" className="scroll-mt-20 pb-24 md:pb-28">
             <SectionHeader
               badge="Platform Capabilities"
               icon={<Zap className="w-4 h-4 text-brand-cyan" />}
@@ -714,7 +717,7 @@ export default function HealthcareWebsitesClient() {
           </section>
 
           {/* ═══ 07 · INDUSTRIES ════════════════════════════════ */}
-          <section id="industries" className="scroll-mt-20 pb-24">
+          <section id="industries" className="scroll-mt-20 pb-24 md:pb-28">
             <SectionHeader
               badge="Who We Serve"
               icon={<Bookmark className="w-4 h-4 text-brand-cyan" />}
@@ -746,7 +749,7 @@ export default function HealthcareWebsitesClient() {
           </section>
 
           {/* ═══ 08 · PROCESS ═══════════════════════════════════ */}
-          <section id="process" className="scroll-mt-20 pb-24">
+          <section id="process" className="scroll-mt-20 pb-24 md:pb-28">
             <SectionHeader
               badge="How It Works"
               icon={<Workflow className="w-4 h-4 text-brand-cyan" />}
@@ -821,7 +824,7 @@ export default function HealthcareWebsitesClient() {
           </section>
 
           {/* ═══ 09 · CASE STUDIES ══════════════════════════════ */}
-          <section id="case-studies" className="scroll-mt-20 pb-24">
+          <section id="case-studies" className="scroll-mt-20 pb-24 md:pb-28">
             <SectionHeader
               badge="Proof of Results"
               icon={<Activity className="w-4 h-4 text-brand-cyan" />}
@@ -883,7 +886,7 @@ export default function HealthcareWebsitesClient() {
           </section>
 
           {/* ═══ 10 · WHY CHOOSE MED CLINIC X ══════════════════ */}
-          <section id="why-us" className="scroll-mt-20 pb-24">
+          <section id="why-us" className="scroll-mt-20 pb-24 md:pb-28">
             <SectionHeader
               badge="Competitive Edge"
               icon={<Workflow className="w-4 h-4 text-brand-cyan" />}
@@ -934,7 +937,7 @@ export default function HealthcareWebsitesClient() {
           </section>
 
           {/* ═══ 11 · FAQ ════════════════════════════════════════ */}
-          <section id="faqs" className="scroll-mt-20 pb-24">
+          <section id="faqs" className="scroll-mt-20 pb-24 md:pb-28">
             <SectionHeader
               badge="Knowledge Base"
               icon={<Calendar className="w-4 h-4 text-brand-cyan" />}
@@ -967,7 +970,7 @@ export default function HealthcareWebsitesClient() {
           </section>
 
           {/* ═══ 12 · FINAL CTA ════════════════════════════════ */}
-          <section id="cta" className="scroll-mt-20">
+          <section id="cta" className="scroll-mt-20 pb-24 md:pb-28">
             <div className="relative rounded-3xl overflow-hidden border border-brand-cyan/20">
               <div className="absolute inset-0 bg-gradient-to-br from-[#071828] via-[#0a1f30] to-[#0d1a2e]" />
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(6,182,212,0.12),transparent_60%)]" />
