@@ -513,19 +513,6 @@ export default function HealthcareWebsitesClient() {
                   </div>
                 ))}
               </div>
-              <div className="mt-8 pt-6 border-t border-brand-border/40 flex flex-wrap justify-center gap-6">
-                {[
-                  { val:"99/100", lbl:"Lighthouse Performance" },
-                  { val:"<1.2s",  lbl:"Average Page Load Time" },
-                  { val:"3.2×",   lbl:"Organic Lead Increase" },
-                  { val:"82%",    lbl:"Portal Adoption Rate" },
-                ].map((s,i)=>(
-                  <div key={i} className="text-center">
-                    <p className="font-display font-extrabold text-xl text-brand-cyan">{s.val}</p>
-                    <p className="text-[10px] text-gray-500 font-medium mt-0.5">{s.lbl}</p>
-                  </div>
-                ))}
-              </div>
             </div>
           </section>
 
@@ -961,7 +948,7 @@ export default function HealthcareWebsitesClient() {
                   <div key={index} className="glass-panel rounded-2xl border border-brand-border overflow-hidden">
                     <button
                       onClick={() => setActiveFaq(isOpen ? null : index)}
-                      className="w-full px-6 py-5 flex items-center justify-between text-left font-display font-bold text-sm text-white hover:text-brand-cyan transition-colors focus:outline-none"
+                      className="w-full px-6 py-5 flex items-center justify-between text-left font-display font-bold text-base md:text-lg text-white hover:text-brand-cyan transition-colors focus:outline-none"
                     >
                       <span>{faq.question}</span>
                       <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform duration-300 shrink-0 ml-4 ${isOpen ? "rotate-180 text-brand-cyan" : ""}`} />
@@ -1000,14 +987,7 @@ export default function HealthcareWebsitesClient() {
                   Book a discovery call with our digital health engineering specialists to audit your current platform, calculate ROI, and plan your full software rollout — at no cost.
                 </p>
 
-                <div className="flex flex-wrap justify-center gap-6 mb-10">
-                  {[{val:"99/100",lbl:"Lighthouse Score"},{val:"82%",lbl:"Portal Adoption"},{val:"3.2×",lbl:"Organic Lead Growth"},{val:"68%",lbl:"No-Show Reduction"}].map((s,i)=>(
-                    <div key={i} className="text-center">
-                      <p className="font-display font-extrabold text-2xl text-brand-cyan">{s.val}</p>
-                      <p className="text-[10px] text-gray-500 font-medium mt-0.5">{s.lbl}</p>
-                    </div>
-                  ))}
-                </div>
+
 
                 <div className="flex flex-col sm:flex-row justify-center gap-4">
                   <Link href="/contact" className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold text-sm px-8 py-4 rounded-xl shadow-lg shadow-brand-cyan/20 hover:scale-[1.01] active:scale-[0.99] transition-all">
