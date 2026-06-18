@@ -22,7 +22,6 @@ import {
   Bookmark,
   Calendar,
   AlertCircle,
-  MessageSquare,
   TrendingUp,
   Shield,
   Zap,
@@ -694,7 +693,7 @@ export default function HealthcareWebsitesClient() {
               ].map((item,i)=>(
                 <div key={i} className="glass-panel p-6 rounded-2xl border border-brand-border hover:border-brand-cyan/30 hover:shadow-[0_0_30px_rgba(6,182,212,0.08)] hover:-translate-y-1 transition-all duration-300 flex flex-col group">
                   <div className="w-12 h-12 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center mb-4 group-hover:bg-brand-cyan/20 group-hover:scale-105 transition-all duration-300">{item.icon}</div>
-                  <span className="text-[9px] font-bold text-brand-cyan uppercase tracking-wider mb-1">{item.num} // segment</span>
+                  <span className="text-[9px] font-bold text-brand-cyan uppercase tracking-wider mb-1">{item.num}</span>
                   <h3 className="font-display font-bold text-lg text-white mb-2">{item.segment}</h3>
                   <p className="text-base text-slate-300 leading-relaxed flex-1">{item.desc}</p>
                   <ul className="mt-4 pt-4 border-t border-brand-border/40 space-y-1.5">

@@ -7,10 +7,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { 
   Calendar, 
   Clock, 
-  User, 
   Check, 
   Copy, 
-  Share2, 
   ChevronRight, 
   Sparkles, 
   ArrowRight,
