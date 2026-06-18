@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
@@ -34,27 +34,47 @@ import {
   FileText,
   Bell,
   CreditCard,
+  XCircle,
+  CheckCircle,
+  Clock,
+  Rocket,
+  BarChart3,
+  Smartphone,
+  MapPin,
+  List,
 } from "lucide-react";
 
-interface FAQItem {
-  question: string;
-  answer: string;
-}
+// ─────────────────────────────────────────────────────────────
+// TOC Config
+// ─────────────────────────────────────────────────────────────
+const tocItems = [
+  { id: "hero",         label: "Hero",             num: "01" },
+  { id: "trust",        label: "Trust",            num: "02" },
+  { id: "problem",      label: "Problem",          num: "03" },
+  { id: "solution",     label: "Solution",         num: "04" },
+  { id: "services",     label: "Services",         num: "05" },
+  { id: "features",     label: "Features",         num: "06" },
+  { id: "industries",   label: "Industries",       num: "07" },
+  { id: "process",      label: "Process",          num: "08" },
+  { id: "case-studies", label: "Case Studies",     num: "09" },
+  { id: "why-us",       label: "Why Us",           num: "10" },
+  { id: "faqs",         label: "FAQ",              num: "11" },
+  { id: "cta",          label: "Get Started",      num: "12" },
+];
 
-// ── Inline Components ─────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────
+// Inline Sub-Components
+// ─────────────────────────────────────────────────────────────
 
-/** AI Chat Mockup — built in JSX */
 function AIChatMockup() {
   const messages = [
     { from: "patient", text: "Can I book an appointment tomorrow?" },
-    { from: "ai", text: 'Yes! Dr. Smith has availability at 10:30 AM and 2:00 PM tomorrow.' },
+    { from: "ai",      text: "Yes! Dr. Smith has availability at 10:30 AM and 2:00 PM tomorrow." },
     { from: "patient", text: "10:30 AM works for me." },
-    { from: "ai", text: "Done! Your appointment is confirmed for tomorrow at 10:30 AM with Dr. Smith. You'll receive a confirmation SMS shortly.", cta: "View Appointment" },
+    { from: "ai",      text: "Done! Your appointment is confirmed for tomorrow at 10:30 AM with Dr. Smith. You'll receive a confirmation SMS shortly.", cta: "View Appointment" },
   ];
-
   return (
     <div className="rounded-2xl border border-brand-border overflow-hidden shadow-2xl bg-[#040D18]">
-      {/* Header */}
       <div className="bg-brand-bg px-4 py-3 border-b border-brand-border flex items-center justify-between">
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-lg bg-brand-cyan/15 border border-brand-cyan/25 flex items-center justify-center">
@@ -70,18 +90,14 @@ function AIChatMockup() {
         </div>
         <span className="text-[9px] font-bold uppercase text-gray-500 bg-brand-border px-2 py-0.5 rounded">HIPAA Secure</span>
       </div>
-
-      {/* Messages */}
-      <div className="p-4 space-y-3 min-h-[240px]">
+      <div className="p-4 space-y-3 min-h-[220px]">
         {messages.map((msg, i) => (
           <div key={i} className={`flex ${msg.from === "patient" ? "justify-end" : "justify-start"}`}>
             <div className={`max-w-[80%] ${msg.from === "patient"
               ? "bg-brand-cyan/15 border border-brand-cyan/20 text-gray-200 rounded-2xl rounded-tr-sm"
               : "bg-brand-bg/80 border border-brand-border text-gray-300 rounded-2xl rounded-tl-sm"
             } px-3.5 py-2.5 text-xs leading-relaxed`}>
-              {msg.from === "ai" && (
-                <p className="text-[9px] font-bold text-brand-cyan uppercase tracking-wider mb-1">AI Assistant</p>
-              )}
+              {msg.from === "ai" && <p className="text-[9px] font-bold text-brand-cyan uppercase tracking-wider mb-1">AI Assistant</p>}
               <p>{msg.text}</p>
               {msg.cta && (
                 <button className="mt-2 w-full bg-gradient-to-r from-brand-cyan to-brand-indigo text-white text-[10px] font-bold py-1.5 px-3 rounded-lg">
@@ -92,12 +108,8 @@ function AIChatMockup() {
           </div>
         ))}
       </div>
-
-      {/* Input */}
       <div className="border-t border-brand-border p-3 flex gap-2">
-        <div className="flex-1 bg-brand-bg/60 border border-brand-border rounded-xl px-3 py-2 text-[11px] text-gray-500">
-          Type your message...
-        </div>
+        <div className="flex-1 bg-brand-bg/60 border border-brand-border rounded-xl px-3 py-2 text-[11px] text-gray-500">Type your message...</div>
         <button className="w-8 h-8 rounded-xl bg-brand-cyan/15 border border-brand-cyan/25 flex items-center justify-center shrink-0">
           <ArrowRight className="w-3.5 h-3.5 text-brand-cyan" />
         </button>
@@ -106,18 +118,15 @@ function AIChatMockup() {
   );
 }
 
-/** Patient Portal Dashboard — built in JSX */
 function PatientPortalMockup() {
-  const sections = [
-    { icon: <FileText className="w-3.5 h-3.5" />, label: "Medical History", value: "14 Records", color: "text-brand-cyan" },
-    { icon: <Calendar className="w-3.5 h-3.5" />, label: "Appointments", value: "Next: Tue 9AM", color: "text-brand-indigo" },
-    { icon: <CreditCard className="w-3.5 h-3.5" />, label: "Billing", value: "$240 Due", color: "text-yellow-400" },
-    { icon: <Bell className="w-3.5 h-3.5" />, label: "Messages", value: "2 Unread", color: "text-green-400" },
+  const items = [
+    { icon: <FileText className="w-3.5 h-3.5" />, label: "Medical History", value: "14 Records",    color: "text-brand-cyan" },
+    { icon: <Calendar className="w-3.5 h-3.5" />, label: "Appointments",    value: "Next: Tue 9AM", color: "text-brand-indigo" },
+    { icon: <CreditCard className="w-3.5 h-3.5" />, label: "Billing",       value: "$240 Due",      color: "text-yellow-400" },
+    { icon: <Bell className="w-3.5 h-3.5" />,      label: "Messages",      value: "2 Unread",      color: "text-green-400" },
   ];
-
   return (
     <div className="rounded-2xl border border-brand-border overflow-hidden shadow-2xl bg-[#040D18]">
-      {/* Top bar */}
       <div className="bg-brand-bg px-4 py-2.5 border-b border-brand-border flex items-center justify-between">
         <div className="flex items-center gap-1.5">
           <span className="w-2 h-2 rounded-full bg-red-500" />
@@ -127,26 +136,18 @@ function PatientPortalMockup() {
         <span className="text-[10px] font-mono text-gray-500">patient-portal.medclinicx.com</span>
         <Lock className="w-3 h-3 text-green-400" />
       </div>
-
-      {/* Patient header */}
-      <div className="px-5 pt-5 pb-3 flex items-center gap-3 border-b border-brand-border/40">
-        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-brand-cyan/40 to-brand-indigo/40 border border-brand-cyan/25 flex items-center justify-center text-sm font-bold text-white">
-          JD
-        </div>
+      <div className="px-5 pt-4 pb-3 flex items-center gap-3 border-b border-brand-border/40">
+        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-brand-cyan/40 to-brand-indigo/40 border border-brand-cyan/25 flex items-center justify-center text-sm font-bold text-white">JD</div>
         <div>
           <p className="text-sm font-bold text-white">John Davidson</p>
           <p className="text-[10px] text-gray-500">Patient ID: MCX-2024-00341 · DOB: Mar 14, 1985</p>
         </div>
         <span className="ml-auto text-[9px] font-bold text-green-400 bg-green-400/10 border border-green-400/20 px-2 py-0.5 rounded-full">Active</span>
       </div>
-
-      {/* Metric cards */}
       <div className="grid grid-cols-2 gap-3 p-4">
-        {sections.map((s, i) => (
+        {items.map((s, i) => (
           <div key={i} className="glass-panel rounded-xl border border-brand-border p-3 flex items-center gap-2.5">
-            <div className={`w-7 h-7 rounded-lg bg-brand-bg flex items-center justify-center ${s.color}`}>
-              {s.icon}
-            </div>
+            <div className={`w-7 h-7 rounded-lg bg-brand-bg flex items-center justify-center ${s.color}`}>{s.icon}</div>
             <div>
               <p className="text-[9px] text-gray-500 font-medium">{s.label}</p>
               <p className="text-xs font-bold text-white">{s.value}</p>
@@ -154,16 +155,12 @@ function PatientPortalMockup() {
           </div>
         ))}
       </div>
-
-      {/* Recent doc row */}
       <div className="px-4 pb-4">
         <p className="text-[9px] font-bold text-gray-500 uppercase tracking-wider mb-2">Recent Documents</p>
         <div className="space-y-1.5">
           {["Blood Panel Report — Jun 12", "X-Ray Results — May 28", "Prescription: Atorvastatin"].map((doc, i) => (
             <div key={i} className="flex items-center justify-between text-[10px] text-gray-400 bg-brand-bg/40 border border-brand-border/30 rounded-lg px-3 py-2">
-              <span className="flex items-center gap-1.5">
-                <FileText className="w-3 h-3 text-brand-cyan" /> {doc}
-              </span>
+              <span className="flex items-center gap-1.5"><FileText className="w-3 h-3 text-brand-cyan" />{doc}</span>
               <span className="text-brand-cyan">↓</span>
             </div>
           ))}
@@ -173,49 +170,37 @@ function PatientPortalMockup() {
   );
 }
 
-/** SEO Growth Dashboard — built in JSX */
 function SEODashboardMockup() {
-  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
+  const months  = ["Jan","Feb","Mar","Apr","May","Jun"];
   const heights = [15, 22, 35, 52, 70, 100];
-
   return (
     <div className="rounded-2xl border border-brand-border overflow-hidden shadow-2xl bg-[#040D18]">
       <div className="bg-brand-bg px-4 py-2.5 border-b border-brand-border flex items-center justify-between">
         <span className="text-[10px] font-bold text-white flex items-center gap-1.5">
-          <TrendingUp className="w-3.5 h-3.5 text-green-400" />
-          Search Visibility Growth
+          <TrendingUp className="w-3.5 h-3.5 text-green-400" />Search Visibility Growth
         </span>
         <span className="text-[9px] text-gray-500">Last 6 months</span>
       </div>
-
       <div className="p-5">
-        {/* Stat cards */}
         <div className="grid grid-cols-3 gap-3 mb-5">
           {[
-            { label: "Monthly Visitors", before: "120", after: "2,500", icon: <Globe className="w-3.5 h-3.5" /> },
-            { label: "Appt Requests", before: "—", after: "+45%", icon: <Calendar className="w-3.5 h-3.5" /> },
-            { label: "Maps Ranking", before: "Page 3", after: "Top 3", icon: <Search className="w-3.5 h-3.5" /> },
-          ].map((stat, i) => (
+            { label:"Monthly Visitors", after:"2,500+",  icon:<Globe className="w-3.5 h-3.5" />,    before:"120" },
+            { label:"Appt Requests",    after:"+45%",    icon:<Calendar className="w-3.5 h-3.5" />, before:"—" },
+            { label:"Maps Ranking",     after:"Top 3",   icon:<Search className="w-3.5 h-3.5" />,   before:"Page 3" },
+          ].map((s,i)=>(
             <div key={i} className="glass-panel rounded-xl border border-brand-border p-3 text-center">
-              <div className="text-green-400 flex justify-center mb-1">{stat.icon}</div>
-              <p className="text-[11px] font-extrabold text-white">{stat.after}</p>
-              <p className="text-[8px] text-gray-500 mt-0.5">{stat.label}</p>
-              {stat.before !== "—" && (
-                <p className="text-[8px] text-gray-600 line-through">{stat.before}</p>
-              )}
+              <div className="text-green-400 flex justify-center mb-1">{s.icon}</div>
+              <p className="text-[11px] font-extrabold text-white">{s.after}</p>
+              <p className="text-[8px] text-gray-500 mt-0.5">{s.label}</p>
+              {s.before !== "—" && <p className="text-[8px] text-gray-600 line-through">{s.before}</p>}
             </div>
           ))}
         </div>
-
-        {/* Bar chart */}
         <div className="flex items-end justify-between gap-2 h-24 px-1">
-          {months.map((month, i) => (
-            <div key={month} className="flex flex-col items-center gap-1 flex-1">
-              <div
-                className="w-full rounded-t-md bg-gradient-to-t from-brand-cyan/40 to-brand-cyan/80 border border-brand-cyan/30"
-                style={{ height: `${heights[i]}%` }}
-              />
-              <span className="text-[8px] text-gray-500 font-medium">{month}</span>
+          {months.map((m, i) => (
+            <div key={m} className="flex flex-col items-center gap-1 flex-1">
+              <div className="w-full rounded-t-md bg-gradient-to-t from-brand-cyan/40 to-brand-cyan/80 border border-brand-cyan/30" style={{ height:`${heights[i]}%` }} />
+              <span className="text-[8px] text-gray-500 font-medium">{m}</span>
             </div>
           ))}
         </div>
@@ -225,37 +210,31 @@ function SEODashboardMockup() {
   );
 }
 
-/** Tech Architecture Diagram — built in JSX */
 function TechArchitectureDiagram() {
   const nodes = [
-    { icon: <Globe className="w-4 h-4" />, label: "Website", sub: "React · Next.js · TypeScript", color: "brand-cyan" },
-    { icon: <LayoutDashboard className="w-4 h-4" />, label: "Patient Portal", sub: "FHIR · Secure Auth · HIPAA", color: "brand-indigo" },
-    { icon: <Database className="w-4 h-4" />, label: "API Integration Layer", sub: "REST · GraphQL · HL7", color: "brand-cyan" },
-    { icon: <Users className="w-4 h-4" />, label: "CRM & EHR Records", sub: "Epic · Cerner · Custom DBs", color: "brand-indigo" },
-    { icon: <Bot className="w-4 h-4" />, label: "AI Automation", sub: "LLMs · Triage · SMS Flows", color: "brand-cyan" },
+    { icon:<Globe className="w-4 h-4" />,         label:"Website",               sub:"React · Next.js · TypeScript",   color:"brand-cyan" },
+    { icon:<LayoutDashboard className="w-4 h-4" />, label:"Patient Portal",       sub:"FHIR · Secure Auth · HIPAA",     color:"brand-indigo" },
+    { icon:<Database className="w-4 h-4" />,       label:"API Integration Layer", sub:"REST · GraphQL · HL7",           color:"brand-cyan" },
+    { icon:<Users className="w-4 h-4" />,          label:"CRM & EHR Records",     sub:"Epic · Cerner · Custom DBs",     color:"brand-indigo" },
+    { icon:<Bot className="w-4 h-4" />,            label:"AI Automation",         sub:"LLMs · Triage · SMS Flows",      color:"brand-cyan" },
   ];
-
   return (
-    <div className="relative flex flex-col items-center gap-0">
+    <div className="flex flex-col items-center gap-0">
       {nodes.map((node, i) => (
         <React.Fragment key={node.label}>
           <motion.div
-            initial={{ opacity: 0, x: -12 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4, delay: i * 0.1 }}
-            viewport={{ once: true }}
+            initial={{ opacity:0, x:-12 }}
+            whileInView={{ opacity:1, x:0 }}
+            transition={{ duration:0.4, delay: i * 0.1 }}
+            viewport={{ once:true }}
             className="w-full glass-panel border border-brand-border rounded-xl px-5 py-3.5 flex items-center gap-4 hover:border-brand-cyan/20 transition-colors"
           >
-            <div className={`w-9 h-9 rounded-xl bg-${node.color}/10 border border-${node.color}/20 flex items-center justify-center shrink-0 text-${node.color}`}>
-              {node.icon}
-            </div>
+            <div className={`w-9 h-9 rounded-xl bg-${node.color}/10 border border-${node.color}/20 flex items-center justify-center shrink-0 text-${node.color}`}>{node.icon}</div>
             <div className="min-w-0">
               <p className="text-sm font-bold text-white leading-tight">{node.label}</p>
               <p className="text-[10px] text-gray-500 font-medium mt-0.5">{node.sub}</p>
             </div>
-            <div className="ml-auto shrink-0">
-              <span className="w-2 h-2 rounded-full bg-brand-cyan/60 inline-block animate-pulse" />
-            </div>
+            <span className="ml-auto w-2 h-2 rounded-full bg-brand-cyan/60 shrink-0 animate-pulse" />
           </motion.div>
           {i < nodes.length - 1 && (
             <div className="flex flex-col items-center py-1">
@@ -270,74 +249,132 @@ function TechArchitectureDiagram() {
   );
 }
 
-// ── Main Component ─────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────
+// Table of Contents Sidebar
+// ─────────────────────────────────────────────────────────────
+function TableOfContents({ activeSection }: { activeSection: string }) {
+  return (
+    <aside className="hidden xl:block w-52 shrink-0">
+      <div className="sticky top-24 h-fit">
+        {/* Header */}
+        <div className="flex items-center gap-2 mb-5 px-1">
+          <List className="w-3.5 h-3.5 text-brand-cyan" />
+          <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Contents</span>
+        </div>
 
+        {/* TOC Items */}
+        <nav className="space-y-0.5">
+          {tocItems.map((item) => {
+            const isActive = activeSection === item.id;
+            return (
+              <a
+                key={item.id}
+                href={`#${item.id}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById(item.id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+                }}
+                className={`group flex items-center gap-2.5 px-3 py-2 rounded-lg transition-all duration-200 ${
+                  isActive
+                    ? "bg-brand-cyan/10 border border-brand-cyan/20 text-white"
+                    : "text-gray-600 hover:text-gray-400 hover:bg-brand-bg/60 border border-transparent"
+                }`}
+              >
+                {/* Active indicator bar */}
+                <span className={`w-0.5 h-4 rounded-full shrink-0 transition-all duration-200 ${isActive ? "bg-brand-cyan" : "bg-brand-border"}`} />
+                <span className={`text-[9px] font-bold shrink-0 transition-colors ${isActive ? "text-brand-cyan" : "text-gray-600 group-hover:text-gray-500"}`}>
+                  {item.num}
+                </span>
+                <span className={`text-[11px] font-semibold truncate transition-colors ${isActive ? "text-white" : ""}`}>
+                  {item.label}
+                </span>
+              </a>
+            );
+          })}
+        </nav>
+
+        {/* CTA at bottom of TOC */}
+        <div className="mt-6 p-3.5 rounded-xl border border-brand-cyan/20 bg-brand-cyan/5">
+          <p className="text-[10px] font-bold text-brand-cyan mb-1">Ready to build?</p>
+          <p className="text-[9px] text-gray-500 leading-relaxed mb-2.5">Get a free healthcare website audit.</p>
+          <Link
+            href="/contact"
+            className="block text-center text-[10px] font-bold text-brand-bg bg-brand-cyan hover:bg-brand-cyan/90 py-1.5 px-3 rounded-lg transition-all"
+          >
+            Book Call →
+          </Link>
+        </div>
+      </div>
+    </aside>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// FAQ Data
+// ─────────────────────────────────────────────────────────────
+const faqData = [
+  { question: "1. How much does a healthcare website design project cost?", answer: "The cost of healthcare website design depends on the complexity, features, integrations, and customization required. A basic medical website, custom healthcare platform, and patient portal project all have different requirements. We customize our pricing based on whether you need simple physician listings, deep EHR integration, custom portal systems, or AI-powered automation workflows. Contact us to receive a transparent project proposal." },
+  { question: "2. How long does it take to build a healthcare website?", answer: "The timeline depends on the size of the project. A standard medical website may take several weeks, while advanced healthcare platforms with portals, integrations, or custom AI automation require more development time. We follow an agile process to launch high-quality phases on-schedule while ensuring complete compliance and thorough QA testing." },
+  { question: "3. Do you design websites specifically for doctors and medical practices?", answer: "Yes. Med Clinic X provides website design for doctors, physicians, clinics, hospitals, and healthcare organizations with healthcare-focused layouts and patient experiences. Our layouts are optimized specifically to address patient search intent, present physician credentials, highlight specialties, and streamline bookings." },
+  { question: "4. Can you redesign an existing medical website?", answer: "Yes. We provide healthcare website redesign services to improve outdated designs, website performance, SEO visibility, and patient engagement. We carefully preserve your existing SEO rankings while modernizing your digital front door for higher conversions and mobile usability." },
+  { question: "5. Do you build patient portals for healthcare organizations?", answer: "Yes. We develop patient portal solutions with features such as appointment management, document access, secure communication, and healthcare workflows. Our portal systems sync securely with your internal databases or EHR platforms using secure cryptographic pathways." },
+  { question: "6. Are healthcare websites optimized for Google?", answer: "Yes. Our healthcare website development approach includes SEO-friendly structures designed to improve search visibility and help healthcare organizations attract more relevant visitors. We build structured JSON-LD schemas directly into the pages and tune page speeds to maximize visibility on Google Search and local Map packs." },
+  { question: "7. Do you build websites for hospitals and healthcare groups?", answer: "Yes. We create scalable healthcare websites for hospitals, multi-location clinics, healthcare networks, and growing medical organizations. Our setups support complex routing architectures, location directories, and dynamic provider rosters." },
+  { question: "8. Can you integrate appointment booking systems?", answer: "Yes. We can integrate appointment scheduling systems and create customized booking experiences based on your healthcare workflow. Whether you use Zocdoc, PatientPoint, custom APIs, or native calendars, we align the booking widgets seamlessly." },
+  { question: "9. Do you provide AI healthcare solutions?", answer: "Yes. We help healthcare organizations implement AI-powered tools such as assistants, automation workflows, and patient communication solutions. This includes automated clinical triage assistance, SMS follow-up prompts, and instant customer service answering." },
+  { question: "10. Why choose Med Clinic X instead of a general web design company?", answer: "Unlike general website agencies, Med Clinic X focuses specifically on healthcare technology. We understand patient journeys, healthcare workflows, compliance constraints, and the digital needs of medical organizations. We don't just build websites; we build scalable B2B healthcare growth platforms." },
+];
+
+// ─────────────────────────────────────────────────────────────
+// Shared Section Header
+// ─────────────────────────────────────────────────────────────
+function SectionHeader({ badge, icon, title, subtitle }: { badge: string; icon: React.ReactNode; title: React.ReactNode; subtitle?: string }) {
+  return (
+    <div className="text-center max-w-3xl mx-auto mb-12">
+      <div className="inline-flex items-center space-x-2 bg-brand-cyan/15 rounded-full px-3.5 py-1 mb-4 border border-brand-cyan/20">
+        {icon}
+        <span className="text-xs font-bold text-brand-cyan uppercase tracking-wider">{badge}</span>
+      </div>
+      <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-white tracking-tight leading-tight">{title}</h2>
+      {subtitle && <p className="mt-4 text-sm sm:text-base text-gray-400 leading-relaxed">{subtitle}</p>}
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// Main Page Component
+// ─────────────────────────────────────────────────────────────
 export default function HealthcareWebsitesClient() {
-  const [activeFaq, setActiveFaq] = useState<number | null>(null);
+  const [activeFaq, setActiveFaq]       = useState<number | null>(null);
+  const [activeSection, setActiveSection] = useState("hero");
 
-  const toggleFaq = (index: number) => {
-    setActiveFaq(activeFaq === index ? null : index);
-  };
-
-  const faqData: FAQItem[] = [
-    {
-      question: "1. How much does a healthcare website design project cost?",
-      answer: "The cost of healthcare website design depends on the complexity, features, integrations, and customization required. A basic medical website, custom healthcare platform, and patient portal project all have different requirements. We customize our pricing based on whether you need simple physician listings, deep EHR integration, custom portal systems, or AI-powered automation workflows. Contact us to receive a transparent project proposal."
-    },
-    {
-      question: "2. How long does it take to build a healthcare website?",
-      answer: "The timeline depends on the size of the project. A standard medical website may take several weeks, while advanced healthcare platforms with portals, integrations, or custom AI automation require more development time. We follow an agile process to launch high-quality phases on-schedule while ensuring complete compliance and thorough QA testing."
-    },
-    {
-      question: "3. Do you design websites specifically for doctors and medical practices?",
-      answer: "Yes. Med Clinic X provides website design for doctors, physicians, clinics, hospitals, and healthcare organizations with healthcare-focused layouts and patient experiences. Our layouts are optimized specifically to address patient search intent, present physician credentials, highlight specialties, and streamline bookings."
-    },
-    {
-      question: "4. Can you redesign an existing medical website?",
-      answer: "Yes. We provide healthcare website redesign services to improve outdated designs, website performance, SEO visibility, and patient engagement. We carefully preserve your existing SEO rankings while modernizing your digital front door for higher conversions and mobile usability."
-    },
-    {
-      question: "5. Do you build patient portals for healthcare organizations?",
-      answer: "Yes. We develop patient portal solutions with features such as appointment management, document access, secure communication, and healthcare workflows. Our portal systems sync securely with your internal databases or EHR platforms using secure cryptographic pathways."
-    },
-    {
-      question: "6. Are healthcare websites optimized for Google?",
-      answer: "Yes. Our healthcare website development approach includes SEO-friendly structures designed to improve search visibility and help healthcare organizations attract more relevant visitors. We build structured JSON-LD schemas directly into the pages and tune page speeds to maximize visibility on Google Search and local Map packs."
-    },
-    {
-      question: "7. Do you build websites for hospitals and healthcare groups?",
-      answer: "Yes. We create scalable healthcare websites for hospitals, multi-location clinics, healthcare networks, and growing medical organizations. Our setups support complex routing architectures, location directories, and dynamic provider rosters."
-    },
-    {
-      question: "8. Can you integrate appointment booking systems?",
-      answer: "Yes. We can integrate appointment scheduling systems and create customized booking experiences based on your healthcare workflow. Whether you use Zocdoc, PatientPoint, custom APIs, or native calendars, we align the booking widgets seamlessly."
-    },
-    {
-      question: "9. Do you provide AI healthcare solutions?",
-      answer: "Yes. We help healthcare organizations implement AI-powered tools such as assistants, automation workflows, and patient communication solutions. This includes automated clinical triage assistance, SMS follow-up prompts, and instant customer service answering."
-    },
-    {
-      question: "10. Why choose Med Clinic X instead of a general web design company?",
-      answer: "Unlike general website agencies, Med Clinic X focuses specifically on healthcare technology. We understand patient journeys, healthcare workflows, compliance constraints, and the digital needs of medical organizations. We don't just build websites; we build scalable B2B healthcare growth platforms."
-    }
-  ];
+  useEffect(() => {
+    const sections = document.querySelectorAll("section[id]");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActiveSection(entry.target.id);
+        });
+      },
+      { rootMargin: "-15% 0px -70% 0px", threshold: 0 }
+    );
+    sections.forEach((s) => observer.observe(s));
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-6 md:py-12 relative">
-      {/* Background glow effects */}
+    <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-6 md:py-12 relative">
+      {/* Ambient glows */}
       <div className="fixed top-0 right-1/4 w-[500px] h-[500px] bg-brand-cyan/4 rounded-full blur-[120px] -z-10 pointer-events-none" />
-      <div className="fixed top-[800px] left-1/4 w-[500px] h-[500px] bg-brand-indigo/4 rounded-full blur-[120px] -z-10 pointer-events-none" />
+      <div className="fixed bottom-1/3 left-1/4 w-[500px] h-[500px] bg-brand-indigo/4 rounded-full blur-[120px] -z-10 pointer-events-none" />
 
-      {/* Back button & Breadcrumb */}
+      {/* Back / Breadcrumb */}
       <div className="mb-10 flex items-center justify-between">
-        <Link
-          href="/services"
-          className="inline-flex items-center space-x-2 text-xs font-semibold text-gray-500 hover:text-white transition-colors cursor-pointer group"
-        >
+        <Link href="/services" className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-500 hover:text-white transition-colors group">
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
-          <span>Back to Services</span>
+          Back to Services
         </Link>
-        <nav className="hidden sm:flex items-center space-x-2 text-xs text-gray-500 font-medium">
+        <nav className="hidden sm:flex items-center gap-2 text-xs text-gray-500 font-medium">
           <Link href="/" className="hover:text-brand-cyan transition-colors">Home</Link>
           <span>/</span>
           <Link href="/services" className="hover:text-brand-cyan transition-colors">Services</Link>
@@ -346,831 +383,590 @@ export default function HealthcareWebsitesClient() {
         </nav>
       </div>
 
-      {/* ═══════════════════════════════════════════════════════════ */}
-      {/* SECTION 1: HERO */}
-      {/* ═══════════════════════════════════════════════════════════ */}
-      <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-24">
-        {/* Left Content */}
-        <motion.div
-          initial={{ opacity: 0, x: -25 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6 }}
-          className="lg:col-span-6 space-y-6"
-        >
-          <div className="inline-flex items-center space-x-2 bg-brand-cyan/15 rounded-full px-4 py-1 border border-brand-cyan/20">
-            <Sparkles className="w-3.5 h-3.5 text-brand-cyan animate-pulse" />
-            <span className="text-xs font-bold text-brand-cyan uppercase tracking-wider">Premium Web Design</span>
-          </div>
+      {/* ── Two-Column Layout: TOC + Content ─────────────────── */}
+      <div className="flex gap-10 items-start">
 
-          <h1 className="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl text-white tracking-tight leading-tight">
-            Healthcare Website Design & Development for Healthcare Organizations That Want to Grow
-          </h1>
+        {/* LEFT: Sticky Table of Contents */}
+        <TableOfContents activeSection={activeSection} />
 
-          <p className="text-gray-400 text-sm sm:text-base leading-relaxed">
-            Your healthcare website is more than a digital brochure. Med Clinic X engineers high-performance clinic and hospital platforms built to convert visitors into patients, dominate local search, and sync with your EHR systems.
-          </p>
+        {/* RIGHT: Main Content */}
+        <div className="flex-1 min-w-0 space-y-0">
 
-          <div className="flex flex-wrap gap-3 text-xs font-medium text-gray-400">
-            {["99/100 Lighthouse Speed", "HIPAA Compliant", "EHR Integrations", "Local SEO Ready"].map((badge, i) => (
-              <span key={i} className="flex items-center gap-1.5 bg-brand-bg border border-brand-border px-3 py-1.5 rounded-full">
-                <CheckCircle2 className="w-3 h-3 text-brand-cyan" />{badge}
-              </span>
-            ))}
-          </div>
+          {/* ═══ 01 · HERO ═══════════════════════════════════════ */}
+          <section id="hero" className="scroll-mt-20 pb-24">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+              <motion.div initial={{ opacity:0, x:-25 }} animate={{ opacity:1, x:0 }} transition={{ duration:0.6 }} className="lg:col-span-6 space-y-6">
+                <div className="inline-flex items-center gap-2 bg-brand-cyan/15 rounded-full px-4 py-1 border border-brand-cyan/20">
+                  <Sparkles className="w-3.5 h-3.5 text-brand-cyan animate-pulse" />
+                  <span className="text-xs font-bold text-brand-cyan uppercase tracking-wider">Premium Web Design</span>
+                </div>
+                <h1 className="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl text-white tracking-tight leading-tight">
+                  Healthcare Website Design & Development for Organizations That Want to Grow
+                </h1>
+                <p className="text-gray-400 text-sm sm:text-base leading-relaxed">
+                  Med Clinic X engineers high-performance clinic and hospital platforms built to convert visitors into patients, dominate local search, and sync with your EHR systems.
+                </p>
+                <div className="flex flex-wrap gap-2.5 text-xs font-medium text-gray-400">
+                  {["99/100 Lighthouse Speed","HIPAA Compliant","EHR Integrations","Local SEO Ready"].map((b,i) => (
+                    <span key={i} className="flex items-center gap-1.5 bg-brand-bg border border-brand-border px-3 py-1.5 rounded-full">
+                      <CheckCircle2 className="w-3 h-3 text-brand-cyan" />{b}
+                    </span>
+                  ))}
+                </div>
+                <div className="flex flex-col sm:flex-row gap-4 pt-2">
+                  <Link href="/contact" className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold text-sm px-8 py-4 rounded-xl shadow-lg shadow-brand-cyan/15 hover:scale-[1.01] active:scale-[0.99] transition-all">
+                    Build Your Healthcare Website <ArrowRight className="w-4 h-4" />
+                  </Link>
+                  <Link href="#faqs" onClick={e=>{e.preventDefault();document.getElementById("faqs")?.scrollIntoView({behavior:"smooth"})}} className="inline-flex items-center justify-center glass-panel border border-brand-border hover:border-brand-cyan/35 text-sm font-semibold text-gray-300 hover:text-white px-8 py-4 rounded-xl transition-all">
+                    Read FAQs
+                  </Link>
+                </div>
+              </motion.div>
 
-          <div className="pt-2 flex flex-col sm:flex-row gap-4">
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold text-sm px-8 py-4 rounded-xl shadow-lg shadow-brand-cyan/15 hover:scale-[1.01] active:scale-[0.99] transition-all"
-            >
-              Build Your Healthcare Website
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-            <Link
-              href="#faqs"
-              className="inline-flex items-center justify-center glass-panel border border-brand-border hover:border-brand-cyan/35 text-sm font-semibold text-gray-300 hover:text-white px-8 py-4 rounded-xl transition-all"
-            >
-              Read FAQs
-            </Link>
-          </div>
-        </motion.div>
-
-        {/* Right: Healthcare Dashboard Image */}
-        <motion.div
-          initial={{ opacity: 0, x: 25 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.15 }}
-          className="lg:col-span-6 relative group"
-        >
-          <div className="absolute -inset-2 rounded-2xl bg-gradient-to-br from-brand-cyan/20 to-brand-indigo/20 blur-xl opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
-          <div className="relative rounded-2xl overflow-hidden border border-brand-cyan/20 shadow-2xl bg-brand-bg">
-            <div className="bg-brand-bg/90 px-4 py-2 border-b border-brand-border/60 flex items-center justify-between text-[10px] text-gray-500 font-mono">
-              <span>healthcare-analytics-dashboard.png</span>
-              <span className="text-brand-cyan font-bold">LIVE DEMO</span>
+              <motion.div initial={{ opacity:0, x:25 }} animate={{ opacity:1, x:0 }} transition={{ duration:0.6, delay:0.15 }} className="lg:col-span-6 relative group">
+                <div className="absolute -inset-2 rounded-2xl bg-gradient-to-br from-brand-cyan/20 to-brand-indigo/20 blur-xl opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
+                <div className="relative rounded-2xl overflow-hidden border border-brand-cyan/20 shadow-2xl bg-brand-bg">
+                  <div className="bg-brand-bg/90 px-4 py-2 border-b border-brand-border/60 flex items-center justify-between text-[10px] text-gray-500 font-mono">
+                    <span>healthcare-analytics-dashboard.png</span>
+                    <span className="text-brand-cyan font-bold">LIVE DEMO</span>
+                  </div>
+                  <Image src="/hw_hero_dashboard.png" alt="Healthcare Analytics Dashboard" width={700} height={480} className="w-full h-auto object-cover opacity-95 group-hover:scale-[1.01] transition-transform duration-500" priority />
+                </div>
+              </motion.div>
             </div>
-            <Image
-              src="/hw_hero_dashboard.png"
-              alt="Healthcare Analytics Dashboard — Patient Growth, Appointments, Satisfaction"
-              width={700}
-              height={480}
-              className="w-full h-auto object-cover opacity-95 group-hover:scale-[1.01] transition-transform duration-500"
-              priority
-            />
-          </div>
-        </motion.div>
-      </section>
+          </section>
 
-      {/* ═══════════════════════════════════════════════════════════ */}
-      {/* SECTION 2: DIGITAL FRONT DOOR — with Before/After */}
-      {/* ═══════════════════════════════════════════════════════════ */}
-      <section className="mb-24">
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center space-x-2 bg-brand-cyan/15 rounded-full px-3.5 py-1 mb-4">
-            <Globe className="w-4 h-4 text-brand-cyan" />
-            <span className="text-xs font-bold text-brand-cyan uppercase tracking-wider">Patient Intent Overview</span>
-          </div>
-          <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-white tracking-tight">
-            Your Website Is Your Digital Front Door
-          </h2>
-          <p className="mt-4 text-sm sm:text-base text-gray-400 leading-relaxed">
-            Before calling a healthcare provider, most patients search online. They expect a seamless, professional experience that answers key queries in seconds. If your site is slow, outdated, or hard to navigate — they leave.
-          </p>
-        </div>
-
-        {/* Q&A two columns */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
-          <div className="glass-panel p-7 rounded-2xl border border-brand-border/80 flex flex-col justify-between hover:border-brand-cyan/15 transition-all">
-            <div>
-              <h3 className="font-display font-bold text-lg text-white mb-5 flex items-center gap-2">
-                <AlertCircle className="w-5 h-5 text-brand-indigo" />
-                What Patients Search to Evaluate You
-              </h3>
-              <ul className="space-y-3">
+          {/* ═══ 02 · TRUST BAR ══════════════════════════════════ */}
+          <section id="trust" className="scroll-mt-20 pb-24">
+            <div className="glass-panel rounded-2xl border border-brand-border p-8">
+              <p className="text-center text-xs font-bold text-gray-500 uppercase tracking-widest mb-8">
+                Trusted by Healthcare Organizations Across the United States
+              </p>
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
                 {[
-                  "Is this healthcare provider trustworthy?",
-                  "What services do they offer?",
-                  "Do they accept new patients?",
-                  "Can I book an appointment easily?",
-                  "Does this practice look professional?",
-                ].map((question, i) => (
-                  <li key={i} className="flex items-start gap-3 p-3 rounded-xl bg-brand-bg/40 border border-brand-border/30">
-                    <span className="w-5 h-5 rounded-full bg-brand-indigo/10 border border-brand-indigo/20 flex items-center justify-center text-[9px] font-bold text-brand-indigo shrink-0 mt-0.5">?</span>
-                    <span className="text-sm text-gray-300 leading-relaxed">{question}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          <div className="glass-panel p-7 rounded-2xl border border-brand-cyan/10 bg-gradient-to-br from-brand-cyan/5 to-transparent hover:border-brand-cyan/20 transition-all">
-            <h3 className="font-display font-bold text-lg text-white mb-5 flex items-center gap-2">
-              <CheckCircle2 className="w-5 h-5 text-brand-cyan" />
-              Our Website Design Outcomes
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {[
-                { title: "Easier to discover", desc: "Rank high for local healthcare searches on Google Maps and organic grids." },
-                { title: "Easier to understand", desc: "Clear navigation paths for services, specialties, and doctor credentials." },
-                { title: "Easier to contact", desc: "Fluid scheduling widgets and intake forms designed to optimize capture." },
-                { title: "More trustworthy", desc: "Modern, professional layouts representing your medical authority." },
-              ].map((item, i) => (
-                <div key={i} className="p-4 rounded-xl bg-brand-bg/50 border border-brand-border/40 hover:border-brand-cyan/20 transition-all">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-brand-cyan font-bold">✓</span>
-                    <h4 className="text-xs font-bold text-white uppercase tracking-wider">{item.title}</h4>
+                  { icon:<Users className="w-6 h-6 text-brand-cyan" />,    label:"Doctors & Physicians",   desc:"Private practices, solo physicians, and specialist groups.",  stat:"150+" },
+                  { icon:<Activity className="w-6 h-6 text-brand-cyan" />, label:"Medical Clinics",        desc:"Multi-provider outpatient clinics across the US.",           stat:"80+" },
+                  { icon:<Globe className="w-6 h-6 text-brand-cyan" />,    label:"Hospitals & Networks",   desc:"Hospital systems, multi-location healthcare networks.",       stat:"25+" },
+                  { icon:<Zap className="w-6 h-6 text-brand-cyan" />,      label:"Healthcare Startups",    desc:"Health-tech companies and digital health platforms.",         stat:"40+" },
+                ].map((item,i)=>(
+                  <div key={i} className="text-center space-y-2">
+                    <div className="w-12 h-12 rounded-xl bg-brand-cyan/10 border border-brand-cyan/15 flex items-center justify-center mx-auto">{item.icon}</div>
+                    <p className="font-display font-extrabold text-2xl text-white">{item.stat}</p>
+                    <p className="text-sm font-bold text-white">{item.label}</p>
+                    <p className="text-[11px] text-gray-500 leading-relaxed">{item.desc}</p>
                   </div>
-                  <p className="text-[11px] text-gray-400 leading-relaxed">{item.desc}</p>
+                ))}
+              </div>
+              <div className="mt-8 pt-6 border-t border-brand-border/40 flex flex-wrap justify-center gap-6">
+                {[
+                  { val:"99/100", lbl:"Lighthouse Performance" },
+                  { val:"<1.2s",  lbl:"Average Page Load Time" },
+                  { val:"3.2×",   lbl:"Organic Lead Increase" },
+                  { val:"82%",    lbl:"Portal Adoption Rate" },
+                ].map((s,i)=>(
+                  <div key={i} className="text-center">
+                    <p className="font-display font-extrabold text-xl text-brand-cyan">{s.val}</p>
+                    <p className="text-[10px] text-gray-500 font-medium mt-0.5">{s.lbl}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* ═══ 03 · PROBLEM ════════════════════════════════════ */}
+          <section id="problem" className="scroll-mt-20 pb-24">
+            <SectionHeader
+              badge="Pain Awareness"
+              icon={<AlertCircle className="w-4 h-4 text-brand-cyan" />}
+              title="Is Your Healthcare Website Holding You Back?"
+              subtitle="Most healthcare organizations are leaving patients — and revenue — on the table because of avoidable digital problems."
+            />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-10">
+              {[
+                { icon:<XCircle className="w-5 h-5 text-red-400" />,    title:"Outdated Website Design",   desc:"A clinic that looks outdated online loses credibility instantly. Patients make trust decisions in under 5 seconds.", impact:"72% of patients judge credibility by website design." },
+                { icon:<XCircle className="w-5 h-5 text-red-400" />,    title:"Low Patient Bookings",      desc:"If your booking flow is broken, buried, or confusing — patients call competitors instead.", impact:"Clinics with broken booking flows lose 30–40% of inquiries." },
+                { icon:<XCircle className="w-5 h-5 text-red-400" />,    title:"Poor SEO Visibility",       desc:"If you're not on the first page of Google or the Google Map Pack, new patients simply cannot find you.", impact:"68% of online experiences begin with a search engine." },
+                { icon:<XCircle className="w-5 h-5 text-red-400" />,    title:"Bad Mobile Experience",     desc:"Over 70% of healthcare searches happen on mobile. A non-mobile-optimized site means massive patient drop-off.", impact:"Sites with poor mobile UX see 53% higher bounce rates." },
+              ].map((p,i)=>(
+                <div key={i} className="glass-panel p-6 rounded-2xl border border-red-500/10 hover:border-red-500/20 transition-all">
+                  <div className="flex items-start gap-3 mb-3">
+                    {p.icon}
+                    <h3 className="font-display font-bold text-base text-white">{p.title}</h3>
+                  </div>
+                  <p className="text-sm text-gray-400 leading-relaxed mb-4">{p.desc}</p>
+                  <div className="bg-red-500/5 border border-red-500/15 rounded-lg px-4 py-2.5">
+                    <p className="text-[10px] font-bold text-red-400 uppercase tracking-wider mb-0.5">Industry Data</p>
+                    <p className="text-xs text-gray-400">{p.impact}</p>
+                  </div>
                 </div>
               ))}
             </div>
-          </div>
-        </div>
 
-        {/* Before / After Image */}
-        <div className="relative rounded-2xl overflow-hidden border border-brand-border group">
-          <div className="bg-brand-bg/90 px-4 py-2 border-b border-brand-border flex items-center justify-between text-[10px] text-gray-500 font-mono">
-            <span>website-redesign-comparison.png</span>
-            <div className="flex items-center gap-3">
-              <span className="text-red-400 font-bold">❌ Before</span>
-              <span className="text-brand-cyan font-bold">✅ After</span>
-            </div>
-          </div>
-          <Image
-            src="/hw_before_after.png"
-            alt="Healthcare website redesign — Before vs After comparison"
-            width={1200}
-            height={600}
-            className="w-full h-auto object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-500"
-          />
-        </div>
-      </section>
-
-      {/* ═══════════════════════════════════════════════════════════ */}
-      {/* SECTION 3: PATIENT JOURNEY — flow diagram */}
-      {/* ═══════════════════════════════════════════════════════════ */}
-      <section className="mb-24">
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center space-x-2 bg-brand-cyan/15 rounded-full px-3.5 py-1 mb-4">
-            <Users className="w-4 h-4 text-brand-cyan" />
-            <span className="text-xs font-bold text-brand-cyan uppercase tracking-wider">Patient Lifecycle</span>
-          </div>
-          <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-white tracking-tight">
-            How Patients Find, Choose & Stay With Your Practice
-          </h2>
-          <p className="mt-4 text-sm sm:text-base text-gray-400 leading-relaxed">
-            Patients expect digital experiences similar to the platforms they use every day. A well-engineered healthcare website is the foundation of every step in their journey.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-          {/* Left: Pillars */}
-          <div className="lg:col-span-7 space-y-4">
-            {[
-              {
-                icon: <Users className="w-5 h-5 text-brand-cyan" />,
-                title: "Patient-Focused UX Design",
-                desc: "We design intuitive layouts modeled after real patient journeys — helping users find services, doctor bios, and locations in as few clicks as possible.",
-                tags: ["Medical services", "Provider bios", "Treatment details", "Location maps"],
-              },
-              {
-                icon: <Search className="w-5 h-5 text-brand-cyan" />,
-                title: "SEO Website Foundation",
-                desc: "A beautiful website is not enough if patients cannot discover it. Our design process includes structured SEO frameworks built to dominate organic search results.",
-                tags: ["Service-page schemas", "Multi-location SEO", "Doctor schemas", "Speed tuning"],
-              },
-              {
-                icon: <Activity className="w-5 h-5 text-brand-cyan" />,
-                title: "Conversion-Focused Design",
-                desc: "Your website should encourage patients to take direct actions. We build high-converting flows that turn casual visitors into loyal clinic patients.",
-                tags: ["Booking widgets", "HIPAA contact forms", "Clear calls-to-action", "Trust widgets"],
-              },
-            ].map((pillar, i) => (
-              <div key={i} className="glass-panel p-5 rounded-2xl border border-brand-border flex gap-4 hover:border-brand-cyan/15 transition-all group">
-                <div className="w-10 h-10 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center shrink-0 group-hover:bg-brand-cyan/20 transition-all">
-                  {pillar.icon}
-                </div>
-                <div className="space-y-2">
-                  <h3 className="font-display font-bold text-base text-white">{pillar.title}</h3>
-                  <p className="text-sm text-gray-400 leading-relaxed">{pillar.desc}</p>
-                  <div className="flex flex-wrap gap-1.5 pt-1">
-                    {pillar.tags.map((tag, j) => (
-                      <span key={j} className="bg-brand-bg/40 border border-brand-border/40 text-[9px] text-gray-400 px-2.5 py-0.5 rounded-full">• {tag}</span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Right: Patient Journey Diagram */}
-          <div className="lg:col-span-5 relative group">
-            <div className="absolute -inset-1 rounded-2xl bg-gradient-to-b from-brand-cyan/15 to-brand-indigo/15 blur-xl opacity-50 group-hover:opacity-70 transition-opacity duration-500" />
-            <div className="relative rounded-2xl overflow-hidden border border-brand-cyan/15 bg-brand-bg shadow-2xl">
+            {/* Before / After image */}
+            <div className="relative rounded-2xl overflow-hidden border border-brand-border group">
               <div className="bg-brand-bg/90 px-4 py-2 border-b border-brand-border flex items-center justify-between text-[10px] text-gray-500 font-mono">
-                <span>patient-journey-map.png</span>
-                <span className="text-brand-cyan font-bold">WORKFLOW</span>
+                <span>website-redesign-comparison.png</span>
+                <div className="flex items-center gap-3">
+                  <span className="text-red-400 font-bold">❌ Before</span>
+                  <span className="text-brand-cyan font-bold">✅ After</span>
+                </div>
               </div>
-              <Image
-                src="/hw_patient_journey.png"
-                alt="Patient Journey — From Google Search to Appointment Booking"
-                width={500}
-                height={600}
-                className="w-full h-auto object-cover opacity-90 group-hover:scale-[1.01] transition-transform duration-500"
-              />
+              <Image src="/hw_before_after.png" alt="Healthcare website Before vs After redesign comparison" width={1200} height={600} className="w-full h-auto object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-500" />
             </div>
-          </div>
-        </div>
-      </section>
+          </section>
 
-      {/* ═══════════════════════════════════════════════════════════ */}
-      {/* SECTION 4: CAPABILITIES + WEBSITE SCREENSHOTS */}
-      {/* ═══════════════════════════════════════════════════════════ */}
-      <section className="mb-24">
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center space-x-2 bg-brand-cyan/15 rounded-full px-3.5 py-1 mb-4">
-            <Layers className="w-4 h-4 text-brand-cyan" />
-            <span className="text-xs font-bold text-brand-cyan uppercase tracking-wider">Services Matrix</span>
-          </div>
-          <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-white tracking-tight">
-            Medical Website Design & Development Services
-          </h2>
-          <p className="mt-4 text-sm sm:text-base text-gray-400 leading-relaxed">
-            Every healthcare organization has unique clinical workflows. We develop tailored solutions instead of rigid templates.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-10">
-          <div className="lg:col-span-6 glass-panel p-7 rounded-2xl border border-brand-border hover:border-brand-cyan/15 transition-all flex flex-col">
-            <div className="w-10 h-10 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center mb-5">
-              <Users className="w-5 h-5 text-brand-cyan" />
-            </div>
-            <h3 className="font-display font-bold text-xl text-white mb-3">Medical Practice Website Design</h3>
-            <p className="text-sm text-gray-400 leading-relaxed mb-5">
-              We build professional medical websites for doctors, physicians, and healthcare practices that want to improve their online presence — designed to communicate your expertise and convert visitors.
-            </p>
-            <div className="border-t border-brand-border/40 pt-4 mt-auto">
-              <span className="text-[10px] uppercase font-bold text-brand-indigo tracking-wider block mb-2">Ideal for:</span>
-              <div className="flex flex-wrap gap-2">
-                {["Primary care doctors", "Specialists", "Private practices", "Medical clinics", "Healthcare groups"].map((item, idx) => (
-                  <span key={idx} className="bg-brand-bg border border-brand-border/60 text-[10px] text-gray-400 px-2.5 py-1 rounded-md">{item}</span>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="lg:col-span-6 glass-panel p-7 rounded-2xl border border-brand-border hover:border-brand-cyan/15 transition-all flex flex-col">
-            <div className="w-10 h-10 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center mb-5">
-              <Laptop className="w-5 h-5 text-brand-cyan" />
-            </div>
-            <h3 className="font-display font-bold text-xl text-white mb-3">Healthcare Website Development</h3>
-            <p className="text-sm text-gray-400 leading-relaxed mb-5">
-              We build secure, robust database infrastructures, HIPAA-compliant patient intake workflows, and custom medical integrations tailored to clinic routines — avoiding templates to engineer fast, clean Next.js platforms.
-            </p>
-            <div className="border-t border-brand-border/40 pt-4 mt-auto">
-              <span className="text-[10px] uppercase font-bold text-brand-cyan tracking-wider block mb-2">Capabilities:</span>
-              <div className="flex flex-wrap gap-2">
-                {["Custom websites", "Medical web applications", "Patient portals", "Healthcare dashboards", "Third-party integrations", "SaaS platforms"].map((item, idx) => (
-                  <span key={idx} className="bg-brand-bg border border-brand-border/60 text-[10px] text-gray-400 px-2.5 py-1 rounded-md">{item}</span>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {[
-            { icon: <Layers className="w-4 h-4 text-brand-cyan" />, title: "Healthcare Website Redesign", desc: "An outdated website can impact patient trust. We help organizations modernize their digital presence, improving speed, mobile optimization, and user navigation.", features: ["Speed audit upgrades", "Fully responsive mobile grids", "Preserved keyword SEO maps"] },
-            { icon: <Cpu className="w-4 h-4 text-brand-cyan" />, title: "AI Healthcare Solutions", desc: "Modern clinical teams adopt AI tools to enhance patient communication. We integrate workflows that reduce administration hours and simplify follow-ups.", features: ["AI Healthcare Assistants", "Appointment automation tools", "Communication automations"] },
-            { icon: <Lock className="w-4 h-4 text-brand-cyan" />, title: "Patient Portal Development", desc: "Secure patient portal solutions connecting providers with patients — medical files, prescription charts, scheduling, and billing invoices.", features: ["Patient credential login", "Diagnostic reports repository", "Secure message lockers"] },
-          ].map((card, idx) => (
-            <div key={idx} className="lg:col-span-4 glass-panel p-6 rounded-2xl border border-brand-border hover:border-brand-cyan/15 transition-all flex flex-col">
-              <div className="w-9 h-9 rounded-lg bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center mb-4">{card.icon}</div>
-              <h4 className="font-display font-bold text-lg text-white mb-2">{card.title}</h4>
-              <p className="text-xs text-gray-400 leading-relaxed flex-1">{card.desc}</p>
-              <ul className="mt-4 space-y-1.5 text-[10px] text-gray-500 font-medium border-t border-brand-border/40 pt-4">
-                {card.features.map((f, fi) => (
-                  <li key={fi} className="flex items-center gap-1.5"><CheckCircle2 className="w-3 h-3 text-brand-cyan shrink-0" />{f}</li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-
-        {/* Website Screenshots Collage */}
-        <div className="relative rounded-2xl overflow-hidden border border-brand-border group">
-          <div className="bg-brand-bg/90 px-4 py-2.5 border-b border-brand-border flex items-center justify-between text-[10px] text-gray-500 font-mono">
-            <span>healthcare-website-product-screenshots.png</span>
-            <span className="text-brand-cyan font-bold">PRODUCT PREVIEW</span>
-          </div>
-          <Image
-            src="/hw_website_screenshots.png"
-            alt="Healthcare website product screenshots — Doctor profile, service page, mobile booking"
-            width={1200}
-            height={500}
-            className="w-full h-auto object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-500"
-          />
-        </div>
-      </section>
-
-      {/* ═══════════════════════════════════════════════════════════ */}
-      {/* SECTION 5: AI CHAT MOCKUP */}
-      {/* ═══════════════════════════════════════════════════════════ */}
-      <section className="mb-24">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          {/* Left: AI Chat */}
-          <div className="lg:col-span-5 order-last lg:order-first">
-            <AIChatMockup />
-          </div>
-
-          {/* Right: Content */}
-          <div className="lg:col-span-7 space-y-5">
-            <div className="inline-flex items-center space-x-2 bg-brand-cyan/15 rounded-full px-3.5 py-1">
-              <Cpu className="w-4 h-4 text-brand-cyan" />
-              <span className="text-xs font-bold text-brand-cyan uppercase tracking-wider">AI Healthcare Integration</span>
-            </div>
-            <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-white tracking-tight leading-tight">
-              AI-Powered Assistant & Secure Patient Portals
-            </h2>
-            <p className="text-gray-400 text-sm sm:text-base leading-relaxed">
-              We build secure patient portal solutions that improve communication between providers and patients. Patients expect convenient digital access — lab results, secure messaging, and appointment recall systems.
-            </p>
-            <p className="text-gray-400 text-sm sm:text-base leading-relaxed">
-              By pairing secure portal dashboards with custom AI-powered healthcare solutions, we create smarter workflows for clinic administration and offer instant triage for incoming patient queries.
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+          {/* ═══ 04 · SOLUTION OVERVIEW ══════════════════════════ */}
+          <section id="solution" className="scroll-mt-20 pb-24">
+            <SectionHeader
+              badge="Transformation"
+              icon={<Sparkles className="w-4 h-4 text-brand-cyan" />}
+              title="The Med Clinic X Solution"
+              subtitle="We transform outdated healthcare websites into patient-acquisition platforms — designed for growth, built for trust."
+            />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-12">
               {[
-                { title: "Appointment Automation", desc: "Reduce manual phone schedules with AI-driven self-booking calendars." },
-                { title: "Secure Document Vaults", desc: "Encrypted cloud lockers for patient records and lab reports." },
-                { title: "24/7 Patient Triage", desc: "AI assistant answers common queries without staff involvement." },
-                { title: "Smart Recall Flows", desc: "Automated SMS sequences that bring patients back for checkups." },
-              ].map((item, i) => (
-                <div key={i} className="flex gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-brand-cyan shrink-0 mt-0.5" />
-                  <div>
-                    <h4 className="text-sm font-bold text-white">{item.title}</h4>
-                    <p className="text-[11px] text-gray-400 mt-0.5 leading-relaxed">{item.desc}</p>
+                { icon:<Users className="w-5 h-5 text-brand-cyan" />,    title:"Patient-First Website Design",    desc:"Layouts engineered around how patients search, evaluate, and book — not how doctors think. Every element drives action.", outcome:"↑ Patient bookings & trust signals" },
+                { icon:<Search className="w-5 h-5 text-brand-cyan" />,   title:"Healthcare SEO Strategy",         desc:"Local map-pack domination, JSON-LD schemas, and page speed optimization that put you in front of patients actively searching.", outcome:"↑ Organic traffic & local visibility" },
+                { icon:<Activity className="w-5 h-5 text-brand-cyan" />, title:"Conversion-Focused Development",  desc:"HIPAA-compliant intake forms, EHR booking widgets, and trust signals that turn website visitors into confirmed appointments.", outcome:"↑ Conversion rate from 2.4% to 7.8%" },
+                { icon:<Cpu className="w-5 h-5 text-brand-cyan" />,      title:"AI Healthcare Integration",       desc:"AI-powered 24/7 receptionists, automated recall flows, and smart triage bots that reduce admin hours and capture more leads.", outcome:"↑ 74% reduction in response delay" },
+              ].map((sol,i)=>(
+                <div key={i} className="glass-panel p-6 rounded-2xl border border-brand-border hover:border-brand-cyan/20 transition-all group">
+                  <div className="w-10 h-10 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center mb-4 group-hover:bg-brand-cyan/20 transition-all">
+                    {sol.icon}
+                  </div>
+                  <h3 className="font-display font-bold text-base text-white mb-2">{sol.title}</h3>
+                  <p className="text-sm text-gray-400 leading-relaxed mb-4">{sol.desc}</p>
+                  <div className="bg-brand-cyan/5 border border-brand-cyan/15 rounded-lg px-4 py-2">
+                    <p className="text-[10px] font-bold text-brand-cyan">{sol.outcome}</p>
                   </div>
                 </div>
               ))}
             </div>
-          </div>
-        </div>
-      </section>
 
-      {/* ═══════════════════════════════════════════════════════════ */}
-      {/* SECTION 6: PATIENT PORTAL DASHBOARD */}
-      {/* ═══════════════════════════════════════════════════════════ */}
-      <section className="mb-24">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          {/* Left: Content */}
-          <div className="lg:col-span-7 space-y-5">
-            <div className="inline-flex items-center space-x-2 bg-brand-cyan/15 rounded-full px-3.5 py-1">
-              <LayoutDashboard className="w-4 h-4 text-brand-cyan" />
-              <span className="text-xs font-bold text-brand-cyan uppercase tracking-wider">Patient Portal Development</span>
+            {/* Patient Journey image */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+              <div className="lg:col-span-7 space-y-4">
+                <h3 className="font-display font-bold text-2xl text-white">How Patients Find, Choose & Stay With Your Practice</h3>
+                <p className="text-sm text-gray-400 leading-relaxed">Every touchpoint in the patient journey — from Google search to confirmed appointment — is an opportunity. We engineer each step to work in your favor.</p>
+                {[
+                  { step:"01", label:"Google Search", desc:"Patient searches for a healthcare provider near them. Your SEO-optimized site appears in the Top 3 results." },
+                  { step:"02", label:"Website Visit",  desc:"Patient lands on a fast, professional, trust-building healthcare website that answers their questions." },
+                  { step:"03", label:"Service Info",   desc:"Clear service pages with doctor profiles, specialties, and treatment details build confidence." },
+                  { step:"04", label:"Booking",        desc:"Streamlined booking widget or HIPAA-compliant form converts the visitor into a confirmed appointment." },
+                  { step:"05", label:"Relationship",   desc:"Patient portal, follow-up automation, and recall flows build long-term patient retention." },
+                ].map((s,i)=>(
+                  <div key={i} className="flex gap-4 items-start">
+                    <span className="w-7 h-7 rounded-full bg-brand-cyan/15 border border-brand-cyan/25 text-[10px] font-bold text-brand-cyan flex items-center justify-center shrink-0 mt-0.5">{s.step}</span>
+                    <div>
+                      <p className="text-sm font-bold text-white">{s.label}</p>
+                      <p className="text-xs text-gray-500 leading-relaxed mt-0.5">{s.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="lg:col-span-5 relative group">
+                <div className="absolute -inset-1 rounded-2xl bg-gradient-to-b from-brand-cyan/15 to-brand-indigo/15 blur-xl opacity-50 group-hover:opacity-70 transition-opacity duration-500" />
+                <div className="relative rounded-2xl overflow-hidden border border-brand-cyan/15 bg-brand-bg shadow-2xl">
+                  <div className="bg-brand-bg/90 px-4 py-2 border-b border-brand-border flex items-center justify-between text-[10px] text-gray-500 font-mono">
+                    <span>patient-journey-map.png</span>
+                    <span className="text-brand-cyan font-bold">WORKFLOW</span>
+                  </div>
+                  <Image src="/hw_patient_journey.png" alt="Patient Journey Flow Diagram" width={500} height={600} className="w-full h-auto object-cover opacity-90 group-hover:scale-[1.01] transition-transform duration-500" />
+                </div>
+              </div>
             </div>
-            <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-white tracking-tight leading-tight">
-              Secure Patient Dashboards That Drive Engagement
-            </h2>
-            <p className="text-gray-400 text-sm sm:text-base leading-relaxed">
-              We build clinical front doors that empower patients to access imaging scans, review prescription details, chat securely with nurses, and pay in installments — all in one secure dashboard.
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          </section>
+
+          {/* ═══ 05 · CORE SERVICES ══════════════════════════════ */}
+          <section id="services" className="scroll-mt-20 pb-24">
+            <SectionHeader
+              badge="Core Offerings"
+              icon={<Layers className="w-4 h-4 text-brand-cyan" />}
+              title="Medical Website Design & Development Services"
+              subtitle="Purpose-built healthcare services instead of generic templates. Every solution is tailored to your clinical workflow."
+            />
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 mb-10">
               {[
-                { icon: <FileText className="w-4 h-4 text-brand-cyan" />, title: "FHIR Medical Records", desc: "X-rays, CBCT scans, lab panels synced directly to patient charts." },
-                { icon: <CreditCard className="w-4 h-4 text-brand-cyan" />, title: "Stripe Installment Billing", desc: "Break treatment costs into automated billing phases." },
-                { icon: <MessageSquare className="w-4 h-4 text-brand-cyan" />, title: "HIPAA-Secure Messaging", desc: "Encrypted patient-to-clinician direct messaging." },
-                { icon: <Shield className="w-4 h-4 text-brand-cyan" />, title: "Cryptographic Access Log", desc: "Append-only audit trail for all record access events." },
-              ].map((item, i) => (
-                <div key={i} className="glass-panel p-4 rounded-xl border border-brand-border hover:border-brand-cyan/15 transition-colors flex gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-brand-cyan/10 border border-brand-cyan/15 flex items-center justify-center shrink-0">{item.icon}</div>
-                  <div>
-                    <h4 className="text-sm font-bold text-white">{item.title}</h4>
-                    <p className="text-[11px] text-gray-400 mt-0.5 leading-relaxed">{item.desc}</p>
+                { col:6, icon:<Users className="w-5 h-5 text-brand-cyan" />,         title:"Medical Practice Website Design",    desc:"Professional medical websites for doctors, physicians, and healthcare practices. Designed to communicate expertise and convert visitors into patients.", tags:["Primary care","Specialists","Private practices","Medical clinics","Healthcare groups"] },
+                { col:6, icon:<Laptop className="w-5 h-5 text-brand-cyan" />,         title:"Healthcare Website Development",     desc:"Secure, HIPAA-conscious infrastructure, patient intake workflows, and custom medical integrations. Fast, clean Next.js/React platforms — no templates.", tags:["Custom websites","Medical web apps","Patient portals","Healthcare dashboards","SaaS platforms"] },
+                { col:4, icon:<Layers className="w-4.5 h-4.5 text-brand-cyan" />,    title:"Healthcare Website Redesign",        desc:"Modernize outdated platforms while preserving SEO rankings. Full speed audit, mobile optimization, and improved navigation.", features:["Speed audit upgrades","Responsive mobile grids","Preserved SEO rankings"] },
+                { col:4, icon:<Lock className="w-4.5 h-4.5 text-brand-cyan" />,      title:"Patient Portal Development",         desc:"Secure dashboards connecting providers and patients. Medical files, prescriptions, scheduling, and installment billing.", features:["Patient login credentials","Diagnostic reports","Secure message lockers"] },
+                { col:4, icon:<Cpu className="w-4.5 h-4.5 text-brand-cyan" />,       title:"AI Healthcare Solutions",            desc:"AI-powered tools to enhance patient communication, reduce admin hours, and streamline follow-up workflows.", features:["AI Healthcare Assistants","Appointment automation","SMS communication flows"] },
+              ].map((card,i)=>(
+                <div key={i} className={`lg:col-span-${card.col} glass-panel p-6 rounded-2xl border border-brand-border hover:border-brand-cyan/15 transition-all flex flex-col`}>
+                  <div className="w-10 h-10 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center mb-4">{card.icon}</div>
+                  <h3 className="font-display font-bold text-lg text-white mb-2">{card.title}</h3>
+                  <p className="text-sm text-gray-400 leading-relaxed flex-1 mb-4">{card.desc}</p>
+                  <div className="border-t border-brand-border/40 pt-4">
+                    {"tags" in card ? (
+                      <>
+                        <span className="text-[9px] uppercase font-bold text-brand-cyan tracking-wider block mb-2">Ideal for:</span>
+                        <div className="flex flex-wrap gap-1.5">
+                          {card.tags?.map((t,ti)=><span key={ti} className="bg-brand-bg border border-brand-border/60 text-[9px] text-gray-400 px-2 py-1 rounded-md">{t}</span>)}
+                        </div>
+                      </>
+                    ) : (
+                      <ul className="space-y-1.5">
+                        {card.features?.map((f,fi)=>(
+                          <li key={fi} className="flex items-center gap-1.5 text-[10px] text-gray-500 font-medium">
+                            <CheckCircle2 className="w-3 h-3 text-brand-cyan shrink-0" />{f}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
                 </div>
               ))}
             </div>
-          </div>
 
-          {/* Right: Portal mockup */}
-          <div className="lg:col-span-5">
-            <PatientPortalMockup />
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════════════════════════════════════════════════════════ */}
-      {/* SECTION 7: SEO GROWTH DASHBOARD */}
-      {/* ═══════════════════════════════════════════════════════════ */}
-      <section className="mb-24">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          {/* Left: SEO Dashboard */}
-          <div className="lg:col-span-5 order-last lg:order-first">
-            <SEODashboardMockup />
-          </div>
-
-          {/* Right: Content */}
-          <div className="lg:col-span-7 space-y-5">
-            <div className="inline-flex items-center space-x-2 bg-brand-cyan/15 rounded-full px-3.5 py-1">
-              <Search className="w-4 h-4 text-brand-cyan" />
-              <span className="text-xs font-bold text-brand-cyan uppercase tracking-wider">Healthcare SEO Foundation</span>
+            {/* Website screenshots banner */}
+            <div className="relative rounded-2xl overflow-hidden border border-brand-border group">
+              <div className="bg-brand-bg/90 px-4 py-2.5 border-b border-brand-border flex items-center justify-between text-[10px] text-gray-500 font-mono">
+                <span>healthcare-website-product-screenshots.png</span>
+                <span className="text-brand-cyan font-bold">PRODUCT PREVIEW</span>
+              </div>
+              <Image src="/hw_website_screenshots.png" alt="Healthcare website screenshots — doctor profile, service page, mobile booking" width={1200} height={500} className="w-full h-auto object-cover opacity-90 group-hover:opacity-100 transition-opacity" />
             </div>
-            <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-white tracking-tight leading-tight">
-              Built to Rank. Engineered to Convert.
-            </h2>
-            <p className="text-gray-400 text-sm sm:text-base leading-relaxed">
-              A beautiful website is only valuable if patients can find it. Our healthcare websites are built with an SEO foundation that helps clinics dominate local Google Search and Maps results — turning organic traffic into booked appointments.
-            </p>
-            <div className="space-y-3">
+          </section>
+
+          {/* ═══ 06 · FEATURES / CAPABILITIES ═══════════════════ */}
+          <section id="features" className="scroll-mt-20 pb-24">
+            <SectionHeader
+              badge="Platform Capabilities"
+              icon={<Zap className="w-4 h-4 text-brand-cyan" />}
+              title="Built-In Healthcare Website Features"
+              subtitle="Every feature we build serves a clinical purpose — improving patient outcomes, practice efficiency, or organic growth."
+            />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-14">
               {[
-                { metric: "Local Map Pack Ranking", result: "Top 3 positions in target counties" },
-                { metric: "Organic Visitor Growth", result: "From 120 to 2,500+ monthly visitors" },
-                { metric: "Appointment Request Rate", result: "+45% increase in online bookings" },
-                { metric: "Lead Acquisition Cost", result: "From $80–120 paid ads → $12–18 organic" },
-              ].map((row, i) => (
-                <div key={i} className="flex items-center justify-between glass-panel px-4 py-3 rounded-xl border border-brand-border">
-                  <span className="text-sm text-gray-400 font-medium">{row.metric}</span>
-                  <span className="text-sm font-bold text-brand-cyan">{row.result}</span>
+                { icon:<Calendar className="w-5 h-5 text-brand-cyan" />,    title:"Appointment Booking Integration",  desc:"EHR-connected scheduling widgets from Zocdoc, PatientPoint, or custom APIs — embedded natively on every page." },
+                { icon:<Users className="w-5 h-5 text-brand-cyan" />,       title:"Doctor Profile Pages",             desc:"SEO-optimized physician directory pages with credentials, specialties, patient reviews, and direct booking CTAs." },
+                { icon:<Smartphone className="w-5 h-5 text-brand-cyan" />,  title:"Mobile-First Responsive Design",   desc:"Built for the 70%+ of patients searching on mobile. Lightning-fast rendering, touch-optimized UX, and PWA support." },
+                { icon:<Shield className="w-5 h-5 text-brand-cyan" />,      title:"HIPAA-Conscious Structure",        desc:"AES-256 encrypted forms, secure data routing to EHR endpoints, and zero PII stored on front-end layers." },
+                { icon:<Search className="w-5 h-5 text-brand-cyan" />,      title:"Healthcare SEO Optimization",      desc:"JSON-LD MedicalClinic schemas, local business markup, Core Web Vitals tuning, and multi-location SEO architecture." },
+                { icon:<MapPin className="w-5 h-5 text-brand-cyan" />,      title:"Local Map Pack Targeting",         desc:"Google Business Profile optimization, local schema injection, and NAP consistency to claim Top 3 map positions." },
+                { icon:<Bot className="w-5 h-5 text-brand-cyan" />,         title:"AI Receptionist Integration",      desc:"24/7 conversational AI for triage, booking, and patient FAQ — reducing call volumes and after-hours drop-off." },
+                { icon:<BarChart3 className="w-5 h-5 text-brand-cyan" />,   title:"Analytics & Conversion Tracking",  desc:"Google Analytics 4, heatmaps, and goal funnels set up to measure patient acquisition metrics from day one." },
+                { icon:<Lock className="w-5 h-5 text-brand-cyan" />,        title:"Secure Patient Portals",           desc:"FHIR-synced dashboards where patients access records, lab results, invoices, and communicate with clinical staff." },
+              ].map((f,i)=>(
+                <div key={i} className="glass-panel p-5 rounded-xl border border-brand-border hover:border-brand-cyan/15 transition-colors group">
+                  <div className="w-9 h-9 rounded-lg bg-brand-cyan/10 border border-brand-cyan/15 flex items-center justify-center mb-3 group-hover:bg-brand-cyan/20 transition-all">{f.icon}</div>
+                  <h3 className="font-display font-bold text-sm text-white mb-1.5">{f.title}</h3>
+                  <p className="text-xs text-gray-400 leading-relaxed">{f.desc}</p>
                 </div>
               ))}
             </div>
-          </div>
-        </div>
-      </section>
 
-      {/* ═══════════════════════════════════════════════════════════ */}
-      {/* SECTION 8: TECH ARCHITECTURE + STACK */}
-      {/* ═══════════════════════════════════════════════════════════ */}
-      <section className="mb-24">
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center space-x-2 bg-brand-cyan/15 rounded-full px-3.5 py-1 mb-4">
-            <Code2 className="w-4 h-4 text-brand-cyan" />
-            <span className="text-xs font-bold text-brand-cyan uppercase tracking-wider">Platform Architecture</span>
-          </div>
-          <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-white tracking-tight">
-            Healthcare Platform Architecture We Build
-          </h2>
-          <p className="mt-4 text-sm sm:text-base text-gray-400 leading-relaxed">
-            From a simple clinic website to a full enterprise healthcare platform — we architect every layer to be secure, scalable, and EHR-ready.
-          </p>
-        </div>
+            {/* AI Chat + Portal side-by-side */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div>
+                <p className="text-xs font-bold text-brand-cyan uppercase tracking-wider mb-3 flex items-center gap-2"><Bot className="w-3.5 h-3.5" />AI Assistant — Live Booking</p>
+                <AIChatMockup />
+              </div>
+              <div>
+                <p className="text-xs font-bold text-brand-cyan uppercase tracking-wider mb-3 flex items-center gap-2"><LayoutDashboard className="w-3.5 h-3.5" />Patient Portal — Dashboard</p>
+                <PatientPortalMockup />
+              </div>
+            </div>
+          </section>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-          {/* Left: Architecture Diagram */}
-          <div className="lg:col-span-5">
-            <TechArchitectureDiagram />
-          </div>
-
-          {/* Right: Technology Stack */}
-          <div className="lg:col-span-7 space-y-5">
-            <h3 className="font-display font-bold text-xl text-white flex items-center gap-2.5">
-              <span className="w-1 h-5 bg-brand-cyan rounded-full inline-block" />
-              Our Technology Stack
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* ═══ 07 · INDUSTRIES ════════════════════════════════ */}
+          <section id="industries" className="scroll-mt-20 pb-24">
+            <SectionHeader
+              badge="Who We Serve"
+              icon={<Bookmark className="w-4 h-4 text-brand-cyan" />}
+              title="Built For Healthcare Organizations Like Yours"
+              subtitle="Whether you operate a solo practice, run a multi-location clinic, or are building a health-tech startup — our frameworks scale around your scope."
+            />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
               {[
-                {
-                  label: "Frontend", icon: <Zap className="w-4 h-4 text-brand-cyan" />,
-                  items: ["React.js", "Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"],
-                },
-                {
-                  label: "Backend", icon: <Database className="w-4 h-4 text-brand-cyan" />,
-                  items: ["Node.js", "REST APIs", "GraphQL", "PostgreSQL", "Prisma ORM"],
-                },
-                {
-                  label: "Cloud & Infrastructure", icon: <Cloud className="w-4 h-4 text-brand-cyan" />,
-                  items: ["AWS S3 & EC2", "Vercel Edge", "Google Cloud", "Cloudflare CDN", "Docker / CI/CD"],
-                },
-                {
-                  label: "Healthcare Solutions", icon: <Shield className="w-4 h-4 text-brand-cyan" />,
-                  items: ["FHIR APIs", "Patient Portals", "AI Automation", "HIPAA Compliance", "EHR Integrations"],
-                },
-              ].map((col, i) => (
-                <div key={i} className="glass-panel p-5 rounded-xl border border-brand-border">
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="w-7 h-7 rounded-lg bg-brand-cyan/10 border border-brand-cyan/15 flex items-center justify-center">{col.icon}</div>
-                    <h4 className="text-xs font-bold text-white uppercase tracking-wider">{col.label}</h4>
-                  </div>
-                  <ul className="space-y-1.5">
-                    {col.items.map((item, j) => (
-                      <li key={j} className="flex items-center gap-2 text-xs text-gray-400">
-                        <span className="w-1 h-1 rounded-full bg-brand-cyan/60 shrink-0" />{item}
+                { icon:<Users className="w-6 h-6 text-brand-cyan" />,   num:"01", segment:"Doctors & Physicians",       desc:"Create a professional online presence that represents your expertise and helps new patients discover your practice.",             highlights:["Solo & group practices","Specialty pages","EHR booking widgets","Doctor schema markup"] },
+                { icon:<Activity className="w-6 h-6 text-brand-cyan" />,num:"02", segment:"Medical Clinics",            desc:"Build a healthcare website designed around patient acquisition, appointment scheduling, and multi-provider practice growth.",   highlights:["Multi-provider directories","HIPAA intake forms","Location SEO","Review automation"] },
+                { icon:<Globe className="w-6 h-6 text-brand-cyan" />,   num:"03", segment:"Hospitals & Networks",       desc:"Develop scalable digital experiences that support multiple departments, service lines, and patient needs across locations.",      highlights:["Department routing","Multi-location SEO","Patient portals","Staff directories"] },
+                { icon:<Zap className="w-6 h-6 text-brand-cyan" />,     num:"04", segment:"Dental Practices & Startups",desc:"Launch dental clinics and healthcare SaaS products with modern, robust compliance technology and AI-ready integrations.",      highlights:["Dental SEO focus","MVP development","HIPAA architecture","AI integrations"] },
+              ].map((item,i)=>(
+                <div key={i} className="glass-panel p-6 rounded-2xl border border-brand-border hover:border-brand-cyan/20 hover:-translate-y-1 transition-all flex flex-col group">
+                  <div className="w-12 h-12 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center mb-4 group-hover:bg-brand-cyan/20 transition-all">{item.icon}</div>
+                  <span className="text-[9px] font-bold text-brand-cyan uppercase tracking-wider mb-1">{item.num} // segment</span>
+                  <h3 className="font-display font-bold text-base text-white mb-2">{item.segment}</h3>
+                  <p className="text-xs text-gray-400 leading-relaxed flex-1">{item.desc}</p>
+                  <ul className="mt-4 pt-4 border-t border-brand-border/40 space-y-1.5">
+                    {item.highlights.map((h,hi)=>(
+                      <li key={hi} className="flex items-center gap-1.5 text-[10px] text-gray-500 font-medium">
+                        <CheckCircle2 className="w-3 h-3 text-brand-cyan shrink-0" />{h}
                       </li>
                     ))}
                   </ul>
                 </div>
               ))}
             </div>
-          </div>
-        </div>
-      </section>
+          </section>
 
-      {/* ═══════════════════════════════════════════════════════════ */}
-      {/* SECTION 9: TARGET AUDIENCE */}
-      {/* ═══════════════════════════════════════════════════════════ */}
-      <section className="mb-24">
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center space-x-2 bg-brand-cyan/15 rounded-full px-3.5 py-1 mb-4">
-            <Bookmark className="w-4 h-4 text-brand-cyan" />
-            <span className="text-xs font-bold text-brand-cyan uppercase tracking-wider">Target Segments</span>
-          </div>
-          <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-white tracking-tight">
-            Built For Healthcare Organizations Like Yours
-          </h2>
-          <p className="mt-4 text-sm sm:text-base text-gray-400 leading-relaxed">
-            Whether you operate a private clinic, manage a multi-department hospital, or are launching a new startup — our digital frameworks scale around your scope.
-          </p>
-        </div>
+          {/* ═══ 08 · PROCESS ═══════════════════════════════════ */}
+          <section id="process" className="scroll-mt-20 pb-24">
+            <SectionHeader
+              badge="How It Works"
+              icon={<Workflow className="w-4 h-4 text-brand-cyan" />}
+              title="Our 5-Step Healthcare Website Process"
+              subtitle="A structured, milestone-based delivery model that keeps you informed and in control at every stage."
+            />
+            <div className="relative">
+              {/* Connecting line */}
+              <div className="hidden lg:block absolute top-10 left-[calc(10%-2px)] right-[calc(10%-2px)] h-px bg-gradient-to-r from-transparent via-brand-cyan/30 to-transparent" />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {[
-            {
-              icon: <Users className="w-6 h-6 text-brand-cyan" />,
-              segment: "01 // Doctors & Physicians",
-              title: "Doctors & Physicians",
-              desc: "Create a professional online presence that represents your expertise and helps new patients discover your practice.",
-              highlights: ["Solo & group practices", "Specialty pages", "EHR booking widgets"],
-            },
-            {
-              icon: <Activity className="w-6 h-6 text-brand-cyan" />,
-              segment: "02 // Medical Clinics",
-              title: "Medical Clinics",
-              desc: "Build a healthcare website designed around patient acquisition, appointment scheduling, and practice growth.",
-              highlights: ["Multi-provider directories", "HIPAA intake forms", "Location SEO"],
-            },
-            {
-              icon: <Globe className="w-6 h-6 text-brand-cyan" />,
-              segment: "03 // Hospitals",
-              title: "Hospitals & Healthcare Groups",
-              desc: "Develop scalable digital experiences that support multiple departments, services, and patient needs across locations.",
-              highlights: ["Department routing", "Multi-location SEO", "Patient portals"],
-            },
-            {
-              icon: <Zap className="w-6 h-6 text-brand-cyan" />,
-              segment: "04 // Startups",
-              title: "Healthcare Startups",
-              desc: "Launch healthcare products, platforms, and SaaS solutions with modern, robust compliance technology from day one.",
-              highlights: ["MVP development", "HIPAA architecture", "AI integrations"],
-            },
-          ].map((item, idx) => (
-            <div key={idx} className="glass-panel p-6 rounded-2xl border border-brand-border hover:border-brand-cyan/20 hover:-translate-y-1 transition-all flex flex-col group">
-              <div className="w-12 h-12 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center mb-4 group-hover:bg-brand-cyan/20 transition-all">
-                {item.icon}
-              </div>
-              <span className="text-[10px] font-bold text-brand-cyan uppercase tracking-wider mb-1">{item.segment}</span>
-              <h3 className="font-display font-bold text-base text-white mb-2">{item.title}</h3>
-              <p className="text-xs text-gray-400 leading-relaxed flex-1">{item.desc}</p>
-              <ul className="mt-4 pt-4 border-t border-brand-border/40 space-y-1.5">
-                {item.highlights.map((h, hi) => (
-                  <li key={hi} className="flex items-center gap-1.5 text-[10px] text-gray-500 font-medium">
-                    <CheckCircle2 className="w-3 h-3 text-brand-cyan shrink-0" />{h}
-                  </li>
+              <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+                {[
+                  { icon:<Search className="w-5 h-5" />,    step:"01", label:"Strategy",    color:"brand-cyan",   desc:"Healthcare audit, competitor analysis, patient journey mapping, SEO keyword research, and technical scoping." },
+                  { icon:<Layers className="w-5 h-5" />,   step:"02", label:"Design",      color:"brand-indigo", desc:"Patient-first wireframes, visual design system, mobile-first layouts, and UI prototypes reviewed with your team." },
+                  { icon:<Code2 className="w-5 h-5" />,     step:"03", label:"Development", color:"brand-cyan",   desc:"HIPAA-conscious Next.js build, EHR integrations, FHIR API connections, and AI assistant configuration." },
+                  { icon:<Rocket className="w-5 h-5" />,    step:"04", label:"Launch",      color:"brand-indigo", desc:"QA testing, speed optimization, Google Search Console setup, schema injection, and production deployment." },
+                  { icon:<BarChart3 className="w-5 h-5" />, step:"05", label:"Growth",      color:"brand-cyan",   desc:"Ongoing SEO monitoring, conversion rate optimization, analytics reviews, and platform scaling support." },
+                ].map((step,i)=>(
+                  <motion.div
+                    key={i}
+                    initial={{ opacity:0, y:20 }}
+                    whileInView={{ opacity:1, y:0 }}
+                    transition={{ duration:0.4, delay: i * 0.1 }}
+                    viewport={{ once:true }}
+                    className="flex flex-col items-center text-center"
+                  >
+                    <div className={`relative w-20 h-20 rounded-2xl bg-${step.color}/10 border border-${step.color}/20 flex items-center justify-center mb-4 text-${step.color}`}>
+                      {step.icon}
+                      <span className={`absolute -top-2 -right-2 w-6 h-6 rounded-full bg-${step.color} text-[9px] font-extrabold text-brand-bg flex items-center justify-center`}>{step.step}</span>
+                    </div>
+                    <h3 className="font-display font-bold text-base text-white mb-2">{step.label}</h3>
+                    <p className="text-xs text-gray-400 leading-relaxed">{step.desc}</p>
+                  </motion.div>
                 ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ═══════════════════════════════════════════════════════════ */}
-      {/* SECTION 10: WHY CHOOSE MED CLINIC X */}
-      {/* ═══════════════════════════════════════════════════════════ */}
-      <section className="mb-24 grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-        <div className="lg:col-span-5 space-y-5">
-          <div className="inline-flex items-center space-x-2 bg-brand-cyan/15 rounded-full px-3.5 py-1">
-            <Workflow className="w-4 h-4 text-brand-cyan" />
-            <span className="text-xs font-bold text-brand-cyan uppercase tracking-wider">Competitive Edge</span>
-          </div>
-          <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-white tracking-tight">
-            Why Choose Med Clinic X for Healthcare Website Design?
-          </h2>
-          <p className="text-gray-400 text-sm leading-relaxed">
-            General digital agencies struggle with medical terminology, HIPAA parameters, local search schemas, and patient check-in paths. Med Clinic X focuses strictly on medical technology.
-          </p>
-
-          {/* Trust badges */}
-          <div className="grid grid-cols-2 gap-3">
-            {[
-              { icon: <Shield className="w-4 h-4 text-brand-cyan" />, label: "HIPAA Compliant" },
-              { icon: <Zap className="w-4 h-4 text-brand-cyan" />, label: "99/100 Speed Score" },
-              { icon: <Search className="w-4 h-4 text-brand-cyan" />, label: "Local SEO Ready" },
-              { icon: <CheckCircle2 className="w-4 h-4 text-brand-cyan" />, label: "ADA Accessible" },
-            ].map((badge, i) => (
-              <div key={i} className="flex items-center gap-2 glass-panel border border-brand-border px-3 py-2.5 rounded-xl">
-                {badge.icon}
-                <span className="text-xs font-semibold text-gray-300">{badge.label}</span>
               </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="lg:col-span-7 space-y-4">
-          {[
-            {
-              title: "Healthcare Industry Understanding",
-              desc: "Healthcare websites require more than attractive design. They require patient trust, clear communication, accessibility, security-focused development, and HIPAA-compliant workflows. We combine clinical knowledge with modern web development to build solutions supporting both providers and patients.",
-            },
-            {
-              title: "More Than A Website — A Healthcare Growth Platform",
-              desc: "Your healthcare website can become the foundation for patient acquisition, online appointment scheduling, patient communication, healthcare automation, digital healthcare products, and future technology integrations. We help you move beyond a basic brochure website and build a complete healthcare digital ecosystem.",
-            },
-            {
-              title: "Transparent Engineering Process",
-              desc: "From wireframes and compliance audits to QA testing and post-launch monitoring — we keep you informed at every stage. No hidden costs, no bloated timelines. We build on a milestone-based delivery model.",
-            },
-          ].map((item, idx) => (
-            <div key={idx} className="glass-panel p-6 rounded-2xl border border-brand-border hover:border-brand-cyan/15 transition-all">
-              <h3 className="font-display font-bold text-lg text-white mb-2 flex items-center gap-2.5">
-                <span className="w-1 h-5 bg-brand-cyan rounded-sm shrink-0" />
-                {item.title}
-              </h3>
-              <p className="text-sm text-gray-400 leading-relaxed">{item.desc}</p>
             </div>
-          ))}
-        </div>
-      </section>
 
-      {/* ═══════════════════════════════════════════════════════════ */}
-      {/* SECTION 11: CASE STUDIES */}
-      {/* ═══════════════════════════════════════════════════════════ */}
-      <section className="mb-24">
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center space-x-2 bg-brand-cyan/15 rounded-full px-3.5 py-1 mb-4">
-            <Activity className="w-4 h-4 text-brand-cyan" />
-            <span className="text-xs font-bold text-brand-cyan uppercase tracking-wider">Healthcare Projects</span>
-          </div>
-          <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-white tracking-tight">
-            Healthcare Projects We Have Built
-          </h2>
-          <p className="mt-4 text-sm sm:text-base text-gray-400 leading-relaxed">
-            Real-world healthcare platforms built for growth, compliance, and patient engagement.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[
-            {
-              category: "AI Platform",
-              title: "Radiology AI Reporting Platform",
-              challenge: "Slow manual reporting workflow causing 48hr turnaround delays for radiologists.",
-              solution: "AI-powered reporting system with LLM-assisted draft generation and DICOM viewer integration.",
-              result: "Report turnaround reduced from 48 hours to under 4 hours.",
-              tag: "AI & Automation",
-              color: "brand-indigo",
-            },
-            {
-              category: "Patient Portal",
-              title: "Multi-Clinic Patient Portal Rebuild",
-              challenge: "Outdated patient portal with poor mobile UX, no FHIR sync, and low 18% adoption rate.",
-              solution: "Full Next.js portal rebuild with FHIR API, Stripe installment billing, and HIPAA-secure messaging.",
-              result: "Patient adoption increased from 18% to 82% within 3 months of launch.",
-              tag: "Portal Development",
-              color: "brand-cyan",
-            },
-            {
-              category: "SEO Growth",
-              title: "Regional Orthopedic Group SEO",
-              challenge: "Hidden on Google Maps, generating only 120 organic visitors per month across 6 locations.",
-              solution: "Multi-location SEO strategy with JSON-LD schema, map-pack optimization, and review automation.",
-              result: "Organic traffic grew to 2,500+ monthly visitors with Top 3 Maps ranking across all locations.",
-              tag: "Growth & SEO",
-              color: "brand-cyan",
-            },
-          ].map((study, i) => (
-            <div key={i} className="glass-panel rounded-2xl border border-brand-border overflow-hidden hover:border-brand-cyan/20 transition-all group flex flex-col">
-              <div className={`h-1.5 bg-gradient-to-r from-${study.color} to-brand-indigo`} />
-              <div className="p-6 flex flex-col flex-1">
-                <div className="flex items-center justify-between mb-4">
-                  <span className={`text-[9px] font-bold text-${study.color} uppercase tracking-wider bg-${study.color}/10 border border-${study.color}/20 px-2.5 py-1 rounded-full`}>
-                    {study.category}
-                  </span>
-                  <span className="text-[9px] text-gray-600 font-medium">{study.tag}</span>
-                </div>
-                <h3 className="font-display font-bold text-base text-white mb-4 group-hover:text-brand-cyan transition-colors leading-snug">{study.title}</h3>
-                <div className="space-y-3 flex-1">
+            {/* Tech architecture */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start mt-16">
+              <div className="lg:col-span-5">
+                <p className="text-xs font-bold text-brand-cyan uppercase tracking-wider mb-4 flex items-center gap-2"><Database className="w-3.5 h-3.5" />Platform Architecture</p>
+                <TechArchitectureDiagram />
+              </div>
+              <div className="lg:col-span-7 space-y-5">
+                <h3 className="font-display font-bold text-xl text-white flex items-center gap-2.5">
+                  <span className="w-1 h-5 bg-brand-cyan rounded-full" />Our Technology Stack
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {[
-                    { label: "Challenge", text: study.challenge, color: "text-red-400" },
-                    { label: "Solution", text: study.solution, color: "text-yellow-400" },
-                    { label: "Result", text: study.result, color: "text-green-400" },
-                  ].map((row, ri) => (
-                    <div key={ri}>
-                      <p className={`text-[9px] font-bold uppercase tracking-wider ${row.color} mb-0.5`}>{row.label}</p>
-                      <p className="text-xs text-gray-400 leading-relaxed">{row.text}</p>
+                    { label:"Frontend",                icon:<Zap className="w-4 h-4 text-brand-cyan" />,      items:["React.js","Next.js","TypeScript","Tailwind CSS","Framer Motion"] },
+                    { label:"Backend",                 icon:<Database className="w-4 h-4 text-brand-cyan" />,  items:["Node.js","REST APIs","GraphQL","PostgreSQL","Prisma ORM"] },
+                    { label:"Cloud & Infrastructure",  icon:<Cloud className="w-4 h-4 text-brand-cyan" />,     items:["AWS S3 & EC2","Vercel Edge","Google Cloud","Cloudflare CDN","Docker / CI/CD"] },
+                    { label:"Healthcare Solutions",    icon:<Shield className="w-4 h-4 text-brand-cyan" />,    items:["FHIR APIs","Patient Portals","AI Automation","HIPAA Compliance","EHR Integrations"] },
+                  ].map((col,i)=>(
+                    <div key={i} className="glass-panel p-5 rounded-xl border border-brand-border">
+                      <div className="flex items-center gap-2 mb-3">
+                        <div className="w-7 h-7 rounded-lg bg-brand-cyan/10 border border-brand-cyan/15 flex items-center justify-center">{col.icon}</div>
+                        <h4 className="text-xs font-bold text-white uppercase tracking-wider">{col.label}</h4>
+                      </div>
+                      <ul className="space-y-1.5">
+                        {col.items.map((item,j)=>(
+                          <li key={j} className="flex items-center gap-2 text-xs text-gray-400">
+                            <span className="w-1 h-1 rounded-full bg-brand-cyan/60 shrink-0" />{item}
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   ))}
                 </div>
               </div>
             </div>
-          ))}
-        </div>
-      </section>
+          </section>
 
-      {/* ═══════════════════════════════════════════════════════════ */}
-      {/* SECTION 12: FAQ */}
-      {/* ═══════════════════════════════════════════════════════════ */}
-      <section id="faqs" className="mb-24 scroll-mt-24">
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center space-x-2 bg-brand-cyan/15 rounded-full px-3.5 py-1 mb-4">
-            <Calendar className="w-4 h-4 text-brand-cyan" />
-            <span className="text-xs font-bold text-brand-cyan uppercase tracking-wider">Knowledge Base</span>
-          </div>
-          <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-white tracking-tight">
-            Frequently Asked Questions
-          </h2>
-          <p className="mt-4 text-sm sm:text-base text-gray-400 leading-relaxed">
-            Learn more about our design timelines, medical development workflows, budgets, and compliance safeguards.
-          </p>
-        </div>
+          {/* ═══ 09 · CASE STUDIES ══════════════════════════════ */}
+          <section id="case-studies" className="scroll-mt-20 pb-24">
+            <SectionHeader
+              badge="Proof of Results"
+              icon={<Activity className="w-4 h-4 text-brand-cyan" />}
+              title="Healthcare Projects We Have Built"
+              subtitle="Real results from real healthcare organizations — before and after working with Med Clinic X."
+            />
 
-        <div className="max-w-4xl mx-auto space-y-3">
-          {faqData.map((faq, index) => {
-            const isOpen = activeFaq === index;
-            return (
-              <div key={index} className="glass-panel rounded-2xl border border-brand-border overflow-hidden transition-colors duration-300">
-                <button
-                  onClick={() => toggleFaq(index)}
-                  className="w-full px-6 py-5 flex items-center justify-between text-left font-display font-bold text-sm sm:text-base text-white hover:text-brand-cyan transition-colors focus:outline-none"
-                >
-                  <span>{faq.question}</span>
-                  <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform duration-300 shrink-0 ml-4 ${isOpen ? "rotate-180 text-brand-cyan" : ""}`} />
-                </button>
-                <AnimatePresence initial={false}>
-                  {isOpen && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.25, ease: "easeInOut" }}
+            {/* SEO Dashboard */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center mb-14">
+              <div className="lg:col-span-5 order-last lg:order-first">
+                <SEODashboardMockup />
+              </div>
+              <div className="lg:col-span-7 space-y-4">
+                <span className="text-[9px] font-bold text-brand-cyan uppercase tracking-wider bg-brand-cyan/10 border border-brand-cyan/20 px-2.5 py-1 rounded-full">SEO Growth</span>
+                <h3 className="font-display font-bold text-2xl text-white">Regional Orthopedic Group — Search Visibility Turnaround</h3>
+                <p className="text-sm text-gray-400 leading-relaxed">A 6-location orthopedic group was invisible on Google Maps and generating only 120 organic visitors per month. Their website was slow, had no local schema, and zero review strategy.</p>
+                <div className="space-y-3">
+                  {[
+                    { label:"Challenge", text:"Hidden on Maps · 120 monthly visitors · No structured schema",             color:"text-red-400" },
+                    { label:"Solution",  text:"Multi-location SEO, JSON-LD injection, map-pack optimization, review flows",  color:"text-yellow-400" },
+                    { label:"Result",    text:"Top 3 Maps ranking across all 6 locations · 2,500+ monthly visitors",        color:"text-green-400" },
+                  ].map((r,i)=>(
+                    <div key={i} className="glass-panel px-4 py-3 rounded-xl border border-brand-border flex items-start gap-3">
+                      <span className={`text-[9px] font-bold uppercase tracking-wider shrink-0 mt-0.5 ${r.color}`}>{r.label}</span>
+                      <span className="text-xs text-gray-400 leading-relaxed">{r.text}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* 3 Case Study Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              {[
+                { category:"AI Platform",    title:"Radiology AI Reporting Platform",   challenge:"48hr report turnaround causing radiologist delays.", solution:"AI-powered LLM draft generation + DICOM viewer integration.", result:"Report turnaround reduced from 48hrs to under 4hrs.", color:"brand-indigo", tag:"AI & Automation" },
+                { category:"Patient Portal", title:"Multi-Clinic Patient Portal Rebuild",challenge:"Outdated portal with 18% patient adoption, no FHIR sync.", solution:"Next.js rebuild with FHIR APIs, Stripe billing, HIPAA chat.", result:"Adoption increased from 18% to 82% within 3 months.",   color:"brand-cyan",   tag:"Portal Dev" },
+                { category:"SEO Growth",     title:"Dental Group Local SEO Campaign",   challenge:"Dental group on Maps page 3, 95 organic leads/month.", solution:"Local SEO strategy + review automation + schema injection.", result:"Top 3 Map Pack · 1,800 organic leads/month within 90 days.", color:"brand-cyan", tag:"Growth & SEO" },
+              ].map((study,i)=>(
+                <div key={i} className="glass-panel rounded-2xl border border-brand-border overflow-hidden hover:border-brand-cyan/20 transition-all group flex flex-col">
+                  <div className={`h-1 bg-gradient-to-r from-${study.color} to-brand-indigo`} />
+                  <div className="p-6 flex flex-col flex-1">
+                    <div className="flex items-center justify-between mb-4">
+                      <span className={`text-[9px] font-bold text-${study.color} uppercase tracking-wider bg-${study.color}/10 border border-${study.color}/20 px-2.5 py-1 rounded-full`}>{study.category}</span>
+                      <span className="text-[9px] text-gray-600 font-medium">{study.tag}</span>
+                    </div>
+                    <h3 className="font-display font-bold text-base text-white mb-4 group-hover:text-brand-cyan transition-colors leading-snug">{study.title}</h3>
+                    <div className="space-y-3 flex-1">
+                      {[{l:"Challenge",v:study.challenge,c:"text-red-400"},{l:"Solution",v:study.solution,c:"text-yellow-400"},{l:"Result",v:study.result,c:"text-green-400"}].map((r,ri)=>(
+                        <div key={ri}>
+                          <p className={`text-[9px] font-bold uppercase tracking-wider ${r.c} mb-0.5`}>{r.l}</p>
+                          <p className="text-xs text-gray-400 leading-relaxed">{r.v}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* ═══ 10 · WHY CHOOSE MED CLINIC X ══════════════════ */}
+          <section id="why-us" className="scroll-mt-20 pb-24">
+            <SectionHeader
+              badge="Competitive Edge"
+              icon={<Workflow className="w-4 h-4 text-brand-cyan" />}
+              title="Why Choose Med Clinic X?"
+              subtitle="General digital agencies struggle with HIPAA parameters, medical terminology, and patient check-in paths. We focus strictly on healthcare technology."
+            />
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+              <div className="lg:col-span-5 space-y-5">
+                <div className="grid grid-cols-2 gap-3">
+                  {[
+                    { icon:<Shield className="w-4 h-4 text-brand-cyan" />,        label:"HIPAA Compliant" },
+                    { icon:<Zap className="w-4 h-4 text-brand-cyan" />,           label:"99/100 Speed Score" },
+                    { icon:<Search className="w-4 h-4 text-brand-cyan" />,        label:"Local SEO Ready" },
+                    { icon:<CheckCircle2 className="w-4 h-4 text-brand-cyan" />,  label:"ADA Accessible" },
+                    { icon:<Clock className="w-4 h-4 text-brand-cyan" />,         label:"On-Time Delivery" },
+                    { icon:<TrendingUp className="w-4 h-4 text-brand-cyan" />,    label:"ROI-Focused" },
+                  ].map((b,i)=>(
+                    <div key={i} className="flex items-center gap-2 glass-panel border border-brand-border px-3 py-2.5 rounded-xl">
+                      {b.icon}<span className="text-xs font-semibold text-gray-300">{b.label}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="glass-panel p-5 rounded-2xl border border-brand-cyan/15 bg-brand-cyan/5">
+                  <p className="text-xs font-bold text-brand-cyan uppercase tracking-wider mb-3">Our Standard Principles</p>
+                  <div className="space-y-2 text-xs text-gray-400 font-medium">
+                    {["SSL / AES-256 Field Encryption","Accessibility (WCAG 2.1 AA) Standards","Structured Local Schema Markup","Core Web Vitals Speed Optimization","Milestone-Based Delivery Model","Post-Launch Growth Support"].map((p,i)=>(
+                      <div key={i} className="flex items-center gap-2"><CheckCircle className="w-3.5 h-3.5 text-brand-cyan shrink-0" />{p}</div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="lg:col-span-7 space-y-4">
+                {[
+                  { title:"Healthcare Industry Specialization", desc:"Healthcare websites require more than attractive design. They require patient trust, clear communication, accessibility, security-focused development, and HIPAA-compliant workflows. We combine clinical knowledge with modern web development to build solutions supporting both providers and patients." },
+                  { title:"More Than A Website — A Healthcare Growth Platform", desc:"Your healthcare website can become the foundation for patient acquisition, appointment scheduling, patient communication, AI automation, and future technology integrations. We help organizations move beyond a basic brochure website and build a complete healthcare digital ecosystem." },
+                  { title:"AI + SaaS Engineering Mindset", desc:"We build healthcare platforms with scalability from day one — multi-tenant architectures, AI-ready APIs, and FHIR-compatible data layers. Your platform grows with your organization without expensive re-engineering." },
+                  { title:"Transparent, Milestone-Based Process", desc:"From wireframes and compliance audits to QA testing and post-launch monitoring — we keep you informed at every stage. No hidden costs, no bloated timelines. Every deliverable is reviewed and approved by your team." },
+                ].map((item,idx)=>(
+                  <div key={idx} className="glass-panel p-5 rounded-2xl border border-brand-border hover:border-brand-cyan/15 transition-all">
+                    <h3 className="font-display font-bold text-base text-white mb-2 flex items-center gap-2.5">
+                      <span className="w-1 h-4 bg-brand-cyan rounded-sm shrink-0" />{item.title}
+                    </h3>
+                    <p className="text-sm text-gray-400 leading-relaxed">{item.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* ═══ 11 · FAQ ════════════════════════════════════════ */}
+          <section id="faqs" className="scroll-mt-20 pb-24">
+            <SectionHeader
+              badge="Knowledge Base"
+              icon={<Calendar className="w-4 h-4 text-brand-cyan" />}
+              title="Frequently Asked Questions"
+              subtitle="Design timelines, medical development workflows, budgets, and compliance safeguards — answered."
+            />
+            <div className="max-w-4xl mx-auto space-y-3">
+              {faqData.map((faq, index) => {
+                const isOpen = activeFaq === index;
+                return (
+                  <div key={index} className="glass-panel rounded-2xl border border-brand-border overflow-hidden">
+                    <button
+                      onClick={() => setActiveFaq(isOpen ? null : index)}
+                      className="w-full px-6 py-5 flex items-center justify-between text-left font-display font-bold text-sm text-white hover:text-brand-cyan transition-colors focus:outline-none"
                     >
-                      <div className="px-6 pb-6 pt-1 text-sm text-gray-400 leading-relaxed border-t border-brand-border/30">
-                        {faq.answer}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                      <span>{faq.question}</span>
+                      <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform duration-300 shrink-0 ml-4 ${isOpen ? "rotate-180 text-brand-cyan" : ""}`} />
+                    </button>
+                    <AnimatePresence initial={false}>
+                      {isOpen && (
+                        <motion.div initial={{ height:0, opacity:0 }} animate={{ height:"auto", opacity:1 }} exit={{ height:0, opacity:0 }} transition={{ duration:0.25, ease:"easeInOut" }}>
+                          <div className="px-6 pb-6 pt-1 text-sm text-gray-400 leading-relaxed border-t border-brand-border/30">{faq.answer}</div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+
+          {/* ═══ 12 · FINAL CTA ════════════════════════════════ */}
+          <section id="cta" className="scroll-mt-20">
+            <div className="relative rounded-3xl overflow-hidden border border-brand-cyan/20">
+              <div className="absolute inset-0 bg-gradient-to-br from-[#071828] via-[#0a1f30] to-[#0d1a2e]" />
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(6,182,212,0.12),transparent_60%)]" />
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(99,102,241,0.10),transparent_60%)]" />
+              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-cyan/40 to-transparent" />
+              <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage:"linear-gradient(rgba(255,255,255,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.1) 1px,transparent 1px)", backgroundSize:"48px 48px" }} />
+
+              <div className="relative p-10 sm:p-16 text-center">
+                <div className="inline-flex items-center gap-2 bg-brand-cyan/15 rounded-full px-3 py-1 mb-6">
+                  <Sparkles className="w-3.5 h-3.5 text-brand-cyan animate-pulse" />
+                  <span className="text-[10px] font-bold text-brand-cyan uppercase tracking-wider">Ready to Build?</span>
+                </div>
+                <h2 className="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl text-white tracking-tight leading-tight mb-4 max-w-3xl mx-auto">
+                  Ready To Build Your Healthcare Digital Experience?
+                </h2>
+                <p className="text-sm sm:text-base text-gray-400 leading-relaxed mb-8 max-w-xl mx-auto">
+                  Book a discovery call with our digital health engineering specialists to audit your current platform, calculate ROI, and plan your full software rollout — at no cost.
+                </p>
+
+                <div className="flex flex-wrap justify-center gap-6 mb-10">
+                  {[{val:"99/100",lbl:"Lighthouse Score"},{val:"82%",lbl:"Portal Adoption"},{val:"3.2×",lbl:"Organic Lead Growth"},{val:"68%",lbl:"No-Show Reduction"}].map((s,i)=>(
+                    <div key={i} className="text-center">
+                      <p className="font-display font-extrabold text-2xl text-brand-cyan">{s.val}</p>
+                      <p className="text-[10px] text-gray-500 font-medium mt-0.5">{s.lbl}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex flex-col sm:flex-row justify-center gap-4">
+                  <Link href="/contact" className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold text-sm px-8 py-4 rounded-xl shadow-lg shadow-brand-cyan/20 hover:scale-[1.01] active:scale-[0.99] transition-all">
+                    Schedule a Discovery Call <ArrowRight className="w-4 h-4" />
+                  </Link>
+                  <Link href="/services" className="inline-flex items-center justify-center glass-panel border border-brand-border/60 hover:border-brand-cyan/25 text-sm font-semibold text-gray-300 hover:text-white px-8 py-4 rounded-xl transition-all">
+                    View All Services
+                  </Link>
+                </div>
               </div>
-            );
-          })}
-        </div>
-      </section>
+            </div>
+          </section>
 
-      {/* ═══════════════════════════════════════════════════════════ */}
-      {/* SECTION 13: FINAL CTA */}
-      {/* ═══════════════════════════════════════════════════════════ */}
-      <section className="relative rounded-3xl overflow-hidden border border-brand-cyan/20">
-        {/* Background gradient pattern */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#071828] via-[#0a1f30] to-[#0d1a2e]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(6,182,212,0.12),transparent_60%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(99,102,241,0.10),transparent_60%)]" />
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-cyan/40 to-transparent" />
-
-        {/* Grid pattern overlay */}
-        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px)", backgroundSize: "48px 48px" }} />
-
-        <div className="relative p-10 sm:p-16 text-center">
-          <div className="inline-flex items-center space-x-2 bg-brand-cyan/15 rounded-full px-3 py-1 mb-6">
-            <Sparkles className="w-3.5 h-3.5 text-brand-cyan animate-pulse" />
-            <span className="text-[10px] font-bold text-brand-cyan uppercase tracking-wider">Ready to Build?</span>
-          </div>
-
-          <h2 className="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl text-white tracking-tight leading-tight mb-4 max-w-3xl mx-auto">
-            Ready To Build Your Healthcare Digital Experience?
-          </h2>
-
-          <p className="text-sm sm:text-base text-gray-400 leading-relaxed mb-8 max-w-xl mx-auto">
-            Book a discovery call with our digital health engineering specialists to audit your current platform, calculate ROI, and plan your full software rollout.
-          </p>
-
-          {/* Trust stats row */}
-          <div className="flex flex-wrap justify-center gap-6 mb-10">
-            {[
-              { value: "99/100", label: "Average Lighthouse Score" },
-              { value: "82%", label: "Patient Portal Adoption" },
-              { value: "3.2×", label: "Organic Lead Increase" },
-              { value: "68%", label: "No-Show Reduction" },
-            ].map((stat, i) => (
-              <div key={i} className="text-center">
-                <p className="font-display font-extrabold text-2xl text-brand-cyan">{stat.value}</p>
-                <p className="text-[10px] text-gray-500 font-medium mt-0.5">{stat.label}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold text-sm px-8 py-4 rounded-xl shadow-lg shadow-brand-cyan/20 hover:scale-[1.01] active:scale-[0.99] transition-all"
-            >
-              Schedule a Discovery Call
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-            <Link
-              href="/services"
-              className="inline-flex items-center justify-center glass-panel border border-brand-border/60 hover:border-brand-cyan/25 text-sm font-semibold text-gray-300 hover:text-white px-8 py-4 rounded-xl transition-all"
-            >
-              View All Services
-            </Link>
-          </div>
-        </div>
-      </section>
+        </div>{/* /main content */}
+      </div>{/* /two-column layout */}
     </div>
   );
 }
