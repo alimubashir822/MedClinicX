@@ -170,45 +170,6 @@ function PatientPortalMockup() {
   );
 }
 
-function SEODashboardMockup() {
-  const months  = ["Jan","Feb","Mar","Apr","May","Jun"];
-  const heights = [15, 22, 35, 52, 70, 100];
-  return (
-    <div className="rounded-2xl border border-brand-border overflow-hidden shadow-2xl bg-[#040D18]">
-      <div className="bg-brand-bg px-4 py-2.5 border-b border-brand-border flex items-center justify-between">
-        <span className="text-[10px] font-bold text-white flex items-center gap-1.5">
-          <TrendingUp className="w-3.5 h-3.5 text-green-400" />Search Visibility Growth
-        </span>
-        <span className="text-[9px] text-gray-500">Last 6 months</span>
-      </div>
-      <div className="p-5">
-        <div className="grid grid-cols-3 gap-3 mb-5">
-          {[
-            { label:"Monthly Visitors", after:"2,500+",  icon:<Globe className="w-3.5 h-3.5" />,    before:"120" },
-            { label:"Appt Requests",    after:"+45%",    icon:<Calendar className="w-3.5 h-3.5" />, before:"—" },
-            { label:"Maps Ranking",     after:"Top 3",   icon:<Search className="w-3.5 h-3.5" />,   before:"Page 3" },
-          ].map((s,i)=>(
-            <div key={i} className="glass-panel rounded-xl border border-brand-border p-3 text-center">
-              <div className="text-green-400 flex justify-center mb-1">{s.icon}</div>
-              <p className="text-[11px] font-extrabold text-white">{s.after}</p>
-              <p className="text-[8px] text-gray-500 mt-0.5">{s.label}</p>
-              {s.before !== "—" && <p className="text-[8px] text-gray-600 line-through">{s.before}</p>}
-            </div>
-          ))}
-        </div>
-        <div className="flex items-end justify-between gap-2 h-24 px-1">
-          {months.map((m, i) => (
-            <div key={m} className="flex flex-col items-center gap-1 flex-1">
-              <div className="w-full rounded-t-md bg-gradient-to-t from-brand-cyan/40 to-brand-cyan/80 border border-brand-cyan/30" style={{ height:`${heights[i]}%` }} />
-              <span className="text-[8px] text-gray-500 font-medium">{m}</span>
-            </div>
-          ))}
-        </div>
-        <p className="text-[9px] text-gray-600 text-center mt-2">Organic Patient Visits / Month</p>
-      </div>
-    </div>
-  );
-}
 
 function TechArchitectureDiagram() {
   const nodes = [
@@ -832,22 +793,21 @@ export default function HealthcareWebsitesClient() {
               subtitle="Real results from real healthcare organizations — before and after working with Med Clinic X."
             />
 
-            {/* SEO Dashboard */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center mb-14">
-              <div className="lg:col-span-5 order-last lg:order-first">
-                <SEODashboardMockup />
-              </div>
-              <div className="lg:col-span-7 space-y-5">
-                <span className="text-[9px] font-bold text-brand-cyan uppercase tracking-widest bg-brand-cyan/10 border border-brand-cyan/20 px-3 py-1 rounded-full">SEO Growth</span>
-                <h3 className="font-display font-bold text-3xl text-white tracking-tight leading-snug">Regional Orthopedic Group — Search Visibility Turnaround</h3>
-                <p className="text-base text-slate-300 leading-relaxed font-normal">A 6-location orthopedic group was invisible on Google Maps and generating only 120 organic visitors per month. Their website was slow, had no local schema, and zero review strategy.</p>
-                <div className="space-y-3">
+            {/* SEO Case Study */}
+            <div className="max-w-4xl mx-auto mb-14">
+              <div className="glass-panel p-8 md:p-10 rounded-3xl border border-brand-border flex flex-col md:flex-row gap-8 items-start hover:border-brand-cyan/20 transition-all duration-300">
+                <div className="space-y-5 flex-1">
+                  <span className="text-[9px] font-bold text-brand-cyan uppercase tracking-widest bg-brand-cyan/10 border border-brand-cyan/20 px-3 py-1 rounded-full">SEO Growth</span>
+                  <h3 className="font-display font-bold text-3xl text-white tracking-tight leading-snug">Regional Orthopedic Group — Search Visibility Turnaround</h3>
+                  <p className="text-base text-slate-300 leading-relaxed font-normal">A 6-location orthopedic group was invisible on Google Maps and generating only 120 organic visitors per month. Their website was slow, had no local schema, and zero review strategy.</p>
+                </div>
+                <div className="space-y-3 w-full md:w-[45%] shrink-0">
                   {[
                     { label:"Challenge", text:"Hidden on Maps · 120 monthly visitors · No structured schema",             color:"text-red-400" },
                     { label:"Solution",  text:"Multi-location SEO, JSON-LD injection, map-pack optimization, review flows",  color:"text-yellow-400" },
                     { label:"Result",    text:"Top 3 Maps ranking across all 6 locations · 2,500+ monthly visitors",        color:"text-green-400" },
                   ].map((r,i)=>(
-                    <div key={i} className="glass-panel px-4 py-3.5 rounded-xl border border-brand-border flex items-start gap-3 hover:border-brand-cyan/20 transition-colors duration-200">
+                    <div key={i} className="glass-panel px-4 py-3.5 rounded-xl border border-brand-border/60 flex items-start gap-3 hover:border-brand-cyan/20 transition-colors duration-200">
                       <span className={`text-[9px] font-bold uppercase tracking-wider shrink-0 mt-0.5 ${r.color}`}>{r.label}</span>
                       <span className="text-base text-slate-300 leading-relaxed">{r.text}</span>
                     </div>
