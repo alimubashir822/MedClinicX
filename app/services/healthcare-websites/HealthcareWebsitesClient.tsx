@@ -264,25 +264,40 @@ function FloatingTOC({ activeSection, visible }: { activeSection: string; visibl
 
   return (
     <>
-      {/* Floating button + panel — fixed bottom-right */}
+      {/* Floating button + panel — fixed middle-right */}
       <AnimatePresence>
         {visible && (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            initial={{ opacity: 0, y: "-50%", x: 20, scale: 0.95 }}
+            animate={{ opacity: 1, y: "-50%", x: 0, scale: 1 }}
+            exit={{ opacity: 0, y: "-50%", x: 20, scale: 0.95 }}
             transition={{ duration: 0.25 }}
-            className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2"
+            className="fixed right-4 md:right-6 top-1/2 z-50"
           >
-            {/* Popup Panel */}
+            {/* Trigger Button */}
+            <button
+              onClick={() => setOpen((v) => !v)}
+              className={`flex items-center gap-2 rounded-2xl border shadow-lg shadow-black/40 transition-all duration-200 ${
+                open
+                  ? "bg-brand-cyan text-brand-bg border-brand-cyan"
+                  : "bg-[#060F1E] text-gray-300 border-brand-border hover:border-brand-cyan/40 hover:text-white"
+              } p-3 md:pl-3.5 md:pr-4 md:py-2.5`}
+            >
+              <List className={`w-4 h-4 shrink-0 transition-colors ${open ? "text-brand-bg" : "text-brand-cyan"}`} />
+              <span className="text-[11px] font-bold hidden md:inline">
+                {open ? "Close" : (activeItem ? `${activeItem.num} · ${activeItem.label}` : "Contents")}
+              </span>
+            </button>
+
+            {/* Popup Panel (absolutely positioned to the left of the button) */}
             <AnimatePresence>
               {open && (
                 <motion.div
-                  initial={{ opacity: 0, y: 12, scale: 0.97 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 12, scale: 0.97 }}
+                  initial={{ opacity: 0, y: "-50%", x: 12, scale: 0.97 }}
+                  animate={{ opacity: 1, y: "-50%", x: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: "-50%", x: 12, scale: 0.97 }}
                   transition={{ duration: 0.2 }}
-                  className="bg-[#060F1E] border border-brand-border rounded-2xl shadow-2xl shadow-black/60 overflow-hidden w-56"
+                  className="absolute right-full top-1/2 mr-3 bg-[#060F1E] border border-brand-border rounded-2xl shadow-2xl shadow-black/60 overflow-hidden w-56"
                 >
                   {/* Panel header */}
                   <div className="px-4 py-3 border-b border-brand-border/60 flex items-center justify-between">
@@ -294,12 +309,12 @@ function FloatingTOC({ activeSection, visible }: { activeSection: string; visibl
                       onClick={() => setOpen(false)}
                       className="w-5 h-5 rounded-full bg-brand-border/60 hover:bg-brand-border flex items-center justify-center transition-colors"
                     >
-                      <ChevronDown className="w-3 h-3 text-gray-400" />
+                      <ChevronDown className="w-3 h-3 text-gray-400 -rotate-90" />
                     </button>
                   </div>
 
                   {/* TOC items */}
-                  <nav className="p-2 max-h-[60vh] overflow-y-auto">
+                  <nav className="p-2 max-h-[50vh] overflow-y-auto">
                     {tocItems.map((item) => {
                       const isActive = activeSection === item.id;
                       return (
@@ -343,21 +358,6 @@ function FloatingTOC({ activeSection, visible }: { activeSection: string; visibl
                 </motion.div>
               )}
             </AnimatePresence>
-
-            {/* Trigger Button */}
-            <button
-              onClick={() => setOpen((v) => !v)}
-              className={`flex items-center gap-2.5 pl-3.5 pr-4 py-2.5 rounded-2xl border shadow-lg shadow-black/40 transition-all duration-200 ${
-                open
-                  ? "bg-brand-cyan text-brand-bg border-brand-cyan"
-                  : "bg-[#060F1E] text-gray-300 border-brand-border hover:border-brand-cyan/40 hover:text-white"
-              }`}
-            >
-              <List className={`w-4 h-4 shrink-0 transition-colors ${open ? "text-brand-bg" : "text-brand-cyan"}`} />
-              <span className="text-[11px] font-bold">
-                {open ? "Close" : (activeItem ? `${activeItem.num} · ${activeItem.label}` : "Contents")}
-              </span>
-            </button>
           </motion.div>
         )}
       </AnimatePresence>
@@ -455,44 +455,38 @@ export default function HealthcareWebsitesClient() {
       <div className="space-y-0">
 
           {/* ═══ 01 · HERO ═══════════════════════════════════════ */}
-          <section id="hero" className="scroll-mt-20 pb-24">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-              <motion.div initial={{ opacity:0, x:-25 }} animate={{ opacity:1, x:0 }} transition={{ duration:0.6 }} className="lg:col-span-6 space-y-6">
+          <section id="hero" className="scroll-mt-20 pb-24 pt-8 md:pt-16">
+            <div className="max-w-3xl mx-auto text-center">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="space-y-6 flex flex-col items-center animate-fade-in"
+              >
                 <div className="inline-flex items-center gap-2 bg-brand-cyan/15 rounded-full px-4 py-1 border border-brand-cyan/20">
                   <Sparkles className="w-3.5 h-3.5 text-brand-cyan animate-pulse" />
                   <span className="text-xs font-bold text-brand-cyan uppercase tracking-wider">Premium Web Design</span>
                 </div>
-                <h1 className="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl text-white tracking-tight leading-tight">
+                <h1 className="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white tracking-tight leading-tight text-center">
                   Healthcare Website Design & Development for Organizations That Want to Grow
                 </h1>
-                <p className="text-gray-400 text-sm sm:text-base leading-relaxed">
+                <p className="text-gray-400 text-sm sm:text-base md:text-lg leading-relaxed text-center max-w-2xl mx-auto">
                   Med Clinic X engineers high-performance clinic and hospital platforms built to convert visitors into patients, dominate local search, and sync with your EHR systems.
                 </p>
-                <div className="flex flex-wrap gap-2.5 text-xs font-medium text-gray-400">
-                  {["99/100 Lighthouse Speed","HIPAA Compliant","EHR Integrations","Local SEO Ready"].map((b,i) => (
+                <div className="flex flex-wrap gap-2.5 text-xs font-medium text-gray-400 justify-center">
+                  {["99/100 Lighthouse Speed", "HIPAA Compliant", "EHR Integrations", "Local SEO Ready"].map((b, i) => (
                     <span key={i} className="flex items-center gap-1.5 bg-brand-bg border border-brand-border px-3 py-1.5 rounded-full">
                       <CheckCircle2 className="w-3 h-3 text-brand-cyan" />{b}
                     </span>
                   ))}
                 </div>
-                <div className="flex flex-col sm:flex-row gap-4 pt-2">
+                <div className="flex flex-col sm:flex-row gap-4 pt-4 justify-center w-full">
                   <Link href="/contact" className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold text-sm px-8 py-4 rounded-xl shadow-lg shadow-brand-cyan/15 hover:scale-[1.01] active:scale-[0.99] transition-all">
                     Build Your Healthcare Website <ArrowRight className="w-4 h-4" />
                   </Link>
-                  <Link href="#faqs" onClick={e=>{e.preventDefault();document.getElementById("faqs")?.scrollIntoView({behavior:"smooth"})}} className="inline-flex items-center justify-center glass-panel border border-brand-border hover:border-brand-cyan/35 text-sm font-semibold text-gray-300 hover:text-white px-8 py-4 rounded-xl transition-all">
+                  <Link href="#faqs" onClick={e => { e.preventDefault(); document.getElementById("faqs")?.scrollIntoView({ behavior: "smooth" }) }} className="inline-flex items-center justify-center glass-panel border border-brand-border hover:border-brand-cyan/35 text-sm font-semibold text-gray-300 hover:text-white px-8 py-4 rounded-xl transition-all">
                     Read FAQs
                   </Link>
-                </div>
-              </motion.div>
-
-              <motion.div initial={{ opacity:0, x:25 }} animate={{ opacity:1, x:0 }} transition={{ duration:0.6, delay:0.15 }} className="lg:col-span-6 relative group">
-                <div className="absolute -inset-2 rounded-2xl bg-gradient-to-br from-brand-cyan/20 to-brand-indigo/20 blur-xl opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
-                <div className="relative rounded-2xl overflow-hidden border border-brand-cyan/20 shadow-2xl bg-brand-bg">
-                  <div className="bg-brand-bg/90 px-4 py-2 border-b border-brand-border/60 flex items-center justify-between text-[10px] text-gray-500 font-mono">
-                    <span>healthcare-analytics-dashboard.png</span>
-                    <span className="text-brand-cyan font-bold">LIVE DEMO</span>
-                  </div>
-                  <Image src="/hw_hero_dashboard.png" alt="Healthcare Analytics Dashboard" width={700} height={480} className="w-full h-auto object-cover opacity-95 group-hover:scale-[1.01] transition-transform duration-500" priority />
                 </div>
               </motion.div>
             </div>
