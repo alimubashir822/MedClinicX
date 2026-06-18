@@ -392,7 +392,7 @@ function SectionHeader({ badge, icon, title, subtitle }: { badge: string; icon: 
         <span className="text-xs font-bold text-brand-cyan uppercase tracking-wider">{badge}</span>
       </div>
       <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-white tracking-tight leading-tight">{title}</h2>
-      {subtitle && <p className="mt-4 text-sm sm:text-base text-gray-400 leading-relaxed">{subtitle}</p>}
+      {subtitle && <p className="mt-4 text-base text-gray-400 leading-relaxed">{subtitle}</p>}
     </div>
   );
 }
@@ -470,7 +470,7 @@ export default function HealthcareWebsitesClient() {
                 <h1 className="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white tracking-tight leading-tight text-center">
                   Healthcare Website Design & Development for Organizations That Want to Grow
                 </h1>
-                <p className="text-gray-400 text-sm sm:text-base md:text-lg leading-relaxed text-center max-w-2xl mx-auto">
+                <p className="text-gray-400 text-base leading-relaxed text-center max-w-2xl mx-auto">
                   Med Clinic X engineers high-performance clinic and hospital platforms built to convert visitors into patients, dominate local search, and sync with your EHR systems.
                 </p>
                 <div className="flex flex-wrap gap-2.5 text-xs font-medium text-gray-400 justify-center">
@@ -509,7 +509,7 @@ export default function HealthcareWebsitesClient() {
                     <div className="w-12 h-12 rounded-xl bg-brand-cyan/10 border border-brand-cyan/15 flex items-center justify-center mx-auto">{item.icon}</div>
                     <p className="font-display font-extrabold text-2xl text-white">{item.stat}</p>
                     <p className="text-sm font-bold text-white">{item.label}</p>
-                    <p className="text-[11px] text-gray-500 leading-relaxed">{item.desc}</p>
+                    <p className="text-base text-gray-500 leading-relaxed">{item.desc}</p>
                   </div>
                 ))}
               </div>
@@ -549,7 +549,7 @@ export default function HealthcareWebsitesClient() {
                     {p.icon}
                     <h3 className="font-display font-bold text-base text-white">{p.title}</h3>
                   </div>
-                  <p className="text-sm text-gray-400 leading-relaxed mb-4">{p.desc}</p>
+                  <p className="text-base text-gray-400 leading-relaxed mb-4">{p.desc}</p>
                   <div className="bg-red-500/5 border border-red-500/15 rounded-lg px-4 py-2.5">
                     <p className="text-[10px] font-bold text-red-400 uppercase tracking-wider mb-0.5">Industry Data</p>
                     <p className="text-xs text-gray-400">{p.impact}</p>
@@ -591,7 +591,7 @@ export default function HealthcareWebsitesClient() {
                     {sol.icon}
                   </div>
                   <h3 className="font-display font-bold text-base text-white mb-2">{sol.title}</h3>
-                  <p className="text-sm text-gray-400 leading-relaxed mb-4">{sol.desc}</p>
+                  <p className="text-base text-gray-400 leading-relaxed mb-4">{sol.desc}</p>
                   <div className="bg-brand-cyan/5 border border-brand-cyan/15 rounded-lg px-4 py-2">
                     <p className="text-[10px] font-bold text-brand-cyan">{sol.outcome}</p>
                   </div>
@@ -603,7 +603,7 @@ export default function HealthcareWebsitesClient() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
               <div className="lg:col-span-7 space-y-4">
                 <h3 className="font-display font-bold text-2xl text-white">How Patients Find, Choose & Stay With Your Practice</h3>
-                <p className="text-sm text-gray-400 leading-relaxed">Every touchpoint in the patient journey — from Google search to confirmed appointment — is an opportunity. We engineer each step to work in your favor.</p>
+                <p className="text-base text-gray-400 leading-relaxed">Every touchpoint in the patient journey — from Google search to confirmed appointment — is an opportunity. We engineer each step to work in your favor.</p>
                 {[
                   { step:"01", label:"Google Search", desc:"Patient searches for a healthcare provider near them. Your SEO-optimized site appears in the Top 3 results." },
                   { step:"02", label:"Website Visit",  desc:"Patient lands on a fast, professional, trust-building healthcare website that answers their questions." },
@@ -615,7 +615,7 @@ export default function HealthcareWebsitesClient() {
                     <span className="w-7 h-7 rounded-full bg-brand-cyan/15 border border-brand-cyan/25 text-[10px] font-bold text-brand-cyan flex items-center justify-center shrink-0 mt-0.5">{s.step}</span>
                     <div>
                       <p className="text-sm font-bold text-white">{s.label}</p>
-                      <p className="text-xs text-gray-500 leading-relaxed mt-0.5">{s.desc}</p>
+                      <p className="text-base text-gray-500 leading-relaxed mt-0.5">{s.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -652,7 +652,7 @@ export default function HealthcareWebsitesClient() {
                 <div key={i} className={`lg:col-span-${card.col} glass-panel p-6 rounded-2xl border border-brand-border hover:border-brand-cyan/15 transition-all flex flex-col`}>
                   <div className="w-10 h-10 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center mb-4">{card.icon}</div>
                   <h3 className="font-display font-bold text-lg text-white mb-2">{card.title}</h3>
-                  <p className="text-sm text-gray-400 leading-relaxed flex-1 mb-4">{card.desc}</p>
+                  <p className="text-base text-gray-400 leading-relaxed flex-1 mb-4">{card.desc}</p>
                   <div className="border-t border-brand-border/40 pt-4">
                     {"tags" in card ? (
                       <>
@@ -708,7 +708,7 @@ export default function HealthcareWebsitesClient() {
                 <div key={i} className="glass-panel p-5 rounded-xl border border-brand-border hover:border-brand-cyan/15 transition-colors group">
                   <div className="w-9 h-9 rounded-lg bg-brand-cyan/10 border border-brand-cyan/15 flex items-center justify-center mb-3 group-hover:bg-brand-cyan/20 transition-all">{f.icon}</div>
                   <h3 className="font-display font-bold text-sm text-white mb-1.5">{f.title}</h3>
-                  <p className="text-xs text-gray-400 leading-relaxed">{f.desc}</p>
+                  <p className="text-base text-gray-400 leading-relaxed">{f.desc}</p>
                 </div>
               ))}
             </div>
@@ -745,7 +745,7 @@ export default function HealthcareWebsitesClient() {
                   <div className="w-12 h-12 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center mb-4 group-hover:bg-brand-cyan/20 transition-all">{item.icon}</div>
                   <span className="text-[9px] font-bold text-brand-cyan uppercase tracking-wider mb-1">{item.num} // segment</span>
                   <h3 className="font-display font-bold text-base text-white mb-2">{item.segment}</h3>
-                  <p className="text-xs text-gray-400 leading-relaxed flex-1">{item.desc}</p>
+                  <p className="text-base text-gray-400 leading-relaxed flex-1">{item.desc}</p>
                   <ul className="mt-4 pt-4 border-t border-brand-border/40 space-y-1.5">
                     {item.highlights.map((h,hi)=>(
                       <li key={hi} className="flex items-center gap-1.5 text-[10px] text-gray-500 font-medium">
@@ -791,7 +791,7 @@ export default function HealthcareWebsitesClient() {
                       <span className={`absolute -top-2 -right-2 w-6 h-6 rounded-full bg-${step.color} text-[9px] font-extrabold text-brand-bg flex items-center justify-center`}>{step.step}</span>
                     </div>
                     <h3 className="font-display font-bold text-base text-white mb-2">{step.label}</h3>
-                    <p className="text-xs text-gray-400 leading-relaxed">{step.desc}</p>
+                    <p className="text-base text-gray-400 leading-relaxed">{step.desc}</p>
                   </motion.div>
                 ))}
               </div>
@@ -850,7 +850,7 @@ export default function HealthcareWebsitesClient() {
               <div className="lg:col-span-7 space-y-4">
                 <span className="text-[9px] font-bold text-brand-cyan uppercase tracking-wider bg-brand-cyan/10 border border-brand-cyan/20 px-2.5 py-1 rounded-full">SEO Growth</span>
                 <h3 className="font-display font-bold text-2xl text-white">Regional Orthopedic Group — Search Visibility Turnaround</h3>
-                <p className="text-sm text-gray-400 leading-relaxed">A 6-location orthopedic group was invisible on Google Maps and generating only 120 organic visitors per month. Their website was slow, had no local schema, and zero review strategy.</p>
+                <p className="text-base text-gray-400 leading-relaxed">A 6-location orthopedic group was invisible on Google Maps and generating only 120 organic visitors per month. Their website was slow, had no local schema, and zero review strategy.</p>
                 <div className="space-y-3">
                   {[
                     { label:"Challenge", text:"Hidden on Maps · 120 monthly visitors · No structured schema",             color:"text-red-400" },
@@ -859,7 +859,7 @@ export default function HealthcareWebsitesClient() {
                   ].map((r,i)=>(
                     <div key={i} className="glass-panel px-4 py-3 rounded-xl border border-brand-border flex items-start gap-3">
                       <span className={`text-[9px] font-bold uppercase tracking-wider shrink-0 mt-0.5 ${r.color}`}>{r.label}</span>
-                      <span className="text-xs text-gray-400 leading-relaxed">{r.text}</span>
+                      <span className="text-base text-gray-400 leading-relaxed">{r.text}</span>
                     </div>
                   ))}
                 </div>
@@ -885,7 +885,7 @@ export default function HealthcareWebsitesClient() {
                       {[{l:"Challenge",v:study.challenge,c:"text-red-400"},{l:"Solution",v:study.solution,c:"text-yellow-400"},{l:"Result",v:study.result,c:"text-green-400"}].map((r,ri)=>(
                         <div key={ri}>
                           <p className={`text-[9px] font-bold uppercase tracking-wider ${r.c} mb-0.5`}>{r.l}</p>
-                          <p className="text-xs text-gray-400 leading-relaxed">{r.v}</p>
+                          <p className="text-base text-gray-400 leading-relaxed">{r.v}</p>
                         </div>
                       ))}
                     </div>
@@ -939,7 +939,7 @@ export default function HealthcareWebsitesClient() {
                     <h3 className="font-display font-bold text-base text-white mb-2 flex items-center gap-2.5">
                       <span className="w-1 h-4 bg-brand-cyan rounded-sm shrink-0" />{item.title}
                     </h3>
-                    <p className="text-sm text-gray-400 leading-relaxed">{item.desc}</p>
+                    <p className="text-base text-gray-400 leading-relaxed">{item.desc}</p>
                   </div>
                 ))}
               </div>
@@ -969,7 +969,7 @@ export default function HealthcareWebsitesClient() {
                     <AnimatePresence initial={false}>
                       {isOpen && (
                         <motion.div initial={{ height:0, opacity:0 }} animate={{ height:"auto", opacity:1 }} exit={{ height:0, opacity:0 }} transition={{ duration:0.25, ease:"easeInOut" }}>
-                          <div className="px-6 pb-6 pt-1 text-sm text-gray-400 leading-relaxed border-t border-brand-border/30">{faq.answer}</div>
+                          <div className="px-6 pb-6 pt-1 text-base text-gray-400 leading-relaxed border-t border-brand-border/30">{faq.answer}</div>
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -996,7 +996,7 @@ export default function HealthcareWebsitesClient() {
                 <h2 className="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl text-white tracking-tight leading-tight mb-4 max-w-3xl mx-auto">
                   Ready To Build Your Healthcare Digital Experience?
                 </h2>
-                <p className="text-sm sm:text-base text-gray-400 leading-relaxed mb-8 max-w-xl mx-auto">
+                <p className="text-base text-gray-400 leading-relaxed mb-8 max-w-xl mx-auto">
                   Book a discovery call with our digital health engineering specialists to audit your current platform, calculate ROI, and plan your full software rollout — at no cost.
                 </p>
 
