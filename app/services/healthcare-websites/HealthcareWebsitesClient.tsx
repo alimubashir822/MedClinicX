@@ -386,13 +386,13 @@ const faqData = [
 // ─────────────────────────────────────────────────────────────
 function SectionHeader({ badge, icon, title, subtitle }: { badge: string; icon: React.ReactNode; title: React.ReactNode; subtitle?: string }) {
   return (
-    <div className="text-center max-w-3xl mx-auto mb-12">
+    <div className="text-center max-w-3xl mx-auto mb-16">
       <div className="inline-flex items-center space-x-2 bg-brand-cyan/15 rounded-full px-3.5 py-1 mb-4 border border-brand-cyan/20">
         {icon}
-        <span className="text-xs font-bold text-brand-cyan uppercase tracking-wider">{badge}</span>
+        <span className="text-[10px] font-bold text-brand-cyan uppercase tracking-widest">{badge}</span>
       </div>
-      <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-white tracking-tight leading-tight">{title}</h2>
-      {subtitle && <p className="mt-4 text-base text-gray-400 leading-relaxed">{subtitle}</p>}
+      <h2 className="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-slate-400/90 tracking-tight leading-tight">{title}</h2>
+      {subtitle && <p className="mt-4 text-base text-slate-300/95 leading-relaxed font-normal">{subtitle}</p>}
     </div>
   );
 }
@@ -465,12 +465,12 @@ export default function HealthcareWebsitesClient() {
               >
                 <div className="inline-flex items-center gap-2 bg-brand-cyan/15 rounded-full px-4 py-1 border border-brand-cyan/20">
                   <Sparkles className="w-3.5 h-3.5 text-brand-cyan animate-pulse" />
-                  <span className="text-xs font-bold text-brand-cyan uppercase tracking-wider">Premium Web Design</span>
+                  <span className="text-[10px] font-bold text-brand-cyan uppercase tracking-widest">Premium Web Design</span>
                 </div>
-                <h1 className="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white tracking-tight leading-tight text-center">
-                  Healthcare Website Design & Development for Organizations That Want to Grow
+                <h1 className="font-display font-extrabold text-4xl sm:text-5xl md:text-6xl text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-slate-400 tracking-tight leading-[1.12] text-center max-w-4xl mx-auto">
+                  Healthcare Website Design & Development for Organizations That <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan via-brand-cyan to-brand-indigo">Want to Grow</span>
                 </h1>
-                <p className="text-gray-400 text-base leading-relaxed text-center max-w-2xl mx-auto">
+                <p className="text-slate-300 text-base leading-relaxed text-center max-w-2xl mx-auto font-normal">
                   Med Clinic X engineers high-performance clinic and hospital platforms built to convert visitors into patients, dominate local search, and sync with your EHR systems.
                 </p>
                 <div className="flex flex-wrap gap-2.5 text-xs font-medium text-gray-400 justify-center">
@@ -494,22 +494,22 @@ export default function HealthcareWebsitesClient() {
 
           {/* ═══ 02 · TRUST BAR ══════════════════════════════════ */}
           <section id="trust" className="scroll-mt-20 pb-24">
-            <div className="glass-panel rounded-2xl border border-brand-border p-8">
-              <p className="text-center text-xs font-bold text-gray-500 uppercase tracking-widest mb-8">
+            <div className="space-y-8">
+              <p className="text-center text-[10px] font-bold text-slate-500 uppercase tracking-widest">
                 Trusted by Healthcare Organizations Across the United States
               </p>
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                 {[
                   { icon:<Users className="w-6 h-6 text-brand-cyan" />,    label:"Doctors & Physicians",   desc:"Private practices, solo physicians, and specialist groups.",  stat:"150+" },
                   { icon:<Activity className="w-6 h-6 text-brand-cyan" />, label:"Medical Clinics",        desc:"Multi-provider outpatient clinics across the US.",           stat:"80+" },
                   { icon:<Globe className="w-6 h-6 text-brand-cyan" />,    label:"Hospitals & Networks",   desc:"Hospital systems, multi-location healthcare networks.",       stat:"25+" },
                   { icon:<Zap className="w-6 h-6 text-brand-cyan" />,      label:"Healthcare Startups",    desc:"Health-tech companies and digital health platforms.",         stat:"40+" },
                 ].map((item,i)=>(
-                  <div key={i} className="text-center space-y-2">
-                    <div className="w-12 h-12 rounded-xl bg-brand-cyan/10 border border-brand-cyan/15 flex items-center justify-center mx-auto">{item.icon}</div>
-                    <p className="font-display font-extrabold text-2xl text-white">{item.stat}</p>
-                    <p className="text-sm font-bold text-white">{item.label}</p>
-                    <p className="text-base text-gray-500 leading-relaxed">{item.desc}</p>
+                  <div key={i} className="glass-panel p-6 rounded-2xl border border-brand-border hover:border-brand-cyan/30 hover:shadow-[0_0_30px_rgba(6,182,212,0.08)] hover:-translate-y-0.5 transition-all duration-300 flex flex-col items-center text-center space-y-3 group">
+                    <div className="w-12 h-12 rounded-xl bg-brand-cyan/10 border border-brand-cyan/15 flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-300">{item.icon}</div>
+                    <p className="font-display font-extrabold text-3xl text-white tracking-tight leading-none">{item.stat}</p>
+                    <p className="text-xs font-bold text-brand-cyan uppercase tracking-widest">{item.label}</p>
+                    <p className="text-base text-slate-300 leading-relaxed font-normal">{item.desc}</p>
                   </div>
                 ))}
               </div>
@@ -544,12 +544,12 @@ export default function HealthcareWebsitesClient() {
                 { icon:<XCircle className="w-5 h-5 text-red-400" />,    title:"Poor SEO Visibility",       desc:"If you're not on the first page of Google or the Google Map Pack, new patients simply cannot find you.", impact:"68% of online experiences begin with a search engine." },
                 { icon:<XCircle className="w-5 h-5 text-red-400" />,    title:"Bad Mobile Experience",     desc:"Over 70% of healthcare searches happen on mobile. A non-mobile-optimized site means massive patient drop-off.", impact:"Sites with poor mobile UX see 53% higher bounce rates." },
               ].map((p,i)=>(
-                <div key={i} className="glass-panel p-6 rounded-2xl border border-red-500/10 hover:border-red-500/20 transition-all">
-                  <div className="flex items-start gap-3 mb-3">
-                    {p.icon}
-                    <h3 className="font-display font-bold text-base text-white">{p.title}</h3>
+                <div key={i} className="glass-panel p-6 rounded-2xl border border-red-500/10 hover:border-red-500/30 hover:shadow-[0_0_30px_rgba(239,68,68,0.05)] hover:-translate-y-0.5 transition-all duration-300 group">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-8 h-8 rounded-lg bg-red-500/10 border border-red-500/15 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">{p.icon}</div>
+                    <h3 className="font-display font-bold text-lg text-white">{p.title}</h3>
                   </div>
-                  <p className="text-base text-gray-400 leading-relaxed mb-4">{p.desc}</p>
+                  <p className="text-base text-slate-300 leading-relaxed mb-4">{p.desc}</p>
                   <div className="bg-red-500/5 border border-red-500/15 rounded-lg px-4 py-2.5">
                     <p className="text-[10px] font-bold text-red-400 uppercase tracking-wider mb-0.5">Industry Data</p>
                     <p className="text-xs text-gray-400">{p.impact}</p>
@@ -586,14 +586,14 @@ export default function HealthcareWebsitesClient() {
                 { icon:<Activity className="w-5 h-5 text-brand-cyan" />, title:"Conversion-Focused Development",  desc:"HIPAA-compliant intake forms, EHR booking widgets, and trust signals that turn website visitors into confirmed appointments.", outcome:"↑ Conversion rate from 2.4% to 7.8%" },
                 { icon:<Cpu className="w-5 h-5 text-brand-cyan" />,      title:"AI Healthcare Integration",       desc:"AI-powered 24/7 receptionists, automated recall flows, and smart triage bots that reduce admin hours and capture more leads.", outcome:"↑ 74% reduction in response delay" },
               ].map((sol,i)=>(
-                <div key={i} className="glass-panel p-6 rounded-2xl border border-brand-border hover:border-brand-cyan/20 transition-all group">
-                  <div className="w-10 h-10 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center mb-4 group-hover:bg-brand-cyan/20 transition-all">
+                <div key={i} className="glass-panel p-6 rounded-2xl border border-brand-border hover:border-brand-cyan/30 hover:shadow-[0_0_30px_rgba(6,182,212,0.08)] hover:-translate-y-0.5 transition-all duration-300 group">
+                  <div className="w-10 h-10 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center mb-4 group-hover:bg-brand-cyan/20 group-hover:scale-105 transition-all duration-300">
                     {sol.icon}
                   </div>
-                  <h3 className="font-display font-bold text-base text-white mb-2">{sol.title}</h3>
-                  <p className="text-base text-gray-400 leading-relaxed mb-4">{sol.desc}</p>
-                  <div className="bg-brand-cyan/5 border border-brand-cyan/15 rounded-lg px-4 py-2">
-                    <p className="text-[10px] font-bold text-brand-cyan">{sol.outcome}</p>
+                  <h3 className="font-display font-bold text-lg text-white mb-2">{sol.title}</h3>
+                  <p className="text-base text-slate-300 leading-relaxed mb-4">{sol.desc}</p>
+                  <div className="bg-brand-cyan/10 border border-brand-cyan/20 rounded-xl px-4 py-2.5">
+                    <p className="text-xs font-bold text-brand-cyan tracking-wide">{sol.outcome}</p>
                   </div>
                 </div>
               ))}
@@ -614,8 +614,8 @@ export default function HealthcareWebsitesClient() {
                   <div key={i} className="flex gap-4 items-start">
                     <span className="w-7 h-7 rounded-full bg-brand-cyan/15 border border-brand-cyan/25 text-[10px] font-bold text-brand-cyan flex items-center justify-center shrink-0 mt-0.5">{s.step}</span>
                     <div>
-                      <p className="text-sm font-bold text-white">{s.label}</p>
-                      <p className="text-base text-gray-500 leading-relaxed mt-0.5">{s.desc}</p>
+                      <p className="text-sm font-bold text-white tracking-wide">{s.label}</p>
+                      <p className="text-base text-slate-400 leading-relaxed mt-0.5 font-normal">{s.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -649,10 +649,10 @@ export default function HealthcareWebsitesClient() {
                 { col:4, icon:<Lock className="w-4.5 h-4.5 text-brand-cyan" />,      title:"Patient Portal Development",         desc:"Secure dashboards connecting providers and patients. Medical files, prescriptions, scheduling, and installment billing.", features:["Patient login credentials","Diagnostic reports","Secure message lockers"] },
                 { col:4, icon:<Cpu className="w-4.5 h-4.5 text-brand-cyan" />,       title:"AI Healthcare Solutions",            desc:"AI-powered tools to enhance patient communication, reduce admin hours, and streamline follow-up workflows.", features:["AI Healthcare Assistants","Appointment automation","SMS communication flows"] },
               ].map((card,i)=>(
-                <div key={i} className={`lg:col-span-${card.col} glass-panel p-6 rounded-2xl border border-brand-border hover:border-brand-cyan/15 transition-all flex flex-col`}>
-                  <div className="w-10 h-10 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center mb-4">{card.icon}</div>
-                  <h3 className="font-display font-bold text-lg text-white mb-2">{card.title}</h3>
-                  <p className="text-base text-gray-400 leading-relaxed flex-1 mb-4">{card.desc}</p>
+                <div key={i} className={`lg:col-span-${card.col} glass-panel p-6 rounded-2xl border border-brand-border hover:border-brand-cyan/30 hover:shadow-[0_0_30px_rgba(6,182,212,0.08)] hover:-translate-y-0.5 transition-all duration-300 flex flex-col group`}>
+                  <div className="w-10 h-10 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center mb-4 group-hover:bg-brand-cyan/20 group-hover:scale-105 transition-all duration-300">{card.icon}</div>
+                  <h3 className="font-display font-bold text-xl text-white mb-2">{card.title}</h3>
+                  <p className="text-base text-slate-300 leading-relaxed flex-1 mb-4">{card.desc}</p>
                   <div className="border-t border-brand-border/40 pt-4">
                     {"tags" in card ? (
                       <>
@@ -705,10 +705,10 @@ export default function HealthcareWebsitesClient() {
                 { icon:<BarChart3 className="w-5 h-5 text-brand-cyan" />,   title:"Analytics & Conversion Tracking",  desc:"Google Analytics 4, heatmaps, and goal funnels set up to measure patient acquisition metrics from day one." },
                 { icon:<Lock className="w-5 h-5 text-brand-cyan" />,        title:"Secure Patient Portals",           desc:"FHIR-synced dashboards where patients access records, lab results, invoices, and communicate with clinical staff." },
               ].map((f,i)=>(
-                <div key={i} className="glass-panel p-5 rounded-xl border border-brand-border hover:border-brand-cyan/15 transition-colors group">
-                  <div className="w-9 h-9 rounded-lg bg-brand-cyan/10 border border-brand-cyan/15 flex items-center justify-center mb-3 group-hover:bg-brand-cyan/20 transition-all">{f.icon}</div>
-                  <h3 className="font-display font-bold text-sm text-white mb-1.5">{f.title}</h3>
-                  <p className="text-base text-gray-400 leading-relaxed">{f.desc}</p>
+                <div key={i} className="glass-panel p-6 rounded-2xl border border-brand-border hover:border-brand-cyan/30 hover:shadow-[0_0_35px_rgba(6,182,212,0.06)] hover:-translate-y-0.5 transition-all duration-300 group">
+                  <div className="w-10 h-10 rounded-xl bg-brand-cyan/10 border border-brand-cyan/15 flex items-center justify-center mb-4 group-hover:bg-brand-cyan/20 group-hover:scale-105 transition-all duration-300">{f.icon}</div>
+                  <h3 className="font-display font-bold text-base text-white mb-2">{f.title}</h3>
+                  <p className="text-base text-slate-300 leading-relaxed">{f.desc}</p>
                 </div>
               ))}
             </div>
@@ -741,11 +741,11 @@ export default function HealthcareWebsitesClient() {
                 { icon:<Globe className="w-6 h-6 text-brand-cyan" />,   num:"03", segment:"Hospitals & Networks",       desc:"Develop scalable digital experiences that support multiple departments, service lines, and patient needs across locations.",      highlights:["Department routing","Multi-location SEO","Patient portals","Staff directories"] },
                 { icon:<Zap className="w-6 h-6 text-brand-cyan" />,     num:"04", segment:"Dental Practices & Startups",desc:"Launch dental clinics and healthcare SaaS products with modern, robust compliance technology and AI-ready integrations.",      highlights:["Dental SEO focus","MVP development","HIPAA architecture","AI integrations"] },
               ].map((item,i)=>(
-                <div key={i} className="glass-panel p-6 rounded-2xl border border-brand-border hover:border-brand-cyan/20 hover:-translate-y-1 transition-all flex flex-col group">
-                  <div className="w-12 h-12 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center mb-4 group-hover:bg-brand-cyan/20 transition-all">{item.icon}</div>
+                <div key={i} className="glass-panel p-6 rounded-2xl border border-brand-border hover:border-brand-cyan/30 hover:shadow-[0_0_30px_rgba(6,182,212,0.08)] hover:-translate-y-1 transition-all duration-300 flex flex-col group">
+                  <div className="w-12 h-12 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center mb-4 group-hover:bg-brand-cyan/20 group-hover:scale-105 transition-all duration-300">{item.icon}</div>
                   <span className="text-[9px] font-bold text-brand-cyan uppercase tracking-wider mb-1">{item.num} // segment</span>
-                  <h3 className="font-display font-bold text-base text-white mb-2">{item.segment}</h3>
-                  <p className="text-base text-gray-400 leading-relaxed flex-1">{item.desc}</p>
+                  <h3 className="font-display font-bold text-lg text-white mb-2">{item.segment}</h3>
+                  <p className="text-base text-slate-300 leading-relaxed flex-1">{item.desc}</p>
                   <ul className="mt-4 pt-4 border-t border-brand-border/40 space-y-1.5">
                     {item.highlights.map((h,hi)=>(
                       <li key={hi} className="flex items-center gap-1.5 text-[10px] text-gray-500 font-medium">
@@ -784,14 +784,14 @@ export default function HealthcareWebsitesClient() {
                     whileInView={{ opacity:1, y:0 }}
                     transition={{ duration:0.4, delay: i * 0.1 }}
                     viewport={{ once:true }}
-                    className="flex flex-col items-center text-center"
+                    className="flex flex-col items-center text-center group"
                   >
-                    <div className={`relative w-20 h-20 rounded-2xl bg-${step.color}/10 border border-${step.color}/20 flex items-center justify-center mb-4 text-${step.color}`}>
+                    <div className={`relative w-20 h-20 rounded-2xl bg-${step.color}/10 border border-${step.color}/20 flex items-center justify-center mb-4 text-${step.color} group-hover:scale-105 transition-all duration-300`}>
                       {step.icon}
-                      <span className={`absolute -top-2 -right-2 w-6 h-6 rounded-full bg-${step.color} text-[9px] font-extrabold text-brand-bg flex items-center justify-center`}>{step.step}</span>
+                      <span className={`absolute -top-2 -right-2 w-6 h-6 rounded-full bg-${step.color} text-[9px] font-extrabold text-brand-bg flex items-center justify-center shadow-lg`}>{step.step}</span>
                     </div>
-                    <h3 className="font-display font-bold text-base text-white mb-2">{step.label}</h3>
-                    <p className="text-base text-gray-400 leading-relaxed">{step.desc}</p>
+                    <h3 className="font-display font-bold text-lg text-white mb-2 tracking-wide">{step.label}</h3>
+                    <p className="text-base text-slate-300 leading-relaxed font-normal">{step.desc}</p>
                   </motion.div>
                 ))}
               </div>
@@ -847,19 +847,19 @@ export default function HealthcareWebsitesClient() {
               <div className="lg:col-span-5 order-last lg:order-first">
                 <SEODashboardMockup />
               </div>
-              <div className="lg:col-span-7 space-y-4">
-                <span className="text-[9px] font-bold text-brand-cyan uppercase tracking-wider bg-brand-cyan/10 border border-brand-cyan/20 px-2.5 py-1 rounded-full">SEO Growth</span>
-                <h3 className="font-display font-bold text-2xl text-white">Regional Orthopedic Group — Search Visibility Turnaround</h3>
-                <p className="text-base text-gray-400 leading-relaxed">A 6-location orthopedic group was invisible on Google Maps and generating only 120 organic visitors per month. Their website was slow, had no local schema, and zero review strategy.</p>
+              <div className="lg:col-span-7 space-y-5">
+                <span className="text-[9px] font-bold text-brand-cyan uppercase tracking-widest bg-brand-cyan/10 border border-brand-cyan/20 px-3 py-1 rounded-full">SEO Growth</span>
+                <h3 className="font-display font-bold text-3xl text-white tracking-tight leading-snug">Regional Orthopedic Group — Search Visibility Turnaround</h3>
+                <p className="text-base text-slate-300 leading-relaxed font-normal">A 6-location orthopedic group was invisible on Google Maps and generating only 120 organic visitors per month. Their website was slow, had no local schema, and zero review strategy.</p>
                 <div className="space-y-3">
                   {[
                     { label:"Challenge", text:"Hidden on Maps · 120 monthly visitors · No structured schema",             color:"text-red-400" },
                     { label:"Solution",  text:"Multi-location SEO, JSON-LD injection, map-pack optimization, review flows",  color:"text-yellow-400" },
                     { label:"Result",    text:"Top 3 Maps ranking across all 6 locations · 2,500+ monthly visitors",        color:"text-green-400" },
                   ].map((r,i)=>(
-                    <div key={i} className="glass-panel px-4 py-3 rounded-xl border border-brand-border flex items-start gap-3">
+                    <div key={i} className="glass-panel px-4 py-3.5 rounded-xl border border-brand-border flex items-start gap-3 hover:border-brand-cyan/20 transition-colors duration-200">
                       <span className={`text-[9px] font-bold uppercase tracking-wider shrink-0 mt-0.5 ${r.color}`}>{r.label}</span>
-                      <span className="text-base text-gray-400 leading-relaxed">{r.text}</span>
+                      <span className="text-base text-slate-300 leading-relaxed">{r.text}</span>
                     </div>
                   ))}
                 </div>
@@ -873,19 +873,19 @@ export default function HealthcareWebsitesClient() {
                 { category:"Patient Portal", title:"Multi-Clinic Patient Portal Rebuild",challenge:"Outdated portal with 18% patient adoption, no FHIR sync.", solution:"Next.js rebuild with FHIR APIs, Stripe billing, HIPAA chat.", result:"Adoption increased from 18% to 82% within 3 months.",   color:"brand-cyan",   tag:"Portal Dev" },
                 { category:"SEO Growth",     title:"Dental Group Local SEO Campaign",   challenge:"Dental group on Maps page 3, 95 organic leads/month.", solution:"Local SEO strategy + review automation + schema injection.", result:"Top 3 Map Pack · 1,800 organic leads/month within 90 days.", color:"brand-cyan", tag:"Growth & SEO" },
               ].map((study,i)=>(
-                <div key={i} className="glass-panel rounded-2xl border border-brand-border overflow-hidden hover:border-brand-cyan/20 transition-all group flex flex-col">
+                <div key={i} className="glass-panel rounded-2xl border border-brand-border overflow-hidden hover:border-brand-cyan/30 hover:shadow-[0_0_30px_rgba(6,182,212,0.08)] hover:-translate-y-0.5 transition-all duration-300 group flex flex-col">
                   <div className={`h-1 bg-gradient-to-r from-${study.color} to-brand-indigo`} />
                   <div className="p-6 flex flex-col flex-1">
                     <div className="flex items-center justify-between mb-4">
-                      <span className={`text-[9px] font-bold text-${study.color} uppercase tracking-wider bg-${study.color}/10 border border-${study.color}/20 px-2.5 py-1 rounded-full`}>{study.category}</span>
-                      <span className="text-[9px] text-gray-600 font-medium">{study.tag}</span>
+                      <span className={`text-[9px] font-bold text-${study.color} uppercase tracking-widest bg-${study.color}/10 border border-${study.color}/20 px-2.5 py-1 rounded-full`}>{study.category}</span>
+                      <span className="text-[9px] text-gray-500 font-medium">{study.tag}</span>
                     </div>
-                    <h3 className="font-display font-bold text-base text-white mb-4 group-hover:text-brand-cyan transition-colors leading-snug">{study.title}</h3>
+                    <h3 className="font-display font-bold text-lg text-white mb-4 group-hover:text-brand-cyan transition-colors leading-snug">{study.title}</h3>
                     <div className="space-y-3 flex-1">
                       {[{l:"Challenge",v:study.challenge,c:"text-red-400"},{l:"Solution",v:study.solution,c:"text-yellow-400"},{l:"Result",v:study.result,c:"text-green-400"}].map((r,ri)=>(
                         <div key={ri}>
                           <p className={`text-[9px] font-bold uppercase tracking-wider ${r.c} mb-0.5`}>{r.l}</p>
-                          <p className="text-base text-gray-400 leading-relaxed">{r.v}</p>
+                          <p className="text-base text-slate-300 leading-relaxed font-normal">{r.v}</p>
                         </div>
                       ))}
                     </div>
@@ -935,11 +935,11 @@ export default function HealthcareWebsitesClient() {
                   { title:"AI + SaaS Engineering Mindset", desc:"We build healthcare platforms with scalability from day one — multi-tenant architectures, AI-ready APIs, and FHIR-compatible data layers. Your platform grows with your organization without expensive re-engineering." },
                   { title:"Transparent, Milestone-Based Process", desc:"From wireframes and compliance audits to QA testing and post-launch monitoring — we keep you informed at every stage. No hidden costs, no bloated timelines. Every deliverable is reviewed and approved by your team." },
                 ].map((item,idx)=>(
-                  <div key={idx} className="glass-panel p-5 rounded-2xl border border-brand-border hover:border-brand-cyan/15 transition-all">
-                    <h3 className="font-display font-bold text-base text-white mb-2 flex items-center gap-2.5">
+                  <div key={idx} className="glass-panel p-6 rounded-2xl border border-brand-border hover:border-brand-cyan/25 hover:shadow-[0_0_25px_rgba(6,182,212,0.05)] hover:-translate-y-0.5 transition-all duration-300">
+                    <h3 className="font-display font-bold text-lg text-white mb-2 flex items-center gap-2.5">
                       <span className="w-1 h-4 bg-brand-cyan rounded-sm shrink-0" />{item.title}
                     </h3>
-                    <p className="text-base text-gray-400 leading-relaxed">{item.desc}</p>
+                    <p className="text-base text-slate-300 leading-relaxed font-normal">{item.desc}</p>
                   </div>
                 ))}
               </div>
