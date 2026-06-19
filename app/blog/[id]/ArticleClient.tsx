@@ -27,6 +27,56 @@ export default function ArticleClient({ post }: ArticleClientProps) {
   const [openFaqs, setOpenFaqs] = useState<Record<number, boolean>>({});
   const [scrollProgress, setScrollProgress] = useState<number>(0);
 
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [newsletterStatus, setNewsletterStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  const [checklistEmail, setChecklistEmail] = useState("");
+  const [checklistStatus, setChecklistStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  const handleNewsletterSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newsletterEmail) return;
+    setNewsletterStatus("loading");
+    try {
+      const res = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: newsletterEmail, source: "Blog Sidebar Newsletter" }),
+      });
+      if (res.ok) {
+        setNewsletterStatus("success");
+        setNewsletterEmail("");
+      } else {
+        setNewsletterStatus("error");
+      }
+    } catch (err) {
+      console.error("Blog sidebar newsletter error:", err);
+      setNewsletterStatus("error");
+    }
+  };
+
+  const handleChecklistRequest = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!checklistEmail) return;
+    setChecklistStatus("loading");
+    try {
+      const res = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: checklistEmail, source: "Blog Sidebar Lead Magnet (AI Checklist)" }),
+      });
+      if (res.ok) {
+        setChecklistStatus("success");
+        setChecklistEmail("");
+      } else {
+        setChecklistStatus("error");
+      }
+    } catch (err) {
+      console.error("Blog sidebar checklist error:", err);
+      setChecklistStatus("error");
+    }
+  };
+
   // Reading Progress Indicator
   useEffect(() => {
     const handleScroll = () => {
@@ -257,20 +307,33 @@ export default function ArticleClient({ post }: ArticleClientProps) {
               <p className="text-[11px] text-gray-400 leading-normal">
                 Receive AI trends, SaaS updates, and digital transformation tips directly in your inbox.
               </p>
-              <form onSubmit={(e) => { e.preventDefault(); alert("Subscription successful!"); }} className="space-y-2">
-                <input
-                  type="email"
-                  placeholder="Enter email address"
-                  required
-                  className="w-full bg-brand-bg/60 border border-brand-border rounded-lg px-3 py-2 text-[11px] text-white placeholder-gray-500 focus:outline-none focus:border-brand-cyan"
-                />
-                <button
-                  type="submit"
-                  className="w-full bg-brand-cyan hover:bg-brand-cyan/95 text-brand-bg font-bold text-xs py-2 rounded-lg transition-colors cursor-pointer"
-                >
-                  Subscribe Now
-                </button>
-              </form>
+              {newsletterStatus === "success" ? (
+                <div className="bg-brand-cyan/10 border border-brand-cyan/35 text-brand-cyan text-[11px] rounded-lg p-2.5 text-center font-medium animate-pulse">
+                  ✓ Subscribed successfully!
+                </div>
+              ) : (
+                <form onSubmit={handleNewsletterSubscribe} className="space-y-2">
+                  <input
+                    type="email"
+                    placeholder="Enter email address"
+                    required
+                    value={newsletterEmail}
+                    onChange={(e) => setNewsletterEmail(e.target.value)}
+                    disabled={newsletterStatus === "loading"}
+                    className="w-full bg-brand-bg/60 border border-brand-border rounded-lg px-3 py-2 text-[11px] text-white placeholder-gray-500 focus:outline-none focus:border-brand-cyan"
+                  />
+                  <button
+                    type="submit"
+                    disabled={newsletterStatus === "loading"}
+                    className="w-full bg-brand-cyan hover:bg-brand-cyan/95 text-brand-bg font-bold text-xs py-2 rounded-lg transition-colors cursor-pointer disabled:opacity-50"
+                  >
+                    {newsletterStatus === "loading" ? "Subscribing..." : "Subscribe Now"}
+                  </button>
+                  {newsletterStatus === "error" && (
+                    <p className="text-[10px] text-red-400">Failed to subscribe. Try again.</p>
+                  )}
+                </form>
+              )}
             </div>
 
             {/* Lead Magnet Container */}
@@ -283,21 +346,34 @@ export default function ArticleClient({ post }: ArticleClientProps) {
                   Comprehensive operational guide detailing security controls, BAA audits, and cloud deployment boundaries.
                 </p>
               </div>
-               <form onSubmit={(e) => { e.preventDefault(); alert("AI Checklist PDF sent to your email!"); }} className="space-y-2">
-                <input
-                  type="email"
-                  placeholder="Enter business email"
-                  required
-                  className="w-full bg-brand-bg/60 border border-brand-border rounded-lg px-3 py-2 text-[11px] text-white placeholder-gray-500 focus:outline-none focus:border-brand-cyan"
-                />
-                <button
-                  type="submit"
-                  className="w-full bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold text-xs py-2.5 rounded-lg hover:opacity-95 transition-all flex items-center justify-center gap-1 cursor-pointer"
-                >
-                  <span>Download PDF</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </form>
+              {checklistStatus === "success" ? (
+                <div className="bg-brand-emerald/10 border border-brand-emerald/35 text-brand-emerald text-[11px] rounded-lg p-2.5 text-center font-medium animate-pulse">
+                  ✓ Checklist requested successfully!
+                </div>
+              ) : (
+                <form onSubmit={handleChecklistRequest} className="space-y-2">
+                  <input
+                    type="email"
+                    placeholder="Enter business email"
+                    required
+                    value={checklistEmail}
+                    onChange={(e) => setChecklistEmail(e.target.value)}
+                    disabled={checklistStatus === "loading"}
+                    className="w-full bg-brand-bg/60 border border-brand-border rounded-lg px-3 py-2 text-[11px] text-white placeholder-gray-500 focus:outline-none focus:border-brand-cyan"
+                  />
+                  <button
+                    type="submit"
+                    disabled={checklistStatus === "loading"}
+                    className="w-full bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold text-xs py-2.5 rounded-lg hover:opacity-95 transition-all flex items-center justify-center gap-1 cursor-pointer disabled:opacity-50"
+                  >
+                    <span>{checklistStatus === "loading" ? "Requesting..." : "Download PDF"}</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                  {checklistStatus === "error" && (
+                    <p className="text-[10px] text-red-400">Failed to request. Try again.</p>
+                  )}
+                </form>
+              )}
             </div>
           </aside>
 

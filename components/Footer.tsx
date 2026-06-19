@@ -1,7 +1,34 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import { Activity, Mail, Phone, MapPin, ExternalLink } from "lucide-react";
 
 export default function Footer() {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+    setStatus("loading");
+    try {
+      const res = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, source: "Footer Newsletter" }),
+      });
+      if (res.ok) {
+        setStatus("success");
+        setEmail("");
+      } else {
+        setStatus("error");
+      }
+    } catch (err) {
+      console.error("Newsletter submission error:", err);
+      setStatus("error");
+    }
+  };
   const currentYear = new Date().getFullYear();
 
   return (
@@ -162,16 +189,35 @@ export default function Footer() {
             <p className="text-xs text-gray-400 leading-normal">
               Subscribe to our weekly brief on AI developments in medicine and healthcare business optimization.
             </p>
-            <div className="flex space-x-2">
-              <input
-                type="email"
-                placeholder="Enter email"
-                className="bg-brand-bg/50 border border-brand-border rounded-lg px-3 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-brand-cyan w-full"
-              />
-              <button className="bg-brand-cyan hover:bg-brand-cyan/90 text-brand-bg font-semibold text-xs px-4 py-2 rounded-lg transition-colors">
-                Join
-              </button>
-            </div>
+            {status === "success" ? (
+              <div className="bg-brand-cyan/10 border border-brand-cyan/35 text-brand-cyan text-xs rounded-lg p-3 text-center font-medium animate-pulse">
+                ✓ Subscribed! Welcome to our brief.
+              </div>
+            ) : (
+              <form onSubmit={handleSubscribe} className="space-y-2">
+                <div className="flex space-x-2">
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter email"
+                    className="bg-brand-bg/50 border border-brand-border rounded-lg px-3 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-brand-cyan w-full"
+                    disabled={status === "loading"}
+                  />
+                  <button
+                    type="submit"
+                    disabled={status === "loading"}
+                    className="bg-brand-cyan hover:bg-brand-cyan/90 text-brand-bg font-semibold text-xs px-4 py-2 rounded-lg transition-colors disabled:opacity-50 whitespace-nowrap cursor-pointer"
+                  >
+                    {status === "loading" ? "Joining..." : "Join"}
+                  </button>
+                </div>
+                {status === "error" && (
+                  <p className="text-[10px] text-red-400">Failed to subscribe. Please try again.</p>
+                )}
+              </form>
+            )}
             <div className="pt-2">
               <Link href="/blog" className="text-xs text-brand-cyan hover:underline font-semibold">
                 Read our Healthcare AI Blog &rarr;
