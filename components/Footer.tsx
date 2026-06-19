@@ -84,6 +84,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/solutions/telemedicine-consultation-platform" className="hover:text-brand-cyan transition-colors">
+                  Telemedicine Consultation Platform
+                </Link>
+              </li>
+              <li>
                 <Link href="/demo?tab=audit" className="hover:text-brand-cyan transition-colors flex items-center space-x-1">
                   <span>AI Website Audit</span>
                   <ExternalLink className="w-3 h-3 text-brand-cyan" />

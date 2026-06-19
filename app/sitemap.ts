@@ -142,6 +142,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.9,
     },
+    {
+      url: `${BASE_URL}/solutions/telemedicine-consultation-platform`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
 
     // ─── Blog Posts ───────────────────────────────────────
     ...Object.values(blogPosts).map((post) => ({

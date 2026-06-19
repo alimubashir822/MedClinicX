@@ -9,9 +9,7 @@ interface PageProps {
 
 // Pre-render service routes at build time (Performance Optimization)
 export async function generateStaticParams() {
-  return Object.keys(servicesData).map((id) => ({
-    id,
-  }));
+  return [];
 }
 
 // Generate dynamic SEO Metadata

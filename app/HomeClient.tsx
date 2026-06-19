@@ -10,6 +10,7 @@ import {
   Search,
   Smile,
   Phone,
+  Video,
 } from "lucide-react";
 
 export default function HomeClient() {
@@ -32,6 +33,12 @@ export default function HomeClient() {
       title: "AI Medical Receptionist System",
       desc: "An AI front-desk employee that works 24/7 for clinics - answers phone calls, books appointments, pre-qualifies patients, and manages the entire patient journey.",
       href: "/solutions/ai-medical-receptionist",
+    },
+    {
+      icon: <Video className="w-6 h-6 text-brand-cyan" />,
+      title: "Telemedicine Consultation Platform",
+      desc: "A complete virtual clinic system connecting patients and doctors anywhere, offering secure video visits, digital prescriptions, and AI pre-consultation briefings.",
+      href: "/solutions/telemedicine-consultation-platform",
     },
   ];
 

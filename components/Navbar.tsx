@@ -16,6 +16,7 @@ export default function Navbar() {
     { name: "AI Patient Portal Platform", href: "/solutions/ai-patient-portal" },
     { name: "Smart Dental Patient Portal", href: "/solutions/smart-dental-portal" },
     { name: "AI Medical Receptionist System", href: "/solutions/ai-medical-receptionist" },
+    { name: "Telemedicine Consultation Platform", href: "/solutions/telemedicine-consultation-platform" },
   ];
 
   const services = [
