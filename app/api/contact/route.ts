@@ -66,7 +66,7 @@ export async function POST(req: Request) {
 
       for (const recipient of recipients) {
         try {
-          const { data, error } = await resend.emails.send({
+          const { error } = await resend.emails.send({
             from: "Med Clinic X <onboarding@resend.dev>", // replace with domain once verified
             to: [recipient],
             subject: emailSubject,
