@@ -49,7 +49,7 @@ export async function POST(req: Request) {
     if (resend) {
       const { data, error } = await resend.emails.send({
         from: "Med Clinic X <onboarding@resend.dev>", // replace with domain once verified
-        to: ["neefox360@gmail.com"],
+        to: ["neefox360@gmail.com", "alimubashir822@gmail.com"],
         subject: emailSubject,
         html: emailHtml,
       });
@@ -66,7 +66,7 @@ export async function POST(req: Request) {
     console.log("=================================================");
     console.log("🔔 [DEV MOCK EMAIL] RESEND_API_KEY not configured.");
     console.log(`FROM: Med Clinic X <onboarding@resend.dev>`);
-    console.log(`TO: neefox360@gmail.com`);
+    console.log(`TO: neefox360@gmail.com, alimubashir822@gmail.com`);
     console.log(`SUBJECT: ${emailSubject}`);
     console.log("---------------- CONTENT ----------------");
     console.log(`Source / Form Origin: ${source || "Newsletter (General)"}`);
