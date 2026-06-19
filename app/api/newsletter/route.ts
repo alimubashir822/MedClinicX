@@ -47,19 +47,38 @@ export async function POST(req: Request) {
 
     // 1. Send via Resend if API key is configured
     if (resend) {
-      const { data, error } = await resend.emails.send({
-        from: "Med Clinic X <onboarding@resend.dev>", // replace with domain once verified
-        to: ["neefox360@gmail.com", "alimubashir822@gmail.com"],
-        subject: emailSubject,
-        html: emailHtml,
-      });
+      const recipients = ["neefox360@gmail.com", "alimubashir822@gmail.com"];
+      let sentCount = 0;
+      let lastErrorMsg = "Failed to send email";
 
-      if (error) {
-        console.error("Resend newsletter send error:", error);
-        return NextResponse.json({ error: error.message }, { status: 400 });
+      for (const recipient of recipients) {
+        try {
+          const { data, error } = await resend.emails.send({
+            from: "Med Clinic X <onboarding@resend.dev>", // replace with domain once verified
+            to: [recipient],
+            subject: emailSubject,
+            html: emailHtml,
+          });
+
+          if (error) {
+            console.error(`Resend newsletter send error for ${recipient}:`, error);
+            lastErrorMsg = error.message;
+          } else {
+            sentCount++;
+          }
+        } catch (err: unknown) {
+          console.error(`Resend connection exception for ${recipient}:`, err);
+          if (err instanceof Error) {
+            lastErrorMsg = err.message;
+          }
+        }
       }
 
-      return NextResponse.json({ success: true, data });
+      if (sentCount === 0) {
+        return NextResponse.json({ error: lastErrorMsg }, { status: 400 });
+      }
+
+      return NextResponse.json({ success: true, sentCount });
     }
 
     // 2. Dev fallback logging if no API key is found
