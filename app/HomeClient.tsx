@@ -11,6 +11,9 @@ import {
   Smile,
   Phone,
   Video,
+  Building2,
+  Brain,
+  Zap,
 } from "lucide-react";
 
 export default function HomeClient() {
@@ -39,6 +42,24 @@ export default function HomeClient() {
       title: "Telemedicine Consultation Platform",
       desc: "A complete virtual clinic system connecting patients and doctors anywhere, offering secure video visits, digital prescriptions, and AI pre-consultation briefings.",
       href: "/solutions/telemedicine-consultation-platform",
+    },
+    {
+      icon: <Building2 className="w-6 h-6 text-brand-cyan" />,
+      title: "Virtual Clinic OS",
+      desc: "An AI-powered digital clinic infrastructure that helps doctors deliver online care, automate workflows, manage patients, and scale remote healthcare practices.",
+      href: "/solutions/virtual-clinic-os",
+    },
+    {
+      icon: <Brain className="w-6 h-6 text-brand-cyan" />,
+      title: "AI Healthcare Navigator",
+      desc: "An AI-powered care navigation platform helping patients check symptoms, receive clinic routing, and match with doctors.",
+      href: "/solutions/ai-healthcare-navigator",
+    },
+    {
+      icon: <Zap className="w-6 h-6 text-brand-cyan" />,
+      title: "CareFlow AI OS",
+      desc: "An AI-powered growth and practice operating system that attracts patients, automates CRM pipelines, and increases clinic revenue.",
+      href: "/solutions/careflow-ai",
     },
   ];
 

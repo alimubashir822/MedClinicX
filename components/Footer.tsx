@@ -89,6 +89,21 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/solutions/virtual-clinic-os" className="hover:text-brand-cyan transition-colors">
+                  Virtual Clinic OS
+                </Link>
+              </li>
+              <li>
+                <Link href="/solutions/ai-healthcare-navigator" className="hover:text-brand-cyan transition-colors">
+                  AI Healthcare Navigator
+                </Link>
+              </li>
+              <li>
+                <Link href="/solutions/careflow-ai" className="hover:text-brand-cyan transition-colors">
+                  CareFlow AI OS
+                </Link>
+              </li>
+              <li>
                 <Link href="/demo?tab=audit" className="hover:text-brand-cyan transition-colors flex items-center space-x-1">
                   <span>AI Website Audit</span>
                   <ExternalLink className="w-3 h-3 text-brand-cyan" />

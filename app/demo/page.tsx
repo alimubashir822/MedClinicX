@@ -51,6 +51,66 @@ export default function DemoPage() {
       githubUrl: "https://github.com/alimubashir822/CareDesk",
       techStack: ["React", "WebRTC", "Clinical LLMs"],
       features: ["Intelligent Patient Triage Queue", "Live Chat Sync", "Vitals Telemetry Monitors"]
+    },
+    {
+      id: "tele-care",
+      name: "TeleCare",
+      tag: "Telehealth & Remote Care",
+      desc: "A modern virtual telehealth platform offering online consultations, patient-doctor matchmaking, real-time messaging, and digital prescriptions.",
+      url: "https://telecare-ivory.vercel.app/",
+      githubUrl: "https://github.com/alimubashir822/TeleCare",
+      techStack: ["Next.js", "Tailwind CSS", "WebRTC"],
+      features: ["Real-time Video Calls", "Instant Doctor Chat", "Digital Prescription Wallet"]
+    },
+    {
+      id: "clinic-os",
+      name: "Clinic OS",
+      tag: "Practice Management",
+      desc: "A comprehensive clinical operating platform designed to orchestrate check-ins, record patient histories, organize physician schedules, and automate billing.",
+      url: "https://clinicos-two.vercel.app/",
+      githubUrl: "https://github.com/alimubashir822/ClinicOS",
+      techStack: ["Next.js", "Tailwind CSS", "Prisma"],
+      features: ["Automated Appointment Booking", "Patient Intake Flows", "EHR Documentation Module"]
+    },
+    {
+      id: "aura-care",
+      name: "Aura Care",
+      tag: "Mental Health & Wellness",
+      desc: "A patient-centric mental wellness companion featuring mood logging, provider matchmaking, therapeutic session booking, and progress trackers.",
+      url: "https://aura-care-sepia.vercel.app/",
+      githubUrl: "https://github.com/alimubashir822/AuraCare",
+      techStack: ["Vite", "React", "Vanilla CSS"],
+      features: ["Therapeutic Session Booking", "Mood Tracker & Analytics", "Secure Provider Chat Channels"]
+    },
+    {
+      id: "apex-dental",
+      name: "Apex Dental",
+      tag: "Dental Care Hub",
+      desc: "Specialized management system for dental practices facilitating intraoral tooth mapping, appointments, digital consent forms, and treatment history.",
+      url: "https://apex-dental-eight.vercel.app/",
+      githubUrl: "https://github.com/alimubashir822/ApexDental",
+      techStack: ["Next.js", "Tailwind CSS", "Prisma"],
+      features: ["Interactive Intraoral Mapping", "Pre-Visit Consent Forms", "Custom Dental Treatment Records"]
+    },
+    {
+      id: "care-match",
+      name: "Care Match",
+      tag: "Provider Matchmaking",
+      desc: "An intelligent search and matchmaking engine pairing patients with specialized healthcare providers based on symptoms, schedules, and insurance networks.",
+      url: "https://care-match-beryl.vercel.app/",
+      githubUrl: "https://github.com/alimubashir822/CareMatch",
+      techStack: ["Vite", "React", "Tailwind CSS"],
+      features: ["AI-Powered Provider Matchmaking", "Insurance Network Verification", "Real-Time Booking Integration"]
+    },
+    {
+      id: "health-os",
+      name: "Health OS",
+      tag: "Clinical OS & Telemetry",
+      desc: "An integrated clinical dashboard aggregating real-time patient vital telemetry streams, lab results, prescription authorizations, and provider shifts.",
+      url: "https://health-os-indol.vercel.app/",
+      githubUrl: "https://github.com/alimubashir822/HealthOS",
+      techStack: ["Next.js", "Tailwind CSS", "Prisma"],
+      features: ["Vitals Telemetry Streaming", "Lab Results Ingestion", "Provider Scheduling Engine"]
     }
   ];
 

@@ -17,6 +17,9 @@ export default function Navbar() {
     { name: "Smart Dental Patient Portal", href: "/solutions/smart-dental-portal" },
     { name: "AI Medical Receptionist System", href: "/solutions/ai-medical-receptionist" },
     { name: "Telemedicine Consultation Platform", href: "/solutions/telemedicine-consultation-platform" },
+    { name: "Virtual Clinic OS", href: "/solutions/virtual-clinic-os" },
+    { name: "AI Healthcare Navigator", href: "/solutions/ai-healthcare-navigator" },
+    { name: "CareFlow AI OS", href: "/solutions/careflow-ai" },
   ];
 
   const services = [
@@ -163,7 +166,7 @@ export default function Navbar() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
                   style={{ backgroundColor: "rgba(5, 7, 16, 0.96)" }}
-                  className="absolute left-0 mt-2 w-64 glass-panel rounded-xl shadow-2xl p-2 z-50 border border-brand-border"
+                  className="absolute left-0 mt-2 w-72 glass-panel rounded-xl shadow-2xl p-2 z-50 border border-brand-border"
                 >
                   {solutions.map((item) => (
                     <Link
@@ -223,7 +226,7 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden mt-2 glass-panel rounded-2xl overflow-hidden shadow-2xl border border-brand-border"
+            className="md:hidden mt-2 glass-panel rounded-2xl max-h-[80vh] overflow-y-auto shadow-2xl border border-brand-border"
           >
             <div className="px-4 py-5 space-y-4">
               {/* Services */}

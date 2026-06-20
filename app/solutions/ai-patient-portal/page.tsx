@@ -8,7 +8,7 @@ import {
   MessageSquare, Shield, Users, Activity, FlaskConical, Upload,
   CheckCircle, Star, TrendingUp, Lock, Bell, Zap, ChevronDown,
   LayoutDashboard, Microscope, Stethoscope, BookOpen, Phone,
-  Globe, Database, Server, Clock, X, Wallet, Mic, BookMarked,
+  Globe, Database, HardDrive, Clock, X, Wallet, Mic, BookMarked,
   RefreshCw, BarChart3, Building2, Syringe, Smile, Heart,
   AlertTriangle, CloudUpload, ShieldCheck, Eye, UserCog,
 } from "lucide-react";
@@ -59,7 +59,7 @@ const portalModules = [
 
 const techStack = [
   { category: "Frontend", items: ["Next.js 15 App Router", "TypeScript", "Tailwind CSS", "shadcn/ui", "Framer Motion"], icon: <Globe className="w-5 h-5" /> },
-  { category: "Backend", items: ["Next.js API Routes", "Server Actions", "Zod Validation", "React Hook Form"], icon: <Server className="w-5 h-5" /> },
+  { category: "Backend", items: ["Next.js API Routes", "Server Actions", "Zod Validation", "React Hook Form"], icon: <HardDrive className="w-5 h-5" /> },
   { category: "Database", items: ["PostgreSQL", "Prisma ORM", "Secure migrations", "Audit logging"], icon: <Database className="w-5 h-5" /> },
   { category: "AI & Security", items: ["OpenAI GPT-4o", "LangChain", "Auth.js / Clerk", "AWS S3 / R2 Storage"], icon: <Lock className="w-5 h-5" /> },
 ];

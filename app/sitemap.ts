@@ -148,6 +148,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.9,
     },
+    {
+      url: `${BASE_URL}/solutions/virtual-clinic-os`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
+      url: `${BASE_URL}/solutions/ai-healthcare-navigator`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
+      url: `${BASE_URL}/solutions/careflow-ai`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
 
     // ─── Blog Posts ───────────────────────────────────────
     ...Object.values(blogPosts).map((post) => ({

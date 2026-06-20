@@ -122,7 +122,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark" suppressHydrationWarning>
       <head>
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
         <meta name="theme-color" content="#0a0f1e" />
@@ -136,7 +136,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
       </head>
-      <body className="antialiased bg-brand-bg text-gray-100 min-h-screen flex flex-col">
+      <body className="antialiased bg-brand-bg text-gray-100 min-h-screen flex flex-col" suppressHydrationWarning>
         <Navbar />
         <main className="flex-grow pt-24 md:pt-28">
           {children}
