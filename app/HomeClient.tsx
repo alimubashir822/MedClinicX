@@ -162,20 +162,28 @@ export default function HomeClient() {
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-10 flex flex-col sm:flex-row justify-center items-center gap-4"
+          className="mt-10 flex flex-col items-center gap-4"
         >
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-4 w-full sm:w-auto">
+            <Link
+              href="/solutions"
+              className="w-full sm:w-auto bg-gradient-to-r from-brand-cyan to-brand-indigo hover:opacity-95 text-white font-semibold px-8 py-4 rounded-xl shadow-xl shadow-brand-cyan/10 active:scale-[0.98] transition-all flex items-center justify-center space-x-2 hover:scale-[1.02]"
+            >
+              <span>Explore Solutions</span>
+              <ArrowRight className="w-5 h-5" />
+            </Link>
+            <Link
+              href="/services"
+              className="w-full sm:w-auto glass-panel glass-panel-hover text-white font-semibold px-8 py-4 rounded-xl flex items-center justify-center space-x-2 active:scale-[0.98] transition-all hover:scale-[1.02]"
+            >
+              <span>Our Services</span>
+            </Link>
+          </div>
           <Link
-            href="/demo"
-            className="w-full sm:w-auto bg-gradient-to-r from-brand-cyan to-brand-indigo hover:from-brand-cyan/95 hover:to-brand-indigo/95 text-white font-semibold px-8 py-4 rounded-xl shadow-xl shadow-brand-cyan/10 active:scale-[0.98] transition-all flex items-center justify-center space-x-2"
+            href="/contact"
+            className="text-gray-400 hover:text-brand-cyan text-sm font-semibold transition-colors mt-2 underline decoration-brand-cyan/40 hover:decoration-brand-cyan underline-offset-4 flex items-center gap-1.5"
           >
-            <span>Explore Live Demos</span>
-            <ArrowRight className="w-5 h-5" />
-          </Link>
-          <Link
-            href="/demo?tab=roi"
-            className="w-full sm:w-auto glass-panel glass-panel-hover text-white font-semibold px-8 py-4 rounded-xl flex items-center justify-center space-x-2"
-          >
-            <span>Calculate ROI</span>
+            Book Consultation
           </Link>
         </motion.div>
       </section>
