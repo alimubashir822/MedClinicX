@@ -14,6 +14,8 @@ import {
   Building2,
   Brain,
   Zap,
+  FileText,
+  Database,
 } from "lucide-react";
 
 export default function HomeClient() {
@@ -46,7 +48,7 @@ export default function HomeClient() {
     {
       icon: <Building2 className="w-6 h-6 text-brand-cyan" />,
       title: "Virtual Clinic OS",
-      desc: "An AI-powered digital clinic infrastructure that helps doctors deliver online care, automate workflows, manage patients, and scale remote healthcare practices.",
+      desc: "A secure digital clinic platform that helps doctors deliver online care, manage patients, and grow their practice remotely.",
       href: "/solutions/virtual-clinic-os",
     },
     {
@@ -57,9 +59,33 @@ export default function HomeClient() {
     },
     {
       icon: <Zap className="w-6 h-6 text-brand-cyan" />,
-      title: "CareFlow AI OS",
+      title: "CareFlow AI Growth CRM",
       desc: "An AI-powered growth and practice operating system that attracts patients, automates CRM pipelines, and increases clinic revenue.",
       href: "/solutions/careflow-ai",
+    },
+    {
+      icon: <Search className="w-6 h-6 text-brand-cyan" />,
+      title: "CareMatch AI Marketplace",
+      desc: "An AI-powered doctor matching and booking marketplace that connects patients with doctors based on symptoms, specialty, insurance, and availability.",
+      href: "/solutions/carematch-ai",
+    },
+    {
+      icon: <Building2 className="w-6 h-6 text-brand-cyan" />,
+      title: "Specialty Clinic Growth OS",
+      desc: "An AI-powered clinical operations, patient journey tracker, and lead qualification CRM system built specifically for high-value specialty practices.",
+      href: "/solutions/health-os",
+    },
+    {
+      icon: <FileText className="w-6 h-6 text-brand-cyan" />,
+      title: "IntakeFlow AI Onboarding",
+      desc: "An AI-powered patient intake, digital consent e-signing, and insurance verification system that prepares clinical teams before a patient arrives.",
+      href: "/solutions/intake-flow",
+    },
+    {
+      icon: <Database className="w-6 h-6 text-brand-cyan" />,
+      title: "MediSync AI Data Platform",
+      desc: "An AI-powered clinical data synchronization and middleware engine connecting EHR databases, patient portals, and health apps securely.",
+      href: "/solutions/medi-sync",
     },
   ];
 

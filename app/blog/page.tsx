@@ -51,7 +51,7 @@ export default function BlogPage() {
     blogPost: Object.values(blogPosts).map((post) => ({
       "@type": "BlogPosting",
       headline: post.title,
-      url: `https://medclinicx.com/blog/${getPostSlug(post.title)}`,
+      url: `https://medclinicx.com/blog/${getPostSlug(post.title, post.id)}`,
       datePublished: new Date(post.date).toISOString().split("T")[0],
       author: { "@type": "Person", name: post.author },
       description: post.excerpt,

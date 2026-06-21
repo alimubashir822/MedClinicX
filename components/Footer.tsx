@@ -64,99 +64,12 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Solutions Column */}
-          <div>
-            <h3 className="text-white font-semibold font-display text-sm tracking-wider uppercase mb-4">Solutions & Tools</h3>
-            <ul className="space-y-2.5 text-sm text-gray-400">
-              <li>
-                <Link href="/solutions/ai-patient-portal" className="hover:text-brand-cyan transition-colors">
-                  AI Patient Portal Platform
-                </Link>
-              </li>
-              <li>
-                <Link href="/solutions/smart-dental-portal" className="hover:text-brand-cyan transition-colors">
-                  Smart Dental Patient Portal
-                </Link>
-              </li>
-              <li>
-                <Link href="/solutions/ai-medical-receptionist" className="hover:text-brand-cyan transition-colors">
-                  AI Medical Receptionist System
-                </Link>
-              </li>
-              <li>
-                <Link href="/solutions/telemedicine-consultation-platform" className="hover:text-brand-cyan transition-colors">
-                  Telemedicine Consultation Platform
-                </Link>
-              </li>
-              <li>
-                <Link href="/solutions/virtual-clinic-os" className="hover:text-brand-cyan transition-colors">
-                  Virtual Clinic OS
-                </Link>
-              </li>
-              <li>
-                <Link href="/solutions/ai-healthcare-navigator" className="hover:text-brand-cyan transition-colors">
-                  AI Healthcare Navigator
-                </Link>
-              </li>
-              <li>
-                <Link href="/solutions/careflow-ai" className="hover:text-brand-cyan transition-colors">
-                  CareFlow AI OS
-                </Link>
-              </li>
-              <li>
-                <Link href="/demo?tab=audit" className="hover:text-brand-cyan transition-colors flex items-center space-x-1">
-                  <span>AI Website Audit</span>
-                  <ExternalLink className="w-3 h-3 text-brand-cyan" />
-                </Link>
-              </li>
-              <li>
-                <Link href="/demo?tab=roi" className="hover:text-brand-cyan transition-colors flex items-center space-x-1">
-                  <span>ROI Calculator</span>
-                  <ExternalLink className="w-3 h-3 text-brand-cyan" />
-                </Link>
-              </li>
-              <li>
-                <Link href="/demo?tab=content" className="hover:text-brand-cyan transition-colors flex items-center space-x-1">
-                  <span>AI Content Generator</span>
-                  <ExternalLink className="w-3 h-3 text-brand-cyan" />
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Company Column */}
-          <div>
-            <h3 className="text-white font-semibold font-display text-sm tracking-wider uppercase mb-4">Company</h3>
-            <ul className="space-y-2.5 text-sm text-gray-400">
-              <li>
-                <Link href="/about" className="hover:text-brand-cyan transition-colors">
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link href="/blog" className="hover:text-brand-cyan transition-colors">
-                  Blog
-                </Link>
-              </li>
-              <li>
-                <Link href="/faq" className="hover:text-brand-cyan transition-colors">
-                  FAQ
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="hover:text-brand-cyan transition-colors">
-                  Get In Touch
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Service Column */}
+          {/* Services Column */}
           <div>
             <h3 className="text-white font-semibold font-display text-sm tracking-wider uppercase mb-4">Services</h3>
             <ul className="space-y-2.5 text-sm text-gray-400">
               <li>
-                <Link href="/services" className="hover:text-brand-cyan font-semibold text-white transition-colors">
+                <Link href="/services" style={{ color: "#06b6d4" }} className="font-semibold hover:text-white transition-colors">
                   All Services Hub &rarr;
                 </Link>
               </li>
@@ -191,13 +104,102 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/services/mobile-healthcare-apps" className="hover:text-brand-cyan transition-colors">
-                  Mobile Healthcare Apps
+                <Link href="/services" style={{ color: "#06b6d4" }} className="font-bold hover:text-white transition-colors">
+                  More +
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Calculators Column */}
+          <div>
+            <h3 className="text-white font-semibold font-display text-sm tracking-wider uppercase mb-4">Calculators</h3>
+            <ul className="space-y-2.5 text-sm text-gray-400">
+              <li>
+                <Link href="/solutions" style={{ color: "#06b6d4" }} className="font-semibold hover:text-white transition-colors">
+                  All Calculators Hub &rarr;
                 </Link>
               </li>
               <li>
-                <Link href="/services/healthcare-seo-growth" className="hover:text-brand-cyan transition-colors">
-                  Healthcare SEO & Growth
+                <Link href="/a1c-calculator" className="hover:text-brand-cyan transition-colors">
+                  A1C Calculator
+                </Link>
+              </li>
+              <li>
+                <Link href="/water-calculator" className="hover:text-brand-cyan transition-colors">
+                  Water Intake Calculator
+                </Link>
+              </li>
+              <li>
+                <Link href="/lean-body-mass-calculator" className="hover:text-brand-cyan transition-colors">
+                  Lean Body Mass Calculator
+                </Link>
+              </li>
+              <li>
+                <Link href="/qtc-calculator" className="hover:text-brand-cyan transition-colors">
+                  QTc Calculator
+                </Link>
+              </li>
+              <li>
+                <Link href="/anion-gap-calculator" className="hover:text-brand-cyan transition-colors">
+                  Anion Gap Calculator
+                </Link>
+              </li>
+              <li>
+                <Link href="/dental-implant-cost-calculator" className="hover:text-brand-cyan transition-colors">
+                  Dental Implant Cost Calculator
+                </Link>
+              </li>
+              <li>
+                <Link href="/solutions" style={{ color: "#06b6d4" }} className="font-bold hover:text-white transition-colors">
+                  More+
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Solutions Column */}
+          <div>
+            <h3 className="text-white font-semibold font-display text-sm tracking-wider uppercase mb-4">Solutions</h3>
+            <ul className="space-y-2.5 text-sm text-gray-400">
+              <li>
+                <Link href="/solutions" style={{ color: "#06b6d4" }} className="font-semibold hover:text-white transition-colors">
+                  All Solutions Hub &rarr;
+                </Link>
+              </li>
+              <li>
+                <Link href="/solutions/ai-patient-portal" className="hover:text-brand-cyan transition-colors">
+                  AI Patient Portal Platform
+                </Link>
+              </li>
+              <li>
+                <Link href="/solutions/smart-dental-portal" className="hover:text-brand-cyan transition-colors">
+                  Smart Dental Patient Portal
+                </Link>
+              </li>
+              <li>
+                <Link href="/solutions/ai-medical-receptionist" className="hover:text-brand-cyan transition-colors">
+                  AI Medical Receptionist System
+                </Link>
+              </li>
+              <li>
+                <Link href="/solutions/ai-healthcare-navigator" className="hover:text-brand-cyan transition-colors">
+                  AI Healthcare Navigator
+                </Link>
+              </li>
+              <li>
+                <Link href="/solutions/virtual-clinic-os" className="hover:text-brand-cyan transition-colors">
+                  Virtual Clinic OS
+                </Link>
+              </li>
+              <li>
+                <Link href="/solutions/carematch-ai" className="hover:text-brand-cyan transition-colors">
+                  CareMatch AI Marketplace
+                </Link>
+              </li>
+              <li>
+                <Link href="/solutions" style={{ color: "#06b6d4" }} className="font-bold hover:text-white transition-colors">
+                  More +
                 </Link>
               </li>
             </ul>
@@ -251,6 +253,7 @@ export default function Footer() {
             &copy; {currentYear} Med Clinic X Inc. All rights reserved. Built for future healthcare systems.
           </div>
           <div className="flex space-x-6">
+            <Link href="/faq" className="hover:text-gray-400 transition-colors">FAQ</Link>
             <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy Policy</Link>
             <Link href="/terms" className="hover:text-gray-400 transition-colors">Terms of Service</Link>
             <Link href="/hipaa" className="hover:text-gray-400 transition-colors">HIPAA Compliance</Link>

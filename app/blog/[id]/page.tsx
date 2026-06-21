@@ -10,7 +10,7 @@ interface PageProps {
 // Pre-render blog posts at build time (Performance Optimization)
 export async function generateStaticParams() {
   return Object.values(blogPosts).map((post) => ({
-    id: getPostSlug(post.title),
+    id: getPostSlug(post.title, post.id),
   }));
 }
 
@@ -18,7 +18,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id } = await params;
   const post = Object.values(blogPosts).find(
-    (p) => getPostSlug(p.title) === id || p.id === id
+    (p) => getPostSlug(p.title, p.id) === id || p.id === id
   );
 
   if (!post) {
@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
-  const canonicalUrl = `https://medclinicx.com/blog/${getPostSlug(post.title)}`;
+  const canonicalUrl = `https://medclinicx.com/blog/${getPostSlug(post.title, post.id)}`;
 
   return {
     title: `${post.title} | Med Clinic X Insights`,
@@ -67,14 +67,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function BlogArticlePage({ params }: PageProps) {
   const { id } = await params;
   const post = Object.values(blogPosts).find(
-    (p) => getPostSlug(p.title) === id || p.id === id
+    (p) => getPostSlug(p.title, p.id) === id || p.id === id
   );
 
   if (!post) {
     notFound();
   }
 
-  const expectedSlug = getPostSlug(post.title);
+  const expectedSlug = getPostSlug(post.title, post.id);
   if (id !== expectedSlug) {
     redirect(`/blog/${expectedSlug}`);
   }

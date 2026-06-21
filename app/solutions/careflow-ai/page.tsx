@@ -5,12 +5,14 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight, Sparkles, Brain, HeartPulse, FileText, Calendar,
-  MessageSquare, Shield, Users, Activity, CheckCircle, Star, 
-  TrendingUp, Lock, Bell, Zap, ChevronDown, LayoutDashboard, 
-  Stethoscope, BookOpen, Phone, Globe, Database, Clock, X, 
-  Wallet, Mic, BookMarked, RefreshCw, BarChart3, Building2, 
-  Smile, Heart, AlertTriangle, CloudUpload, ShieldCheck, Eye, 
-  UserCog, Video, Volume2, Plus, Info
+  MessageSquare, Shield, Users, Activity, FlaskConical, Upload,
+  CheckCircle, Star, TrendingUp, Lock, Bell, Zap, ChevronDown,
+  LayoutDashboard, Microscope, Stethoscope, BookOpen, Phone,
+  Globe, Database, HardDrive, Clock, X, Wallet, Mic, BookMarked,
+  RefreshCw, BarChart3, Building2, Syringe, Smile, Heart,
+  AlertTriangle, CloudUpload, ShieldCheck, Eye, UserCog,
+  Video, ChevronRight, Download, Search, Share2, DollarSign,
+  Check, Paperclip, MessagesSquare, ExternalLink, Mail, MessageCircle
 } from "lucide-react";
 
 /* --- Types --- */
@@ -18,195 +20,271 @@ interface Feature { icon: React.ReactNode; title: string; desc: string; badge?: 
 interface Differentiator { icon: React.ReactNode; title: string; subtitle: string; desc: string; color: string; glow: string; }
 interface FAQ { q: string; a: string; }
 
+interface CampaignTemplate {
+  title: string;
+  audience: string;
+  emailBody: string;
+  smsBody: string;
+  timeline: string[];
+}
+
 /* =======================================================
    DATA
-   ======================================================= */
+ ======================================================= */
 
 const coreFeatures: Feature[] = [
-  { icon: <Phone className="w-5 h-5" />, title: "AI Front Desk Receptionist", desc: "Replaces basic widgets to explain services, qualify incoming visitor interest, review availability, and book slots.", badge: "Receptionist" },
-  { icon: <Brain className="w-5 h-5" />, title: "AI Lead Qualification", desc: "Algorithmic intent scoring (e.g. 94% Intent) parsing budgets, timeframes, and ready-to-book signals.", badge: "Analytics" },
-  { icon: <TrendingUp className="w-5 h-5" />, title: "Patient Conversion Pipeline", desc: "Clinic CRM tracking pipelines from inquiry, booked slot, visited clinic, through lifetime treatment accepted.", badge: "Pipeline" },
-  { icon: <Bell className="w-5 h-5" />, title: "AI Follow-Up Engine", desc: "Triggers personalized check-in tracks on Day 1, Day 3, and Day 7 for inactive or unconfirmed patient leads.", badge: "Retention" },
-  { icon: <Activity className="w-5 h-5" />, title: "AI Patient Reactivation", desc: "Scans data archives to flag inactive patients (no consults for 12 months) and triggers custom recall campaigns.", badge: "Growth" },
-  { icon: <Sparkles className="w-5 h-5" />, title: "AI Marketing Generator", desc: "Drafts email sequences, custom SMS copies, and targeted medical landing pages in seconds.", badge: "Marketing" },
-  { icon: <Wallet className="w-5 h-5" />, title: "Lifetime Value Analytics", desc: "Calculates precise total patient expenditures, treatment plans, and future clinical opportunities.", badge: "Finance" },
-  { icon: <Mic className="w-5 h-5" />, title: "AI Call Center Integration", desc: "Direct voice agent lines answering clinic hours, service prices, and scheduling patient intake logs." },
-  { icon: <ShieldCheck className="w-5 h-5" />, title: "Reputation Automator", desc: "Automates feedback loops; directs positive scores to Google Reviews while routing negative cases to internal staff." },
-  { icon: <Building2 className="w-5 h-5" />, title: "Multi-Clinic Management", desc: "Centralized franchise settings sharing patient records, staffing files, and advertising ROI metrics." },
-  { icon: <BookMarked className="w-5 h-5" />, title: "SEO Content Engine", desc: "Creates SEO educational articles matching doctor specifications to build clinic web traffic." },
-  { icon: <UserCog className="w-5 h-5" />, title: "Roles & Permissions", desc: "Granular access profiles for Owner, Doctor, Manager, Receptionist, and Marketing Staff roles." }
+  { icon: <Zap className="w-5 h-5" />, title: "AI Front Desk Receptionist", desc: "An intelligent chatbot widget that greets visitors, explains procedures, pre-qualifies budgets, and books appointments.", badge: "Flagship" },
+  { icon: <Activity className="w-5 h-5" />, title: "Lead Qualification Engine", desc: "Scores incoming clinic inquiries based on patient intent, treatment urgency, and estimated treatment value.", badge: "Smart" },
+  { icon: <TrendingUp className="w-5 h-5" />, title: "Healthcare Pipeline CRM", desc: "A medical-specific opportunity tracker mapping patients from first contact to treatment confirmation.", badge: "Unique" },
+  { icon: <Bell className="w-5 h-5" />, title: "AI Follow-Up Campaigns", desc: "Automates SMS and email outreach schedules to recover inactive leads who drop off before scheduling consultations.", badge: "Premium" },
+  { icon: <RefreshCw className="w-5 h-5" />, title: "Patient Recall Reactivation", desc: "Scans patient history databases for records without recent visits, automatically triggering checkup reminders.", badge: "Unique" },
+  { icon: <Mail className="w-5 h-5" />, title: "Marketing Campaign Creator", desc: "An integrated AI writer that drafts localized email promos, SMS messages, and landing page content.", badge: "New" },
+  { icon: <Calendar className="w-5 h-5" />, title: "Smart Scheduling Engine", desc: "Automates calendar slots booking and sends confirmations linked directly into the clinic's local schedules." },
+  { icon: <Star className="w-5 h-5" />, title: "Reputation Builder", desc: "Automatically requests post-consultation reviews, funneling positive remarks to Google and keeping constructive notes private." },
+  { icon: <Users className="w-5 h-5" />, title: "Patient 360 Records", desc: "Centralizes contact parameters, payment records, treatment briefs, communications logs, and document PDFs." },
+  { icon: <Building2 className="w-5 h-5" />, title: "Multi-Clinic Management", desc: "Aggregates billing metrics, physician schedules, lead allocations, and staff tasks across multiple clinic locations.", badge: "Enterprise" },
+  { icon: <MessagesSquare className="w-5 h-5" />, title: "Unified Communication Hub", desc: "Unifies email inbox folders, text message panels, and live web chat logs into a single feed with audit logs." },
+  { icon: <BarChart3 className="w-5 h-5" />, title: "Revenue Intelligence Analytics", desc: "Measures customer acquisition costs, conversion timelines, campaign ROI, and no-show predictors." }
 ];
 
 const differentiators: Differentiator[] = [
-  { icon: <Phone className="w-7 h-7" />, title: "AI Front Desk Receptionist", subtitle: "24/7 Web Visitor Capture", desc: "Chats with website traffic, resolves pricing queries, checks doctor calendars, and creates clinic bookings.", color: "from-brand-cyan/20 to-brand-indigo/10", glow: "rgba(6,182,212,0.15)" },
-  { icon: <Brain className="w-7 h-7" />, title: "Lead Intelligence", subtitle: "Scoring Intent & Conversion", desc: "Grades incoming inquiries based on urgency and budget, letting your receptionist call high-value patients first.", color: "from-brand-indigo/20 to-purple-500/10", glow: "rgba(99,102,241,0.15)" },
-  { icon: <Bell className="w-7 h-7" />, title: "AI Follow-Up System", subtitle: "Automated Inquiry Care", desc: "Engages patients who requested treatment details but dropped off, delivering care guides across days.", color: "from-brand-emerald/20 to-brand-cyan/10", glow: "rgba(16,185,129,0.15)" },
-  { icon: <Activity className="w-7 h-7" />, title: "Patient Reactivation", subtitle: "Automated Annual Recalls", desc: "Monitors EMR databases to identify past patients due for checkups, triggering scheduling campaigns.", color: "from-amber-500/20 to-orange-500/10", glow: "rgba(245,158,11,0.15)" }
+  { icon: <Zap className="w-7 h-7" />, title: "AI Front Desk Receptionist", subtitle: "Turn casual traffic into booked patients", desc: "Replaces basic static contact forms with an interactive assistant that answers complex pricing questions, handles eligibility checks, and books consultations 24/7.", color: "from-brand-cyan/20 to-brand-indigo/10", glow: "rgba(6,182,212,0.15)" },
+  { icon: <Activity className="w-7 h-7" />, title: "AI Lead Qualification", subtitle: "Focus resources on high-value options", desc: "Dynamically parses incoming leads, scoring them on urgency and budget (e.g. Veneers vs Routine cleaning) to instruct the staff on who to contact immediately.", color: "from-brand-indigo/20 to-purple-500/10", glow: "rgba(99,102,241,0.15)" },
+  { icon: <TrendingUp className="w-7 h-7" />, title: "Healthcare Conversion Pipeline", subtitle: "Visualize treatment progress in dollars", desc: "Tracks lead status through clinic-specific pipelines, calculating revenue slippage at every drop-off stage to pinpoint bottleneck locations.", color: "from-brand-emerald/20 to-brand-cyan/10", glow: "rgba(16,185,129,0.15)" },
+  { icon: <Bell className="w-7 h-7" />, title: "Treatment Follow-Up Loops", subtitle: "Recover patients who disappear", desc: "AI detects when a patient requests pricing but fails to book, starting an automated follow-up sequence on Day 1, 3, and 7 containing customized answers and slots.", color: "from-amber-500/20 to-orange-500/10", glow: "rgba(245,158,11,0.15)" },
+  { icon: <RefreshCw className="w-7 h-7" />, title: "Patient Reactivation Engine", subtitle: "Turn past charts into recurring revenue", desc: "Automatically monitors your patient list and reactivates inactive charts (no visit for 12-18 months) by sending checkup recall prompts tailored to their history.", color: "from-rose-500/20 to-pink-500/10", glow: "rgba(244,63,94,0.15)" },
+  { icon: <Brain className="w-7 h-7" />, title: "AI Campaign & Growth Advisor", subtitle: "Your digital practice consultant", desc: "Enter a prompt and the AI generates targeted patient list segments, email copy, and SMS scripts, while recommending budget allocation shifts based on ROI.", color: "from-violet-500/20 to-brand-indigo/10", glow: "rgba(139,92,246,0.15)" }
 ];
 
 const portalModules = [
-  { icon: <Phone className="w-5 h-5" />, title: "Patient Intake Hub", items: ["AI conversational booking widget", "Lead score qualifier", "Specialty search filters", "Stripe payment deposit checks"] },
-  { icon: <LayoutDashboard className="w-5 h-5" />, title: "Lead Management CRM", items: ["Custom pipeline boards", "Patient 360 profile files", "Campaign analytics dashboard", "Audit session log reviews"] },
-  { icon: <Calendar className="w-5 h-5" />, title: "Appointment Scheduler", items: ["Multi-location calendar maps", "No-show probability calculator", "Auto-reminders (SMS/Email)", "Doctor break configurations"] },
-  { icon: <BarChart3 className="w-5 h-5" />, title: "Revenue Intelligence", items: ["Marketing spend ROI tracker", "Clinic value dashboards", "Franchise settings overview", "Review automation portals"] }
+  { icon: <LayoutDashboard className="w-5 h-5" />, title: "Patient Acquisition", items: ["AI receptionist chatbot widget", "Lead qualification forms", "Cost estimator automation", "Website layout personalization"] },
+  { icon: <TrendingUp className="w-5 h-5" />, title: "Lead Pipeline CRM", items: ["Visual pipeline boards", "Patient 360 folders", "Lead intent scoring indicators", "Internal task triggers"] },
+  { icon: <Mail className="w-5 h-5" />, title: "Campaigns & Marketing", items: ["AI campaign copy creator", "Sms outreach panels", "Recall automation builder", "Patient lists segmentation"] },
+  { icon: <BarChart3 className="w-5 h-5" />, title: "Revenue Analytics", items: ["Location ROI comparison", "No-show predictor charts", "Source attribution insights", "Physician slot optimization"] }
 ];
 
 const techStack = [
-  { category: "Frontend Core", items: ["Next.js 15 App Router", "TypeScript", "Tailwind CSS & shadcn/ui", "Framer Motion Animations"], icon: <Globe className="w-5 h-5" /> },
-  { category: "Communications", items: ["Twilio SMS Gateway", "Resend Email Dispatcher", "Secure Websockets Inbox", "Daily.co video SDK"], icon: <Phone className="w-5 h-5" /> },
-  { category: "Backend Infrastructure", items: ["PostgreSQL DB Cluster", "Prisma ORM Relations", "Next.js Server Actions", "Redis session caching"], icon: <Database className="w-5 h-5" /> },
-  { category: "Intelligence Layer", items: ["OpenAI GPT-4o API", "LangChain Triage Maps", "n8n / Zapier Integrations", "AWS S3 HIPAA Storage"], icon: <Lock className="w-5 h-5" /> }
+  { category: "Frontend Core", items: ["Next.js 15 App Router", "TypeScript", "Tailwind CSS", "shadcn/ui", "Framer Motion"], icon: <Globe className="w-5 h-5" /> },
+  { category: "Backend Infrastructure", items: ["Next.js Server Actions", "API Handlers", "Zod Schemas", "React Hook Form"], icon: <HardDrive className="w-5 h-5" /> },
+  { category: "Database Layer", items: ["PostgreSQL database", "Prisma ORM", "Logical database isolation", "Detailed audit log records"], icon: <Database className="w-5 h-5" /> },
+  { category: "AI & Automations", items: ["OpenAI GPT-4o API", "Twilio (SMS & Calls)", "Resend (Emails)", "Stripe Connect Payments"], icon: <Lock className="w-5 h-5" /> }
 ];
 
 const useCases = [
   {
     icon: <Smile className="w-6 h-6" />,
-    specialty: "Dental Clinic growth",
+    specialty: "Dental Practices",
     color: "brand-cyan",
-    scenario: "AI Front Desk books high-value dental implant consultation",
+    scenario: "Tracking and converting dental implant leads",
     journey: [
-      "Visitor triggers AI chatbot: 'I want dental implants but need pricing.'",
-      "AI explains service tiers, checks payment schedules, and logs high intent (94% score).",
-      "Checks Dentist availability, books slot, and captures patient deposit.",
-      "Creates receptionist task on CRM board with intake summary pre-filled."
+      "Visitor searches for 'implant costs' and triggers personalized landing copy",
+      "AI Web Chatbot qualifies the lead: intent high, budget prepared, ready in 2 weeks",
+      "CRM scores the lead (94%) and routes alert task to reception staff",
+      "Automated SMS goes out inviting patient to book consult via custom scheduler",
+      "Stripe takes pre-authorized deposits; appointment confirmed",
+      "Patient converts; post-visit system triggers request for Google review"
     ],
-    outcome: "Dental offices see a 50% increase in implant inquiries and save 6 receptionist hours daily."
+    outcome: "Dental offices see a 50% increase in high-value cosmetic treatment approvals."
   },
   {
     icon: <Heart className="w-6 h-6" />,
-    specialty: "Cardiology Lead Routing",
+    specialty: "Aesthetic Skin & Dermatology",
     color: "rose-400",
-    scenario: "Lead campaign schedules annual cardiac checkup recalls",
+    scenario: "Launching summer promotions and checkups",
     journey: [
-      "AI Reactivation engine flags patient: 'No visit for 14 months.'",
-      "Sends SMS recall campaign: 'Your annual cardiology checkup is due.'",
-      "Patient clicks link, scans open doctor slot times, and schedules checkup.",
-      "Cardiologist's dashboard updates status to 'Confirmed Appointment'."
+      "Practice manager requests campaign for 'Laser Skin Peel summer discount'",
+      "AI Campaign Builder writes email template and segmented target criteria",
+      "Outreach is dispatched to inactive patients who haven't visited in 9 months",
+      "Patients click direct schedule links, booking open slots",
+      "Analytics counts conversions, revenue, and marketing ROI percentages",
+      "Automatic follow-up loops send skincare checkups on Day 7"
     ],
-    outcome: "Cardiology practices capture $15k in additional annual care checkups without manual outreach."
+    outcome: "Dermatology clinics achieve 32% return rates from previously dormant patient databases."
+  },
+  {
+    icon: <Building2 className="w-6 h-6" />,
+    specialty: "Multi-Location Clinic Groups",
+    color: "brand-indigo",
+    scenario: "Managing leads and revenue splits across branches",
+    journey: [
+      "Centralized group configures CRM profiles for branch A, B, and C",
+      "Incoming regional web leads are auto-assigned to locations by zip code",
+      "Management checks operational analytics and doctor occupancy rates by branch",
+      "Review Automation maps reviews to location-specific Google business pages",
+      "Unified Communication Hub feeds staff message notifications from all locations",
+      "Practice Growth Consultant identifies Instagram leads convert 40% better at Branch B"
+    ],
+    outcome: "Healthcare group operators reduce administrative overhead by 45% using a single dashboard."
   },
   {
     icon: <Users className="w-6 h-6" />,
-    specialty: "Multi-Location Franchises",
+    specialty: "Private Practice Clinicians",
     color: "brand-emerald",
-    scenario: "Franchise owner compares ROI between Clinic A and Clinic B",
+    scenario: "Automating booking and recall calls to reduce front-desk labor",
     journey: [
-      "Franchise dashboard loads patient acquisition graphs for all locations.",
-      "Owner checks Google Ads ROI (Clinic A: 4x ROI, Clinic B: 2.1x ROI).",
-      "AI Growth Advisor recommends transferring ad budget from Clinic B to Clinic A.",
-      "Owner updates budget variables directly in Campaign Board."
+      "Private GP clinic sets up recall triggers for yearly checks",
+      "AI finds 150 patients whose annual physicals are overdue",
+      "Reactivation engine sends customized text links to targeted charts",
+      "Patients book available slots in GPs' calendar automatically",
+      "No-show engine flags 3 patients as high risk, triggering manual call reminders",
+      "Feedback automation records ratings privately, routing positive ones to Google"
     ],
-    outcome: "Healthcare franchises optimize marketing allocation dynamically, raising overall ROI by 28%."
+    outcome: "Solo clinics secure 85% yearly checkup compliance without adding phone staff."
   }
 ];
 
-const databaseTables = [
-  { table: "Users", fields: ["id", "email", "hashedPassword", "role (Owner/Doc/Receptionist)", "createdAt"] },
-  { table: "Clinics", fields: ["id", "name", "locationsList", "whiteLabelSettings"] },
-  { table: "Staff", fields: ["id", "userId", "clinicId", "permissionsMask"] },
-  { table: "Patients", fields: ["id", "userId", "treatmentHistory", "lifetimeExpenditure"] },
-  { table: "Leads", fields: ["id", "clinicId", "intentScore", "interestedService", "source"] },
-  { table: "Appointments", fields: ["id", "patientId", "doctorId", "time", "noShowRiskScore"] },
-  { table: "Campaigns", fields: ["id", "name", "medium (SMS/Email)", "cost", "conversionRate"] },
-  { table: "Messages", fields: ["id", "leadId", "sender", "content", "timestamp"] },
-  { table: "Tasks", fields: ["id", "staffId", "title", "status (Pending/Done)", "dueDate"] },
-  { table: "FollowUps", fields: ["id", "leadId", "dayInterval", "messageContent", "status"] },
-  { table: "Payments", fields: ["id", "patientId", "amount", "status", "stripeId"] },
-  { table: "Reviews", fields: ["id", "patientId", "score", "comments", "pushedToGoogle"] }
+const securityFeatures = [
+  { icon: <Lock className="w-5 h-5" />, title: "HIPAA Compliant Data", desc: "Patient details are encrypted at rest with AES-256 and in transit with TLS 1.3. Logic isolation partitions clinic tables." },
+  { icon: <ShieldCheck className="w-5 h-5" />, title: "Auditable Action Records", desc: "Detailed records log all database reads, writes, updates, and exports alongside user IP coordinates." },
+  { icon: <Eye className="w-5 h-5" />, title: "Role-Based Staff Access", desc: "Limits dashboard access scopes. Receptionists see lead logs, owners see revenues, and marketers configure campaigns." },
+  { icon: <UserCog className="w-5 h-5" />, title: "Secure Data Portability", desc: "Import and export profiles safely in HL7 FHIR-compliant JSON structures, preserving patient data ownership." },
+  { icon: <CloudUpload className="w-5 h-5" />, title: "Signed Document S3 Vault", desc: "Medical records and billing agreements are held in AWS S3 buckets with URLs signed for short lifespans." },
+  { icon: <AlertTriangle className="w-5 h-5" />, title: "Anomalous Login Block", desc: "Blocks credentials instantly in the event of successive authorization failures or mass data reviews." },
+  { icon: <Database className="w-5 h-5" />, title: "Logical Schema Isolation", desc: "Multi-tenant logic guarantees that clinic parameters and patient records are logical partitions that never bleed." },
+  { icon: <RefreshCw className="w-5 h-5" />, title: "Audit Trail Compliance", desc: "Ensures that every compliance checkpoint matches national security frameworks for clinical SaaS deployments." }
+];
+
+const integrations = [
+  { name: "OpenAI GPT-4o", category: "AI Services", desc: "Drives the front-desk widget dialogs, qualifies inquiry parameters, and writes custom marketing copy." },
+  { name: "Prisma & PostgreSQL", category: "Database Layer", desc: "Delivers type-safe relational schemas, robust transactional records, and secure migration stability." },
+  { name: "Stripe Connect", category: "Billing Engine", desc: "Manages appointment reservation fees, splits payments, and creates invoice logs." },
+  { name: "Twilio API", category: "SMS & Calls", desc: "Powers automated recall texts, scheduling links, follow-up messages, and voice integrations." },
+  { name: "Resend", category: "Email Service", desc: "Dispatches clinic promotion emails, monthly newsletters, and booking confirmations." },
+  { name: "n8n / Zapier", category: "Workflow Automation", desc: "Integrates with existing clinic software engines, syncing calendars and triggers." },
+  { name: "Google Analytics & Ads", category: "Marketing Tracker", desc: "Connects conversion events from Google Ads directly into CRM profiles for source tracking." },
+  { name: "Auth.js / Clerk", category: "Access Control", desc: "Secures organization login views with multi-factor authenticators and session controls." },
+  { name: "AWS Cloud S3", category: "Document Vault", desc: "Maintains encryption standards for patient consent records, invoices, and documents." }
+];
+
+const stats = [
+  { value: "$12,400+", label: "Avg. Monthly Lost Revenue Recovered", icon: <TrendingUp className="w-5 h-5" /> },
+  { value: "48%", label: "Conversion Rate Increase", icon: <CheckCircle className="w-5 h-5" /> },
+  { value: "100%", label: "HIPAA & SOC2 Aligned", icon: <Shield className="w-5 h-5" /> },
+  { value: "32%", label: "Past Patient Reactivation Rate", icon: <RefreshCw className="w-5 h-5" /> },
+  { value: "2.4 hrs", label: "Staff Time Saved Daily", icon: <Clock className="w-5 h-5" /> },
+  { value: "15+", label: "Growth Integrations", icon: <Zap className="w-5 h-5" /> }
 ];
 
 const faqs: FAQ[] = [
-  { q: "What is CareFlow AI?", a: "CareFlow AI is an AI-powered practice growth and operations operating system designed to help clinics generate leads, automate symptom intakes, manage follow-up tracks, run email/SMS campaigns, and increase patient retention." },
-  { q: "How does the AI Receptionist book appointments?", a: "The receptionist widget answers pricing or service questions, collects patient contact details, rates customer intent, checks doctor slot timings, and hooks directly into the CRM calendar to reserve bookings." },
-  { q: "How is lead scoring calculated?", a: "The AI qualifies leads by scanning text for urgency (e.g. 'needed this week'), budget signals, and specific premium treatments (like implants or cosmetics), calculating a conversion probability (e.g. 94%)." },
-  { q: "Does the system support follow-up automations?", a: "Yes. The system schedules multi-day follow-up tracks. If a lead drops off, it dispatches care guides and scheduling links automatically on Day 1, Day 3, and Day 7." },
-  { q: "How does the Patient Reactivation Engine work?", a: "CareFlow AI monitors past clinic records to search for inactive patients (e.g. no consultation for 12 months) and dispatches automated recall sequences inviting them for annual checkups." },
-  { q: "Is the CRM platform HIPAA compliant?", a: "Yes. CareFlow AI features role-based access controls, encrypted patient files, secure database namespaces, and full administrative audit logging aligning with strict clinical standards." },
-  { q: "Can we manage multiple clinic locations?", a: "Yes. CareFlow AI supports multi-clinic structures. Owners can configure separate schedules, manage distinct staff lists, and track independent location budgets from a central portal." },
-  { q: "What is the Reputation Management system?", a: "After clinic visits, patients receive automated experience feedback requests. Positive ratings trigger Google Review links, while negative ratings are routed internally to staff for resolution." },
-  { q: "Can we white-label CareFlow AI?", a: "Yes. Enterprise groups can customize CareFlow AI with their own colors, logo, and custom domain configuration to host patient interactions under their own brand." },
-  { q: "How long does it take to integrate CareFlow AI?", a: "A standard setup (Web widgets, CRM pipelines, and scheduler) is completed in 3-4 weeks. EHR integrations using HL7 FHIR databases require approximately 2-3 months." }
-];
-
-const mockLeads = [
-  { name: "Sarah Jenkins", interest: "Dental Implants", source: "Google Ads", score: "94% High Intent", status: "AI Qualified" },
-  { name: "John Smith", interest: "Teeth Whitening", source: "SEO Blog", score: "82% Med Intent", status: "Contacted" },
-  { name: "Elena Rostova", interest: "Veneers", source: "Instagram Ads", score: "96% High Intent", status: "Booking Set" }
+  { q: "Is CareFlow AI HIPAA-compliant?", a: "Yes. The platform is built following strict HIPAA and SOC2 security rules. All Protected Health Information (PHI) is encrypted at rest (AES-256) and in transit (TLS 1.3). We also maintain immutable audit logging for every single data read, write, or export action." },
+  { q: "What is the difference between CareFlow AI and a normal generic CRM?", a: "Generic CRMs manage names and email addresses. CareFlow AI is a medical-specific growth system. It features a front-desk chatbot that qualifies clinical cases, scores lead intent (e.g. high-value implants vs general cleaning), tracks revenue leakages by treatment department, manages checkup recall loops, and conforms to HIPAA standards." },
+  { q: "How does the AI Front Desk Receptionist qualify leads?", a: "The widget sits on your website. When a visitor asks about treatments (e.g. 'How much do dental implants cost?'), the AI explains the procedure, explains pricing ranges, checks insurance eligibility, pre-qualifies their budget intent, and logs their details as a high-intent prospect in the CRM." },
+  { q: "How does the AI Patient Reactivation Engine work?", a: "The system monitors patient records in your database. If it detects a patient has not booked an appointment for 12 to 18 months, it automatically schedules a recall campaign. It drafts a personalized email and SMS based on their past treatment (e.g. 'Time for your annual dental checkup') and provides scheduling options." },
+  { q: "Can we track lead attribution source?", a: "Yes. CareFlow AI tracks the source of every inquiry—whether from Google Ads, Facebook Ads, Instagram, Organic search, or referrals. It integrates with UTM parameters to calculate exact patient acquisition costs and campaign ROI." },
+  { q: "How does the Lead Scoring logic operate?", a: "Incoming prospects are analyzed by our clinical NLP parser. The AI calculates an intent score (0-100%) based on criteria such as the requested procedure value, urgency timeline (e.g., 'immediately' vs 'just looking'), location coordinates, and budget availability, signaling high-value cases to the staff." },
+  { q: "What automated follow-up intervals does the CRM support?", a: "By default, CareFlow AI sets a follow-up chain for unconverted prospects: Day 1 (answer procedure questions), Day 3 (offer open calendar slots), and Day 7 (specialist availability updates). This sequence immediately pauses once an appointment is booked." },
+  { q: "Can we manage multiple clinic locations?", a: "Yes. CareFlow AI supports multi-location organizations. Clinic groups can switch dashboards to check conversion metrics, review staff logs, monitor location-specific calendars, and compare revenue ROI side-by-side." },
+  { q: "How are patient reviews automated?", a: "Following an appointment, the CRM automatically texts the patient requesting feedback. If the review is highly positive, the system prompts them to write a Google review. If the feedback notes room for improvement, it directs the note to internal staff privately to preserve clinic reputation." },
+  { q: "What is the AI Growth Advisor?", a: "It is a built-in virtual business consultant. Clinic owners can ask questions like: 'Why are cosmetic bookings down?' The AI analyzes lead volumes, conversion histories, ads budgets, and local ratings to outline specific improvement steps." },
+  { q: "Does the system sync with our existing Electronic Health Record (EHR)?", a: "Yes. The platform includes a FHIR-compliant API layer designed to sync demographics, scheduling blocks, and treatment notes securely with major EHR engines such as Epic, Cerner, Dentrix, or Athenahealth." },
+  { q: "What email and SMS services are integrated?", a: "We integrate Twilio for secure text messages and Resend for modern, beautifully structured email campaigns. You can connect your own API keys to run communications directly under your clinic domain." },
+  { q: "How are payments and deposits handled?", a: "We utilize Stripe Connect. You can configure the system to take reservation deposits during online booking, capture co-pays during check-ins, or manage monthly recurring subscriptions for cosmetic maintenance packages." },
+  { q: "What roles and permissions are available?", a: "We configure five user roles: Owner (full revenue control), Doctor (clinical logs and schedule), Manager (leads pipeline and staff assignments), Receptionist (booking and task items), and Marketer (campaign design and analytics)." },
+  { q: "Can we white-label the software?", a: "Yes. CareFlow AI is designed with white-label capabilities for hospital groups and franchises. You can customize portal domains, brand color hex codes, clinic logos, and custom legal disclaimers." },
+  { q: "What databases and ORMs are used?", a: "We build with PostgreSQL as the relational database layer and Prisma ORM for safe type-checking. Schemas include Assessments, Symptoms, AIResponses, Users, Patients, Doctors, and Clinics." },
+  { q: "What is the Practice Experience Score?", a: "It is a metric calculating clinic performance. It aggregates receptionist message response times, appointment compliance, user satisfaction ratings, and review indexes to display a unified rating out of 100." },
+  { q: "Can family profiles be managed together?", a: "Yes. The Family Hub allows a parent or coordinator to switch between profiles for children, spouse, or parents. Each profile maintains its own history and appointments." },
+  { q: "How is file upload security managed?", a: "Patient reports are stored in secure AWS S3 buckets. Public read access is blocked. Files can only be retrieved using secure pre-signed URLs that expire automatically after 10 minutes." },
+  { q: "How long does implementation take?", a: "A standard white-label setup (Phase 1, including web widgets, pipeline boards, and basic booking) deploys in 4-6 weeks. Custom enterprise EHR integrations and voice agents deploy in 3-4 months." }
 ];
 
 /* =======================================================
    COMPONENT
-   ======================================================= */
-export default function CareFlowAiPage() {
+ ======================================================= */
+export default function CareFlowAIPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [activeUseCase, setActiveUseCase] = useState(0);
 
-  // OS Simulator States
-  const [activeDashboardTab, setActiveDashboardTab] = useState("receptionist");
-
-  // Tab 1: AI Receptionist Chat Simulator
-  const [receptionistStep, setReceptionistStep] = useState(0);
-  const [visitorInput, setVisitorInput] = useState("");
-  const [chatLog, setChatLog] = useState<Array<{ sender: "ai" | "user", text: string }>>([
-    { sender: "ai", text: "Welcome to Apex Dental! I am CareFlow AI front desk. Are you interested in scheduling a consultation, or do you have service questions?" }
+  // Interactive Simulator States
+  const [activeTab, setActiveTab] = useState("CRM");
+  const [pipelineTotal, setPipelineTotal] = useState(13200);
+  const [leadsList, setLeadsList] = useState([
+    { id: 1, name: "John Doe", service: "Whitening", source: "Google Ads", score: 82, status: "New", budget: "Standard", phone: "+1-555-0100" },
+    { id: 2, name: "Sarah Connor", service: "Dental Implants", source: "Facebook Ads", score: 94, status: "Qualified", budget: "High", phone: "+1-555-0199" },
+    { id: 3, name: "David Webb", service: "Veneers Consult", source: "Organic Search", score: 91, status: "Scheduled", budget: "High", phone: "+1-555-0143" },
+    { id: 4, name: "Emily Stone", service: "Teeth Align", source: "Instagram Referral", score: 88, status: "Converted", budget: "High", phone: "+1-555-0188" },
   ]);
-  const [chatLoading, setChatLoading] = useState(false);
-  const [leadAddedAlert, setLeadAddedAlert] = useState(false);
 
-  // Tab 2: CRM Pipeline
-  const [leadsList, setLeadsList] = useState(mockLeads);
-  const [newLeadName, setNewLeadName] = useState("");
-  const [newLeadService, setNewLeadService] = useState("Dental Implants");
+  // Campaign builder state
+  const [activeCampaign, setActiveCampaign] = useState<string | null>(null);
+  const [campaignDeploying, setCampaignDeploying] = useState(false);
+  const [campaignSuccess, setCampaignSuccess] = useState(false);
 
-  // Tab 3: Marketing Automation Campaigns
-  const [campaignBudget, setCampaignBudget] = useState(1500);
-  const [campaignROI, setCampaignROI] = useState(4.2);
+  // Reactivation Engine state
+  const [reactivatedIds, setReactivatedIds] = useState<number[]>([]);
 
-  const handleReceptionistChatSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!visitorInput || chatLoading) return;
-
-    const userText = visitorInput;
-    setChatLog(prev => [...prev, { sender: "user", text: userText }]);
-    setVisitorInput("");
-    setChatLoading(true);
-
-    setTimeout(() => {
-      if (receptionistStep === 0) {
-        setChatLog(prev => [...prev, {
-          sender: "ai",
-          text: "Excellent choice. Our Dental Implants start with a free consultation. May I get your name and email to qualify your booking?"
-        }]);
-        setReceptionistStep(1);
-      } else {
-        setChatLog(prev => [...prev, {
-          sender: "ai",
-          text: "Thank you! I have qualified your lead with a 94% Intent Score and added you to our CRM pipeline. Dr. Sarah Ahmed has slots open at 10:00 AM today."
-        }]);
-        setLeadAddedAlert(true);
-        // Add to CRM simulator list automatically
-        const formattedName = userText.split(" ")[0] || "New Patient";
-        setLeadsList(prev => [
-          { name: formattedName, interest: "Dental Implants", source: "Website Chat", score: "94% High Intent", status: "AI Qualified" },
-          ...prev
-        ]);
+  // CRM Simulation functions
+  const handleQualifyLead = (id: number) => {
+    setLeadsList(prev => prev.map(lead => {
+      if (lead.id === id) {
+        return { ...lead, status: "Qualified", score: Math.min(100, lead.score + 5) };
       }
-      setChatLoading(false);
-    }, 1000);
+      return lead;
+    }));
   };
 
-  const handleCreateLeadManually = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newLeadName) return;
-    setLeadsList(prev => [
-      { name: newLeadName, interest: newLeadService, source: "Manual Input", score: "85% Med Intent", status: "AI Qualified" },
-      ...prev
-    ]);
-    setNewLeadName("");
+  const handleScheduleConsult = (id: number) => {
+    setLeadsList(prev => prev.map(lead => {
+      if (lead.id === id) {
+        return { ...lead, status: "Scheduled" };
+      }
+      return lead;
+    }));
+  };
+
+  const handleMarkConverted = (id: number, value: number) => {
+    setLeadsList(prev => prev.map(lead => {
+      if (lead.id === id) {
+        return { ...lead, status: "Converted" };
+      }
+      return lead;
+    }));
+    setPipelineTotal(prev => prev + value);
+  };
+
+  // Campaign templates
+  const campaignsTemplates: Record<string, CampaignTemplate> = {
+    "implants": {
+      title: "Dental Implant Special Offer",
+      audience: "Patients Age 35-65 showing interest in cosmetic treatments",
+      emailBody: "Subject: Complete Your Smile at Apex Dental\n\nDear [Patient Name],\n\nAre you missing teeth or struggling with uncomfortable dentures? Discover the life-changing difference of dental implants. For this month only, we are offering a complimentary consultation and 3D digital imaging (a $350 value).\n\nSpots are limited. Click below to secure your consultation.",
+      smsBody: "Apex Dental: Reclaim your smile. Free implant consultation and 3D imaging this month. Click here to schedule: http://apx.dl/implants",
+      timeline: ["Send Day 1 (10 AM)", "Recall text Day 4 (3 PM)", "Final reminder Day 7 (12 PM)"]
+    },
+    "invisalign": {
+      title: "Clear Aligners Spring Drive",
+      audience: "Patients Age 18-40 seeking orthodontics",
+      emailBody: "Subject: Get the Smile You've Always Wanted – Comfortably\n\nDear [Patient Name],\n\nStraighten your teeth without wires or brackets. Invisalign clear aligners are virtually invisible, removable, and custom-designed for you. Book an evaluation this week to lock in $500 off your treatment plan.\n\nSchedule online today.",
+      smsBody: "Apex Dental: Get $500 off Invisalign aligners this week! Book your orthodontic assessment here: http://apx.dl/align",
+      timeline: ["Send Day 1 (9 AM)", "Recall text Day 3 (2 PM)", "Call follow-up Day 5 (5 PM)"]
+    },
+    "noshow": {
+      title: "No-Show Recall Loop",
+      audience: "Patients who missed consultations in the last 30 days",
+      emailBody: "Subject: We Missed You! Let's Rebook Your Consultation\n\nDear [Patient Name],\n\nWe missed you at your scheduled consultation. We understand that plans change and life gets busy! We would love to help you get back on track. Simply click the link below to find an open slot that fits your schedule.",
+      smsBody: "Apex Dental: We missed you! Easily rebook your consultation in one click: http://apx.dl/rebook",
+      timeline: ["Send Day 1 (8 AM)", "SMS Follow-up Day 3 (10 AM)", "Archive lead Day 10 (4 PM)"]
+    }
+  };
+
+  const handleDeployCampaign = () => {
+    if (!activeCampaign) return;
+    setCampaignDeploying(true);
+    setCampaignSuccess(false);
+    setTimeout(() => {
+      setCampaignDeploying(false);
+      setCampaignSuccess(true);
+    }, 1200);
+  };
+
+  // Reactivation Engine functions
+  const handleReactivate = (id: number) => {
+    if (reactivatedIds.includes(id)) return;
+    setReactivatedIds(prev => [...prev, id]);
   };
 
   return (
-    <div className="relative overflow-hidden bg-brand-bg text-white">
+    <div className="relative overflow-hidden">
       {/* Ambient glows */}
       <div className="fixed top-0 left-1/3 w-[600px] h-[600px] bg-brand-cyan/5 rounded-full blur-[120px] -z-10 pointer-events-none" />
       <div className="fixed top-1/2 right-0 w-[500px] h-[500px] bg-brand-indigo/5 rounded-full blur-[120px] -z-10 pointer-events-none" />
@@ -220,62 +298,75 @@ export default function CareFlowAiPage() {
           <span className="text-gray-600">/</span>
           <Link href="/#solutions" className="text-gray-500 hover:text-brand-cyan transition-colors">Solutions</Link>
           <span className="text-gray-600">/</span>
-          <span className="text-white">CareFlow AI OS</span>
+          <span className="text-white">CareFlow AI</span>
         </div>
 
-        {/* ======================================
-            HERO SECTION + SIMULATOR
-        ====================================== */}
+        {/* -- HERO SECTION -- */}
         <section className="relative mb-24 pt-8 md:pt-16">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
             
-            {/* Left Column (5 cols) */}
+            {/* Left side: Heading and content (5 cols) */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
               className="lg:col-span-5 flex flex-col space-y-6 text-left"
             >
+              {/* Top Badge */}
               <div className="inline-flex items-center space-x-2 self-start bg-gradient-to-r from-brand-cyan/15 to-brand-indigo/15 border border-brand-cyan/20 rounded-full px-4.5 py-1.5 shadow-lg shadow-brand-cyan/5">
                 <div className="w-1.5 h-1.5 bg-brand-cyan rounded-full animate-pulse" />
-                <span className="text-[10px] font-bold text-brand-cyan uppercase tracking-widest">Healthcare Growth Operating System</span>
+                <span className="text-[10px] font-bold text-brand-cyan uppercase tracking-widest">Healthcare Growth CRM & OS</span>
                 <Sparkles className="w-3 h-3 text-brand-cyan" />
               </div>
 
+              {/* Headline */}
               <h1 className="font-display font-extrabold text-3xl sm:text-4xl xl:text-5xl text-white leading-[1.15] tracking-tight">
-                Healthcare CRM + AI.<br />
-                <span className="text-gradient-cyan-indigo">Attract More Patients.</span><br />
-                <span className="text-gradient-emerald-cyan">Automate Clinic Growth.</span>
+                Attract Patients.<br />
+                <span className="text-gradient-cyan-indigo">Automate CRM Pipelines.</span><br />
+                <span className="text-gradient-emerald-cyan">Maximize Practice ROI.</span>
               </h1>
 
+              {/* Subtitle */}
               <p className="text-gray-400 text-sm sm:text-base leading-relaxed">
-                A clinic growth and relationship management platform. Integrates automated front desk receptionists, multi-day lead follow-up flows, marketing CRM lists, and patient lifetime value dashboards.
+                The AI-powered growth and operations platform that helps healthcare practices acquire more patients, automate communication workflows, and Reactivate dormant files.
               </p>
 
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                 <Link
-                  href="/contact"
-                  className="inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold px-8 py-4 rounded-xl hover:opacity-95 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-brand-cyan/25 text-sm"
+                  href="#simulator"
+                  className="inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold px-5 py-3.5 rounded-xl hover:opacity-95 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-brand-cyan/25 text-xs whitespace-nowrap"
                 >
-                  <Sparkles className="w-4 h-4" />
-                  <span>Request Custom Demo</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  <Sparkles className="w-4 h-4 animate-pulse" />
+                  <span>Try Simulator</span>
+                  <ArrowRight className="w-3 h-3" />
                 </Link>
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center justify-center space-x-2 glass-panel border border-brand-border text-gray-300 font-semibold px-8 py-4 rounded-xl hover:border-brand-cyan/40 hover:text-white hover:scale-[1.02] active:scale-[0.98] transition-all text-sm"
+                <a
+                  href="https://apex-dental-eight.vercel.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center space-x-2 glass-panel border border-brand-border text-white font-semibold px-5 py-3.5 rounded-xl hover:border-brand-cyan/40 hover:scale-[1.02] active:scale-[0.98] transition-all text-xs whitespace-nowrap"
                 >
-                  <Phone className="w-3.5 h-3.5" />
-                  <span>ROI Case Studies</span>
-                </Link>
+                  <Globe className="w-3.5 h-3.5 text-brand-cyan" />
+                  <span>Launch Live App</span>
+                </a>
+                <a
+                  href="https://github.com/alimubashir822/ApexDental"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center space-x-2 glass-panel border border-brand-border text-gray-300 font-semibold px-5 py-3.5 rounded-xl hover:border-brand-cyan/40 hover:text-white hover:scale-[1.02] active:scale-[0.98] transition-all text-xs whitespace-nowrap"
+                >
+                  <ExternalLink className="w-3.5 h-3.5 text-brand-indigo" />
+                  <span>View Source</span>
+                </a>
               </div>
 
-              {/* Trust Badges */}
+              {/* Trust badges */}
               <div className="flex flex-wrap gap-2.5 pt-4">
                 {[
-                  { icon: <Shield className="w-3.5 h-3.5 text-brand-emerald" />, label: "HIPAA Audited Data", bg: "bg-brand-emerald/10 border-brand-emerald/20" },
-                  { icon: <Lock className="w-3.5 h-3.5 text-brand-cyan" />, label: "Stripe Payment Vault", bg: "bg-brand-cyan/10 border-brand-cyan/20" },
-                  { icon: <CheckCircle className="w-3.5 h-3.5 text-brand-indigo" />, label: "n8n / Zapier Ready", bg: "bg-brand-indigo/10 border-brand-indigo/20" }
+                  { icon: <Shield className="w-3.5 h-3.5 text-brand-emerald" />, label: "HIPAA Compliant", bg: "bg-brand-emerald/10 border-brand-emerald/20" },
+                  { icon: <Lock className="w-3.5 h-3.5 text-brand-cyan" />, label: "AES-256 Encrypted", bg: "bg-brand-cyan/10 border-brand-cyan/20" },
+                  { icon: <CheckCircle className="w-3.5 h-3.5 text-brand-indigo" />, label: "Stripe Split Billing", bg: "bg-brand-indigo/10 border-brand-indigo/20" },
                 ].map((t) => (
                   <div key={t.label} className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-full border ${t.bg}`}>
                     {t.icon}
@@ -285,49 +376,55 @@ export default function CareFlowAiPage() {
               </div>
             </motion.div>
 
-            {/* Right Column: Interactive OS Simulator (7 cols) */}
+            {/* Right side: High-Fidelity Mock Dashboard (7 cols) */}
             <motion.div
+              id="simulator"
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.15 }}
               className="lg:col-span-7 relative"
             >
-              <div className="absolute -inset-1.5 bg-gradient-to-r from-brand-cyan to-brand-indigo rounded-2xl blur-xl opacity-20 transition-all duration-1000 -z-10" />
+              <div className="absolute -inset-1.5 bg-gradient-to-r from-brand-cyan to-brand-indigo rounded-2xl blur-xl opacity-20 group-hover:opacity-30 transition-all duration-1000 -z-10" />
               
-              <div className="glass-panel rounded-2xl border border-brand-border overflow-hidden bg-brand-bg/95">
+              {/* Mock Dashboard container */}
+              <div className="glass-panel rounded-2xl border border-brand-border overflow-hidden">
                 
-                {/* Simulator Header */}
-                <div className="border-b border-brand-border px-5 py-3 flex items-center justify-between bg-white/5">
+                {/* Top header nav */}
+                <div className="border-b border-brand-border px-5 py-3 flex items-center justify-between bg-white/2">
                   <div className="flex items-center space-x-2.5">
                     <div className="w-6.5 h-6.5 rounded-lg bg-gradient-to-br from-brand-cyan to-brand-indigo flex items-center justify-center">
-                      <HeartPulse className="w-3.5 h-3.5 text-white" />
+                      <Zap className="w-3.5 h-3.5 text-white animate-bounce" />
                     </div>
-                    <span className="font-display font-bold text-white text-xs tracking-wide">CareFlow AI OS Console</span>
+                    <span className="font-display font-bold text-white text-xs tracking-wide">CareFlow AI Operating Sandbox</span>
                   </div>
                   
-                  <div className="flex items-center space-x-2 bg-brand-emerald/10 border border-brand-emerald/25 rounded-full px-2.5 py-1">
-                    <div className="w-1.5 h-1.5 bg-brand-emerald rounded-full animate-pulse" />
-                    <span className="text-[10px] text-brand-emerald font-semibold">Growth Analytics Online</span>
+                  {/* Status Indicator */}
+                  <div className="flex items-center space-x-2 bg-brand-cyan/10 border border-brand-cyan/25 rounded-full px-2.5 py-1">
+                    <div className="w-1.5 h-1.5 bg-brand-cyan rounded-full animate-pulse" />
+                    <span className="text-[10px] text-brand-cyan font-semibold">Active Pipeline</span>
                   </div>
                 </div>
 
-                {/* Dashboard Inner Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-12 divide-y md:divide-y-0 md:divide-x divide-brand-border h-[450px]">
+                {/* Dashboard Inner Layout */}
+                <div className="grid grid-cols-1 md:grid-cols-12 divide-y md:divide-y-0 md:divide-x divide-brand-border h-[460px]">
                   
-                  {/* Left Navigation (4 cols) */}
+                  {/* Sidebar (4 cols) */}
                   <div className="md:col-span-4 p-4 space-y-1.5 bg-white/[0.01]">
-                    <p className="text-[9px] text-gray-500 uppercase font-bold tracking-wider mb-2 px-2">Operating TABS</p>
+                    <p className="text-[9px] text-gray-500 uppercase font-bold tracking-wider mb-2 px-2">Growth Modules</p>
                     {[
-                      { id: "receptionist", label: "AI Front Desk Chat", icon: <Phone className="w-3.5 h-3.5" /> },
-                      { id: "pipeline", label: "Patient CRM Pipeline", icon: <Users className="w-3.5 h-3.5" /> },
-                      { id: "campaign", label: "Marketing Campaigns", icon: <TrendingUp className="w-3.5 h-3.5" /> },
-                      { id: "analytics", label: "Revenue Intelligence", icon: <Building2 className="w-3.5 h-3.5" /> }
+                      { id: "CRM", label: "Pipeline CRM", icon: <TrendingUp className="w-3.5 h-3.5" /> },
+                      { id: "Campaigns", label: "Campaigns Builder", icon: <Mail className="w-3.5 h-3.5" /> },
+                      { id: "Reactivation", label: "Reactivation Hub", icon: <RefreshCw className="w-3.5 h-3.5" /> },
+                      { id: "Analytics", label: "Practice Analytics", icon: <BarChart3 className="w-3.5 h-3.5" /> },
                     ].map((tab) => (
                       <button
                         key={tab.id}
-                        onClick={() => setActiveDashboardTab(tab.id)}
+                        onClick={() => {
+                          setActiveTab(tab.id);
+                          setCampaignSuccess(false);
+                        }}
                         className={`w-full flex items-center space-x-2.5 px-3 py-2.5 rounded-xl text-xs font-semibold transition-all ${
-                          activeDashboardTab === tab.id
+                          activeTab === tab.id
                             ? "bg-gradient-to-r from-brand-cyan/15 to-brand-indigo/15 text-white border border-brand-cyan/20"
                             : "text-gray-400 hover:text-gray-200 hover:bg-white/5 border border-transparent"
                         }`}
@@ -338,258 +435,288 @@ export default function CareFlowAiPage() {
                     ))}
 
                     <div className="pt-6">
-                      <p className="text-[9px] text-gray-500 uppercase font-bold tracking-wider mb-2 px-2">Campaign Match</p>
-                      <div className="flex items-center space-x-2 px-2 py-1 bg-white/2 border border-brand-border rounded-xl">
-                        <div className="w-7 h-7 rounded-full bg-brand-cyan/15 flex items-center justify-center text-[10px] font-bold text-brand-cyan">
-                          CF
-                        </div>
-                        <div>
-                          <p className="text-[10px] font-bold text-white">Invisalign Promo</p>
-                          <p className="text-[8px] text-gray-500">Active · 4.2x ROI</p>
-                        </div>
+                      <p className="text-[9px] text-gray-500 uppercase font-bold tracking-wider mb-2 px-2">CRM Health</p>
+                      <div className="flex items-center space-x-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-gray-400">
+                        <ShieldCheck className="w-3.5 h-3.5" />
+                        <span>HIPAA Vault Active</span>
+                      </div>
+                      <div className="flex items-center space-x-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-gray-400">
+                        <Users className="w-3.5 h-3.5" />
+                        <span>Org Location: Main</span>
                       </div>
                     </div>
                   </div>
 
                   {/* Main Display (8 cols) */}
-                  <div className="md:col-span-8 p-5 overflow-y-auto flex flex-col justify-between h-full bg-brand-bg/10">
+                  <div className="md:col-span-8 p-5 overflow-y-auto flex flex-col justify-between h-full bg-brand-bg/20">
                     
-                    {/* Tab 1: AI Front Desk Chat */}
-                    {activeDashboardTab === "receptionist" && (
-                      <div className="flex-grow flex flex-col justify-between space-y-4">
-                        <div className="flex items-center justify-between border-b border-brand-border/60 pb-2">
-                          <span className="text-[10px] font-bold text-brand-cyan uppercase tracking-wider flex items-center">
-                            <Brain className="w-3.5 h-3.5 text-brand-cyan animate-pulse mr-1.5" />
-                            <span>AI Assistant Chat Intake</span>
+                    {/* Active tab: CRM Pipeline */}
+                    {activeTab === "CRM" && (
+                      <div className="flex flex-col h-full justify-between flex-grow">
+                        <div className="flex justify-between items-center border-b border-brand-border/60 pb-2 mb-3">
+                          <span className="text-[10px] font-bold text-brand-cyan uppercase tracking-wider flex items-center space-x-1">
+                            <TrendingUp className="w-3.5 h-3.5 text-brand-cyan mr-1" />
+                            <span>Patient Conversion Pipeline</span>
                           </span>
-                          <span className="text-[8px] bg-brand-cyan/15 text-brand-cyan font-bold px-2 py-0.5 rounded-full border border-brand-cyan/10">Live Triage</span>
+                          <span className="text-[10px] text-brand-emerald font-bold font-mono">
+                            Total: ${pipelineTotal.toLocaleString()}
+                          </span>
                         </div>
 
-                        {/* Chat history */}
-                        <div className="flex-grow overflow-y-auto max-h-[190px] space-y-3 pr-1 text-[11px] leading-relaxed">
-                          {chatLog.map((msg, i) => (
-                            <div key={i} className={`flex space-x-2 ${msg.sender === "user" ? "justify-end" : ""}`}>
-                              {msg.sender === "ai" && (
-                                <div className="w-5 h-5 rounded-full bg-brand-cyan/20 flex items-center justify-center text-[8px] font-bold text-brand-cyan flex-shrink-0">
-                                  AI
+                        {/* Kanban stages list */}
+                        <div className="space-y-3 flex-grow overflow-y-auto max-h-[290px] pr-1 mb-2">
+                          {leadsList.map((lead) => (
+                            <div key={lead.id} className="bg-slate-900/60 border border-brand-border rounded-xl p-3 space-y-2 flex flex-col justify-between">
+                              <div className="flex justify-between items-start">
+                                <div>
+                                  <div className="flex items-center space-x-2">
+                                    <span className="text-xs font-bold text-white">{lead.name}</span>
+                                    <span className={`text-[8px] font-bold px-1.5 py-0.5 rounded uppercase ${
+                                      lead.status === "New" ? "bg-blue-500/10 text-blue-400 border border-blue-500/20" :
+                                      lead.status === "Qualified" ? "bg-purple-500/10 text-purple-400 border border-purple-500/20" :
+                                      lead.status === "Scheduled" ? "bg-amber-500/10 text-amber-400 border border-amber-500/20" :
+                                      "bg-brand-emerald/10 text-brand-emerald border border-brand-emerald/20"
+                                    }`}>
+                                      {lead.status}
+                                    </span>
+                                  </div>
+                                  <p className="text-[10px] text-gray-400 mt-0.5">
+                                    {lead.service} &bull; Source: <span className="text-gray-300">{lead.source}</span>
+                                  </p>
                                 </div>
-                              )}
-                              <div className={`p-2.5 rounded-xl border max-w-[80%] ${
-                                msg.sender === "user"
-                                  ? "bg-brand-indigo/15 border-brand-indigo/25 text-white rounded-tr-none"
-                                  : "bg-brand-cyan/5 border-brand-cyan/15 text-gray-300 rounded-tl-none"
-                              }`}>
-                                {msg.text}
+                                <div className="text-right">
+                                  <span className="text-[9px] text-gray-500 font-bold block">Intent Score</span>
+                                  <span className={`text-xs font-mono font-bold ${lead.score >= 90 ? "text-brand-emerald" : "text-brand-cyan"}`}>{lead.score}%</span>
+                                </div>
+                              </div>
+
+                              {/* Action controls based on status */}
+                              <div className="border-t border-brand-border/60 pt-2 flex justify-between items-center">
+                                <span className="text-[9px] text-gray-500 font-bold uppercase">Budget: {lead.budget}</span>
+                                <div className="flex space-x-1.5">
+                                  {lead.status === "New" && (
+                                    <button
+                                      onClick={() => handleQualifyLead(lead.id)}
+                                      className="text-[9px] bg-brand-cyan/15 hover:bg-brand-cyan/25 text-brand-cyan border border-brand-cyan/35 rounded px-2.5 py-1 font-semibold transition-colors"
+                                    >
+                                      Qualify with AI
+                                    </button>
+                                  )}
+                                  {lead.status === "Qualified" && (
+                                    <button
+                                      onClick={() => handleScheduleConsult(lead.id)}
+                                      className="text-[9px] bg-brand-indigo/15 hover:bg-brand-indigo/25 text-white border border-brand-indigo/35 rounded px-2.5 py-1 font-semibold transition-colors"
+                                    >
+                                      Schedule Consult
+                                    </button>
+                                  )}
+                                  {lead.status === "Scheduled" && (
+                                    <button
+                                      onClick={() => handleMarkConverted(lead.id, lead.service === "Veneers Consult" ? 3500 : 1500)}
+                                      className="text-[9px] bg-brand-emerald/15 hover:bg-brand-emerald/25 text-brand-emerald border border-brand-emerald/35 rounded px-2.5 py-1 font-bold transition-colors"
+                                    >
+                                      Mark Converted
+                                    </button>
+                                  )}
+                                  {lead.status === "Converted" && (
+                                    <span className="text-[9px] text-brand-emerald flex items-center font-bold">
+                                      <Check className="w-3 h-3 mr-1" /> Converted
+                                    </span>
+                                  )}
+                                </div>
                               </div>
                             </div>
                           ))}
+                        </div>
+                      </div>
+                    )}
 
-                          {chatLoading && (
-                            <div className="flex space-x-2">
-                              <div className="w-5 h-5 rounded-full bg-brand-cyan/20 flex items-center justify-center text-[8px] font-bold text-brand-cyan flex-shrink-0">
-                                AI
-                              </div>
-                              <div className="bg-brand-cyan/5 border border-brand-cyan/15 rounded-xl rounded-tl-none p-2.5 text-gray-400">
-                                <span className="animate-pulse">Qualifying incoming inquiry parameters...</span>
-                              </div>
-                            </div>
-                          )}
+                    {/* Active tab: AI Campaign Builder */}
+                    {activeTab === "Campaigns" && (
+                      <div className="flex flex-col h-full justify-between flex-grow">
+                        <div className="flex justify-between items-center border-b border-brand-border/60 pb-2 mb-2">
+                          <span className="text-[10px] font-bold text-brand-cyan uppercase tracking-wider flex items-center space-x-1">
+                            <Mail className="w-3.5 h-3.5 text-brand-cyan mr-1" />
+                            <span>AI Marketing Campaign Builder</span>
+                          </span>
                         </div>
 
-                        {/* Qualified lead added alert */}
-                        {leadAddedAlert && (
-                          <motion.div
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="bg-brand-emerald/10 border border-brand-emerald/20 rounded-xl p-3"
-                          >
-                            <div className="flex items-center space-x-1.5 mb-1">
-                              <CheckCircle className="w-3.5 h-3.5 text-brand-emerald" />
-                              <span className="text-[9px] text-brand-emerald font-bold uppercase">AI Lead Qualified</span>
+                        {/* Select campaign templates */}
+                        {!activeCampaign ? (
+                          <div className="space-y-2.5 flex-grow flex flex-col justify-center">
+                            <p className="text-[11px] text-gray-400 text-center mb-1">Select a campaign scenario to generate outreach content:</p>
+                            {[
+                              { id: "implants", title: "Dental Implants Drive Promotion", desc: "Targeting age 35+ looking for cosmetic enhancements" },
+                              { id: "invisalign", title: "Invisalign Clear Aligners Spring Drive", desc: "Targeting age 18-40 looking for teeth alignment" },
+                              { id: "noshow", title: "Consultation No-Show Recall Loop", desc: "Targeting leads who missed visits in the last 30 days" },
+                            ].map((c) => (
+                              <button
+                                key={c.id}
+                                onClick={() => setActiveCampaign(c.id)}
+                                className="w-full text-left p-3 rounded-xl border border-brand-border hover:border-brand-cyan/40 bg-slate-900/40 hover:bg-slate-900/80 transition-all"
+                              >
+                                <p className="text-xs font-bold text-white flex items-center">
+                                  <Sparkles className="w-3 h-3 text-brand-cyan mr-1.5" />
+                                  <span>{c.title}</span>
+                                </p>
+                                <p className="text-[10px] text-gray-400 mt-0.5">{c.desc}</p>
+                              </button>
+                            ))}
+                          </div>
+                        ) : (
+                          <div className="space-y-3 flex-grow overflow-y-auto max-h-[300px] pr-1 flex flex-col justify-between">
+                            <div className="space-y-2">
+                              {/* Header */}
+                              <div className="flex justify-between items-center bg-slate-900/60 p-2 rounded-lg border border-brand-border">
+                                <div>
+                                  <p className="text-[8px] text-gray-500 uppercase font-bold">Campaign Segment Target</p>
+                                  <p className="text-[10px] font-bold text-white">{campaignsTemplates[activeCampaign].title}</p>
+                                </div>
+                                <button
+                                  onClick={() => {
+                                    setActiveCampaign(null);
+                                    setCampaignSuccess(false);
+                                  }}
+                                  className="text-[9px] text-gray-400 hover:text-white"
+                                >
+                                  Back
+                                </button>
+                              </div>
+
+                              {/* Campaign contents */}
+                              <div className="glass-panel border border-brand-border rounded-xl p-3 space-y-2 text-[10px]">
+                                <div>
+                                  <span className="text-[8px] text-brand-cyan font-bold uppercase block">AI Drafted Email Copy</span>
+                                  <pre className="text-[9px] text-gray-300 mt-1 whitespace-pre-wrap font-sans bg-black/30 p-2 rounded border border-brand-border/60">
+                                    {campaignsTemplates[activeCampaign].emailBody}
+                                  </pre>
+                                </div>
+
+                                <div className="border-t border-brand-border/40 pt-2">
+                                  <span className="text-[8px] text-brand-indigo font-bold uppercase block">AI Drafted SMS Blurb</span>
+                                  <p className="text-[9px] text-gray-300 mt-1 bg-black/30 p-2 rounded border border-brand-border/60">
+                                    {campaignsTemplates[activeCampaign].smsBody}
+                                  </p>
+                                </div>
+                              </div>
                             </div>
-                            <p className="text-[10px] text-gray-300 leading-normal">
-                              <strong>Status:</strong> Transferred to CRM · <strong>Score:</strong> 94% Intent · <strong>Opportunity:</strong> Dental Implants ($4,500 LTV).
-                            </p>
-                          </motion.div>
-                        )}
 
-                        {/* Interactive Form Input */}
-                        {!leadAddedAlert && (
-                          <form onSubmit={handleReceptionistChatSubmit} className="flex gap-2">
-                            <input
-                              type="text"
-                              required
-                              value={visitorInput}
-                              onChange={(e) => setVisitorInput(e.target.value)}
-                              disabled={chatLoading}
-                              placeholder={receptionistStep === 0 ? "e.g. I want teeth whitening pricing..." : "Enter details..."}
-                              className="flex-grow bg-brand-bg/50 border border-brand-border rounded-xl px-3 py-2 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-brand-cyan"
-                            />
-                            <button
-                              type="submit"
-                              disabled={chatLoading}
-                              className="bg-brand-cyan hover:bg-brand-cyan/90 text-brand-bg font-bold text-xs px-4 py-2 rounded-xl transition-colors disabled:opacity-50"
-                            >
-                              Send
-                            </button>
-                          </form>
-                        )}
-
-                        {leadAddedAlert && (
-                          <button
-                            onClick={() => {
-                              setLeadAddedAlert(false);
-                              setReceptionistStep(0);
-                              setChatLog([{ sender: "ai", text: "Welcome to Apex Dental! I am CareFlow AI front desk. Are you interested in scheduling a consultation, or do you have service questions?" }]);
-                            }}
-                            className="text-[10px] text-brand-cyan hover:underline text-center block mt-1"
-                          >
-                            Restart Chat Intake Simulator
-                          </button>
+                            {/* Trigger Deploy */}
+                            <div className="border-t border-brand-border/60 pt-2 flex items-center justify-between">
+                              <span className="text-[8px] text-gray-500 font-bold uppercase">Audience: {campaignsTemplates[activeCampaign].audience}</span>
+                              <div className="flex items-center space-x-2">
+                                {campaignSuccess ? (
+                                  <span className="text-[10px] text-brand-emerald font-bold flex items-center">
+                                    <Check className="w-3.5 h-3.5 mr-1" /> Deployed Success
+                                  </span>
+                                ) : (
+                                  <button
+                                    onClick={handleDeployCampaign}
+                                    disabled={campaignDeploying}
+                                    className="text-[10px] bg-brand-cyan/20 hover:bg-brand-cyan/35 text-white border border-brand-cyan/40 px-3 py-1.5 rounded font-bold transition-colors disabled:opacity-40"
+                                  >
+                                    {campaignDeploying ? "Deploying..." : "Deploy Campaign"}
+                                  </button>
+                                )}
+                              </div>
+                            </div>
+                          </div>
                         )}
                       </div>
                     )}
 
-                    {/* Tab 2: Patient CRM Pipeline */}
-                    {activeDashboardTab === "pipeline" && (
-                      <div className="flex-grow flex flex-col justify-between space-y-4">
-                        <div>
-                          <div className="flex items-center justify-between border-b border-brand-border/60 pb-2 mb-3">
-                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Patient 360 CRM Board</span>
-                            <span className="text-[8px] bg-brand-cyan/15 text-brand-cyan font-bold px-2 py-0.5 rounded-full border border-brand-cyan/10">Pipeline Leads</span>
-                          </div>
+                    {/* Active tab: Patient Reactivation Hub */}
+                    {activeTab === "Reactivation" && (
+                      <div className="flex flex-col h-full justify-between flex-grow">
+                        <div className="flex justify-between items-center border-b border-brand-border/60 pb-2 mb-2">
+                          <span className="text-[10px] font-bold text-brand-cyan uppercase tracking-wider flex items-center space-x-1">
+                            <RefreshCw className="w-3.5 h-3.5 text-brand-cyan mr-1" />
+                            <span>AI Patient Reactivation Hub</span>
+                          </span>
+                        </div>
 
-                          <div className="space-y-2 max-h-[190px] overflow-y-auto pr-1">
-                            {leadsList.map((lead) => (
-                              <div key={lead.name} className="glass-panel border border-brand-border rounded-xl p-3 flex items-center justify-between hover:border-brand-cyan/30 transition-all">
+                        {/* Inactive Patients List */}
+                        <div className="space-y-3 flex-grow overflow-y-auto max-h-[300px] pr-1">
+                          <p className="text-[10px] text-gray-400">AI identified 3 inactive patients who are overdue for maintenance checkups:</p>
+                          {[
+                            { id: 101, name: "Robert Downey", lastVisit: "15 Months Ago", lastService: "Root Canal", phone: "+1-555-0198" },
+                            { id: 102, name: "Jane Margolis", lastVisit: "18 Months Ago", lastService: "Teeth Cleaning", phone: "+1-555-0145" },
+                            { id: 103, name: "Marcus Aurelius", lastVisit: "22 Months Ago", lastService: "Ortho Adjust", phone: "+1-555-0122" },
+                          ].map((patient) => {
+                            const isSent = reactivatedIds.includes(patient.id);
+                            return (
+                              <div key={patient.id} className="bg-slate-900/60 border border-brand-border rounded-xl p-3 flex justify-between items-center">
                                 <div>
-                                  <p className="text-[11px] font-bold text-white leading-none">{lead.name}</p>
-                                  <p className="text-[9px] text-gray-500 mt-1">{lead.interest} · {lead.source}</p>
+                                  <p className="text-xs font-bold text-white">{patient.name}</p>
+                                  <p className="text-[9px] text-gray-400 mt-0.5">
+                                    Last Visit: <span className="text-gray-300">{patient.lastVisit}</span> &bull; Treatment: <span className="text-gray-300">{patient.lastService}</span>
+                                  </p>
                                 </div>
-                                <div className="text-right">
-                                  <span className="text-[8px] font-mono font-bold uppercase tracking-wide block text-brand-cyan">{lead.score}</span>
-                                  <span className="text-[8px] bg-white/5 border border-brand-border px-1.5 py-0.5 rounded-full text-gray-400 inline-block mt-1 font-semibold">{lead.status}</span>
-                                </div>
+                                <button
+                                  onClick={() => handleReactivate(patient.id)}
+                                  className={`text-[9px] px-2.5 py-1.5 rounded font-bold border transition-colors ${
+                                    isSent
+                                      ? "bg-brand-emerald/15 border-brand-emerald/30 text-brand-emerald"
+                                      : "bg-brand-cyan/15 hover:bg-brand-cyan/25 border-brand-cyan/35 text-brand-cyan"
+                                  }`}
+                                >
+                                  {isSent ? "Recall SMS Sent ✓" : "Trigger AI Recall"}
+                                </button>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Active tab: Practice Analytics */}
+                    {activeTab === "Analytics" && (
+                      <div className="flex flex-col h-full justify-between flex-grow">
+                        <div className="flex justify-between items-center border-b border-brand-border/60 pb-2 mb-3">
+                          <span className="text-[10px] font-bold text-brand-cyan uppercase tracking-wider flex items-center space-x-1">
+                            <BarChart3 className="w-3.5 h-3.5 text-brand-cyan mr-1" />
+                            <span>Growth & Source ROI Analytics</span>
+                          </span>
+                        </div>
+
+                        {/* Interactive analytical rings / data splits */}
+                        <div className="space-y-4 flex-grow overflow-y-auto max-h-[290px] pr-1">
+                          
+                          {/* Acquisition sources card */}
+                          <div className="grid grid-cols-3 gap-2.5">
+                            {[
+                              { label: "Google Ads Leads", count: 250, conversion: "36%", revenue: "$32,500", color: "text-brand-cyan border-brand-cyan/25 bg-brand-cyan/5" },
+                              { label: "Facebook Ads Leads", count: 180, conversion: "22%", revenue: "$18,000", color: "text-brand-indigo border-brand-indigo/25 bg-brand-indigo/5" },
+                              { label: "Organic Search", count: 90, conversion: "48%", revenue: "$24,500", color: "text-brand-emerald border-brand-emerald/25 bg-brand-emerald/5" },
+                            ].map((source, i) => (
+                              <div key={i} className={`border rounded-xl p-2.5 text-center ${source.color}`}>
+                                <p className="text-[8px] text-gray-400 uppercase font-bold leading-none mb-1">{source.label}</p>
+                                <p className="text-xs font-mono font-bold text-white mt-1">{source.count} leads</p>
+                                <p className="text-[10px] font-bold mt-1 text-white">{source.conversion} conv.</p>
+                                <p className="text-[9px] text-gray-400 mt-0.5">{source.revenue}</p>
                               </div>
                             ))}
                           </div>
-                        </div>
 
-                        {/* Add manual lead */}
-                        <form onSubmit={handleCreateLeadManually} className="flex gap-2">
-                          <input
-                            type="text"
-                            required
-                            value={newLeadName}
-                            onChange={(e) => setNewLeadName(e.target.value)}
-                            placeholder="Add manual patient lead name..."
-                            className="flex-grow bg-brand-bg/50 border border-brand-border rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none"
-                          />
-                          <select
-                            value={newLeadService}
-                            onChange={(e) => setNewLeadService(e.target.value)}
-                            className="bg-brand-bg/50 border border-brand-border rounded-lg px-2 text-xs text-white outline-none"
-                          >
-                            <option value="Dental Implants">Implants</option>
-                            <option value="Teeth Whitening">Whitening</option>
-                            <option value="Veneers">Veneers</option>
-                          </select>
-                          <button
-                            type="submit"
-                            className="bg-brand-cyan text-brand-bg font-bold text-xs px-3 py-1.5 rounded-lg"
-                          >
-                            Add
-                          </button>
-                        </form>
-                      </div>
-                    )}
-
-                    {/* Tab 3: Marketing Automation Campaigns */}
-                    {activeDashboardTab === "campaign" && (
-                      <div className="flex-grow flex flex-col justify-between space-y-4">
-                        <div>
-                          <div className="flex items-center justify-between border-b border-brand-border/60 pb-2 mb-3">
-                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">AI Marketing Campaign Builder</span>
-                            <span className="text-[8px] bg-brand-indigo/15 text-brand-indigo font-bold px-2 py-0.5 rounded-full border border-brand-indigo/10">Active Tracks</span>
-                          </div>
-
-                          <div className="space-y-3">
-                            <div className="p-3 bg-white/2 border border-brand-border rounded-xl">
-                              <span className="text-[8px] text-gray-500 uppercase font-bold block">Target Promotion</span>
-                              <span className="text-xs text-white font-bold block">Summer Invisalign Consultation Campaign</span>
-                              <p className="text-[10px] text-gray-400 mt-1 leading-normal">
-                                <strong>Message Track:</strong> Day 0 Intake &rarr; Day 3 Doctor Slot Offer &rarr; Day 7 Financing guides.
+                          {/* AI recommendations */}
+                          <div className="border border-brand-indigo/35 bg-brand-indigo/5 rounded-xl p-3 space-y-2">
+                            <div className="flex items-center space-x-2">
+                              <Sparkles className="w-4 h-4 text-brand-cyan" />
+                              <span className="text-[9px] text-brand-indigo font-bold uppercase block">AI Growth Advisor Recommendations</span>
+                            </div>
+                            <div className="text-[10px] text-gray-300 space-y-2 leading-relaxed font-sans">
+                              <p>
+                                <strong className="text-white">Insight:</strong> Google Ads generates 60% of your leads, but Organic Search has double the conversion rate. 
+                              </p>
+                              <p>
+                                <strong className="text-white">Actionable Plan:</strong> Increase content SEO efforts. Deploy the <span className="text-brand-cyan">AI Healthcare Content Engine</span> to build educational guide pages for implants and aligners to attract more organic visitors.
                               </p>
                             </div>
-
-                            <div className="grid grid-cols-2 gap-3 text-center">
-                              <div className="bg-white/2 border border-brand-border rounded-xl p-2.5">
-                                <span className="text-[8px] text-gray-500 block uppercase">Campaign Spend</span>
-                                <span className="text-sm font-extrabold text-white block mt-0.5">${campaignBudget}</span>
-                              </div>
-                              <div className="bg-white/2 border border-brand-border rounded-xl p-2.5">
-                                <span className="text-[8px] text-gray-500 block uppercase">Attributed Revenue</span>
-                                <span className="text-sm font-extrabold text-brand-emerald block mt-0.5">${Math.round(campaignBudget * campaignROI)}</span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Adjust Campaign slider simulation */}
-                        <div className="space-y-1.5">
-                          <div className="flex justify-between text-[10px] text-gray-400">
-                            <span>Adjust Ad Budget:</span>
-                            <span className="text-white font-bold">${campaignBudget}</span>
-                          </div>
-                          <input
-                            type="range"
-                            min="500"
-                            max="5000"
-                            step="500"
-                            value={campaignBudget}
-                            onChange={(e) => {
-                              setCampaignBudget(Number(e.target.value));
-                              setCampaignROI(Number((4.2 - (Number(e.target.value) / 10000)).toFixed(1)));
-                            }}
-                            className="w-full accent-brand-cyan bg-white/10 rounded-lg h-1"
-                          />
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Tab 4: Revenue Intelligence */}
-                    {activeDashboardTab === "analytics" && (
-                      <div className="flex-grow flex flex-col justify-between space-y-4">
-                        <div>
-                          <div className="flex items-center justify-between border-b border-brand-border/60 pb-2 mb-3">
-                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Practice Profit Analytics</span>
-                            <span className="text-[8px] bg-brand-cyan/15 text-brand-cyan font-bold px-2 py-0.5 rounded-full border border-brand-cyan/10">Clinic ROI</span>
-                          </div>
-
-                          <div className="grid grid-cols-2 gap-3 text-center">
-                            <div className="bg-white/2 border border-brand-border rounded-xl p-3">
-                              <span className="text-[8px] text-gray-500 block uppercase">Practice Revenue</span>
-                              <span className="text-base font-extrabold text-white block mt-0.5">$54,840</span>
-                            </div>
-                            <div className="bg-white/2 border border-brand-border rounded-xl p-3">
-                              <span className="text-[8px] text-gray-500 block uppercase">Ad Conversion Rate</span>
-                              <span className="text-base font-extrabold text-brand-cyan block mt-0.5">28.5%</span>
-                            </div>
-                          </div>
-
-                          <div className="p-3 bg-brand-emerald/10 border border-brand-emerald/20 rounded-xl mt-3 text-[10px] text-gray-300 leading-normal flex gap-1.5">
-                            <TrendingUp className="w-4 h-4 text-brand-emerald flex-shrink-0 mt-0.5 animate-pulse" />
-                            <span>AI Business Consultant: Google Ads drives 60% of leads, but organic SEO channels show a 3.4x higher patient conversion index. Recommend increasing SEO writing budgets.</span>
                           </div>
                         </div>
                       </div>
                     )}
 
-                    {/* Navigation helper */}
-                    <div className="text-[9px] text-gray-500 text-center border-t border-brand-border/60 pt-2 flex items-center justify-between mt-2">
-                      <span>Click sidebar tabs to simulate practice growth workflows.</span>
-                      <Brain className="w-3 h-3 text-brand-cyan" />
-                    </div>
                   </div>
                 </div>
 
@@ -599,123 +726,167 @@ export default function CareFlowAiPage() {
           </div>
         </section>
 
-        {/* ======================================
-            STATS BAR
-        ====================================== */}
-        <section className="mb-28">
-          <div className="glass-panel rounded-2xl border border-brand-border p-6">
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
-              {[
-                { value: "94%+", label: "Lead Conversion", icon: <TrendingUp className="w-5 h-5" /> },
-                { value: "2.5x", label: "Patient LTV Growth", icon: <Wallet className="w-5 h-5" /> },
-                { value: "5 hrs+", label: "Weekly Staff Saved", icon: <Clock className="w-5 h-5" /> },
-                { value: "40%+", label: "Ad ROI Increase", icon: <BarChart3 className="w-5 h-5" /> },
-                { value: "100%", label: "HIPAA Compliant", icon: <Shield className="w-5 h-5" /> },
-                { value: "92/100", label: "Experience Score", icon: <Smile className="w-5 h-5" /> }
-              ].map((stat, i) => (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.05, duration: 0.4 }}
-                  className="text-center space-y-1.5"
-                >
-                  <div className="w-9 h-9 rounded-xl bg-brand-cyan/5 border border-brand-cyan/15 text-brand-cyan flex items-center justify-center mx-auto mb-1">
-                    {stat.icon}
-                  </div>
-                  <h4 className="text-xl sm:text-2xl font-display font-extrabold text-white tracking-tight">{stat.value}</h4>
-                  <p className="text-[10px] text-gray-500 uppercase tracking-wider font-semibold leading-tight">{stat.label}</p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ======================================
-            DIFFERENTIATORS (4 Core Differentiators)
-        ====================================== */}
-        <section className="mb-28">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <div className="inline-flex items-center space-x-2 bg-brand-cyan/10 border border-brand-cyan/20 rounded-full px-4 py-1.5 mb-4">
-              <Sparkles className="w-4 h-4 text-brand-cyan" />
-              <span className="text-xs font-semibold text-brand-cyan uppercase tracking-widest">Growth Engines</span>
-            </div>
-            <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-white">
-              Why CareFlow is Different
-            </h2>
-            <p className="mt-4 text-gray-400 text-sm leading-relaxed max-w-xl mx-auto">
-              We upgrade basic patient records into full marketing conversion and clinical reactivation databases.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {differentiators.map((d, i) => (
+        {/* -- STATS SECTION -- */}
+        <section className="relative mb-24">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            {stats.map((s, idx) => (
               <motion.div
-                key={d.title}
-                initial={{ opacity: 0, y: 16 }}
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.06, duration: 0.4 }}
-                className="glass-panel rounded-2xl p-6 border border-brand-border flex flex-col justify-between relative group hover:border-brand-cyan/40 transition-colors"
+                transition={{ duration: 0.5, delay: idx * 0.05 }}
+                className="glass-panel border border-brand-border rounded-2xl p-4.5 text-center flex flex-col justify-between items-center hover:border-brand-cyan/20 transition-colors"
               >
-                <div className="absolute -inset-px bg-gradient-to-br from-brand-cyan/10 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
-                <div>
-                  <div className="w-12 h-12 rounded-xl bg-brand-cyan/10 text-brand-cyan flex items-center justify-center mb-5">
-                    {d.icon}
-                  </div>
-                  <h3 className="font-display font-bold text-white text-lg mb-1">{d.title}</h3>
-                  <p className="text-xs text-brand-cyan font-mono mb-3">{d.subtitle}</p>
-                  <p className="text-xs sm:text-sm text-gray-400 leading-relaxed">{d.desc}</p>
+                <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center mb-3.5 text-brand-cyan">
+                  {s.icon}
+                </div>
+                <div className="space-y-1">
+                  <h3 className="font-display font-extrabold text-lg text-white leading-none">{s.value}</h3>
+                  <p className="text-[9px] text-gray-400 uppercase font-semibold leading-tight">{s.label}</p>
                 </div>
               </motion.div>
             ))}
           </div>
         </section>
 
-        {/* ======================================
-            PORTAL MODULES GRID
-        ====================================== */}
-        <section className="mb-28">
+        <hr className="border-brand-border mb-20" />
+
+        {/* -- FEATURES SECTION -- */}
+        <section className="mb-24">
+          <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+            <h2 className="font-display font-bold text-3xl text-white tracking-tight">
+              A Complete Practice Growth Suite
+            </h2>
+            <p className="text-gray-400 text-sm leading-relaxed">
+              Every workflow needed to attract leads, verify intent, automatically recover lost bookings, and retain existing patients.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {coreFeatures.map((f, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.03 }}
+                className="glass-panel border border-brand-border rounded-xl p-5 hover:border-brand-cyan/20 transition-all flex flex-col justify-between relative group"
+              >
+                {f.badge && (
+                  <span className="absolute top-4 right-4 text-[8px] font-bold px-1.5 py-0.5 rounded bg-brand-cyan/10 text-brand-cyan uppercase tracking-wider">
+                    {f.badge}
+                  </span>
+                )}
+                <div>
+                  <div className="w-10 h-10 rounded-lg bg-slate-900/60 border border-brand-border flex items-center justify-center text-brand-cyan mb-4 group-hover:scale-105 transition-transform duration-300">
+                    {f.icon}
+                  </div>
+                  <h3 className="text-white font-bold text-sm mb-2">{f.title}</h3>
+                  <p className="text-gray-400 text-xs leading-relaxed">{f.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        <hr className="border-brand-border mb-20" />
+
+        {/* -- DIFFERENTIATORS -- */}
+        <section className="mb-24">
+          <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+            <h2 className="font-display font-bold text-3xl text-white tracking-tight">
+              Why CareFlow AI is Different
+            </h2>
+            <p className="text-gray-400 text-sm leading-relaxed">
+              Traditional CRMs just hold directories. Our system acts as an operational employee that executes campaign deployments, qualifies leads, and secures recurring practice revenues.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {differentiators.map((d, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 25 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: i * 0.05 }}
+                style={{
+                  boxShadow: `0 10px 30px -10px ${d.glow}`
+                }}
+                className={`rounded-2xl border border-brand-border/60 bg-gradient-to-br ${d.color} p-6 space-y-4 hover:border-brand-cyan/30 transition-all flex flex-col justify-between`}
+              >
+                <div className="space-y-3">
+                  <div className="w-12 h-12 rounded-xl bg-slate-950/60 border border-brand-border flex items-center justify-center text-brand-cyan">
+                    {d.icon}
+                  </div>
+                  <div>
+                    <h3 className="text-white font-bold text-base leading-snug">{d.title}</h3>
+                    <p className="text-[10px] text-brand-cyan font-bold tracking-wider uppercase mt-0.5">{d.subtitle}</p>
+                  </div>
+                </div>
+                <p className="text-gray-400 text-xs leading-relaxed">{d.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        <hr className="border-brand-border mb-20" />
+
+        {/* -- SYSTEM ARCHITECTURE / MODULES -- */}
+        <section className="mb-24">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
-            {/* Left Info (5 cols) */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="lg:col-span-5 text-left"
-            >
-              <div className="inline-flex items-center space-x-2 bg-brand-indigo/10 border border-brand-indigo/20 rounded-full px-4 py-1.5 mb-6">
-                <LayoutDashboard className="w-4 h-4 text-brand-indigo" />
-                <span className="text-xs font-semibold text-brand-indigo uppercase tracking-widest">SaaS Modules</span>
-              </div>
-              <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-white mb-4">
-                Clinical growth operating software
+            {/* Left side: Information */}
+            <div className="lg:col-span-5 space-y-6">
+              <h2 className="font-display font-bold text-3xl text-white tracking-tight leading-tight">
+                Modular Architecture Built for Clinic Scale
               </h2>
-              <p className="text-gray-400 leading-relaxed mb-6">
-                Structured to streamline administrative checkups, automate campaign drafts, calculate patient LTV metrics, and coordinate multi-location schedules.
+              <p className="text-gray-400 text-xs sm:text-sm leading-relaxed">
+                The CareFlow platform partitions patient engagement channels, pipeline management tools, campaign deployment interfaces, and location analytics into separate micro-applications.
               </p>
-              
-              <div className="p-4 bg-brand-cyan/5 border border-brand-cyan/15 rounded-xl text-[11px] leading-relaxed text-gray-400 flex gap-2">
-                <Info className="w-5 h-5 text-brand-cyan flex-shrink-0 mt-0.5" />
-                <span>Features complete WebRTC audio integrations and Stripe payment setups to secure appointment consultation fees automatically.</span>
-              </div>
-            </motion.div>
+              <p className="text-gray-400 text-xs sm:text-sm leading-relaxed">
+                This enables organization administrators to configure individual staff permissions, limit regional EHR scopes, and manage multiple sub-locations from a single dashboard.
+              </p>
 
-            {/* Right Grid (7 cols) */}
-            <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {portalModules.map((m) => (
-                <div key={m.title} className="glass-panel rounded-xl p-5 border border-brand-border">
-                  <div className="flex items-center space-x-2.5 mb-3">
-                    <span className="text-brand-cyan">{m.icon}</span>
-                    <h4 className="font-semibold text-white text-sm">{m.title}</h4>
+              <div className="pt-4 border-t border-brand-border/60 space-y-4">
+                <div className="flex items-start space-x-3">
+                  <div className="w-5 h-5 rounded-full bg-brand-emerald/10 border border-brand-emerald/30 flex items-center justify-center text-brand-emerald flex-shrink-0 mt-0.5">
+                    <Check className="w-3.5 h-3.5" />
                   </div>
+                  <div>
+                    <h4 className="text-white font-semibold text-xs">EHR / FHIR Compatible</h4>
+                    <p className="text-gray-400 text-xs mt-0.5">Syncs qualified lead parameters directly into clinical EHR schedules.</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <div className="w-5 h-5 rounded-full bg-brand-cyan/10 border border-brand-cyan/30 flex items-center justify-center text-brand-cyan flex-shrink-0 mt-0.5">
+                    <Check className="w-3.5 h-3.5" />
+                  </div>
+                  <div>
+                    <h4 className="text-white font-semibold text-xs">Twilio SMS Recall Automation</h4>
+                    <p className="text-gray-400 text-xs mt-0.5">Automates text checkups for inactive files, securing booking appointments hands-free.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right side: Modules Accordion/Grid */}
+            <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {portalModules.map((m, idx) => (
+                <div key={idx} className="glass-panel border border-brand-border rounded-2xl p-5 space-y-4 bg-white/[0.01]">
+                  <div className="flex items-center space-x-3 text-brand-cyan">
+                    <div className="w-9 h-9 rounded-lg bg-slate-900 flex items-center justify-center">
+                      {m.icon}
+                    </div>
+                    <h3 className="text-white font-bold text-sm leading-none">{m.title}</h3>
+                  </div>
+
                   <ul className="space-y-2">
-                    {m.items.map((item) => (
-                      <li key={item} className="flex items-start space-x-2">
-                        <CheckCircle className="w-3.5 h-3.5 text-brand-emerald mt-0.5 flex-shrink-0" />
-                        <span className="text-xs text-gray-400">{item}</span>
+                    {m.items.map((item, i) => (
+                      <li key={i} className="text-xs text-gray-400 flex items-start">
+                        <span className="text-brand-cyan mr-2 mt-1 flex-shrink-0">&bull;</span>
+                        <span>{item}</span>
                       </li>
                     ))}
                   </ul>
@@ -726,73 +897,83 @@ export default function CareFlowAiPage() {
           </div>
         </section>
 
-        {/* ======================================
-            SPECIALTIES USE CASES
-        ====================================== */}
-        <section className="mb-28">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center space-x-2 bg-brand-cyan/10 border border-brand-cyan/20 rounded-full px-4 py-1.5 mb-4">
-              <Stethoscope className="w-4 h-4 text-brand-cyan" />
-              <span className="text-xs font-semibold text-brand-cyan uppercase tracking-widest">Practice ROI</span>
-            </div>
-            <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-white">
-              Clinic Use Cases
+        <hr className="border-brand-border mb-20" />
+
+        {/* -- USE CASES -- */}
+        <section className="mb-24">
+          <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+            <h2 className="font-display font-bold text-3xl text-white tracking-tight">
+              Enterprise Use Case Scenarios
             </h2>
-            <p className="mt-4 text-gray-400 max-w-2xl mx-auto">
-              See how CareFlow AI scales patient acquisition and follow-up flows across distinct medical clinic specialties.
+            <p className="text-gray-400 text-sm leading-relaxed">
+              Discover how dental centers, aesthetic dermatologists, multi-location healthcare franchises, and private GPs utilize our pipeline systems to drive revenue growth.
             </p>
           </div>
 
-          {/* Tab selector */}
-          <div className="flex flex-wrap gap-2 mb-8 justify-center">
-            {useCases.map((uc, i) => (
+          {/* Tabs header */}
+          <div className="flex flex-wrap justify-center gap-2 mb-10">
+            {useCases.map((uc, idx) => (
               <button
-                key={uc.specialty}
-                onClick={() => setActiveUseCase(i)}
-                className={`flex items-center space-x-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
-                  activeUseCase === i
-                    ? "bg-gradient-to-r from-brand-cyan/20 to-brand-indigo/15 text-white border border-brand-cyan/30"
-                    : "glass-panel border border-brand-border text-gray-400 hover:text-white hover:border-brand-cyan/20"
+                key={idx}
+                onClick={() => setActiveUseCase(idx)}
+                className={`px-5 py-2.5 rounded-full text-xs font-semibold border transition-all ${
+                  activeUseCase === idx
+                    ? "bg-gradient-to-r from-brand-cyan/20 to-brand-indigo/20 border-brand-cyan/40 text-white"
+                    : "bg-slate-900/40 border-brand-border text-gray-400 hover:text-gray-200"
                 }`}
               >
-                <span className="text-brand-cyan">{uc.icon}</span>
-                <span>{uc.specialty}</span>
+                {uc.specialty}
               </button>
             ))}
           </div>
 
+          {/* Active Tab View */}
           <AnimatePresence mode="wait">
             <motion.div
               key={activeUseCase}
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
-              className="glass-panel rounded-2xl border border-brand-border overflow-hidden text-left"
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.4 }}
+              className="glass-panel border border-brand-border rounded-3xl p-6 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center"
             >
-              <div className="grid grid-cols-1 lg:grid-cols-3">
-                <div className="p-8 border-b lg:border-b-0 lg:border-r border-brand-border">
-                  <div className="w-14 h-14 rounded-2xl bg-brand-cyan/10 flex items-center justify-center mb-5 text-brand-cyan">
+              {/* Left side: details */}
+              <div className="lg:col-span-7 space-y-6">
+                <div className="flex items-center space-x-3">
+                  <div className="w-12 h-12 rounded-xl bg-slate-900 flex items-center justify-center text-brand-cyan">
                     {useCases[activeUseCase].icon}
                   </div>
-                  <h3 className="font-display font-bold text-2xl text-white mb-2">{useCases[activeUseCase].specialty}</h3>
-                  <p className="text-sm text-gray-400 mb-6 italic">&ldquo;{useCases[activeUseCase].scenario}&rdquo;</p>
-                  <div className="p-4 bg-brand-emerald/10 border border-brand-emerald/20 rounded-xl">
-                    <p className="text-xs font-bold text-brand-emerald mb-1">Measured Clinic ROI</p>
-                    <p className="text-sm text-gray-300">{useCases[activeUseCase].outcome}</p>
+                  <div>
+                    <h3 className="text-xl font-bold text-white">{useCases[activeUseCase].specialty} Scenario</h3>
+                    <p className="text-xs text-brand-cyan font-bold mt-0.5">{useCases[activeUseCase].scenario}</p>
                   </div>
                 </div>
-                <div className="lg:col-span-2 p-8">
-                  <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-5">Patient Conversion Steps</p>
-                  <div className="space-y-4">
-                    {useCases[activeUseCase].journey.map((step, i) => (
-                      <div key={i} className="flex items-start space-x-4">
-                        <div className="w-8 h-8 rounded-full bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan text-xs font-bold flex-shrink-0">
-                          {i + 1}
-                        </div>
-                        <p className="text-sm text-gray-300 pt-1.5 leading-relaxed">{step}</p>
-                      </div>
-                    ))}
+
+                {/* Workflow timeline */}
+                <div className="relative pl-6 space-y-4 border-l border-brand-border/60">
+                  {useCases[activeUseCase].journey.map((step, idx) => (
+                    <div key={idx} className="relative">
+                      <div className="absolute -left-[30px] top-1.5 w-2 h-2 rounded-full bg-brand-cyan" />
+                      <p className="text-xs text-gray-300 leading-relaxed">{step}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Right side: Outcome metrics */}
+              <div className="lg:col-span-5 border border-brand-indigo/20 bg-brand-indigo/5 rounded-2xl p-6 text-center space-y-4">
+                <h4 className="text-[10px] text-brand-cyan font-bold uppercase tracking-widest leading-none">Measured Clinic Outcome</h4>
+                <p className="text-sm font-semibold text-white leading-relaxed">
+                  &ldquo;{useCases[activeUseCase].outcome}&rdquo;
+                </p>
+                <div className="pt-4 border-t border-brand-border/60 flex justify-center space-x-6">
+                  <div>
+                    <p className="text-xs font-mono font-bold text-white">100%</p>
+                    <p className="text-[9px] text-gray-500 uppercase mt-0.5">HIPAA Safe</p>
+                  </div>
+                  <div>
+                    <p className="text-xs font-mono font-bold text-white">FHIR</p>
+                    <p className="text-[9px] text-gray-500 uppercase mt-0.5">Ready Sync</p>
                   </div>
                 </div>
               </div>
@@ -800,217 +981,224 @@ export default function CareFlowAiPage() {
           </AnimatePresence>
         </section>
 
-        {/* ======================================
-            20 CORE SaaS CAPABILITIES
-        ====================================== */}
-        <section className="mb-28">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-white">
-              20 Advanced Practice Capabilities
+        <hr className="border-brand-border mb-20" />
+
+        {/* -- INTEGRATIONS & TECH STACK -- */}
+        <section className="mb-24 grid grid-cols-1 lg:grid-cols-12 gap-12">
+          
+          {/* Tech stack lists (5 cols) */}
+          <div className="lg:col-span-5 space-y-6">
+            <h2 className="font-display font-bold text-2xl text-white tracking-tight leading-tight">
+              Next-Gen Tech Stack
             </h2>
-            <p className="mt-4 text-gray-400 text-sm leading-relaxed max-w-xl mx-auto">
-              Explore the complete growth and automation feature checklist that sets CareFlow AI apart as a practice operating platform.
+            <p className="text-gray-400 text-xs sm:text-sm leading-relaxed">
+              CareFlow AI utilizes a type-safe Next.js architecture coupled with a secure database layer, providing performance and reliability.
             </p>
-          </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
-            {[
-              { num: "01", title: "AI Front Desk Receptionist", desc: "Automates web inquiries, maps treatment pricing, and schedules consultations." },
-              { num: "02", title: "AI Lead Qualifier", desc: "Calculates intent scoring indexes to prioritize receptionist calls." },
-              { num: "03", title: "Patient Conversion Pipeline", desc: "Tracks lead flows from initial inquiry to returning patient loyalty." },
-              { num: "04", title: "AI Treatment Follow-Up", desc: "Automated Care triggers emailing guides on Day 1, Day 3, and Day 7." },
-              { num: "05", title: "AI Website Personalization", desc: "Changes landing layouts dynamically based on search terms (e.g. costs)." },
-              { num: "06", title: "AI Patient Reactivation", desc: "Monitors databases to recall past patients due for annual checkups." },
-              { num: "07", title: "AI Campaign Builder", desc: "Writes target SMS, email copy, and creates landing layouts in seconds." },
-              { num: "08", title: "Lifetime Value Tracker", desc: "Calculates total expenditure history and upcoming consult values." },
-              { num: "09", title: "AI Call Center Integration", desc: "Direct voice agent lines answering FAQ queries and booking slots." },
-              { num: "10", title: "Smart Slot Optimizer", desc: "Reduces clinic no-show rates with machine-learning timeline alerts." },
-              { num: "11", title: "Clinic Growth Advisor", desc: "AI consultant evaluating EMR conversion rates to advise ad budgets." },
-              { num: "12", title: "Patient Experience Score", desc: "Calculates satisfaction indexes based on staff response times." },
-              { num: "13", title: "Reputation Automator", desc: "Collects reviews; routes positive scores to Google while flagging issues." },
-              { num: "14", title: "Healthcare Content Engine", desc: "Drafts medical SEO blogs and FAQ pages dynamically." },
-              { num: "15", title: "Multi-Clinic Management", desc: "Enterprise panels monitoring leads and staff across multiple locations." },
-              { num: "16", title: "AI Patient Journey Map", desc: "Visualizes the clinical path from intake, consultation, to long-term care." },
-              { num: "17", title: "Smart Internal Tasks", desc: "Auto-creates checklists for receptionists and notifications for doctors." },
-              { num: "18", title: "Healthcare Integrations", desc: "Connects with calendars, EHR vaults, SMS gateways, and Stripe." },
-              { num: "19", title: "White Label Options", desc: "Enables healthcare networks to insert their logo, styling, and domains." },
-              { num: "20", title: "AI Practice Consultant", desc: "Interactive prompt evaluating practice analytics to outline growth tasks." }
-            ].map((item, i) => (
-              <motion.div
-                key={item.title}
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.04 }}
-                className="glass-panel rounded-xl p-5 border border-brand-border flex flex-col justify-between"
-              >
-                <div>
-                  <span className="text-xs font-mono font-bold text-brand-cyan/60 block mb-2">{item.num}</span>
-                  <h4 className="font-display font-semibold text-white mb-2">{item.title}</h4>
-                  <p className="text-xs text-gray-400 leading-relaxed">{item.desc}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </section>
-
-        {/* ======================================
-            TECH STACK GRID
-        ====================================== */}
-        <section className="mb-28">
-          <div className="text-center mb-12">
-            <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-white">
-              Enterprise Practice Growth Stack
-            </h2>
-            <p className="mt-3 text-gray-400 max-w-xl mx-auto">
-              Modern framework technologies selected to maintain low WebRTC video latency and secure EMR database scaling.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 text-left">
-            {techStack.map((stack) => (
-              <div key={stack.category} className="glass-panel rounded-xl p-5 border border-brand-border">
-                <div className="flex items-center space-x-2 mb-4">
-                  <span className="text-brand-cyan">{stack.icon}</span>
-                  <h4 className="font-display font-bold text-white">{stack.category}</h4>
-                </div>
-                <ul className="space-y-2">
-                  {stack.items.map((item) => (
-                    <li key={item} className="flex items-center space-x-2">
-                      <div className="w-1.5 h-1.5 rounded-full bg-brand-cyan/60" />
-                      <span className="text-sm text-gray-400">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ======================================
-            DATABASE SCHEMA DESIGN
-        ====================================== */}
-        <section className="mb-28">
-          <div className="glass-panel rounded-2xl p-8 border border-brand-border text-left">
-            <div className="flex items-x-3 mb-8">
-              <Database className="w-6 h-6 text-brand-cyan mr-3" />
-              <div>
-                <h2 className="font-display font-bold text-2xl text-white">Prisma DB Schema Layout</h2>
-                <p className="text-sm text-gray-400">PostgreSQL Relational Structures - fully typed, migration-safe, auditable records</p>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-              {databaseTables.map((t) => (
-                <div key={t.table} className="bg-brand-bg/50 rounded-xl p-4 border border-brand-border hover:border-brand-cyan/30 transition-colors">
-                  <p className="font-display font-bold text-brand-cyan text-sm mb-2">{t.table}</p>
-                  <ul className="space-y-1">
-                    {t.fields.map((f) => (
-                      <li key={f} className="text-[11px] text-gray-500 font-mono">{f}</li>
-                    ))}
-                  </ul>
+            <div className="space-y-4">
+              {techStack.map((category, idx) => (
+                <div key={idx} className="border border-brand-border rounded-xl p-4 bg-slate-900/30 flex items-start space-x-3">
+                  <div className="text-brand-cyan mt-0.5">
+                    {category.icon}
+                  </div>
+                  <div>
+                    <h3 className="text-xs font-bold text-white leading-none mb-2">{category.category}</h3>
+                    <div className="flex flex-wrap gap-1.5">
+                      {category.items.map((item, i) => (
+                        <span key={i} className="text-[9px] font-mono px-2 py-0.5 rounded bg-white/5 border border-brand-border text-gray-300">
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
+
+          {/* Integrations checklist (7 cols) */}
+          <div className="lg:col-span-7 space-y-6">
+            <h2 className="font-display font-bold text-2xl text-white tracking-tight leading-tight">
+              Enterprise Ecosystem Connectors
+            </h2>
+            <p className="text-gray-400 text-xs sm:text-sm leading-relaxed">
+              Designed to connect directly with your active channels, processing emails, SMS outreach schedules, payment checks, and database calls seamlessly.
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {integrations.map((int, idx) => (
+                <div key={idx} className="glass-panel border border-brand-border rounded-xl p-3 flex flex-col justify-between hover:border-brand-cyan/20 transition-colors bg-white/[0.01]">
+                  <div>
+                    <span className="text-[8px] font-mono px-1.5 py-0.5 rounded bg-brand-cyan/10 text-brand-cyan uppercase tracking-wider block w-max mb-2">
+                      {int.category}
+                    </span>
+                    <h3 className="text-xs font-bold text-white leading-none mb-1">{int.name}</h3>
+                  </div>
+                  <p className="text-[10px] text-gray-400 leading-snug mt-1.5">{int.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
         </section>
 
-        {/* ======================================
-            FAQ SECTION
-        ====================================== */}
-        <section className="mb-28 text-left">
-          <div className="text-center mb-14">
-            <div className="inline-flex items-center space-x-2 bg-brand-indigo/10 border border-brand-indigo/20 rounded-full px-4 py-1.5 mb-4">
-              <BookOpen className="w-4 h-4 text-brand-indigo" />
-              <span className="text-xs font-semibold text-brand-indigo uppercase tracking-widest">FAQS</span>
-            </div>
-            <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-white">
-              Questions & Answers
+        <hr className="border-brand-border mb-20" />
+
+        {/* -- DATABASE SCHEMA DIAGRAM -- */}
+        <section className="mb-24">
+          <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+            <h2 className="font-display font-bold text-3xl text-white tracking-tight">
+              Database Architecture (PostgreSQL Schema)
             </h2>
-            <p className="mt-3 text-gray-400 max-w-xl mx-auto">
-              Everything you need to know about compliance, features, subscription plans, and integration steps.
+            <p className="text-gray-400 text-sm leading-relaxed">
+              Fully normalized relational tables linked via Prisma schemas, ensuring logical multi-tenant partitioning and absolute audit trail tracking.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            {faqs.map((faq, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 8 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.04 }}
-                className="glass-panel rounded-xl border border-brand-border overflow-hidden hover:border-brand-cyan/25 transition-colors"
-              >
-                <button
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full flex items-center space-x-3 px-5 py-4 text-left group"
-                >
-                  <span className="w-6 h-6 rounded-lg bg-brand-cyan/10 text-brand-cyan text-[10px] font-extrabold flex items-center justify-center flex-shrink-0 group-hover:bg-brand-cyan/20 transition-colors">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="font-semibold text-white text-sm flex-grow leading-snug">{faq.q}</span>
-                  <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform flex-shrink-0 ${openFaq === i ? "rotate-180 text-brand-cyan" : ""}`} />
-                </button>
-                <AnimatePresence>
-                  {openFaq === i && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.22 }}
-                      className="overflow-hidden"
-                    >
-                      <div className="px-5 pb-5 pt-1 ml-9">
-                        <p className="text-sm text-gray-400 leading-relaxed border-l-2 border-brand-cyan/30 pl-3">{faq.a}</p>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.div>
+          {/* Schematic table representation */}
+          <div className="glass-panel border border-brand-border rounded-2xl overflow-hidden p-6 md:p-8 bg-slate-950/40">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+              
+              {/* Left sidebar: schema models index */}
+              <div className="md:col-span-4 space-y-2">
+                <p className="text-[9px] text-gray-500 uppercase font-bold tracking-wider mb-2 px-1">Prisma Core Models</p>
+                {[
+                  { name: "Users & Staff", desc: "Access credentials, organization links, role permissions." },
+                  { name: "Patients & Leads", desc: "Contact demographics, intent scores, status codes." },
+                  { name: "Campaigns & Recall", desc: "Target list queries, outreach copy, Twilio trigger clocks." },
+                  { name: "Clinical & Audit", desc: "Appointments logs, signed forms, compliance actions." },
+                ].map((s, idx) => (
+                  <div key={idx} className="p-3 border border-brand-border/60 hover:border-brand-cyan/20 bg-slate-900/30 rounded-xl">
+                    <p className="text-xs font-bold text-white flex items-center">
+                      <Database className="w-3.5 h-3.5 text-brand-cyan mr-1.5" />
+                      <span>{s.name}</span>
+                    </p>
+                    <p className="text-[10px] text-gray-400 mt-1 leading-snug">{s.desc}</p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Right side: Database diagram display */}
+              <div className="md:col-span-8 overflow-x-auto text-[10px] font-mono leading-relaxed text-gray-300 border border-brand-border/60 bg-black/40 rounded-xl p-5">
+                <p className="text-brand-cyan mb-2">{"// Prisma schema mappings (Logical Isolation)"}</p>
+                <div className="space-y-4">
+                  <div>
+                    <span className="text-brand-indigo">model</span> <span className="text-white font-bold">User</span> &#123;
+                    <div className="pl-4 text-gray-400">
+                      id        String @id @default(uuid())<br />
+                      email     String @unique<br />
+                      role      Role   @default(RECEPTIONIST)<br />
+                      clinicId  String<br />
+                      clinic    Clinic @relation(fields: [clinicId], references: [id])
+                    </div>
+                    &#125;
+                  </div>
+                  <div>
+                    <span className="text-brand-indigo">model</span> <span className="text-white font-bold">Lead</span> &#123;
+                    <div className="pl-4 text-gray-400">
+                      id         String       @id @default(uuid())<br />
+                      name       String<br />
+                      phone      String<br />
+                      service    String<br />
+                      status     LeadStatus   @default(NEW)<br />
+                      intentCode Int          @default(80)<br />
+                      campaignId String?<br />
+                      campaign   Campaign?    @relation(fields: [campaignId], references: [id])
+                    </div>
+                    &#125;
+                  </div>
+                  <div>
+                    <span className="text-brand-indigo">model</span> <span className="text-white font-bold">AuditLog</span> &#123;
+                    <div className="pl-4 text-gray-400">
+                      id        String   @id @default(uuid())<br />
+                      actorId   String<br />
+                      action    String<br />
+                      targetId  String<br />
+                      ipAddr    String<br />
+                      createdAt DateTime @default(now())
+                    </div>
+                    &#125;
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        <hr className="border-brand-border mb-20" />
+
+        {/* -- SECURITY SECTION -- */}
+        <section className="mb-24">
+          <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+            <h2 className="font-display font-bold text-3xl text-white tracking-tight">
+              HIPAA & SOC2 Compliance Safeguards
+            </h2>
+            <p className="text-gray-400 text-sm leading-relaxed">
+              Every profile parameter, message log, and billing invoice is audited, protected, and fully isolated at rest and in transit.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {securityFeatures.map((s, idx) => (
+              <div key={idx} className="glass-panel border border-brand-border rounded-xl p-5 hover:border-brand-cyan/20 transition-all bg-white/[0.01]">
+                <div className="w-10 h-10 rounded-lg bg-slate-900 flex items-center justify-center text-brand-cyan mb-4">
+                  {s.icon}
+                </div>
+                <h3 className="text-white font-bold text-sm mb-2">{s.title}</h3>
+                <p className="text-gray-400 text-xs leading-relaxed">{s.desc}</p>
+              </div>
             ))}
           </div>
         </section>
 
-        {/* ======================================
-            CTA SECTION
-        ====================================== */}
-        <section>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="relative glass-panel rounded-3xl p-12 border border-brand-border text-center overflow-hidden"
-          >
-            <div className="absolute top-0 left-1/4 w-[300px] h-[300px] bg-brand-cyan/8 rounded-full blur-[80px]" />
-            <div className="absolute bottom-0 right-1/4 w-[300px] h-[300px] bg-brand-indigo/8 rounded-full blur-[80px]" />
+        <hr className="border-brand-border mb-20" />
 
-            <div className="relative z-10">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-brand-cyan/20 to-brand-indigo/20 border border-brand-cyan/30 mx-auto mb-6">
-                <HeartPulse className="w-8 h-8 text-brand-cyan" />
+        {/* -- FAQs ACCORDION -- */}
+        <section className="mb-24 max-w-4xl mx-auto">
+          <div className="text-center mb-16 space-y-4">
+            <h2 className="font-display font-bold text-3xl text-white tracking-tight">
+              Frequently Asked Questions
+            </h2>
+            <p className="text-gray-400 text-sm leading-relaxed">
+              Get answers to your inquiries about database security, marketing campaigns setup, EHR triggers, and compliance measures.
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            {faqs.map((faq, idx) => (
+              <div
+                key={idx}
+                className="border border-brand-border rounded-2xl overflow-hidden glass-panel bg-slate-900/10"
+              >
+                <button
+                  onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
+                  className="w-full flex items-center justify-between p-5 text-left text-white hover:text-brand-cyan transition-colors"
+                >
+                  <span className="font-semibold text-xs sm:text-sm pr-4">{faq.q}</span>
+                  <ChevronDown
+                    className={`w-4 h-4 text-gray-500 transition-transform duration-300 flex-shrink-0 ${
+                      openFaq === idx ? "rotate-180 text-brand-cyan" : ""
+                    }`}
+                  />
+                </button>
+                <AnimatePresence>
+                  {openFaq === idx && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <div className="p-5 pt-0 text-xs sm:text-sm text-gray-400 border-t border-brand-border/60 leading-relaxed bg-black/10">
+                        {faq.a}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-              <h2 className="font-display font-extrabold text-3xl sm:text-4xl xl:text-5xl text-white mb-4">
-                Ready to scale Practice Growth?
-              </h2>
-              <p className="text-gray-400 text-lg max-w-2xl mx-auto mb-10">
-                Deploy front desk receptionists, automate campaign drafts, track conversion pipelines, and scale practice operations.
-              </p>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
-                <Link href="/contact" className="inline-flex items-center space-x-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-semibold px-8 py-4 rounded-xl hover:opacity-95 transition-opacity shadow-lg shadow-brand-cyan/25">
-                  <Sparkles className="w-4 h-4" />
-                  <span>Launch CareFlow OS</span>
-                </Link>
-                <Link href="/contact" className="inline-flex items-center space-x-2 glass-panel border border-brand-border text-gray-300 font-semibold px-8 py-4 rounded-xl hover:border-brand-cyan/40 hover:text-white transition-all">
-                  <Phone className="w-4 h-4" />
-                  <span>Request White-Label Info</span>
-                </Link>
-              </div>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-6 text-sm text-gray-500">
-                <a href="https://github.com/alimubashir822/ApexDental" target="_blank" rel="noopener noreferrer" className="flex items-center space-x-2 hover:text-brand-cyan transition-colors">
-                  <BookOpen className="w-4 h-4" />
-                  <span>View GitHub Repository</span>
-                </a>
-              </div>
-            </div>
-          </motion.div>
+            ))}
+          </div>
         </section>
 
       </div>

@@ -5,12 +5,14 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight, Sparkles, Brain, HeartPulse, FileText, Calendar,
-  MessageSquare, Shield, Users, Activity, CheckCircle, Star, 
-  TrendingUp, Lock, Bell, Zap, ChevronDown, LayoutDashboard, 
-  Stethoscope, BookOpen, Phone, Globe, Database, Clock, X, 
-  Wallet, Mic, BookMarked, RefreshCw, BarChart3, Building2, 
-  Smile, Heart, AlertTriangle, CloudUpload, ShieldCheck, Eye, 
-  UserCog, Video, Volume2, Plus, Info
+  MessageSquare, Shield, Users, Activity, FlaskConical, Upload,
+  CheckCircle, Star, TrendingUp, Lock, Bell, Zap, ChevronDown,
+  LayoutDashboard, Microscope, Stethoscope, BookOpen, Phone,
+  Globe, Database, HardDrive, Clock, X, Wallet, Mic, BookMarked,
+  RefreshCw, BarChart3, Building2, Syringe, Smile, Heart,
+  AlertTriangle, CloudUpload, ShieldCheck, Eye, UserCog,
+  Video, ChevronRight, Download, Search, Share2, DollarSign,
+  Check, Paperclip, MessagesSquare, ExternalLink
 } from "lucide-react";
 
 /* --- Types --- */
@@ -18,195 +20,263 @@ interface Feature { icon: React.ReactNode; title: string; desc: string; badge?: 
 interface Differentiator { icon: React.ReactNode; title: string; subtitle: string; desc: string; color: string; glow: string; }
 interface FAQ { q: string; a: string; }
 
+interface AssessmentSummary {
+  concern: string;
+  duration: string;
+  department: string;
+  symptoms: string[];
+  questions: string[];
+}
+
+interface DoctorProfile {
+  name: string;
+  specialty: string;
+  experience: string;
+  languages: string;
+  rating: string;
+  time: string;
+  fee: string;
+  insurance: string;
+}
+
 /* =======================================================
    DATA
-   ======================================================= */
+ ======================================================= */
 
 const coreFeatures: Feature[] = [
-  { icon: <Brain className="w-5 h-5" />, title: "AI Healthcare Journey Builder", desc: "Maps out a visual care path from symptom description, department routing, specialty matching, to follow-up care.", badge: "Core" },
-  { icon: <MessageSquare className="w-5 h-5" />, title: "AI Patient Interview Mode", desc: "Conversational intake interviews that ask detail-oriented follow-up queries (duration, severity, previous injury).", badge: "Smart" },
-  { icon: <FileText className="w-5 h-5" />, title: "AI Doctor Prep Brief", desc: "Synthesizes intake responses into a structured consultation summary with pre-populated patient questions.", badge: "Time-Saver" },
-  { icon: <Activity className="w-5 h-5" />, title: "Symptom Timeline Tracker", desc: "Algorithmic pain-index comparisons tracking severity changes (e.g. 8/10 down to 4/10) over time.", badge: "New" },
-  { icon: <Users className="w-5 h-5" />, title: "Family AI Health Profiles", desc: "Maintains records, histories, and symptoms for dependants and spouses under a unified central account.", badge: "Care" },
-  { icon: <AlertTriangle className="w-5 h-5" />, title: "Urgent Safety Triggers", desc: "Flags critical red-flag inputs (e.g., chest pain) and instantly displays localized emergency service instructions.", badge: "Compliance" },
-  { icon: <Globe className="w-5 h-5" />, title: "Multilingual Care Router", desc: "Interactive symptom checker support for English, Spanish, and multi-language patient guides.", badge: "Global" },
-  { icon: <Mic className="w-5 h-5" />, title: "Voice Intake Assistant", desc: "Allows patients to dictate symptoms via secure speech-to-text engines to construct briefs automatically." },
-  { icon: <ShieldCheck className="w-5 h-5" />, title: "Lead Intelligence Board", desc: "Analytics showing patient interest tracking, most requested specialties, and conversion funnels.", badge: "SaaS" },
-  { icon: <RefreshCw className="w-5 h-5" />, title: "Lead Conversion Tracking", desc: "Monitors clinical funnels from assessment starts, booked slots, to clinic visit completions." },
-  { icon: <Bell className="w-5 h-5" />, title: "Automated Care Triggers", desc: "Follow-up workflows automatically messaging patients on Day 1, Day 7, and scheduling refills on Day 30." },
-  { icon: <BookMarked className="w-5 h-5" />, title: "SEO Health Education", desc: "AI-generated educational pages addressing common symptoms to capture local search visibility." }
+  { icon: <Brain className="w-5 h-5" />, title: "Conversational Intake", desc: "An intelligent medical interview agent that converses with patients naturally, asking relevant follow-up questions.", badge: "Flagship" },
+  { icon: <Stethoscope className="w-5 h-5" />, title: "Department Triage Engine", desc: "Maps symptom descriptions directly to the most appropriate clinical specialty (e.g. Neurology, Orthopedics) instead of diagnostic guesses.", badge: "Smart" },
+  { icon: <FileText className="w-5 h-5" />, title: "AI Doctor Brief Creator", desc: "Compiles patient answers, timeline, and concerns into a structured brief for doctors, automatically generated before the visit.", badge: "Unique" },
+  { icon: <Users className="w-5 h-5" />, title: "Smart Provider Matching", desc: "Filters matching specialists based on the triage category, doctor availability, location, accepted insurance, and languages.", badge: "Premium" },
+  { icon: <HeartPulse className="w-5 h-5" />, title: "Visual Care Pathways", desc: "Visualizes the patient's care route step-by-step: Intake → Department Routing → Booking → Consultation → Follow-up Care.", badge: "Unique" },
+  { icon: <AlertTriangle className="w-5 h-5" />, title: "Emergency Safety Guard", desc: "Detects high-risk symptoms (e.g. chest pain, stroke signs) in real-time and immediately triggers red-flag urgent warnings.", badge: "Safety" },
+  { icon: <Mic className="w-5 h-5" />, title: "Voice AI Assessment", desc: "Enables hands-free intake for elderly or visually impaired patients via integrated voice-to-text processing.", badge: "Advanced" },
+  { icon: <BookMarked className="w-5 h-5" />, title: "Health Education Portal", desc: "Generates patient learning guides and customized questions to ask the doctor post-assessment.", badge: "New" },
+  { icon: <Database className="w-5 h-5" />, title: "AI Patient Health Memory", desc: "Stores previous triage transcripts and reports, allowing the AI to recall past history when symptoms flare up again." },
+  { icon: <Upload className="w-5 h-5" />, title: "Diagnostic PDF Reader", desc: "Upload reports or medication labels. AI extracts information and adds it to the clinical intake summary." },
+  { icon: <BarChart3 className="w-5 h-5" />, title: "Clinic Lead Dashboard", desc: "Provides clinic managers and marketing teams with department volume metrics, intake logs, and patient booking conversion rates." },
+  { icon: <RefreshCw className="w-5 h-5" />, title: "Follow-Up Automations", desc: "Triggers check-in texts on day 1 and day 7 post-visit to monitor symptoms and prompt follow-up visits if needed." },
 ];
 
 const differentiators: Differentiator[] = [
-  { icon: <Brain className="w-7 h-7" />, title: "Visual Care Pathways", subtitle: "Symptoms to Consult Journeys", desc: "Visualizes the patient care path from triage mapping to local appointment execution, reducing intake friction.", color: "from-brand-cyan/20 to-brand-indigo/10", glow: "rgba(6,182,212,0.15)" },
-  { icon: <MessageSquare className="w-7 h-7" />, title: "Conversational Interview", subtitle: "Dynamic Health Intake", desc: "Replaces standard checklist selectors with deep conversational AI symptom interviews matching doctor prep briefs.", color: "from-brand-indigo/20 to-purple-500/10", glow: "rgba(99,102,241,0.15)" },
-  { icon: <FileText className="w-7 h-7" />, title: "Doctor Brief Summaries", subtitle: "Pre-Populated Visit Forms", desc: "Automatically formats symptom durations, severity flags, and key clinic queries directly into EMR consoles.", color: "from-brand-emerald/20 to-brand-cyan/10", glow: "rgba(16,185,129,0.15)" },
-  { icon: <AlertTriangle className="w-7 h-7" />, title: "Urgency Safety Layer", subtitle: "Red-Flag Symptom Auditing", desc: "Ensures legal and clinical safety with instant emergency redirects for chest pain, stroke signs, or severe trauma.", color: "from-amber-500/20 to-orange-500/10", glow: "rgba(245,158,11,0.15)" }
+  { icon: <HeartPulse className="w-7 h-7" />, title: "AI Care Journey Builder", subtitle: "Visual pathways from confusion to care", desc: "Instead of giving a list of diagnostic percentages, the platform creates a visual step-by-step pathway showing how to get the right care, which reduces patient anxiety.", color: "from-brand-cyan/20 to-brand-indigo/10", glow: "rgba(6,182,212,0.15)" },
+  { icon: <Brain className="w-7 h-7" />, title: "Conversational Interview", subtitle: "No static checklists or basic forms", desc: "The AI acts like an empathetic medical assistant, asking custom follow-up questions: 'Where does it hurt?', 'Does movement aggravate it?', 'How long has it lasted?'", color: "from-brand-indigo/20 to-purple-500/10", glow: "rgba(99,102,241,0.15)" },
+  { icon: <FileText className="w-7 h-7" />, title: "AI Pre-Consult Brief", subtitle: "Prepare doctors in seconds", desc: "Generates a 1-page clinical summary (Chief concern, history, drugs, and prepared patient questions) so doctors can review the patient's state before the appointment starts.", color: "from-brand-emerald/20 to-brand-cyan/10", glow: "rgba(16,185,129,0.15)" },
+  { icon: <AlertTriangle className="w-7 h-7" />, title: "Emergency Safety Layer", subtitle: "Real-time red-flag screenings", desc: "Triage engine dynamically parses entries. If serious or life-threatening symptoms are mentioned, it prompts the patient to contact emergency services immediately.", color: "from-rose-500/20 to-pink-500/10", glow: "rgba(244,63,94,0.15)" },
+  { icon: <Building2 className="w-7 h-7" />, title: "Clinic Lead Intelligence", subtitle: "Value for healthcare businesses", desc: "Tracks patient intake trends across departments, measuring conversion rates from symptom searches into booked appointments to increase practice ROI.", color: "from-amber-500/20 to-orange-500/10", glow: "rgba(245,158,11,0.15)" },
+  { icon: <Users className="w-7 h-7" />, title: "Smart Matching Engine", subtitle: "Find the right provider", desc: "Recommends doctors based on the mapped specialty, calendar slots, health insurance networks, language, fees, and location coordinates.", color: "from-violet-500/20 to-brand-indigo/10", glow: "rgba(139,92,246,0.15)" },
 ];
 
 const portalModules = [
-  { icon: <Brain className="w-5 h-5" />, title: "AI Patient Triage Hub", items: ["Conversational symptom input", "Specialty department routing", "Severe symptom audit rules", "Multilingual translation flags"] },
-  { icon: <FileText className="w-5 h-5" />, title: "Clinical Intake Vault", items: ["Structured doctor summaries", "Patient question lists", "Laboratory PDF parsing", "EHR data synchronizations"] },
-  { icon: <Calendar className="w-5 h-5" />, title: "Specialist Match Engine", items: ["Specialty slot allocations", "Language filter matches", "Insurance billing matches", "One-click Stripe checkouts"] },
-  { icon: <BarChart3 className="w-5 h-5" />, title: "Clinic Lead Dashboard", items: ["Patient inquiry conversion stats", "Specialty demand charts", "AI session audit histories", "White-label branding settings"] }
+  { icon: <Brain className="w-5 h-5" />, title: "AI Assessment Hub", items: ["Conversational intake UI", "Emergency symptom screen", "Department recommendation", "Intake brief compiler"] },
+  { icon: <LayoutDashboard className="w-5 h-5" />, title: "Patient Care Dashboard", items: ["Previous triage history", "Visual care pathways", "Upcoming appointments", "Saved educational articles"] },
+  { icon: <Stethoscope className="w-5 h-5" />, title: "Doctor Portal", items: ["Review intake summaries", "Accept consult requests", "Direct patient chat", "SOAP note integration"] },
+  { icon: <Building2 className="w-5 h-5" />, title: "Clinic Lead Center", items: ["Department analytics", "Intake logs tracking", "Physician slot usage", "Lead conversion splits"] },
 ];
 
 const techStack = [
-  { category: "Frontend UI", items: ["Next.js 15 App Routing", "TypeScript", "Tailwind CSS Layouts", "Framer Motion Actions"], icon: <Globe className="w-5 h-5" /> },
-  { category: "Intelligent Systems", items: ["OpenAI GPT-4o API", "LangChain Workflows", "Whisper Speech Engine", "Structured JSON Schema Parsing"], icon: <Brain className="w-5 h-5" /> },
-  { category: "Data Storage", items: ["PostgreSQL Cluster", "Prisma ORM Relations", "AWS S3 HIPAA Storage", "Redis Session Caching"], icon: <Database className="w-5 h-5" /> },
-  { category: "SaaS Layer", items: ["Auth.js Credentials Auth", "Stripe Billing Subscriptions", "Twilio SMS Dispatcher", "Resend Email Alerts"], icon: <Lock className="w-5 h-5" /> }
+  { category: "Frontend Core", items: ["Next.js 15 App Router", "TypeScript", "Tailwind CSS", "shadcn/ui", "Framer Motion"], icon: <Globe className="w-5 h-5" /> },
+  { category: "Backend & Logic", items: ["Next.js Server Actions", "Next.js API Handlers", "Zod Validation Schema", "React Hook Form"], icon: <HardDrive className="w-5 h-5" /> },
+  { category: "Data Layer", items: ["PostgreSQL database", "Prisma ORM", "Auditable database logs", "Version-safe migrations"], icon: <Database className="w-5 h-5" /> },
+  { category: "AI & APIs", items: ["OpenAI GPT-4o", "LangChain memory", "Stripe payment splits", "Twilio & SendGrid APIs"], icon: <Lock className="w-5 h-5" /> },
 ];
 
 const useCases = [
   {
-    icon: <Smile className="w-6 h-6" />,
-    specialty: "Dental Care Routing",
+    icon: <Brain className="w-6 h-6" />,
+    specialty: "Primary Care Clinics",
     color: "brand-cyan",
-    scenario: "Patient searches for tooth pain, matching emergency dentistry slots",
+    scenario: "Managing daily patient scheduling flow",
     journey: [
-      "Patient inputs: 'My back tooth is throbbing and I have a fever.'",
-      "AI asks follow-up: 'Is there facial swelling?' Patient answers yes.",
-      "AI identifies dental infection risk, recommends Dental Triage.",
-      "Matches Dr. Sarah Ahmed, booking a same-day slots via the Portal."
+      "Patient accesses clinic site and starts symptom assessment",
+      "AI interviews patient about cold symptoms and fever duration",
+      "AI suggests booking with General Medicine and shows matching slots",
+      "Patient confirms slot, which automatically populates the scheduling system",
+      "Doctor reviews the pre-visit brief containing symptoms and allergies",
+      "Consultation proceeds smoothly with notes automatically pre-drafted"
     ],
-    outcome: "Dental networks convert 40% more inquiries into appointments by routing emergency triages automatically."
+    outcome: "Primary clinics reduce intake time by 50% and decrease scheduling errors."
   },
   {
-    icon: <Heart className="w-6 h-6" />,
-    specialty: "Cardiac Care Triage",
-    color: "rose-400",
-    scenario: "Patient searches for chest pressure, triggered emergency guidelines",
+    icon: <Building2 className="w-6 h-6" />,
+    specialty: "Hospital Networks",
+    color: "brand-indigo",
+    scenario: "Routing patients to specialized departments",
     journey: [
-      "Patient inputs: 'I feel a crushing weight on my chest.'",
-      "AI triggers emergency audit layer instantly.",
-      "System suspends scheduling and displays prompt: 'Seek emergency care now.'",
-      "Provides local ER maps and dial-in shortcuts for medical services."
+      "Patient enters symptoms (e.g. chronic knee joint stiffness)",
+      "AI triages inputs, identifying Orthopedics as the correct path",
+      "Matches with orthopedic surgeons inside the hospital network",
+      "Patient selects provider, pays consultation co-pay via Stripe",
+      "Patient's profile, history, and AI briefs are routed to doctor's queue",
+      "Analytics tracks intake metrics, department volumes, and bookings"
     ],
-    outcome: "Clinics maintain strict clinical safety protocols, avoiding liability while directing urgent cases safely."
+    outcome: "Hospital networks eliminate patient misrouting and improve lead-to-booking conversions by 36%."
   },
   {
     icon: <Users className="w-6 h-6" />,
-    specialty: "Mental Health Guidance",
+    specialty: "Telehealth Networks",
     color: "brand-emerald",
-    scenario: "Patient manages depression trends and syncs to counseling",
+    scenario: "Direct intake-to-consultation routing for remote practices",
     journey: [
-      "Patient seeks weekly anxiety check-in using the AI intake checker.",
-      "AI tracks symptom comparisons (anxiety index down to 3/10).",
-      "Compiles a prep brief summarizing changes in anxiety triggers.",
-      "Therapist reviews progress timeline in EMR console before consult."
+      "Patient types concerns into the white-label intake widget",
+      "AI screens for emergency issues before suggesting telehealth slots",
+      "Connects patient with available remote doctors, processing consult fees",
+      "Consultation brief is shared; patient attends video call",
+      "Automated follow-up reminders check symptom severity on Day 7",
+      "Patient updates symptoms in health profile, showing timeline history"
     ],
-    outcome: "Mental health groups reduce appointment preparation overhead by 70% and raise patient engagement scores."
-  }
+    outcome: "Telehealth practices increase patient compliance, retaining 40% more patients for follow-up care."
+  },
+  {
+    icon: <AlertTriangle className="w-6 h-6" />,
+    specialty: "Emergency Screening",
+    color: "rose-400",
+    scenario: "Triaging urgent symptoms and guiding to emergency rooms",
+    journey: [
+      "Patient enters severe sudden headache and difficulty speaking",
+      "AI recognizes high-risk stroke symptoms in the triage system",
+      "Triggers red emergency alert warning to seek immediate emergency care",
+      "Provides emergency contact links and maps nearest emergency rooms",
+      "Saves log in patient audit log for compliance records",
+      "Prompts follow-up check-in to confirm safety status"
+    ],
+    outcome: "Reduces clinical liability and secures patient safety through instant high-risk warning alerts."
+  },
 ];
 
-const databaseTables = [
-  { table: "Users", fields: ["id", "email", "hashedPassword", "role (Patient/Doc/Admin)", "createdAt"] },
-  { table: "Patients", fields: ["id", "userId", "familyId", "healthMemoryTimeline", "savedReportsCount"] },
-  { table: "Doctors", fields: ["id", "userId", "specialty", "availabilityCalendar", "insuranceAccepted"] },
-  { table: "Clinics", fields: ["id", "name", "whiteLabelSettings", "stripeSubscriptionId"] },
-  { table: "Symptoms", fields: ["id", "symptomName", "dangerFlag", "primaryDepartmentMatch"] },
-  { table: "Assessments", fields: ["id", "patientId", "conversationLog", "painScoreBefore", "painScoreAfter"] },
-  { table: "AIResponses", fields: ["id", "assessmentId", "suggestedDepartment", "carePathwayBrief"] },
-  { table: "Appointments", fields: ["id", "patientId", "doctorId", "slotTime", "status"] },
-  { table: "Documents", fields: ["id", "patientId", "title", "fileUrl", "ocrOcrBrief"] },
-  { table: "Messages", fields: ["id", "senderId", "receiverId", "content", "sentAt"] },
-  { table: "AuditLogs", fields: ["id", "operatorId", "action", "ipAddress", "timestamp"] }
+const securityFeatures = [
+  { icon: <Lock className="w-5 h-5" />, title: "HIPAA Aligned", desc: "Protected Patient Information (PHI) is encrypted at rest (AES-256) and in transit (TLS 1.3)." },
+  { icon: <ShieldCheck className="w-5 h-5" />, title: "Audit Trail Logging", desc: "Every read, write, and assessment log event is logged with IP, user ID, and timestamp coordinates." },
+  { icon: <Eye className="w-5 h-5" />, title: "Role-Based Security", desc: "Scopes dashboard accessibility. Patients can see their history, doctors see assigned briefs, and clinic admins view metrics." },
+  { icon: <UserCog className="w-5 h-5" />, title: "Consent Scoped Files", desc: "Sharing triage summaries with clinicians is a consent-controlled action, ensuring patient authority." },
+  { icon: <RefreshCw className="w-5 h-5" />, title: "Data Portability", desc: "Patients can download their entire assessment and booking timeline in HL7 FHIR or PDF bundles." },
+  { icon: <AlertTriangle className="w-5 h-5" />, title: "Intrusion Screening", desc: "Automatically blocks accounts in case of multiple login failures, unauthorized access, or mass downloads." },
+  { icon: <CloudUpload className="w-5 h-5" />, title: "Secure Report Vault", desc: "Diagnostic PDFs are securely hosted in S3 buckets with access keys signed for limited lifetimes." },
+  { icon: <Database className="w-5 h-5" />, title: "Isolated Data Schemas", desc: "Keeps clinic records logically partitioned, preventing cross-organization records leakage." },
+];
+
+const integrations = [
+  { name: "OpenAI GPT-4o", category: "AI Services", desc: "Powers the intake dialog, follow-up screening questions, specialty routing, and patient summary briefs." },
+  { name: "Prisma & PostgreSQL", category: "Database Layer", desc: "Ensures type-safe SQL queries, robust transaction tables, audit logs, and migration stability." },
+  { name: "Stripe Connect", category: "Billing Engine", desc: "Processes consultation copays, clinic revenue shares, and clinic subscription plans." },
+  { name: "Twilio API", category: "SMS Messaging", desc: "Sends immediate triage notifications, slot reminders, and automated Day 1/7 symptom follow-up checks." },
+  { name: "SendGrid", category: "Email Service", desc: "Dispatches clinic booking confirmations, care guides, and rating reviews." },
+  { name: "FHIR HL7 API", category: "EHR Integration", desc: "Compatible with hospital networks, enabling seamless transfer of intake briefs to Epic or Cerner." },
+  { name: "Daily.co / Twilio Video", category: "Telehealth SDKs", desc: "Integrated WebRTC in-browser consulting rooms linked to the doctor matching engine." },
+  { name: "Clerk / Auth.js", category: "Authentication", desc: "Secures patient profiles with MFA, single sign-on, and role credentials." },
+  { name: "AWS Cloud S3", category: "File Vault", desc: "Hosts patient diagnostics, lab reports, and doctor intake documents securely." },
+];
+
+const stats = [
+  { value: "4", label: "Dashboard Interfaces", icon: <LayoutDashboard className="w-5 h-5" /> },
+  { value: "3", label: "User Roles", icon: <Users className="w-5 h-5" /> },
+  { value: "12+", label: "Intake Workflows", icon: <Activity className="w-5 h-5" /> },
+  { value: "100%", label: "HIPAA Compliant", icon: <Shield className="w-5 h-5" /> },
+  { value: "3", label: "MVP Roadmap Phases", icon: <TrendingUp className="w-5 h-5" /> },
+  { value: "9", label: "Core Integrations", icon: <RefreshCw className="w-5 h-5" /> },
 ];
 
 const faqs: FAQ[] = [
-  { q: "Does the AI Symptom Checker diagnose medical conditions?", a: "No. AuraCare is an AI healthcare navigation platform designed to collect symptom histories, translate medical terms, suggest correct clinical departments, and connect patients to doctors. It does not replace medical advice, diagnoses, or treatments." },
-  { q: "How is the Emergency Safety Layer implemented?", a: "The platform features a real-time red-flag checker. If a user describes severe symptoms (like severe chest pressure, sudden face numbness, or major trauma), AuraCare bypasses triage matching, displays emergency contact warnings, and links to local ER services." },
-  { q: "Is the patient data secure and HIPAA compliant?", a: "Yes. All intakes, timeline sessions, and medical documents are saved inside AWS databases matching HIPAA compliance standards, featuring TLS 1.3 encryption, and restricted role-based logs." },
-  { q: "How does the AI Patient Interview Mode function?", a: "Rather than asking static, long forms, the AI dynamically adapts follow-up questions (e.g., asking for specific location, severity, duration, and associated side symptoms) to map custom patient profiles." },
-  { q: "How does AuraCare match patients to doctors?", a: "Upon identifying the correct department (e.g., Orthopedics for knee pain), the AI scans matching specialists for open schedule slots, accepted insurance plans, languages, location, and fees." },
-  { q: "What is the AI Consultation Preparation Report?", a: "It is a synthesized brief compiled before a doctor visit. It details primary concerns, symptom timelines, and generated questions for the doctor, saving providers valuable charting time during visits." },
-  { q: "Can hospitals white-label this AI platform?", a: "Yes. AuraCare provides a complete white-label SaaS configuration. Healthcare networks can apply custom styling, insert their specific roster of specialists, and host it under their own domain." },
-  { q: "Does AuraCare support voice inputs?", a: "Yes. AuraCare features a secure voice checker. Patient voice inputs are processed through secure transcription APIs, allowing hands-free symptom descriptions." },
-  { q: "How does the Symptom Comparison Timeline track progress?", a: "When patients return for follow-ups, the AI reads previous symptom entries, compares pain indexes, and logs details (e.g., pain reduced from 8 to 4) to verify care efficacy." },
-  { q: "What database architecture does AuraCare use?", a: "We utilize PostgreSQL structured with Prisma ORM. The relational schema includes 11 tables (Users, Patients, Doctors, Clinics, Symptoms, Assessments, AIResponses, Appointments, Documents, Messages, AuditLogs) for data integrity." }
-];
-
-const mockDoctors = [
-  { name: "Dr. Sarah Ahmed", specialty: "Cardiology", experience: "12 Years", languages: "English, Spanish", availability: "Today", price: "$95" },
-  { name: "Dr. John Smith", specialty: "Dermatology", experience: "15 Years", languages: "English, French", availability: "Tomorrow", price: "$85" },
-  { name: "Dr. Elena Rostova", specialty: "Therapy (Mental Health)", experience: "9 Years", languages: "English, Russian", availability: "Today", price: "$75" }
+  { q: "Does the AI Symptom Checker diagnose patients?", a: "No. The AI Symptom Checker is built as a triage, care navigation, and patient onboarding assistant. It provides educational health information, suggests relevant clinical departments, and prepares consult summaries. It does not diagnose diseases or replace professional medical advice." },
+  { q: "Is the Care Navigator HIPAA-compliant?", a: "Yes. The platform is designed following HIPAA and SOC2 specifications. All clinical details and chat transcripts are encrypted at rest and in transit. Detailed audit logs record every single access event." },
+  { q: "What is the Emergency Safety Layer?", a: "The triage engine constantly parses user input. If red-flag emergency symptoms (e.g. chest pain, numbness, sudden confusion, severe bleeding) are detected, the system overrides the triage flow and immediately displays warning cards instructing the patient to seek urgent emergency care." },
+  { q: "How does the AI Patient Interview Mode function?", a: "Unlike static checklists, our AI conducts a conversational interview. It asks adaptive, context-aware follow-up questions: 'How long has it lasted?', 'What is the severity on a 1-10 scale?', 'Does it worsen with movement?' to collect detailed intake records." },
+  { q: "What is in the Doctor Consultation Preparation Report?", a: "It is a 1-page clinical summary containing the patient's primary concern, symptom timeline, severity, medical history, active medications, and a list of AI-generated questions to discuss during the visit. This brief is sent directly to the doctor's queue, saving 5-10 minutes per consult." },
+  { q: "How does the Smart Doctor Matching Engine work?", a: "After identifying the recommended department, the AI matches patients with doctors. It evaluates specialties, availability slots, insurance networks, language settings, consultation pricing, and location proximity to present the best matching providers." },
+  { q: "How can clinics monetize this platform?", a: "Clinics use it as a patient acquisition and lead intake engine. Clinic owners pay subscription fees for the AI receptionist, automated triage flows, and analytics dashboards, or pay commission rates based on booked consult leads." },
+  { q: "Can doctors manage appointments through the dashboard?", a: "Yes. The Doctor Dashboard displays the patient list, consult requests, scheduling calendars, and AI triage summaries. Doctors can approve bookings and review clinical notes before starting calls." },
+  { q: "What analytics does the Clinic Lead Dashboard provide?", a: "Clinic managers see: total intake leads, routed department volumes (e.g. Neurology vs. Cardiology), scheduling conversion rates (assessments completed vs. appointments booked), and slot occupancy metrics." },
+  { q: "How does the Voice AI symptom checking work?", a: "For elderly or visually impaired patients, the system includes a microphone voice intake. The patient speaks their concern, the system processes it using speech-to-text, conducts the intake conversation, and compiles the brief hands-free." },
+  { q: "Can family members be managed under one account?", a: "Yes. The Family Health AI Account allows a parent or care coordinator to switch between profiles for children, spouse, or parents. Each profile maintains its own triage history and appointments." },
+  { q: "What automated follow-ups does the system send?", a: "Using Twilio SMS and SendGrid email, the system automatically checks in on patients. It sends symptom check-ins on Day 1 and Day 7, collects rating reviews, and sends reminders for recommended follow-up visits." },
+  { q: "What EHR systems can this connect to?", a: "The platform features a FHIR HL7-aligned API layer. This allows integration with major Electronic Health Record systems such as Epic, Cerner, or Athenahealth, syncing intake briefs directly into existing hospital databases." },
+  { q: "How does the SEO Growth Engine work?", a: "The platform generates indexable, SEO-friendly health education articles (e.g. 'When should you see a cardiologist?', 'Common causes of back pain'). These articles contain CTAs directing readers to the AI intake flow, capturing organic traffic." },
+  { q: "Is the patient triage summary downloadable?", a: "Yes, patients can download their triage summaries and doctor briefs as signed PDFs from their dashboard, or share them with existing primary care providers." },
+  { q: "What databases and ORMs are used?", a: "We build with PostgreSQL as the relational database layer and Prisma ORM for safe type-checking. Schemas include Assessments, Symptoms, AIResponses, Users, Patients, Doctors, and Clinics." },
+  { q: "How is file upload security managed?", a: "Patient reports are stored in secure AWS S3 buckets. Public read access is blocked. Files can only be retrieved using secure pre-signed URLs that expire automatically after 10 minutes." },
+  { q: "What is the difference between a normal symptom checker and this platform?", a: "A normal checker gives a diagnostic estimate and stops. Our platform guides the patient through a care pathway: understanding symptoms → suggesting departments → doctor matching → booking → clinical briefs → follow-up care." },
+  { q: "Does the platform support multiple languages?", a: "Yes. Triage assessments, summaries, and notifications are fully localized in English and Spanish, which is vital for clinics serving diverse patient groups." },
+  { q: "How long does implementation take for clinic groups?", a: "A white-label MVP (Phase 1) is deployed in 4-6 weeks. A complete enterprise rollout with full EHR database integrations, voice AI, and multi-department analytics takes 3-4 months." }
 ];
 
 /* =======================================================
    COMPONENT
-   ======================================================= */
-export default function AiHealthcareNavigatorPage() {
+ ======================================================= */
+export default function AIHealthcareNavigatorPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [activeUseCase, setActiveUseCase] = useState(0);
 
-  // OS Simulator States
-  const [activeDashboardTab, setActiveDashboardTab] = useState("interview");
-
-  // Tab 1: AI Interview Simulation
-  const [interviewStep, setInterviewStep] = useState(0);
-  const [patientInput, setPatientInput] = useState("");
-  const [chatLog, setChatLog] = useState<Array<{ sender: "ai" | "user", text: string }>>([
-    { sender: "ai", text: "Hello! I am AuraCare AI Care Navigator. What symptoms are you experiencing today?" }
+  // Interactive Simulator States
+  const [activeTab, setActiveTab] = useState("TriageSimulator");
+  const [assessmentChat, setAssessmentChat] = useState([
+    { sender: "ai", text: "Hello! I am the AI Healthcare Navigator. How are you feeling today? (Select a symptom pill below or describe your concern)" }
   ]);
   const [chatLoading, setChatLoading] = useState(false);
-  const [assessmentSummary, setAssessmentSummary] = useState(false);
+  const [chatStep, setChatStep] = useState(1);
+  const [selectedSpecialty, setSelectedSpecialty] = useState<string | null>(null);
+  const [showDoctorMatch, setShowDoctorMatch] = useState(false);
+  const [assessmentSummary, setAssessmentSummary] = useState<AssessmentSummary | null>(null);
+
+  // Emergency safety trigger state
   const [emergencyAlert, setEmergencyAlert] = useState(false);
 
-  // Tab 2: Match Specialist
-  const [matchedDoc, setMatchedDoc] = useState(mockDoctors[0]);
-  const [bookingConfirmed, setBookingConfirmed] = useState(false);
+  // Clinic Leads analytics cycle toggle
+  const [analyticsInterval, setAnalyticsInterval] = useState<"weekly" | "monthly">("monthly");
 
-  // Tab 3: Health History Timeline
-  const [painLevelBefore, setPainLevelBefore] = useState(8);
-  const [painLevelAfter, setPainLevelAfter] = useState(4);
+  const matchingDoctors: Record<string, DoctorProfile[]> = {
+    "Neurology": [
+      { name: "Dr. Sarah Stone", specialty: "Neurology", experience: "15 Years", languages: "English, Spanish", rating: "4.9", time: "10:30 AM", fee: "$150", insurance: "Cigna, Aetna" }
+    ],
+    "Orthopedics": [
+      { name: "Dr. Robert Patel", specialty: "Orthopedic Surgery", experience: "12 Years", languages: "English", rating: "4.8", time: "2:00 PM", fee: "$180", insurance: "Blue Cross, UnitedHealth" }
+    ],
+    "Dentistry": [
+      { name: "Dr. Elena Gomez", specialty: "Cosmetic Dentistry", experience: "10 Years", languages: "Spanish, English", rating: "5.0", time: "11:00 AM", fee: "$120", insurance: "MetLife, Delta Dental" }
+    ]
+  };
 
-  const handleInterviewSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!patientInput || chatLoading) return;
-
-    const userText = patientInput;
-    setChatLog(prev => [...prev, { sender: "user", text: userText }]);
-    setPatientInput("");
+  const handlePatientInput = (inputText: string, aiResponseText: string, nextStep: number, isEmergency: boolean = false) => {
+    if (chatLoading) return;
+    setAssessmentChat(prev => [...prev, { sender: "patient", text: inputText }]);
     setChatLoading(true);
+    setChatStep(nextStep);
 
-    setTimeout(() => {
-      // Check for emergency keywords
-      if (userText.toLowerCase().includes("chest pain") || userText.toLowerCase().includes("severe crushing")) {
-        setChatLog(prev => [...prev, {
-          sender: "ai",
-          text: "WARNING: Severe chest discomfort detected. Suspend triage immediately. Please seek immediate emergency medical care (dial 911)."
-        }]);
+    if (isEmergency) {
+      setTimeout(() => {
+        setAssessmentChat(prev => [
+          ...prev, 
+          { sender: "ai", text: "🚨 EMERGENCY ALERT TRIGGERED: Severe symptom detected." }
+        ]);
         setEmergencyAlert(true);
         setChatLoading(false);
-        return;
-      }
+      }, 700);
+      return;
+    }
 
-      if (interviewStep === 0) {
-        setChatLog(prev => [...prev, {
-          sender: "ai",
-          text: "Understood. How long has this symptom been occurring, and on a scale of 1-10, how severe is the discomfort?"
-        }]);
-        setInterviewStep(1);
-      } else if (interviewStep === 1) {
-        setChatLog(prev => [...prev, {
-          sender: "ai",
-          text: "Thank you. Do you have any known medical histories related to this, or are you currently taking medications?"
-        }]);
-        setInterviewStep(2);
-      } else {
-        setChatLog(prev => [...prev, {
-          sender: "ai",
-          text: "Triage completed. I have compiled your Patient Intake Brief and routed your inquiry to Cardiology."
-        }]);
-        setAssessmentSummary(true);
-      }
+    setTimeout(() => {
+      setAssessmentChat(prev => [...prev, { sender: "ai", text: aiResponseText }]);
       setChatLoading(false);
-    }, 1000);
+    }, 850);
+  };
+
+  const generateReport = (specialty: string, concern: string, duration: string) => {
+    setSelectedSpecialty(specialty);
+    setAssessmentSummary({
+      concern: concern,
+      duration: duration,
+      department: specialty,
+      symptoms: [concern, "Fatigue", "Increased localized pain"],
+      questions: [
+        "What diagnostic screening tests (e.g. MRI, Blood panel) are recommended?",
+        "Should I avoid any specific physical movements or diet options?",
+        "Are there immediate non-prescription steps to relieve discomfort?"
+      ]
+    });
+    setShowDoctorMatch(true);
   };
 
   return (
-    <div className="relative overflow-hidden bg-brand-bg text-white">
+    <div className="relative overflow-hidden">
       {/* Ambient glows */}
       <div className="fixed top-0 left-1/3 w-[600px] h-[600px] bg-brand-cyan/5 rounded-full blur-[120px] -z-10 pointer-events-none" />
       <div className="fixed top-1/2 right-0 w-[500px] h-[500px] bg-brand-indigo/5 rounded-full blur-[120px] -z-10 pointer-events-none" />
@@ -223,59 +293,72 @@ export default function AiHealthcareNavigatorPage() {
           <span className="text-white">AI Healthcare Navigator</span>
         </div>
 
-        {/* ======================================
-            HERO SECTION + SIMULATOR
-        ====================================== */}
+        {/* -- HERO SECTION -- */}
         <section className="relative mb-24 pt-8 md:pt-16">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
             
-            {/* Left Column (5 cols) */}
+            {/* Left side: Heading (5 cols) */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
               className="lg:col-span-5 flex flex-col space-y-6 text-left"
             >
+              {/* Top Badge */}
               <div className="inline-flex items-center space-x-2 self-start bg-gradient-to-r from-brand-cyan/15 to-brand-indigo/15 border border-brand-cyan/20 rounded-full px-4.5 py-1.5 shadow-lg shadow-brand-cyan/5">
                 <div className="w-1.5 h-1.5 bg-brand-cyan rounded-full animate-pulse" />
-                <span className="text-[10px] font-bold text-brand-cyan uppercase tracking-widest">AI Symptom Care Triage</span>
+                <span className="text-[10px] font-bold text-brand-cyan uppercase tracking-widest">AI Healthcare Navigator</span>
                 <Sparkles className="w-3 h-3 text-brand-cyan" />
               </div>
 
+              {/* Headline */}
               <h1 className="font-display font-extrabold text-3xl sm:text-4xl xl:text-5xl text-white leading-[1.15] tracking-tight">
-                AI Symptom Checker.<br />
-                <span className="text-gradient-cyan-indigo">Understand Symptoms.</span><br />
-                <span className="text-gradient-emerald-cyan">Navigate Right Care.</span>
+                Understand Symptoms.<br />
+                <span className="text-gradient-cyan-indigo">Find The Right Specialty.</span><br />
+                <span className="text-gradient-emerald-cyan">Get Mapped to Care.</span>
               </h1>
 
+              {/* Subtitle */}
               <p className="text-gray-400 text-sm sm:text-base leading-relaxed">
-                Replaces basic keyword search with clinical AI pathways. Patients describe concerns, receive structured department guidance, match with local specialists, and generate EMR pre-consult briefs.
+                An AI-powered care navigation platform that triages symptoms, suggests appropriate clinical departments, generates doctor summaries, and connects patients with providers.
               </p>
 
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                 <Link
-                  href="/contact"
-                  className="inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold px-8 py-4 rounded-xl hover:opacity-95 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-brand-cyan/25 text-sm"
+                  href="#simulator"
+                  className="inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold px-5 py-3.5 rounded-xl hover:opacity-95 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-brand-cyan/25 text-xs whitespace-nowrap"
                 >
-                  <Sparkles className="w-4 h-4" />
-                  <span>Start AI Assessment</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  <Sparkles className="w-4 h-4 animate-pulse" />
+                  <span>Try Simulator</span>
+                  <ArrowRight className="w-3 h-3" />
                 </Link>
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center justify-center space-x-2 glass-panel border border-brand-border text-gray-300 font-semibold px-8 py-4 rounded-xl hover:border-brand-cyan/40 hover:text-white hover:scale-[1.02] active:scale-[0.98] transition-all text-sm"
+                <a
+                  href="https://aura-care-sepia.vercel.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center space-x-2 glass-panel border border-brand-border text-white font-semibold px-5 py-3.5 rounded-xl hover:border-brand-cyan/40 hover:scale-[1.02] active:scale-[0.98] transition-all text-xs whitespace-nowrap"
                 >
-                  <Phone className="w-3.5 h-3.5" />
-                  <span>Hospital White-Labeling</span>
-                </Link>
+                  <Globe className="w-3.5 h-3.5 text-brand-cyan" />
+                  <span>Launch Live App</span>
+                </a>
+                <a
+                  href="https://github.com/alimubashir822/AuraCare"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center space-x-2 glass-panel border border-brand-border text-gray-300 font-semibold px-5 py-3.5 rounded-xl hover:border-brand-cyan/40 hover:text-white hover:scale-[1.02] active:scale-[0.98] transition-all text-xs whitespace-nowrap"
+                >
+                  <ExternalLink className="w-3.5 h-3.5 text-brand-indigo" />
+                  <span>View Source</span>
+                </a>
               </div>
 
-              {/* Trust Badges */}
+              {/* Trust badges */}
               <div className="flex flex-wrap gap-2.5 pt-4">
                 {[
-                  { icon: <Shield className="w-3.5 h-3.5 text-brand-emerald" />, label: "HIPAA Certified Vault", bg: "bg-brand-emerald/10 border-brand-emerald/20" },
-                  { icon: <Lock className="w-3.5 h-3.5 text-brand-cyan" />, label: "Emergency Red-Flag Layer", bg: "bg-brand-cyan/10 border-brand-cyan/20" },
-                  { icon: <CheckCircle className="w-3.5 h-3.5 text-brand-indigo" />, label: "Clinical Navigation (No Diagnosis)", bg: "bg-brand-indigo/10 border-brand-indigo/20" }
+                  { icon: <Shield className="w-3.5 h-3.5 text-brand-emerald" />, label: "HIPAA Compliant Data", bg: "bg-brand-emerald/10 border-brand-emerald/20" },
+                  { icon: <AlertTriangle className="w-3.5 h-3.5 text-rose-400" />, label: "Safety Triage Filters", bg: "bg-rose-400/10 border-rose-400/20" },
+                  { icon: <CheckCircle className="w-3.5 h-3.5 text-brand-cyan" />, label: "EHR Sync Ready", bg: "bg-brand-cyan/10 border-brand-cyan/20" },
                 ].map((t) => (
                   <div key={t.label} className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-full border ${t.bg}`}>
                     {t.icon}
@@ -285,49 +368,55 @@ export default function AiHealthcareNavigatorPage() {
               </div>
             </motion.div>
 
-            {/* Right Column: Interactive OS Simulator (7 cols) */}
+            {/* Right side: High-Fidelity Mock Dashboard (7 cols) */}
             <motion.div
+              id="simulator"
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.15 }}
               className="lg:col-span-7 relative"
             >
-              <div className="absolute -inset-1.5 bg-gradient-to-r from-brand-cyan to-brand-indigo rounded-2xl blur-xl opacity-20 transition-all duration-1000 -z-10" />
+              <div className="absolute -inset-1.5 bg-gradient-to-r from-brand-cyan to-brand-indigo rounded-2xl blur-xl opacity-20 group-hover:opacity-30 transition-all duration-1000 -z-10" />
               
-              <div className="glass-panel rounded-2xl border border-brand-border overflow-hidden bg-brand-bg/95">
+              {/* Mock Dashboard container */}
+              <div className="glass-panel rounded-2xl border border-brand-border overflow-hidden">
                 
-                {/* Simulator Header */}
-                <div className="border-b border-brand-border px-5 py-3 flex items-center justify-between bg-white/5">
+                {/* Top header nav */}
+                <div className="border-b border-brand-border px-5 py-3 flex items-center justify-between bg-white/2">
                   <div className="flex items-center space-x-2.5">
                     <div className="w-6.5 h-6.5 rounded-lg bg-gradient-to-br from-brand-cyan to-brand-indigo flex items-center justify-center">
-                      <HeartPulse className="w-3.5 h-3.5 text-white" />
+                      <Brain className="w-3.5 h-3.5 text-white" />
                     </div>
-                    <span className="font-display font-bold text-white text-xs tracking-wide">AuraCare AI OS Engine</span>
+                    <span className="font-display font-bold text-white text-xs tracking-wide">AI Care Navigator Simulator</span>
                   </div>
                   
-                  <div className="flex items-center space-x-2 bg-brand-emerald/10 border border-brand-emerald/25 rounded-full px-2.5 py-1">
-                    <div className="w-1.5 h-1.5 bg-brand-emerald rounded-full animate-pulse" />
-                    <span className="text-[10px] text-brand-emerald font-semibold">Triage Navigator Active</span>
+                  {/* Status Indicator */}
+                  <div className="flex items-center space-x-2 bg-brand-cyan/10 border border-brand-cyan/25 rounded-full px-2.5 py-1">
+                    <div className="w-1.5 h-1.5 bg-brand-cyan rounded-full animate-pulse" />
+                    <span className="text-[10px] text-brand-cyan font-semibold">Triage Sandbox</span>
                   </div>
                 </div>
 
-                {/* Dashboard Inner Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-12 divide-y md:divide-y-0 md:divide-x divide-brand-border h-[450px]">
+                {/* Dashboard Inner Layout */}
+                <div className="grid grid-cols-1 md:grid-cols-12 divide-y md:divide-y-0 md:divide-x divide-brand-border h-[460px]">
                   
-                  {/* Left Navigation (4 cols) */}
+                  {/* Sidebar (3 cols) */}
                   <div className="md:col-span-4 p-4 space-y-1.5 bg-white/[0.01]">
-                    <p className="text-[9px] text-gray-500 uppercase font-bold tracking-wider mb-2 px-2">Assessment Tabs</p>
+                    <p className="text-[9px] text-gray-500 uppercase font-bold tracking-wider mb-2 px-2">Navigation</p>
                     {[
-                      { id: "interview", label: "AI Interview Triage", icon: <Brain className="w-3.5 h-3.5" /> },
-                      { id: "matching", label: "Specialist Matcher", icon: <Users className="w-3.5 h-3.5" /> },
-                      { id: "timeline", label: "Health Memory Timeline", icon: <Activity className="w-3.5 h-3.5" /> },
-                      { id: "leads", label: "Clinic Leads Board", icon: <Building2 className="w-3.5 h-3.5" /> }
+                      { id: "TriageSimulator", label: "Triage Triage Flow", icon: <Brain className="w-3.5 h-3.5" /> },
+                      { id: "PathwayViewer", label: "Care Pathway Timeline", icon: <Activity className="w-3.5 h-3.5" /> },
+                      { id: "LeadAnalytics", label: "Clinic Lead Tracking", icon: <BarChart3 className="w-3.5 h-3.5" /> },
                     ].map((tab) => (
                       <button
                         key={tab.id}
-                        onClick={() => setActiveDashboardTab(tab.id)}
+                        onClick={() => {
+                          setActiveTab(tab.id);
+                          setEmergencyAlert(false);
+                          setShowDoctorMatch(false);
+                        }}
                         className={`w-full flex items-center space-x-2.5 px-3 py-2.5 rounded-xl text-xs font-semibold transition-all ${
-                          activeDashboardTab === tab.id
+                          activeTab === tab.id
                             ? "bg-gradient-to-r from-brand-cyan/15 to-brand-indigo/15 text-white border border-brand-cyan/20"
                             : "text-gray-400 hover:text-gray-200 hover:bg-white/5 border border-transparent"
                         }`}
@@ -338,292 +427,371 @@ export default function AiHealthcareNavigatorPage() {
                     ))}
 
                     <div className="pt-6">
-                      <p className="text-[9px] text-gray-500 uppercase font-bold tracking-wider mb-2 px-2">Clinical Rule</p>
-                      <div className="p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl text-[9px] text-amber-400 leading-normal flex gap-1">
-                        <AlertTriangle className="w-4 h-4 flex-shrink-0" />
-                        <span>Not Diagnostic: Provides guidance mapping and specialty matching only.</span>
+                      <p className="text-[9px] text-gray-500 uppercase font-bold tracking-wider mb-2 px-2">Triage Metrics</p>
+                      <div className="flex items-center space-x-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-gray-400">
+                        <ShieldCheck className="w-3.5 h-3.5" />
+                        <span>Safety Filters</span>
+                      </div>
+                      <div className="flex items-center space-x-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-gray-400">
+                        <Users className="w-3.5 h-3.5" />
+                        <span>Referral Matches</span>
                       </div>
                     </div>
                   </div>
 
                   {/* Main Display (8 cols) */}
-                  <div className="md:col-span-8 p-5 overflow-y-auto flex flex-col justify-between h-full bg-brand-bg/10">
+                  <div className="md:col-span-8 p-5 overflow-y-auto flex flex-col justify-between h-full bg-brand-bg/20">
                     
-                    {/* Tab 1: AI Interview Triage */}
-                    {activeDashboardTab === "interview" && (
-                      <div className="flex-grow flex flex-col justify-between space-y-4">
-                        <div className="flex items-center justify-between border-b border-brand-border/60 pb-2">
-                          <span className="text-[10px] font-bold text-brand-cyan uppercase tracking-wider flex items-center">
-                            <Brain className="w-3.5 h-3.5 text-brand-cyan animate-pulse mr-1.5" />
-                            <span>AI Conversational Intake</span>
+                    {/* Active tab: Triage Simulator */}
+                    {activeTab === "TriageSimulator" && !emergencyAlert && !showDoctorMatch && (
+                      <div className="flex flex-col h-full justify-between flex-grow">
+                        <div className="flex justify-between items-center border-b border-brand-border/60 pb-2 mb-2">
+                          <span className="text-[10px] font-bold text-brand-cyan uppercase tracking-wider flex items-center space-x-1">
+                            <Sparkles className="w-3.5 h-3.5 text-brand-cyan mr-1" />
+                            <span>AI Symptom Intake Conversation</span>
                           </span>
-                          <span className="text-[8px] bg-brand-cyan/15 text-brand-cyan font-bold px-2 py-0.5 rounded-full border border-brand-cyan/10">Triage Process</span>
+                          <span className="text-[8px] text-brand-emerald font-semibold">Triage Live</span>
                         </div>
 
-                        {/* Chat history */}
-                        <div className="flex-grow overflow-y-auto max-h-[190px] space-y-3 pr-1 text-[11px] leading-relaxed">
-                          {chatLog.map((msg, i) => (
-                            <div key={i} className={`flex space-x-2 ${msg.sender === "user" ? "justify-end" : ""}`}>
+                        {/* Triage Chat window */}
+                        <div className="space-y-3 flex-grow overflow-y-auto max-h-[220px] pr-1 mb-2 font-sans">
+                          {assessmentChat.map((msg, i) => (
+                            <div key={i} className={`flex space-x-2 ${msg.sender === "patient" ? "justify-end" : ""}`}>
                               {msg.sender === "ai" && (
-                                <div className="w-5 h-5 rounded-full bg-brand-cyan/20 flex items-center justify-center text-[8px] font-bold text-brand-cyan flex-shrink-0">
+                                <div className="w-5 h-5 rounded-full bg-gradient-to-br from-brand-cyan to-brand-indigo flex-shrink-0 flex items-center justify-center text-[8px] text-white">
                                   AI
                                 </div>
                               )}
-                              <div className={`p-2.5 rounded-xl border max-w-[80%] ${
-                                msg.sender === "user"
-                                  ? "bg-brand-indigo/15 border-brand-indigo/25 text-white rounded-tr-none"
-                                  : "bg-brand-cyan/5 border-brand-cyan/15 text-gray-300 rounded-tl-none"
+                              <div className={`rounded-xl px-3 py-2 text-[11px] leading-snug border max-w-[85%] ${
+                                msg.sender === "patient"
+                                  ? "bg-brand-indigo/15 border-brand-indigo/25 text-white rounded-tr-sm"
+                                  : "bg-brand-cyan/8 border-brand-cyan/15 text-gray-200 rounded-tl-sm"
                               }`}>
-                                {msg.text}
+                                {msg.text.split("\n").map((line, idx) => (
+                                  <p key={idx} className={idx > 0 ? "mt-1" : ""}>{line}</p>
+                                ))}
                               </div>
                             </div>
                           ))}
 
                           {chatLoading && (
                             <div className="flex space-x-2">
-                              <div className="w-5 h-5 rounded-full bg-brand-cyan/20 flex items-center justify-center text-[8px] font-bold text-brand-cyan flex-shrink-0">
+                              <div className="w-5 h-5 rounded-full bg-gradient-to-br from-brand-cyan to-brand-indigo flex-shrink-0 flex items-center justify-center text-[8px] text-white">
                                 AI
                               </div>
-                              <div className="bg-brand-cyan/5 border border-brand-cyan/15 rounded-xl rounded-tl-none p-2.5 text-gray-400">
-                                <span className="animate-pulse">Analysing clinical pathway...</span>
+                              <div className="bg-brand-cyan/8 border border-brand-cyan/15 rounded-xl rounded-tl-sm px-3 py-2 text-[11px] text-gray-400">
+                                <div className="flex items-center space-x-1">
+                                  <div className="w-1.5 h-1.5 bg-brand-cyan rounded-full animate-bounce" />
+                                  <div className="w-1.5 h-1.5 bg-brand-cyan rounded-full animate-bounce [animation-delay:0.2s]" />
+                                  <div className="w-1.5 h-1.5 bg-brand-cyan rounded-full animate-bounce [animation-delay:0.4s]" />
+                                </div>
                               </div>
                             </div>
                           )}
                         </div>
 
-                        {/* Emergency Red-Flag overlay */}
-                        {emergencyAlert && (
-                          <motion.div
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            className="p-3 bg-red-500/10 border border-red-500/30 rounded-xl"
-                          >
-                            <div className="flex items-center space-x-1.5 text-red-500 mb-1">
-                              <AlertTriangle className="w-4 h-4 text-red-500 animate-bounce" />
-                              <span className="text-[10px] font-bold uppercase">CRITICAL SYSTEM WARNING</span>
-                            </div>
-                            <p className="text-[10px] text-gray-300">
-                              Symptoms suggest emergency. Triage terminated. Please seek emergency medical care now.
-                            </p>
-                          </motion.div>
-                        )}
+                        {/* Interactive symptom choice pills */}
+                        <div className="space-y-1.5 border-t border-brand-border/60 pt-2">
+                          <p className="text-[8px] text-gray-500 font-bold uppercase tracking-wider">Select Symptom to Simulate Patient Intake:</p>
+                          <div className="flex flex-wrap gap-1.5">
+                            {chatStep === 1 && (
+                              <>
+                                <button
+                                  onClick={() => handlePatientInput("I have frequent severe headaches.", "Understood. Headaches require screening. Let's ask: How long has this been happening, and is it accompanied by any vision changes or nausea?", 2)}
+                                  className="text-[9px] border border-brand-cyan/20 bg-brand-cyan/5 hover:bg-brand-cyan/10 text-brand-cyan rounded-lg px-2.5 py-1"
+                                >
+                                  Frequent Headaches
+                                </button>
+                                <button
+                                  onClick={() => handlePatientInput("I have severe chest pain and breath shortness.", "", 9, true)}
+                                  className="text-[9px] border border-rose-500/30 bg-rose-500/5 hover:bg-rose-500/10 text-rose-400 rounded-lg px-2.5 py-1"
+                                >
+                                  🚨 Chest Pain (Emergency)
+                                </button>
+                                <button
+                                  onClick={() => handlePatientInput("My knee is swollen and hurts when walking.", "I see. Joint swelling and pain. Let's screen: Was there a recent injury or twist to the knee, and are you able to bear weight?", 3)}
+                                  className="text-[9px] border border-brand-cyan/20 bg-brand-cyan/5 hover:bg-brand-cyan/10 text-brand-cyan rounded-lg px-2.5 py-1"
+                                >
+                                  Knee Swelling
+                                </button>
+                              </>
+                            )}
 
-                        {/* Intake Triage Summary */}
-                        {assessmentSummary && !emergencyAlert && (
-                          <motion.div
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="bg-brand-emerald/10 border border-brand-emerald/20 rounded-xl p-3"
-                          >
-                            <div className="flex items-center space-x-1.5 mb-1">
-                              <CheckCircle className="w-3.5 h-3.5 text-brand-emerald" />
-                              <span className="text-[9px] text-brand-emerald font-bold uppercase">Patient Intake Brief Generated</span>
-                            </div>
-                            <p className="text-[10px] text-gray-300 leading-normal">
-                              <strong>Primary:</strong> Sore throat & fever · <strong>Routing Match:</strong> ENT Specialist / General Medicine · <strong>Action:</strong> Consultation Prep Brief routed.
-                            </p>
-                          </motion.div>
-                        )}
+                            {chatStep === 2 && (
+                              <>
+                                <button
+                                  onClick={() => handlePatientInput("Happening for 2 weeks, mild nausea, no vision issues.", "Thank you. Based on frequent headaches + mild nausea lasting 2 weeks, Neurology is the suggested department.\n\nGenerate report below to view matched doctors and consultation briefs.", 4)}
+                                  className="text-[9px] border border-brand-cyan/20 bg-brand-cyan/5 hover:bg-brand-cyan/10 text-brand-cyan rounded-lg px-2.5 py-1"
+                                >
+                                  2 Weeks + Nausea
+                                </button>
+                              </>
+                            )}
 
-                        {/* Interactive Form Input */}
-                        {!assessmentSummary && !emergencyAlert && (
-                          <form onSubmit={handleInterviewSubmit} className="flex gap-2">
-                            <input
-                              type="text"
-                              required
-                              value={patientInput}
-                              onChange={(e) => setPatientInput(e.target.value)}
-                              disabled={chatLoading}
-                              placeholder={interviewStep === 0 ? "e.g. My throat hurts and I have fever..." : "Provide detail..."}
-                              className="flex-grow bg-brand-bg/50 border border-brand-border rounded-xl px-3 py-2 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-brand-cyan"
-                            />
-                            <button
-                              type="submit"
-                              disabled={chatLoading}
-                              className="bg-brand-cyan hover:bg-brand-cyan/90 text-brand-bg font-bold text-xs px-4 py-2 rounded-xl transition-colors disabled:opacity-50"
-                            >
-                              Send
-                            </button>
-                          </form>
-                        )}
+                            {chatStep === 3 && (
+                              <>
+                                <button
+                                  onClick={() => handlePatientInput("No direct injury, hurts to bear weight.", "Thank you. Non-injury joint pain. Orthopedics and Physiotherapy are the recommended departments.\n\nGenerate report below to view specialists.", 5)}
+                                  className="text-[9px] border border-brand-cyan/20 bg-brand-cyan/5 hover:bg-brand-cyan/10 text-brand-cyan rounded-lg px-2.5 py-1"
+                                >
+                                  Unable to bear weight
+                                </button>
+                              </>
+                            )}
 
-                        {(assessmentSummary || emergencyAlert) && (
-                          <button
-                            onClick={() => {
-                              setAssessmentSummary(false);
-                              setEmergencyAlert(false);
-                              setInterviewStep(0);
-                              setChatLog([{ sender: "ai", text: "Hello! I am AuraCare AI Care Navigator. What symptoms are you experiencing today?" }]);
-                            }}
-                            className="text-[10px] text-brand-cyan hover:underline text-center block mt-1"
-                          >
-                            Restart Triage Simulation
-                          </button>
-                        )}
+                            {chatStep === 4 && (
+                              <button
+                                onClick={() => generateReport("Neurology", "Frequent severe headaches", "2 weeks")}
+                                className="text-[9px] border border-brand-emerald/30 bg-brand-emerald/10 hover:bg-brand-emerald/20 text-brand-emerald rounded-lg px-2.5 py-1 font-bold"
+                              >
+                                Generate Care Report &rarr;
+                              </button>
+                            )}
+
+                            {chatStep === 5 && (
+                              <button
+                                onClick={() => generateReport("Orthopedics", "Knee joint swelling", "3 days")}
+                                className="text-[9px] border border-brand-emerald/30 bg-brand-emerald/10 hover:bg-brand-emerald/20 text-brand-emerald rounded-lg px-2.5 py-1 font-bold"
+                              >
+                                Generate Care Report &rarr;
+                              </button>
+                            )}
+                          </div>
+                        </div>
                       </div>
                     )}
 
-                    {/* Tab 2: Specialist Matcher */}
-                    {activeDashboardTab === "matching" && (
-                      <div className="flex-grow flex flex-col justify-between space-y-4">
-                        <div>
-                          <div className="flex items-center justify-between border-b border-brand-border/60 pb-2 mb-3">
-                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">AI Doctor Matcher Engine</span>
-                            <span className="text-[8px] bg-brand-cyan/15 text-brand-cyan font-bold px-2 py-0.5 rounded-full border border-brand-cyan/10">Matches Found</span>
+                    {/* Emergency Alert screen */}
+                    {activeTab === "TriageSimulator" && emergencyAlert && (
+                      <div className="glass-panel border-rose-500/40 bg-rose-950/20 rounded-xl p-5 flex flex-col justify-between h-full">
+                        <div className="space-y-3">
+                          <div className="flex items-center space-x-2 text-rose-400">
+                            <AlertTriangle className="w-5 h-5 animate-bounce" />
+                            <span className="text-xs font-bold uppercase tracking-wider">🚨 URGENT CRITICAL WARNING</span>
+                          </div>
+                          
+                          <p className="text-xs text-white leading-relaxed">
+                            Your symptoms (<strong>severe chest pain and shortness of breath</strong>) indicate a possible acute cardiac event or emergency condition.
+                          </p>
+                          <p className="text-[11px] text-gray-400 leading-relaxed">
+                            Please seek immediate emergency care by calling <strong>911</strong> (or your local emergency services number) or traveling to the nearest hospital emergency room. Do not wait for an online consultation.
+                          </p>
+                        </div>
+
+                        <div className="space-y-2 pt-4 border-t border-rose-500/20">
+                          <button
+                            onClick={() => {
+                              setEmergencyAlert(false);
+                              setChatStep(1);
+                              setAssessmentChat([
+                                { sender: "ai", text: "Hello! I am the AI Healthcare Navigator. How are you feeling today? (Select a symptom pill below or describe your concern)" }
+                              ]);
+                            }}
+                            className="w-full text-center block text-xs bg-slate-900 border border-brand-border text-gray-300 hover:text-white py-2 rounded-lg"
+                          >
+                            Return to Sandbox Triage
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Doctor Match & Preparation Report View */}
+                    {activeTab === "TriageSimulator" && showDoctorMatch && assessmentSummary && (
+                      <div className="space-y-4 flex-grow h-full overflow-y-auto pr-1 flex flex-col justify-between">
+                        <div className="space-y-3">
+                          
+                          {/* Brief Header */}
+                          <div className="flex justify-between items-center bg-slate-900/60 p-2 rounded-lg border border-brand-border">
+                            <div>
+                              <p className="text-[8px] text-gray-500 uppercase font-bold">Recommended Care Department</p>
+                              <p className="text-xs font-bold text-white">{assessmentSummary.department}</p>
+                            </div>
+                            <span className="text-[9px] bg-brand-emerald/10 text-brand-emerald border border-brand-emerald/20 px-2 py-0.5 rounded font-mono font-bold">Referral Active</span>
                           </div>
 
-                          <div className="space-y-2">
-                            {mockDoctors.slice(0, 2).map((doc) => (
-                              <div key={doc.name} className="glass-panel border border-brand-border rounded-xl p-3 flex items-center justify-between">
-                                <div>
-                                  <p className="text-[11px] font-bold text-white leading-none">{doc.name}</p>
-                                  <p className="text-[9px] text-gray-500 mt-1">{doc.specialty} · {doc.experience}</p>
+                          {/* Prepared Brief card */}
+                          <div className="glass-panel border border-brand-border rounded-xl p-3 space-y-2">
+                            <span className="text-[9px] text-brand-cyan font-bold uppercase block">AI Patient Intake Brief</span>
+                            <div className="text-[10px] text-gray-300 space-y-1">
+                              <p><strong className="text-gray-400">Chief Complaint:</strong> {assessmentSummary.concern}</p>
+                              <p><strong className="text-gray-400">Duration:</strong> {assessmentSummary.duration}</p>
+                            </div>
+                            <div className="border-t border-brand-border/60 pt-2 space-y-1">
+                              <p className="text-[8px] text-gray-500 uppercase font-bold">Suggested questions for your doctor:</p>
+                              {assessmentSummary.questions.map((q: string, idx: number) => (
+                                <p key={idx} className="text-[9px] text-gray-400 leading-snug flex items-start">
+                                  <span className="text-brand-cyan mr-1.5">•</span>
+                                  <span>{q}</span>
+                                </p>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Matched Specialist profile card */}
+                          <div className="border border-brand-indigo/35 bg-brand-indigo/5 rounded-xl p-3 space-y-2">
+                            <span className="text-[9px] text-brand-indigo font-bold uppercase block">Top Matched Specialist Available Today</span>
+                            {matchingDoctors[assessmentSummary.department]?.map((doc) => (
+                              <div key={doc.name} className="flex items-center justify-between">
+                                <div className="flex items-center space-x-2">
+                                  <div className="w-8 h-8 rounded bg-brand-indigo/10 flex items-center justify-center font-bold text-xs text-brand-indigo">
+                                    {doc.name.split(" ").slice(1).map((n: string) => n[0]).join("")}
+                                  </div>
+                                  <div>
+                                    <p className="text-xs font-bold text-white">{doc.name}</p>
+                                    <p className="text-[8px] text-gray-500">{doc.specialty} · {doc.experience} Exp</p>
+                                  </div>
                                 </div>
                                 <button
                                   onClick={() => {
-                                    setMatchedDoc(doc);
-                                    setBookingConfirmed(true);
+                                    alert(`Successfully booked consultation with ${doc.name} at ${doc.time}! The Intake brief was transferred to their queue.`);
+                                    setShowDoctorMatch(false);
+                                    setChatStep(1);
+                                    setAssessmentChat([
+                                      { sender: "ai", text: "Hello! I am the AI Healthcare Navigator. How are you feeling today? (Select a symptom pill below or describe your concern)" }
+                                    ]);
                                   }}
-                                  className="bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold text-[9px] px-3 py-1.5 rounded-lg hover:opacity-90 transition-colors"
+                                  className="text-[9px] bg-brand-cyan hover:bg-brand-cyan/95 text-brand-bg px-2.5 py-1.5 rounded-lg font-bold"
                                 >
-                                  Book Slot
+                                  Book {doc.time}
                                 </button>
                               </div>
                             ))}
                           </div>
-
-                          {bookingConfirmed && (
-                            <motion.div
-                              initial={{ opacity: 0, y: 5 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              className="mt-3 bg-brand-emerald/10 border border-brand-emerald/20 rounded-xl p-3 flex items-center justify-between"
-                            >
-                              <div className="text-[10px]">
-                                <span className="font-bold text-brand-emerald block">Booking Scheduled!</span>
-                                <span className="text-gray-400">Consultation set with {matchedDoc.name} ({matchedDoc.price})</span>
-                              </div>
-                              <CheckCircle className="w-5 h-5 text-brand-emerald" />
-                            </motion.div>
-                          )}
                         </div>
 
                         <button
                           onClick={() => {
-                            setBookingConfirmed(false);
-                            setActiveDashboardTab("timeline");
+                            setShowDoctorMatch(false);
+                            setChatStep(1);
+                            setAssessmentChat([
+                              { sender: "ai", text: "Hello! I am the AI Healthcare Navigator. How are you feeling today? (Select a symptom pill below or describe your concern)" }
+                            ]);
                           }}
-                          className="w-full bg-brand-cyan/10 hover:bg-brand-cyan/20 border border-brand-cyan/25 text-brand-cyan font-bold text-xs py-2 rounded-xl transition-all"
+                          className="w-full text-center text-[9px] text-gray-500 hover:text-gray-300 py-1"
                         >
-                          Check Health Journey Timeline
+                          Cancel & restart triage
                         </button>
                       </div>
                     )}
 
-                    {/* Tab 3: Health Memory Timeline */}
-                    {activeDashboardTab === "timeline" && (
-                      <div className="flex-grow flex flex-col justify-between space-y-4">
-                        <div>
-                          <div className="flex items-center justify-between border-b border-brand-border/60 pb-2 mb-3">
-                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Symptom Comparison memory</span>
-                            <span className="text-[9px] text-brand-emerald font-semibold">Timeline</span>
-                          </div>
-
-                          <div className="space-y-3">
-                            <div className="p-3 bg-white/2 border border-brand-border rounded-xl flex items-center justify-between">
-                              <div>
-                                <span className="text-[8px] text-gray-500 uppercase font-bold block">Assessment 1 (Initial)</span>
-                                <span className="text-xs text-white font-semibold">Triage Pain Scale:</span>
-                              </div>
-                              <span className="text-xs font-bold text-brand-indigo">{painLevelBefore}/10 Severe</span>
-                            </div>
-
-                            <div className="p-3 bg-white/2 border border-brand-border rounded-xl flex items-center justify-between">
-                              <div>
-                                <span className="text-[8px] text-gray-500 uppercase font-bold block">Assessment 2 (Post-Consult)</span>
-                                <span className="text-xs text-white font-semibold">Triage Pain Scale:</span>
-                              </div>
-                              <span className="text-xs font-bold text-brand-cyan">{painLevelAfter}/10 Improved</span>
-                            </div>
-
-                            <div className="p-2.5 bg-brand-emerald/10 border border-brand-emerald/15 rounded-xl text-[10px] text-gray-300 leading-normal flex gap-1.5">
-                              <CheckCircle className="w-4 h-4 text-brand-emerald flex-shrink-0 mt-0.5" />
-                              <span>AI Analysis: Symptom pain logs show a 50% decrease. Next follow-up care reminders set on Day 30.</span>
-                            </div>
-                          </div>
+                    {/* Active tab: Care Pathway Viewer */}
+                    {activeTab === "PathwayViewer" && (
+                      <div className="space-y-4 flex-grow">
+                        <div className="flex justify-between items-center">
+                          <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider">Your Visual Healthcare Pathway</h4>
+                          <span className="text-[8px] text-brand-emerald font-semibold bg-brand-emerald/10 border border-brand-emerald/20 px-2 py-0.5 rounded-full">Intake Journey</span>
                         </div>
 
-                        <div className="flex gap-2">
-                          <button
-                            onClick={() => { setPainLevelBefore(8); setPainLevelAfter(2); }}
-                            className="flex-grow text-[9px] bg-brand-bg/50 border border-brand-border rounded-lg py-1.5 text-gray-400 hover:text-white"
-                          >
-                            Simulate Recovery
-                          </button>
-                          <button
-                            onClick={() => setActiveDashboardTab("leads")}
-                            className="flex-grow text-[9px] bg-brand-cyan text-brand-bg font-bold rounded-lg py-1.5 text-center"
-                          >
-                            Go to Clinic Lead Board
-                          </button>
+                        {/* Pathway Road map */}
+                        <div className="space-y-3 relative before:absolute before:left-3 before:top-2 before:bottom-2 before:w-px before:bg-brand-cyan/20">
+                          {[
+                            { step: 1, title: "Understand Symptoms", desc: "Complete conversational intake session with AI concierge.", status: "completed" },
+                            { step: 2, title: "Specialist Recommendation", desc: "AI maps symptoms to Cardiology, Dermatology, or Orthopedics.", status: "completed" },
+                            { step: 3, title: "Choose Provider & Sync Insurance", desc: "Evaluate matched doctors, check co-pay rates, and verify Cigna/Aetna details.", status: "current" },
+                            { step: 4, title: "Consultation Pre-Brief", desc: "AI auto-generates symptom checklist summaries for doctor's queue.", status: "pending" },
+                            { step: 5, title: "Secure Telehealth Visit", desc: "Discuss intake report with physician via encrypted video consultation.", status: "pending" },
+                            { step: 6, title: "Follow-Up Triage (Day 7)", desc: "AI prompts automated check-in survey to trace treatment compliance.", status: "pending" }
+                          ].map((node) => (
+                            <div key={node.step} className="flex items-start space-x-3.5 relative pl-7 text-[10px]">
+                              {/* Indicator dot */}
+                              <div className={`absolute left-0 top-1 w-6 h-6 rounded-full border-2 flex items-center justify-center text-[8px] font-bold ${
+                                node.status === "completed" 
+                                  ? "bg-brand-cyan border-brand-cyan text-brand-bg" 
+                                  : node.status === "current" 
+                                    ? "bg-brand-indigo/10 border-brand-indigo text-brand-indigo animate-pulse" 
+                                    : "bg-slate-900 border-brand-border text-gray-600"
+                              }`}>
+                                {node.step}
+                              </div>
+                              
+                              <div>
+                                <h5 className={`font-bold ${node.status === "completed" ? "text-brand-cyan" : node.status === "current" ? "text-brand-indigo" : "text-gray-500"}`}>
+                                  {node.title}
+                                </h5>
+                                <p className="text-gray-400 mt-0.5 leading-snug">{node.desc}</p>
+                              </div>
+                            </div>
+                          ))}
                         </div>
                       </div>
                     )}
 
-                    {/* Tab 4: Clinic Leads Board */}
-                    {activeDashboardTab === "leads" && (
-                      <div className="flex-grow flex flex-col justify-between space-y-4">
-                        <div>
-                          <div className="flex items-center justify-between border-b border-brand-border/60 pb-2 mb-3">
-                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Clinic Lead Intelligence</span>
-                            <span className="text-[8px] bg-brand-indigo/15 text-brand-indigo font-bold px-2 py-0.5 rounded-full border border-brand-indigo/10">Funnels</span>
+                    {/* Active tab: Clinic Lead Tracking */}
+                    {activeTab === "LeadAnalytics" && (
+                      <div className="space-y-4 flex-grow">
+                        <div className="flex justify-between items-center">
+                          <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider">Patient Lead Conversion Metrics</h4>
+                          
+                          {/* Interval selector */}
+                          <div className="flex bg-slate-900 border border-brand-border rounded-lg p-0.5 text-[8px] font-bold">
+                            <button
+                              onClick={() => setAnalyticsInterval("weekly")}
+                              className={`px-2 py-0.5 rounded ${analyticsInterval === "weekly" ? "bg-brand-cyan text-brand-bg" : "text-gray-400"}`}
+                            >
+                              Weekly
+                            </button>
+                            <button
+                              onClick={() => setAnalyticsInterval("monthly")}
+                              className={`px-2 py-0.5 rounded ${analyticsInterval === "monthly" ? "bg-brand-cyan text-brand-bg" : "text-gray-400"}`}
+                            >
+                              Monthly
+                            </button>
                           </div>
+                        </div>
 
-                          <div className="grid grid-cols-3 gap-2">
-                            <div className="bg-white/2 border border-brand-border rounded-xl p-2.5 text-center">
-                              <span className="text-[8px] text-gray-500 block uppercase">Intakes Started</span>
-                              <span className="text-sm font-extrabold text-white block mt-0.5">1,240</span>
-                            </div>
-                            <div className="bg-white/2 border border-brand-border rounded-xl p-2.5 text-center">
-                              <span className="text-[8px] text-gray-500 block uppercase">Leads Matched</span>
-                              <span className="text-sm font-extrabold text-brand-cyan block mt-0.5">856</span>
-                            </div>
-                            <div className="bg-white/2 border border-brand-border rounded-xl p-2.5 text-center">
-                              <span className="text-[8px] text-gray-500 block uppercase">Bookings</span>
-                              <span className="text-sm font-extrabold text-brand-emerald block mt-0.5">520</span>
-                            </div>
+                        {/* Leads statistics */}
+                        <div className="grid grid-cols-3 gap-2">
+                          <div className="bg-slate-900/60 rounded-xl p-3 border border-brand-border text-center">
+                            <span className="text-[8px] text-gray-500 block">Total Intake Leads</span>
+                            <span className="text-sm font-extrabold text-white font-mono">
+                              {analyticsInterval === "weekly" ? "345" : "1,420"}
+                            </span>
+                            <span className="text-[7px] text-brand-cyan block mt-0.5">^ +15% conversion</span>
                           </div>
+                          <div className="bg-slate-900/60 rounded-xl p-3 border border-brand-border text-center">
+                            <span className="text-[8px] text-gray-500 block">Routed to Clinics</span>
+                            <span className="text-sm font-extrabold text-white font-mono">
+                              {analyticsInterval === "weekly" ? "210" : "840"}
+                            </span>
+                            <span className="text-[7px] text-brand-emerald block mt-0.5">60% Triage rate</span>
+                          </div>
+                          <div className="bg-slate-900/60 rounded-xl p-3 border border-brand-border text-center">
+                            <span className="text-[8px] text-gray-500 block">Booked Appts</span>
+                            <span className="text-sm font-extrabold text-white font-mono">
+                              {analyticsInterval === "weekly" ? "125" : "520"}
+                            </span>
+                            <span className="text-[7px] text-brand-indigo block mt-0.5">36% Booking rate</span>
+                          </div>
+                        </div>
 
-                          <div className="p-3 bg-brand-bg/40 border border-brand-border rounded-xl mt-2 text-[10px]">
-                            <p className="font-bold text-white uppercase text-[8px] tracking-wider mb-1">Most Requested Departments</p>
-                            <div className="space-y-1.5">
-                              <div>
-                                <div className="flex justify-between mb-0.5 text-[9px]">
-                                  <span className="text-gray-400">Cardiology</span>
-                                  <span className="text-white">35% (182 leads)</span>
+                        {/* Specialty breakdown */}
+                        <div className="glass-panel rounded-xl p-3 border border-brand-border space-y-2">
+                          <span className="text-[9px] text-gray-400 font-bold uppercase tracking-wider block">Intake Volume by specialty</span>
+                          <div className="space-y-2">
+                            {[
+                              { label: "Dermatology", value: 42, color: "bg-brand-cyan" },
+                              { label: "Orthopedics & Rehab", value: 35, color: "bg-brand-indigo" },
+                              { label: "Cardiology", value: 23, color: "bg-rose-400" }
+                            ].map((spec) => (
+                              <div key={spec.label} className="space-y-1">
+                                <div className="flex justify-between text-[9px] font-semibold text-gray-300">
+                                  <span>{spec.label}</span>
+                                  <span className="font-mono">{spec.value}%</span>
                                 </div>
-                                <div className="h-1 bg-white/10 rounded-full overflow-hidden">
-                                  <div className="h-full w-[35%] bg-brand-cyan" />
+                                <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                                  <div className={`h-full ${spec.color} rounded-full`} style={{ width: `${spec.value}%` }} />
                                 </div>
                               </div>
-                              <div>
-                                <div className="flex justify-between mb-0.5 text-[9px]">
-                                  <span className="text-gray-400">Dermatology</span>
-                                  <span className="text-white">25% (130 leads)</span>
-                                </div>
-                                <div className="h-1 bg-white/10 rounded-full overflow-hidden">
-                                  <div className="h-full w-[25%] bg-brand-indigo" />
-                                </div>
-                              </div>
-                            </div>
+                            ))}
                           </div>
                         </div>
                       </div>
                     )}
 
-                    {/* Navigation helper */}
-                    <div className="text-[9px] text-gray-500 text-center border-t border-brand-border/60 pt-2 flex items-center justify-between mt-2">
-                      <span>Click sidebar tabs to simulate navigation workflows.</span>
-                      <Brain className="w-3 h-3 text-brand-cyan" />
+                    {/* Bottom navigator indicator helper */}
+                    <div className="text-[9px] text-gray-500 text-center border-t border-brand-border/60 pt-2.5 flex items-center justify-between">
+                      <span>Explore triage, pathways, and clinic lead tracking interfaces.</span>
+                      <Brain className="w-3.5 h-3.5 text-brand-cyan" />
                     </div>
                   </div>
                 </div>
@@ -640,14 +808,7 @@ export default function AiHealthcareNavigatorPage() {
         <section className="mb-28">
           <div className="glass-panel rounded-2xl border border-brand-border p-6">
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
-              {[
-                { value: "24/7", label: "AI Nav Guidance", icon: <Brain className="w-5 h-5" /> },
-                { value: "85%+", label: "Matcher Conversion", icon: <Users className="w-5 h-5" /> },
-                { value: "5 min", label: "Avg Intake Session", icon: <Clock className="w-5 h-5" /> },
-                { value: "3x", label: "Patient Retention", icon: <TrendingUp className="w-5 h-5" /> },
-                { value: "100%", label: "HIPAA Certified", icon: <Shield className="w-5 h-5" /> },
-                { value: "94%+", label: "Lead Funnel Capture", icon: <Wallet className="w-5 h-5" /> }
-              ].map((stat, i) => (
+              {stats.map((stat, i) => (
                 <motion.div
                   key={stat.label}
                   initial={{ opacity: 0, y: 10 }}
@@ -656,11 +817,11 @@ export default function AiHealthcareNavigatorPage() {
                   transition={{ delay: i * 0.05, duration: 0.4 }}
                   className="text-center space-y-1.5"
                 >
-                  <div className="w-9 h-9 rounded-xl bg-brand-cyan/5 border border-brand-cyan/15 text-brand-cyan flex items-center justify-center mx-auto mb-1">
+                  <div className="flex justify-center text-brand-cyan">
                     {stat.icon}
                   </div>
-                  <h4 className="text-xl sm:text-2xl font-display font-extrabold text-white tracking-tight">{stat.value}</h4>
-                  <p className="text-[10px] text-gray-500 uppercase tracking-wider font-semibold leading-tight">{stat.label}</p>
+                  <h3 className="font-display font-extrabold text-2xl md:text-3xl text-white">{stat.value}</h3>
+                  <p className="text-[10px] font-medium text-gray-500 uppercase tracking-wider">{stat.label}</p>
                 </motion.div>
               ))}
             </div>
@@ -668,40 +829,137 @@ export default function AiHealthcareNavigatorPage() {
         </section>
 
         {/* ======================================
-            DIFFERENTIATORS (4 Core Differentiators)
+            CORE FEATURES GRID
         ====================================== */}
         <section className="mb-28">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <div className="inline-flex items-center space-x-2 bg-brand-cyan/10 border border-brand-cyan/20 rounded-full px-4 py-1.5 mb-4">
               <Sparkles className="w-4 h-4 text-brand-cyan" />
-              <span className="text-xs font-semibold text-brand-cyan uppercase tracking-widest">Intake Intelligence</span>
+              <span className="text-xs font-semibold text-brand-cyan uppercase tracking-widest">Platform Modules</span>
             </div>
-            <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-white">
-              Why AuraCare is Different
+            <h2 className="font-display font-bold text-3xl md:text-5xl text-white leading-tight">
+              Intelligent Intake & Care Routing
             </h2>
-            <p className="mt-4 text-gray-400 text-sm leading-relaxed max-w-xl mx-auto">
-              Moving beyond basic chatbot tools to provide structured care navigation systems.
+            <p className="mt-4 text-gray-400 leading-relaxed text-sm md:text-base">
+              Convert random health questions into structured care paths. Eliminate receptionist load while presenting doctors with well-prepared clinical briefs.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {differentiators.map((d, i) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {coreFeatures.map((f, i) => (
               <motion.div
-                key={d.title}
+                key={f.title}
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.06, duration: 0.4 }}
-                className="glass-panel rounded-2xl p-6 border border-brand-border flex flex-col justify-between relative group hover:border-brand-cyan/40 transition-colors"
+                transition={{ delay: i * 0.05, duration: 0.4 }}
+                className="glass-panel glass-panel-hover rounded-xl p-5 border border-brand-border group"
               >
-                <div className="absolute -inset-px bg-gradient-to-br from-brand-cyan/10 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+                <div className="flex items-start justify-between mb-3">
+                  <div className="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-brand-cyan/10 text-brand-cyan group-hover:bg-brand-cyan/15 transition-colors">
+                    {f.icon}
+                  </div>
+                  {f.badge && (
+                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/20">
+                      {f.badge}
+                    </span>
+                  )}
+                </div>
+                <h3 className="font-display font-semibold text-white mb-2">{f.title}</h3>
+                <p className="text-sm text-gray-400 leading-relaxed">{f.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        {/* ======================================
+            PORTAL STRUCTURE MAP
+        ====================================== */}
+        <section className="mb-28">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+              <div className="inline-flex items-center space-x-2 bg-brand-cyan/10 border border-brand-cyan/20 rounded-full px-4 py-1.5 mb-6">
+                <LayoutDashboard className="w-4 h-4 text-brand-cyan" />
+                <span className="text-xs font-semibold text-brand-cyan uppercase tracking-widest">Platform Mapping</span>
+              </div>
+              <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-white mb-4">
+                Symptom Triage to Doctor Handoff
+              </h2>
+              <p className="text-gray-400 leading-relaxed mb-8">
+                Triage patients empathetically, identify clinical department referrals, and recommend the best providers based on schedule slot configurations, insurance networks, and locations.
+              </p>
+              <div className="glass-panel rounded-xl p-5 border border-brand-border">
+                <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-4">Patient Routing Flow</p>
+                <div className="flex items-center flex-wrap gap-2">
+                  {["Symptom Input", "Triage Interview", "Department Identified", "Specialist Match", "Appointment Booked", "Day 1/7 Follow-up"].map((step, i, arr) => (
+                    <div key={step} className="flex items-center space-x-2">
+                      <div className="flex items-center space-x-1.5 bg-brand-cyan/10 border border-brand-cyan/20 rounded-lg px-3 py-1.5">
+                        <span className="w-4 h-4 rounded-full bg-brand-cyan/20 text-brand-cyan text-[10px] flex items-center justify-center font-bold">{i + 1}</span>
+                        <span className="text-xs text-gray-300 font-medium">{step}</span>
+                      </div>
+                      {i < arr.length - 1 && <ArrowRight className="w-3 h-3 text-gray-600 flex-shrink-0" />}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {portalModules.map((m) => (
+                <div key={m.title} className="glass-panel rounded-xl p-4 border border-brand-border hover:border-brand-cyan/30 transition-colors">
+                  <div className="flex items-center space-x-2 mb-3">
+                    <span className="text-brand-cyan">{m.icon}</span>
+                    <h4 className="font-semibold text-white text-sm">{m.title}</h4>
+                  </div>
+                  <ul className="space-y-1">
+                    {m.items.map((item) => (
+                      <li key={item} className="flex items-start space-x-1.5">
+                        <CheckCircle className="w-3 h-3 text-brand-emerald mt-0.5 flex-shrink-0" />
+                        <span className="text-[11px] text-gray-400">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+        </section>
+
+        {/* ======================================
+            DIFFERENTIATORS GRID
+        ====================================== */}
+        <section className="mb-28">
+          <div className="text-center mb-14">
+            <div className="inline-flex items-center space-x-2 bg-brand-cyan/10 border border-brand-cyan/20 rounded-full px-4 py-1.5 mb-4">
+              <Activity className="w-4 h-4 text-brand-cyan" />
+              <span className="text-xs font-semibold text-brand-cyan uppercase tracking-widest">Why We Excel</span>
+            </div>
+            <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-white">
+              Built for seamless care navigation
+            </h2>
+            <p className="mt-4 text-gray-400 max-w-2xl mx-auto">
+              We focus on converting patient questions into the correct healthcare journey, rather than generating simple database check responses.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {differentiators.map((d, i) => (
+              <motion.div
+                key={d.title}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.06 }}
+                style={{ boxShadow: `0 10px 30px -10px ${d.glow}` }}
+                className={`glass-panel rounded-2xl p-6 border border-brand-border hover:border-brand-cyan/30 transition-all flex flex-col justify-between`}
+              >
                 <div>
-                  <div className="w-12 h-12 rounded-xl bg-brand-cyan/10 text-brand-cyan flex items-center justify-center mb-5">
+                  <div className="w-12 h-12 rounded-xl bg-brand-bg/50 border border-brand-border flex items-center justify-center mb-5 text-brand-cyan">
                     {d.icon}
                   </div>
                   <h3 className="font-display font-bold text-white text-lg mb-1">{d.title}</h3>
-                  <p className="text-xs text-brand-cyan font-mono mb-3">{d.subtitle}</p>
-                  <p className="text-xs sm:text-sm text-gray-400 leading-relaxed">{d.desc}</p>
+                  <p className="text-xs text-brand-cyan font-semibold mb-3">{d.subtitle}</p>
+                  <p className="text-sm text-gray-400 leading-relaxed mb-4">{d.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -709,73 +967,17 @@ export default function AiHealthcareNavigatorPage() {
         </section>
 
         {/* ======================================
-            PORTAL MODULES GRID
-        ====================================== */}
-        <section className="mb-28">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            
-            {/* Left Info (5 cols) */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="lg:col-span-5 text-left"
-            >
-              <div className="inline-flex items-center space-x-2 bg-brand-indigo/10 border border-brand-indigo/20 rounded-full px-4 py-1.5 mb-6">
-                <LayoutDashboard className="w-4 h-4 text-brand-indigo" />
-                <span className="text-xs font-semibold text-brand-indigo uppercase tracking-widest">System Overview</span>
-              </div>
-              <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-white mb-4">
-                Clinical-grade navigation infrastructure
-              </h2>
-              <p className="text-gray-400 leading-relaxed mb-6">
-                Designed to guide patients from initial confusion to scheduled clinic consultations while feeding clean, pre-populated health briefs directly to physician dashboards.
-              </p>
-              
-              <div className="p-4 bg-brand-cyan/5 border border-brand-cyan/15 rounded-xl text-[11px] leading-relaxed text-gray-400 flex gap-2">
-                <Info className="w-5 h-5 text-brand-cyan flex-shrink-0 mt-0.5" />
-                <span>Supports deep API structures enabling secure integrations with Stripe payments, Auth.js credentials, and AWS S3 storage vaults.</span>
-              </div>
-            </motion.div>
-
-            {/* Right Grid (7 cols) */}
-            <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {portalModules.map((m) => (
-                <div key={m.title} className="glass-panel rounded-xl p-5 border border-brand-border">
-                  <div className="flex items-center space-x-2.5 mb-3">
-                    <span className="text-brand-cyan">{m.icon}</span>
-                    <h4 className="font-semibold text-white text-sm">{m.title}</h4>
-                  </div>
-                  <ul className="space-y-2">
-                    {m.items.map((item) => (
-                      <li key={item} className="flex items-start space-x-2">
-                        <CheckCircle className="w-3.5 h-3.5 text-brand-emerald mt-0.5 flex-shrink-0" />
-                        <span className="text-xs text-gray-400">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-
-          </div>
-        </section>
-
-        {/* ======================================
-            SPECIALTIES USE CASES
+            USE CASE SCENARIOS
         ====================================== */}
         <section className="mb-28">
           <div className="text-center mb-12">
             <div className="inline-flex items-center space-x-2 bg-brand-cyan/10 border border-brand-cyan/20 rounded-full px-4 py-1.5 mb-4">
-              <Stethoscope className="w-4 h-4 text-brand-cyan" />
-              <span className="text-xs font-semibold text-brand-cyan uppercase tracking-widest">Medical Workflows</span>
+              <Building2 className="w-4 h-4 text-brand-cyan" />
+              <span className="text-xs font-semibold text-brand-cyan uppercase tracking-widest">Medical Use Cases</span>
             </div>
             <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-white">
-              Triage Use Cases
+              Optimized for varied clinics & telehealth networks
             </h2>
-            <p className="mt-4 text-gray-400 max-w-2xl mx-auto">
-              See how the AuraCare platform structures patient care pathways across distinct medical scenarios.
-            </p>
           </div>
 
           {/* Tab selector */}
@@ -803,22 +1005,22 @@ export default function AiHealthcareNavigatorPage() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.3 }}
-              className="glass-panel rounded-2xl border border-brand-border overflow-hidden text-left"
+              className="glass-panel rounded-2xl border border-brand-border overflow-hidden"
             >
               <div className="grid grid-cols-1 lg:grid-cols-3">
                 <div className="p-8 border-b lg:border-b-0 lg:border-r border-brand-border">
-                  <div className="w-14 h-14 rounded-2xl bg-brand-cyan/10 flex items-center justify-center mb-5 text-brand-cyan">
+                  <div className={`w-14 h-14 rounded-2xl bg-${useCases[activeUseCase].color}/10 flex items-center justify-center mb-5 text-brand-cyan`}>
                     {useCases[activeUseCase].icon}
                   </div>
                   <h3 className="font-display font-bold text-2xl text-white mb-2">{useCases[activeUseCase].specialty}</h3>
                   <p className="text-sm text-gray-400 mb-6 italic">&ldquo;{useCases[activeUseCase].scenario}&rdquo;</p>
                   <div className="p-4 bg-brand-emerald/10 border border-brand-emerald/20 rounded-xl">
-                    <p className="text-xs font-bold text-brand-emerald mb-1">Clinic Conversion Output</p>
+                    <p className="text-xs font-bold text-brand-emerald mb-1">Measured Outcome</p>
                     <p className="text-sm text-gray-300">{useCases[activeUseCase].outcome}</p>
                   </div>
                 </div>
                 <div className="lg:col-span-2 p-8">
-                  <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-5">Patient Navigation Journey</p>
+                  <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-5">Patient Journey Sequence</p>
                   <div className="space-y-4">
                     {useCases[activeUseCase].journey.map((step, i) => (
                       <div key={i} className="flex items-start space-x-4">
@@ -836,51 +1038,85 @@ export default function AiHealthcareNavigatorPage() {
         </section>
 
         {/* ======================================
-            17 ADVANCED FEATURES
+            SECURITY & COMPLIANCE
         ====================================== */}
         <section className="mb-28">
-          <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="text-center mb-14">
+            <div className="inline-flex items-center space-x-2 bg-brand-emerald/10 border border-brand-emerald/20 rounded-full px-4 py-1.5 mb-4">
+              <Shield className="w-4 h-4 text-brand-emerald" />
+              <span className="text-xs font-semibold text-brand-emerald uppercase tracking-widest">Compliance</span>
+            </div>
             <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-white">
-              17 Platform Capabilities
+              Clinical Integrity & Data Safeguards
             </h2>
-            <p className="mt-4 text-gray-400 text-sm leading-relaxed max-w-xl mx-auto">
-              Explore the comprehensive features matching our medical triage and lead capture platform layout.
-            </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
-            {[
-              { num: "01", title: "AI Care Journey Builder", desc: "Maps visual step pathways from symptoms directly to scheduled clinic follow-ups." },
-              { num: "02", title: "AI Patient Interview Mode", desc: "Dynamic conversational symptom intakes replacing rigid checkboxes." },
-              { num: "03", title: "AI Doctor Prep Brief", desc: "Compiles intake reports with generated clinician consult questions." },
-              { num: "04", title: "AI Specialty Navigator", desc: "Intelligent routing connecting patients to correct departments." },
-              { num: "05", title: "Personal Health Memory", desc: "Tracks patient triage history across years for care coherence." },
-              { num: "06", title: "Symptom Comparison", desc: "Tracks pain indexes (8/10 down to 4/10) to verify symptom changes." },
-              { num: "07", title: "AI Voice Symptom checker", desc: "Allows elderly patients to speak symptoms hands-free." },
-              { num: "08", title: "Smart Matching Engine", desc: "Matches providers on specialty, slot timings, insurance, and rates." },
-              { num: "09", title: "Family AI Health Account", desc: "Manage children, senior parents, and spouses in one unified profile." },
-              { num: "10", title: "AI Document OCR Summary", desc: "Summarizes lab report PDFs and translates technical medical terms." },
-              { num: "11", title: "Emergency Safety Layer", desc: "Identifies life-threatening symptoms and redirects to local ER services." },
-              { num: "12", title: "Doctor Review Dashboard", desc: "Provides clinicians with EMR intake summaries prior to visits." },
-              { num: "13", title: "Clinic Lead Intelligence", desc: "Monitors patient interest trends and department demand analytics." },
-              { num: "14", title: "Conversion Analytics", desc: "Tracks patients from triage start to completed consultation booking." },
-              { num: "15", title: "AI Follow-Up Automation", desc: "Checks in with patients on Day 1 and Day 7 post-consultation." },
-              { num: "16", title: "White-Label Configuration", desc: "Allows hospitals and groups to brand and host the AI portal." },
-              { num: "17", title: "AI + Human Handoff", desc: "Intelligent symptom collection bridging directly to human consultations." }
-            ].map((item, i) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {securityFeatures.map((feat, i) => (
               <motion.div
-                key={item.title}
+                key={feat.title}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.06 }}
+                className="glass-panel rounded-xl p-5 border border-brand-border hover:border-brand-emerald/30 transition-colors group"
+              >
+                <div className="w-10 h-10 rounded-lg bg-brand-emerald/10 text-brand-emerald flex items-center justify-center mb-4 group-hover:bg-brand-emerald/15 transition-colors">
+                  {feat.icon}
+                </div>
+                <h3 className="font-semibold text-white text-sm mb-2">{feat.title}</h3>
+                <p className="text-[12px] text-gray-400 leading-relaxed">{feat.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Compliance badges */}
+          <div className="mt-10 glass-panel rounded-xl p-6 border border-brand-border">
+            <p className="text-xs font-bold text-gray-500 uppercase tracking-wider text-center mb-5">Compliance Alignments</p>
+            <div className="flex flex-wrap justify-center gap-4">
+              {[
+                { label: "HIPAA Aligned", icon: "" },
+                { label: "SOC 2 Security", icon: "" },
+                { label: "AES-256 Storage Keys", icon: "" },
+                { label: "FHIR HL7 Standards", icon: "" },
+                { label: "Isolated Clinic Tenants", icon: "" },
+              ].map((badge) => (
+                <div key={badge.label} className="flex items-center space-x-2 bg-brand-emerald/10 border border-brand-emerald/20 rounded-full px-4 py-2">
+                  <span className="text-xs font-semibold text-brand-emerald">{badge.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ======================================
+            INTEGRATIONS GRID
+        ====================================== */}
+        <section className="mb-28">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center space-x-2 bg-brand-indigo/10 border border-brand-indigo/20 rounded-full px-4 py-1.5 mb-4">
+              <RefreshCw className="w-4 h-4 text-brand-indigo" />
+              <span className="text-xs font-semibold text-brand-indigo uppercase tracking-widest">Connectors</span>
+            </div>
+            <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-white">
+              Third-Party APIs & Ecosystem Services
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {integrations.map((int, i) => (
+              <motion.div
+                key={int.name}
                 initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.04 }}
-                className="glass-panel rounded-xl p-5 border border-brand-border flex flex-col justify-between"
+                transition={{ delay: i * 0.05 }}
+                className="glass-panel rounded-xl p-5 border border-brand-border hover:border-brand-indigo/30 transition-colors"
               >
-                <div>
-                  <span className="text-xs font-mono font-bold text-brand-cyan/60 block mb-2">{item.num}</span>
-                  <h4 className="font-display font-semibold text-white mb-2">{item.title}</h4>
-                  <p className="text-xs text-gray-400 leading-relaxed">{item.desc}</p>
+                <div className="flex items-center justify-between mb-3">
+                  <h4 className="font-semibold text-white">{int.name}</h4>
+                  <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-brand-indigo/10 text-brand-indigo border border-brand-indigo/20">{int.category}</span>
                 </div>
+                <p className="text-sm text-gray-400 leading-relaxed">{int.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -892,13 +1128,13 @@ export default function AiHealthcareNavigatorPage() {
         <section className="mb-28">
           <div className="text-center mb-12">
             <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-white">
-              Enterprise Care-Navigation Stack
+              Platform Technology Stack
             </h2>
             <p className="mt-3 text-gray-400 max-w-xl mx-auto">
-              Modern framework technologies selected to maintain low WebRTC video latency and secure EMR database scaling.
+              Leverages modern, scalable tools to build a robust SaaS application.
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 text-left">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {techStack.map((stack) => (
               <div key={stack.category} className="glass-panel rounded-xl p-5 border border-brand-border">
                 <div className="flex items-center space-x-2 mb-4">
@@ -919,19 +1155,31 @@ export default function AiHealthcareNavigatorPage() {
         </section>
 
         {/* ======================================
-            DATABASE SCHEMA DESIGN
+            DATABASE SCHEMA
         ====================================== */}
         <section className="mb-28">
-          <div className="glass-panel rounded-2xl p-8 border border-brand-border text-left">
+          <div className="glass-panel rounded-2xl p-8 border border-brand-border">
             <div className="flex items-center space-x-3 mb-8">
               <Database className="w-6 h-6 text-brand-cyan" />
               <div>
-                <h2 className="font-display font-bold text-2xl text-white">Prisma DB Schema Layout</h2>
-                <p className="text-sm text-gray-400">PostgreSQL Relational Structures - fully typed, migration-safe, auditable records</p>
+                <h2 className="font-display font-bold text-2xl text-white">Database Relationships</h2>
+                <p className="text-sm text-gray-400">PostgreSQL Schema managed through Prisma ORM</p>
               </div>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-              {databaseTables.map((t) => (
+              {[
+                { table: "Users", fields: ["id", "name", "email", "role (DOCTOR/PATIENT/ADMIN)", "createdAt"] },
+                { table: "Patients", fields: ["id", "userId (FK)", "dateOfBirth", "gender", "familyOwnerId"] },
+                { table: "Doctors", fields: ["id", "userId (FK)", "specialty", "licenseNo", "clinicId (FK)"] },
+                { table: "Clinics", fields: ["id", "name", "addressType", "ownerUserId"] },
+                { table: "Symptoms", fields: ["id", "symptomName", "severityRating", "createdAt"] },
+                { table: "Assessments", fields: ["id", "patientId (FK)", "primaryConcern", "symptomDuration", "recommendedSpecialty"] },
+                { table: "AIResponses", fields: ["id", "assessmentId (FK)", "chatTranscript", "generatedBriefJSON"] },
+                { table: "Appointments", fields: ["id", "patientId (FK)", "doctorId (FK)", "timeSlot", "status"] },
+                { table: "Departments", fields: ["id", "departmentName", "specialistCount", "clinicId (FK)"] },
+                { table: "Documents", fields: ["id", "patientId (FK)", "documentUrl (S3)", "docCategory"] },
+                { table: "Messages", fields: ["id", "senderId (FK)", "receiverId (FK)", "contentString", "createdAt"] },
+              ].map((t) => (
                 <div key={t.table} className="bg-brand-bg/50 rounded-xl p-4 border border-brand-border hover:border-brand-cyan/30 transition-colors">
                   <p className="font-display font-bold text-brand-cyan text-sm mb-2">{t.table}</p>
                   <ul className="space-y-1">
@@ -948,62 +1196,117 @@ export default function AiHealthcareNavigatorPage() {
         {/* ======================================
             FAQ SECTION
         ====================================== */}
-        <section className="mb-28 text-left">
+        <section className="mb-28">
+          {/* Header */}
           <div className="text-center mb-14">
             <div className="inline-flex items-center space-x-2 bg-brand-indigo/10 border border-brand-indigo/20 rounded-full px-4 py-1.5 mb-4">
               <BookOpen className="w-4 h-4 text-brand-indigo" />
-              <span className="text-xs font-semibold text-brand-indigo uppercase tracking-widest">FAQS</span>
+              <span className="text-xs font-semibold text-brand-indigo uppercase tracking-widest">Help Center</span>
             </div>
             <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-white">
-              Questions & Answers
+              Frequently Asked Questions
             </h2>
             <p className="mt-3 text-gray-400 max-w-xl mx-auto">
-              Everything you need to know about compliance, features, subscription plans, and integration steps.
+              Everything you need to know about the AI Healthcare Navigation Platform.
             </p>
           </div>
 
+          {/* 2-column FAQ grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            {faqs.map((faq, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 8 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.04 }}
-                className="glass-panel rounded-xl border border-brand-border overflow-hidden hover:border-brand-cyan/25 transition-colors"
-              >
-                <button
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full flex items-center space-x-3 px-5 py-4 text-left group"
+            {/* Column 1 */}
+            <div className="space-y-3">
+              <div className="flex items-center space-x-2 mb-5">
+                <div className="h-px flex-grow bg-brand-cyan/20" />
+                <span className="text-xs font-bold text-brand-cyan uppercase tracking-widest px-3">Product Questions</span>
+                <div className="h-px flex-grow bg-brand-cyan/20" />
+              </div>
+              {faqs.slice(0, 10).map((faq, i) => (
+                <motion.div
+                  key={`faq1-${i}`}
+                  initial={{ opacity: 0, y: 8 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.04 }}
+                  className="glass-panel rounded-xl border border-brand-border overflow-hidden hover:border-brand-cyan/25 transition-colors"
                 >
-                  <span className="w-6 h-6 rounded-lg bg-brand-cyan/10 text-brand-cyan text-[10px] font-extrabold flex items-center justify-center flex-shrink-0 group-hover:bg-brand-cyan/20 transition-colors">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="font-semibold text-white text-sm flex-grow leading-snug">{faq.q}</span>
-                  <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform flex-shrink-0 ${openFaq === i ? "rotate-180 text-brand-cyan" : ""}`} />
-                </button>
-                <AnimatePresence>
-                  {openFaq === i && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.22 }}
-                      className="overflow-hidden"
-                    >
-                      <div className="px-5 pb-5 pt-1 ml-9">
-                        <p className="text-sm text-gray-400 leading-relaxed border-l-2 border-brand-cyan/30 pl-3">{faq.a}</p>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.div>
-            ))}
+                  <button
+                    onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                    className="w-full flex items-center space-x-3 px-5 py-4 text-left group"
+                  >
+                    <span className="w-6 h-6 rounded-lg bg-brand-cyan/10 text-brand-cyan text-[10px] font-extrabold flex items-center justify-center flex-shrink-0 group-hover:bg-brand-cyan/20 transition-colors">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="font-semibold text-white text-sm flex-grow leading-snug">{faq.q}</span>
+                    <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform flex-shrink-0 ${openFaq === i ? "rotate-180 text-brand-cyan" : ""}`} />
+                  </button>
+                  <AnimatePresence>
+                    {openFaq === i && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.22 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="px-5 pb-5 pt-1 ml-9">
+                          <p className="text-sm text-gray-400 leading-relaxed border-l-2 border-brand-cyan/30 pl-3">{faq.a}</p>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Column 2 */}
+            <div className="space-y-3">
+              <div className="flex items-center space-x-2 mb-5">
+                <div className="h-px flex-grow bg-brand-indigo/20" />
+                <span className="text-xs font-bold text-brand-indigo uppercase tracking-widest px-3">Technical Questions</span>
+                <div className="h-px flex-grow bg-brand-indigo/20" />
+              </div>
+              {faqs.slice(10, 20).map((faq, i) => (
+                <motion.div
+                  key={`faq2-${i}`}
+                  initial={{ opacity: 0, y: 8 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.04 }}
+                  className="glass-panel rounded-xl border border-brand-border overflow-hidden hover:border-brand-indigo/25 transition-colors"
+                >
+                  <button
+                    onClick={() => setOpenFaq(openFaq === (i + 10) ? null : (i + 10))}
+                    className="w-full flex items-center space-x-3 px-5 py-4 text-left group"
+                  >
+                    <span className="w-6 h-6 rounded-lg bg-brand-indigo/10 text-brand-indigo text-[10px] font-extrabold flex items-center justify-center flex-shrink-0 group-hover:bg-brand-indigo/20 transition-colors">
+                      {String(i + 11).padStart(2, "0")}
+                    </span>
+                    <span className="font-semibold text-white text-sm flex-grow leading-snug">{faq.q}</span>
+                    <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform flex-shrink-0 ${openFaq === (i + 10) ? "rotate-180 text-brand-indigo" : ""}`} />
+                  </button>
+                  <AnimatePresence>
+                    {openFaq === (i + 10) && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.22 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="px-5 pb-5 pt-1 ml-9">
+                          <p className="text-sm text-gray-400 leading-relaxed border-l-2 border-brand-indigo/30 pl-3">{faq.a}</p>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </section>
 
         {/* ======================================
-            CTA SECTION
+            CTA BOX
         ====================================== */}
         <section>
           <motion.div
@@ -1017,29 +1320,29 @@ export default function AiHealthcareNavigatorPage() {
 
             <div className="relative z-10">
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-brand-cyan/20 to-brand-indigo/20 border border-brand-cyan/30 mx-auto mb-6">
-                <HeartPulse className="w-8 h-8 text-brand-cyan" />
+                <Brain className="w-8 h-8 text-brand-cyan" />
               </div>
-              <h2 className="font-display font-extrabold text-3xl sm:text-4xl xl:text-5xl text-white mb-4">
-                Ready to deploy AuraCare?
+              
+              <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-white mb-4">
+                Deploy Care Navigation & Triage For Your Hospital Or Clinic Group
               </h2>
-              <p className="text-gray-400 text-lg max-w-2xl mx-auto mb-10">
-                Integrate intelligent triage, automate patient intake histories, and route patient inquiry traffic to matched medical specialists safely.
+              <p className="text-gray-400 text-sm sm:text-base max-w-2xl mx-auto mb-8 leading-relaxed">
+                Streamline patient onboarding, recommend clinical departments, and increase appointment booking conversion rates by converting patient queries into structured care pathways.
               </p>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
-                <Link href="/contact" className="inline-flex items-center space-x-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-semibold px-8 py-4 rounded-xl hover:opacity-95 transition-opacity shadow-lg shadow-brand-cyan/25">
-                  <Sparkles className="w-4 h-4" />
-                  <span>Launch AI Navigator</span>
+
+              <div className="flex flex-col sm:flex-row justify-center items-center gap-4 max-w-md mx-auto">
+                <Link
+                  href="/contact"
+                  className="w-full bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold px-8 py-4 rounded-xl hover:opacity-95 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-brand-cyan/25 text-sm"
+                >
+                  Request White-Label Demo
                 </Link>
-                <Link href="/contact" className="inline-flex items-center space-x-2 glass-panel border border-brand-border text-gray-300 font-semibold px-8 py-4 rounded-xl hover:border-brand-cyan/40 hover:text-white transition-all">
-                  <Phone className="w-4 h-4" />
-                  <span>Request White-Label Info</span>
+                <Link
+                  href="mailto:licensing@medclinicx.com"
+                  className="w-full glass-panel border border-brand-border text-gray-300 font-semibold px-8 py-4 rounded-xl hover:border-brand-cyan/40 hover:text-white hover:scale-[1.02] active:scale-[0.98] transition-all text-sm"
+                >
+                  Enterprise Licensing
                 </Link>
-              </div>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-6 text-sm text-gray-500">
-                <a href="https://github.com/alimubashir822/AuraCare" target="_blank" rel="noopener noreferrer" className="flex items-center space-x-2 hover:text-brand-cyan transition-colors">
-                  <BookOpen className="w-4 h-4" />
-                  <span>View GitHub Repository</span>
-                </a>
               </div>
             </div>
           </motion.div>

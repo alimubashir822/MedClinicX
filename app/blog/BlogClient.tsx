@@ -3,13 +3,14 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, BookOpen, Clock, Calendar, User, ArrowRight, BookMarked } from "lucide-react";
+import { Search, BookOpen, Clock, Calendar, User, ArrowRight, BookMarked, ChevronLeft, ChevronRight } from "lucide-react";
 import { blogPosts, getPostSlug } from "./blogData";
 
 
 export default function BlogClient() {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   const categories = ["All", "Healthcare AI", "Medical Technology", "Clinic Growth", "Patient Experience"];
 
@@ -22,6 +23,18 @@ export default function BlogClient() {
       post.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
+
+  const POSTS_PER_PAGE = 12;
+  const totalPages = Math.ceil(filteredPosts.length / POSTS_PER_PAGE);
+  const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
+  const paginatedPosts = filteredPosts.slice(startIndex, startIndex + POSTS_PER_PAGE);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-12 md:py-20 relative">
@@ -50,7 +63,10 @@ export default function BlogClient() {
             type="text"
             placeholder="Search articles..."
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+              setCurrentPage(1);
+            }}
             className="w-full bg-brand-bg/50 border border-brand-border rounded-xl pl-10 pr-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-brand-cyan"
           />
         </div>
@@ -60,7 +76,10 @@ export default function BlogClient() {
           {categories.map((cat) => (
             <button
               key={cat}
-              onClick={() => setSelectedCategory(cat)}
+              onClick={() => {
+                setSelectedCategory(cat);
+                setCurrentPage(1);
+              }}
               className={`px-4.5 py-2 text-xs font-semibold rounded-lg transition-all ${
                 selectedCategory === cat
                   ? "bg-brand-indigo text-white shadow-md shadow-brand-indigo/15"
@@ -76,7 +95,7 @@ export default function BlogClient() {
       {/* Blog Posts Grid */}
       <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <AnimatePresence mode="popLayout">
-          {filteredPosts.map((post) => (
+          {paginatedPosts.map((post) => (
             <motion.article
               key={post.id}
               layout
@@ -90,8 +109,10 @@ export default function BlogClient() {
                 <span className="text-[10px] font-bold text-brand-cyan uppercase tracking-wider bg-brand-cyan/10 px-2.5 py-1 rounded-md border border-brand-cyan/10">
                   {post.category}
                 </span>
-                <h2 className="font-display font-bold text-lg text-white leading-snug mt-4 group-hover:text-brand-cyan transition-colors">
-                  {post.title}
+                 <h2 className="font-display font-bold text-lg text-white leading-snug mt-4 group-hover:text-brand-cyan transition-colors">
+                  <Link href={`/blog/${getPostSlug(post.title, post.id)}`}>
+                    {post.title}
+                  </Link>
                 </h2>
                 <p className="text-xs text-gray-400 leading-relaxed mt-3">{post.excerpt}</p>
               </div>
@@ -115,7 +136,7 @@ export default function BlogClient() {
                 </div>
 
                 <Link
-                  href={`/blog/${getPostSlug(post.title)}`}
+                  href={`/blog/${getPostSlug(post.title, post.id)}`}
                   className="text-xs font-semibold text-brand-indigo group-hover:text-white transition-colors flex items-center space-x-1 self-start cursor-pointer"
                 >
                   <span>Read full article</span>
@@ -126,6 +147,45 @@ export default function BlogClient() {
           ))}
         </AnimatePresence>
       </motion.div>
+
+      {/* Pagination Controls */}
+      {totalPages > 1 && (
+        <div className="flex justify-center items-center space-x-2 mt-12 border-t border-brand-border/45 pt-8">
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="flex items-center space-x-1 px-4 py-2 text-xs font-semibold rounded-lg transition-all text-gray-400 hover:text-white glass-panel glass-panel-hover disabled:opacity-40 disabled:hover:text-gray-400 disabled:pointer-events-none cursor-pointer"
+          >
+            <ChevronLeft className="w-4 h-4" />
+            <span>Previous</span>
+          </button>
+          
+          <div className="flex items-center space-x-1.5">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                onClick={() => handlePageChange(page)}
+                className={`w-9 h-9 flex items-center justify-center text-xs font-semibold rounded-lg transition-all cursor-pointer ${
+                  currentPage === page
+                    ? "bg-brand-indigo text-white shadow-md shadow-brand-indigo/15"
+                    : "glass-panel glass-panel-hover text-gray-400 hover:text-white"
+                }`}
+              >
+                {page}
+              </button>
+            ))}
+          </div>
+
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="flex items-center space-x-1 px-4 py-2 text-xs font-semibold rounded-lg transition-all text-gray-400 hover:text-white glass-panel glass-panel-hover disabled:opacity-40 disabled:hover:text-gray-400 disabled:pointer-events-none cursor-pointer"
+          >
+            <span>Next</span>
+            <ChevronRight className="w-4 h-4" />
+          </button>
+        </div>
+      )}
 
       {/* Empty State */}
       {filteredPosts.length === 0 && (

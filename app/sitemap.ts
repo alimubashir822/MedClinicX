@@ -73,6 +73,52 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
 
+    // ─── Solutions Hub ─────────────────────────────────────
+    {
+      url: `${BASE_URL}/solutions`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+
+    // ─── Clinical Tools ────────────────────────────────────
+    {
+      url: `${BASE_URL}/a1c-calculator`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/water-calculator`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/lean-body-mass-calculator`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/qtc-calculator`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/anion-gap-calculator`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/dental-implant-cost-calculator`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+
     // ─── Individual Service Pages ─────────────────────────
     {
       url: `${BASE_URL}/services/healthcare-websites`,
@@ -166,10 +212,33 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.9,
     },
-
+    {
+      url: `${BASE_URL}/solutions/carematch-ai`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
+      url: `${BASE_URL}/solutions/health-os`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
+      url: `${BASE_URL}/solutions/intake-flow`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
+      url: `${BASE_URL}/solutions/medi-sync`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
     // ─── Blog Posts ───────────────────────────────────────
     ...Object.values(blogPosts).map((post) => ({
-      url: `${BASE_URL}/blog/${getPostSlug(post.title)}`,
+      url: `${BASE_URL}/blog/${getPostSlug(post.title, post.id)}`,
       lastModified: new Date(post.updatedDate),
       changeFrequency: "yearly" as const,
       priority: 0.6,

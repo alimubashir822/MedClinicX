@@ -19,7 +19,11 @@ export default function Navbar() {
     { name: "Telemedicine Consultation Platform", href: "/solutions/telemedicine-consultation-platform" },
     { name: "Virtual Clinic OS", href: "/solutions/virtual-clinic-os" },
     { name: "AI Healthcare Navigator", href: "/solutions/ai-healthcare-navigator" },
-    { name: "CareFlow AI OS", href: "/solutions/careflow-ai" },
+    { name: "CareFlow AI Growth CRM", href: "/solutions/careflow-ai" },
+    { name: "CareMatch AI Marketplace", href: "/solutions/carematch-ai" },
+    { name: "Specialty Clinic Growth OS", href: "/solutions/health-os" },
+    { name: "IntakeFlow AI Onboarding", href: "/solutions/intake-flow" },
+    { name: "MediSync AI Data Platform", href: "/solutions/medi-sync" },
   ];
 
   const services = [
@@ -152,7 +156,9 @@ export default function Navbar() {
                 setSolutionsDropdownOpen(true);
                 setServicesDropdownOpen(false);
               }}
-              className="flex items-center space-x-1 font-medium text-sm text-gray-300 hover:text-white transition-colors py-2"
+              className={`flex items-center space-x-1 font-medium text-sm transition-colors py-2 ${
+                pathname?.startsWith("/solutions") ? "text-brand-cyan font-semibold" : "text-gray-300 hover:text-white"
+              }`}
             >
               <span>Solutions</span>
               <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${solutionsDropdownOpen ? "rotate-180" : ""}`} />
@@ -166,18 +172,27 @@ export default function Navbar() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
                   style={{ backgroundColor: "rgba(5, 7, 16, 0.96)" }}
-                  className="absolute left-0 mt-2 w-72 glass-panel rounded-xl shadow-2xl p-2 z-50 border border-brand-border"
+                  className="absolute left-0 mt-2 w-[520px] glass-panel rounded-xl shadow-2xl p-3 z-50 border border-brand-border grid grid-cols-2 gap-2"
                 >
                   {solutions.map((item) => (
                     <Link
                       key={item.name}
                       href={item.href}
                       onClick={closeAll}
-                      className="block px-4 py-3 text-sm font-medium text-gray-300 hover:text-white rounded-lg hover:bg-brand-cyan/10 hover:border-l-2 hover:border-brand-cyan transition-all"
+                      className="block px-3.5 py-2.5 text-xs font-medium text-gray-300 hover:text-white rounded-lg hover:bg-brand-cyan/10 hover:border-l-2 hover:border-brand-cyan transition-all"
                     >
                       {item.name}
                     </Link>
                   ))}
+                  <div className="col-span-2 border-t border-brand-border/60 mt-1 pt-2">
+                    <Link
+                      href="/solutions"
+                      onClick={closeAll}
+                      className="block text-center text-xs font-bold text-brand-cyan hover:text-white transition-colors"
+                    >
+                      All Solutions Directory &rarr;
+                    </Link>
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -281,12 +296,19 @@ export default function Navbar() {
               <div>
                 <p className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Solutions</p>
                 <div className="mt-2 space-y-1">
+                  <Link
+                    href="/solutions"
+                    onClick={closeAll}
+                    className="block px-3 py-2 text-sm font-bold text-white hover:text-brand-cyan hover:bg-brand-cyan/10 rounded-lg transition-colors"
+                  >
+                    All Solutions Directory &rarr;
+                  </Link>
                   {solutions.map((item) => (
                     <Link
                       key={item.name}
                       href={item.href}
                       onClick={closeAll}
-                      className="block px-3 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-brand-cyan/10 rounded-lg transition-colors"
+                      className="block px-3 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-brand-cyan/10 rounded-lg transition-colors pl-6"
                     >
                       {item.name}
                     </Link>

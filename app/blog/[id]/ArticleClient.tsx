@@ -567,7 +567,7 @@ export default function ArticleClient({ post }: ArticleClientProps) {
             <section id="faqs" className="mt-12 space-y-6">
               <div className="flex items-center space-x-2 border-b border-brand-border pb-3">
                 <Sparkles className="w-5 h-5 text-brand-cyan animate-pulse" />
-                <h2 className="font-display font-bold text-xl sm:text-2xl text-white">AI-Generated Questions & Answers</h2>
+                <h2 className="font-display font-bold text-xl sm:text-2xl text-white">Frequently Asked Questions</h2>
               </div>
               <p className="text-xs sm:text-sm text-gray-400">
                 Common conversational queries evaluated by our natural language models concerning deployment guidelines.
@@ -649,7 +649,7 @@ export default function ArticleClient({ post }: ArticleClientProps) {
                 <div className="mt-6 pt-3 border-t border-brand-border flex items-center justify-between text-[10px] text-gray-500">
                   <span>{relatedPost.date}</span>
                   <Link 
-                    href={`/blog/${getPostSlug(relatedPost.title)}`}
+                    href={`/blog/${getPostSlug(relatedPost.title, relatedPost.id)}`}
                     className="text-brand-indigo group-hover:text-white font-bold transition-colors flex items-center space-x-1"
                   >
                     <span>Read Article</span>

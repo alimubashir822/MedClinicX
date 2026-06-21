@@ -22,7 +22,7 @@ const nextConfig: NextConfig = {
           },
         ],
       },
-      {
+      /* {
         // Long-lived cache for immutable static assets
         source: "/_next/static/(.*)",
         headers: [
@@ -31,7 +31,7 @@ const nextConfig: NextConfig = {
             value: "public, max-age=31536000, immutable",
           },
         ],
-      },
+      }, */
       {
         // Cache images and fonts for 30 days
         source: "/(.*\\.(?:png|jpg|jpeg|gif|webp|svg|ico|woff|woff2|ttf))",
