@@ -39,12 +39,12 @@ export default function Navbar() {
   ];
 
   const calculators = [
-    { name: "A1C Calculator", href: "/a1c-calculator" },
-    { name: "Water Intake Calculator", href: "/water-calculator" },
-    { name: "Lean Body Mass Calculator", href: "/lean-body-mass-calculator" },
-    { name: "QTc Calculator", href: "/qtc-calculator" },
-    { name: "Anion Gap Calculator", href: "/anion-gap-calculator" },
-    { name: "Dental Implant Cost Calculator", href: "/dental-implant-cost-calculator" },
+    { name: "A1C Calculator", href: "/calculator/a1c-calculator" },
+    { name: "Water Intake Calculator", href: "/calculator/water-calculator" },
+    { name: "Lean Body Mass Calculator", href: "/calculator/lean-body-mass-calculator" },
+    { name: "QTc Calculator", href: "/calculator/qtc-calculator" },
+    { name: "Anion Gap Calculator", href: "/calculator/anion-gap-calculator" },
+    { name: "Dental Implant Cost Calculator", href: "/calculator/dental-implant-cost-calculator" },
   ];
 
   const toggleSolutionsDropdown = () => setSolutionsDropdownOpen(!solutionsDropdownOpen);

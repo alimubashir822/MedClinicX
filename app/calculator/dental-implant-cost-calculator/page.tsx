@@ -23,13 +23,13 @@ export const metadata: Metadata = {
     "How much do dental implants cost",
   ],
   alternates: {
-    canonical: "https://medclinicx.com/dental-implant-cost-calculator",
+    canonical: "https://medclinicx.com/calculator/",
   },
   openGraph: {
     title: "Dental Implant Cost Calculator - Estimate Your Dental Implant Treatment Cost | Med Clinic X",
     description:
       "Use our free Dental Implant Cost Calculator to estimate the potential cost of dental implant treatment based on implant type, number of implants, and additional dental procedures. Plan your dental care budget easily.",
-    url: "https://medclinicx.com/dental-implant-cost-calculator",
+    url: "https://medclinicx.com/calculator/",
     images: [
       {
         url: "/og-image.png",
@@ -47,7 +47,7 @@ export default function DentalImplantCostCalculatorPage() {
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: "https://medclinicx.com" },
-      { "@type": "ListItem", position: 2, name: "Dental Implant Cost Calculator", item: "https://medclinicx.com/dental-implant-cost-calculator" },
+      { "@type": "ListItem", position: 2, name: "Dental Implant Cost Calculator", item: "https://medclinicx.com/calculator/" },
     ],
   };
 
@@ -56,7 +56,7 @@ export default function DentalImplantCostCalculatorPage() {
     "@type": "MedicalWebPage",
     name: "Dental Implant Cost Calculator",
     description: "Use our free Dental Implant Cost Calculator to estimate the potential cost of dental implant treatment based on implant type, number of implants, and additional dental procedures.",
-    url: "https://medclinicx.com/dental-implant-cost-calculator",
+    url: "https://medclinicx.com/calculator/",
     about: {
       "@type": "MedicalCondition",
       name: "Missing Teeth & Dental Implantation",

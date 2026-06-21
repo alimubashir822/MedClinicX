@@ -24,13 +24,13 @@ export const metadata: Metadata = {
     "Fat free mass calculator",
   ],
   alternates: {
-    canonical: "https://medclinicx.com/lean-body-mass-calculator",
+    canonical: "https://medclinicx.com/calculator/",
   },
   openGraph: {
     title: "Lean Body Mass Calculator - Calculate Your Lean Body Mass & Body Composition Online | Med Clinic X",
     description:
       "Use our free Lean Body Mass Calculator to estimate your body composition, lean mass, and muscle-related weight. Understand your fitness level and track health progress easily.",
-    url: "https://medclinicx.com/lean-body-mass-calculator",
+    url: "https://medclinicx.com/calculator/",
     images: [
       {
         url: "/og-image.png",
@@ -48,7 +48,7 @@ export default function LeanBodyMassCalculatorPage() {
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: "https://medclinicx.com" },
-      { "@type": "ListItem", position: 2, name: "Lean Body Mass Calculator", item: "https://medclinicx.com/lean-body-mass-calculator" },
+      { "@type": "ListItem", position: 2, name: "Lean Body Mass Calculator", item: "https://medclinicx.com/calculator/" },
     ],
   };
 
@@ -57,7 +57,7 @@ export default function LeanBodyMassCalculatorPage() {
     "@type": "MedicalWebPage",
     name: "Lean Body Mass Calculator",
     description: "Use our free Lean Body Mass Calculator to estimate your body composition, lean mass, and muscle-related weight.",
-    url: "https://medclinicx.com/lean-body-mass-calculator",
+    url: "https://medclinicx.com/calculator/",
     about: {
       "@type": "MedicalCondition",
       name: "Body Composition",

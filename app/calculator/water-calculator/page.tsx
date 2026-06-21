@@ -26,13 +26,13 @@ export const metadata: Metadata = {
     "How much water should I drink per day",
   ],
   alternates: {
-    canonical: "https://medclinicx.com/water-calculator",
+    canonical: "https://medclinicx.com/calculator/",
   },
   openGraph: {
     title: "Water Intake Calculator - Calculate How Much Water You Should Drink Daily | Med Clinic X",
     description:
       "Use our free Water Intake Calculator to estimate your daily water needs based on your body weight, activity level, and lifestyle. Learn how much water your body needs to stay hydrated and support overall health.",
-    url: "https://medclinicx.com/water-calculator",
+    url: "https://medclinicx.com/calculator/",
     images: [
       {
         url: "/og-image.png",
@@ -50,7 +50,7 @@ export default function WaterCalculatorPage() {
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: "https://medclinicx.com" },
-      { "@type": "ListItem", position: 2, name: "Water Intake Calculator", item: "https://medclinicx.com/water-calculator" },
+      { "@type": "ListItem", position: 2, name: "Water Intake Calculator", item: "https://medclinicx.com/calculator/" },
     ],
   };
 
@@ -59,7 +59,7 @@ export default function WaterCalculatorPage() {
     "@type": "MedicalWebPage",
     name: "Water Intake Calculator",
     description: "Use our free Water Intake Calculator to estimate your daily water needs based on your body weight, activity level, and lifestyle.",
-    url: "https://medclinicx.com/water-calculator",
+    url: "https://medclinicx.com/calculator/",
     about: {
       "@type": "MedicalCondition",
       name: "Dehydration",

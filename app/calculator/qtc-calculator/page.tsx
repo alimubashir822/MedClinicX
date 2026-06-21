@@ -24,13 +24,13 @@ export const metadata: Metadata = {
     "cardiac ECG metrics",
   ],
   alternates: {
-    canonical: "https://medclinicx.com/qtc-calculator",
+    canonical: "https://medclinicx.com/calculator/",
   },
   openGraph: {
     title: "QTc Calculator - Calculate Corrected QT Interval (QTc) for Heart Health | Med Clinic X",
     description:
       "Use our free QTc Calculator to estimate your corrected QT interval from your QT interval and heart rate. Learn about QTc values, heart rhythm health, and why QT interval monitoring matters.",
-    url: "https://medclinicx.com/qtc-calculator",
+    url: "https://medclinicx.com/calculator/",
     images: [
       {
         url: "/og-image.png",
@@ -48,7 +48,7 @@ export default function QtcCalculatorPage() {
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: "https://medclinicx.com" },
-      { "@type": "ListItem", position: 2, name: "QTc Calculator", item: "https://medclinicx.com/qtc-calculator" },
+      { "@type": "ListItem", position: 2, name: "QTc Calculator", item: "https://medclinicx.com/calculator/" },
     ],
   };
 
@@ -57,7 +57,7 @@ export default function QtcCalculatorPage() {
     "@type": "MedicalWebPage",
     name: "QTc Calculator",
     description: "Use our free QTc Calculator to estimate your corrected QT interval from your QT interval and heart rate.",
-    url: "https://medclinicx.com/qtc-calculator",
+    url: "https://medclinicx.com/calculator/",
     about: {
       "@type": "MedicalCondition",
       name: "Cardiac Arrythmias & QT Repolarization",

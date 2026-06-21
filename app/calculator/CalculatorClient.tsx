@@ -80,8 +80,8 @@ export default function CalculatorClient() {
         ))}
       </div>
 
-      {/* Calculators List — alternating layout */}
-      <motion.div layout className="space-y-6 mb-20">
+      {/* Calculators List — 3-column grid card layout */}
+      <motion.div layout className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
         <AnimatePresence mode="popLayout">
           {filteredCalculators.map((calc, idx) => (
             <motion.article
@@ -91,73 +91,68 @@ export default function CalculatorClient() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.25, delay: idx * 0.03 }}
-              className="glass-panel rounded-2xl border border-brand-border hover:border-brand-cyan/20 transition-all overflow-hidden group"
+              className="glass-panel rounded-2xl border border-brand-border hover:border-brand-cyan/20 hover:shadow-lg hover:shadow-brand-cyan/5 transition-all overflow-hidden group flex flex-col justify-between"
             >
-              <div className={`flex flex-col md:flex-row ${idx % 2 !== 0 ? "md:flex-row-reverse" : ""}`}>
-                {/* Image column */}
-                <div className="md:w-72 lg:w-80 shrink-0 relative overflow-hidden bg-brand-bg/60">
-                  <Image
-                    src={calc.image}
-                    alt={`${calc.title} — Med Clinic X`}
-                    width={320}
-                    height={220}
-                    className="w-full h-48 md:h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-[1.02] transition-all duration-500"
-                  />
-                  {/* Stat badge overlay */}
-                  <div className="absolute bottom-3 left-3 bg-brand-bg/80 backdrop-blur-sm border border-brand-cyan/20 rounded-lg px-3 py-1.5">
-                    <p className="font-display font-extrabold text-lg text-brand-cyan leading-none">{calc.stat}</p>
-                    <p className="text-[9px] font-medium text-gray-400 mt-0.5">{calc.statLabel}</p>
+              {/* Image Header */}
+              <div className="relative h-44 w-full overflow-hidden bg-brand-bg/60 shrink-0">
+                <Image
+                  src={calc.image}
+                  alt={`${calc.title} — Med Clinic X`}
+                  width={320}
+                  height={180}
+                  className="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-[1.02] transition-all duration-500"
+                />
+                {/* Badge Overlay */}
+                {calc.badge && (
+                  <div className="absolute top-3 left-3">
+                    <span className="text-[9px] font-bold text-brand-cyan uppercase tracking-wider bg-brand-bg/80 border border-brand-cyan/25 px-2.5 py-1 rounded-full backdrop-blur-sm">
+                      {calc.badge}
+                    </span>
                   </div>
+                )}
+                {/* Stat overlay */}
+                <div className="absolute bottom-3 left-3 bg-brand-bg/85 backdrop-blur-sm border border-brand-cyan/20 rounded-lg px-2.5 py-1">
+                  <p className="font-display font-extrabold text-sm text-brand-cyan leading-none">{calc.stat}</p>
+                  <p className="text-[8px] font-medium text-gray-400 mt-0.5">{calc.statLabel}</p>
+                </div>
+              </div>
+
+              {/* Content and details */}
+              <div className="p-6 flex-grow flex flex-col justify-between space-y-4">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-lg bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center shrink-0">
+                      {iconMap[calc.iconName] || <Calculator className="w-4.5 h-4.5 text-brand-cyan" />}
+                    </div>
+                    <span className="text-[9px] font-bold text-gray-500 uppercase tracking-wider">{calc.category}</span>
+                  </div>
+
+                  <h3 className="font-display font-bold text-lg text-white group-hover:text-brand-cyan transition-colors leading-tight">
+                    {calc.title}
+                  </h3>
+
+                  <p className="text-xs text-gray-400 leading-relaxed line-clamp-3">
+                    {calc.desc}
+                  </p>
+
+                  <ul className="space-y-1.5 pt-2 border-t border-brand-border/40">
+                    {calc.features.map((feat, i) => (
+                      <li key={i} className="flex items-center gap-2 text-xs text-gray-300 font-medium">
+                        <CheckCircle className="w-3.5 h-3.5 text-brand-cyan shrink-0" />
+                        <span className="truncate">{feat}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
 
-                {/* Content column */}
-                <div className="flex-1 p-6 lg:p-8 flex flex-col justify-between">
-                  <div>
-                    {/* Top row */}
-                    <div className="flex items-start justify-between flex-wrap gap-3 mb-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center shrink-0">
-                          {iconMap[calc.iconName] || <Calculator className="w-5 h-5 text-brand-cyan" />}
-                        </div>
-                        <div>
-                          <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">{calc.category}</span>
-                          <h2 className="font-display font-bold text-lg text-white leading-tight group-hover:text-brand-cyan transition-colors">
-                            {calc.title}
-                          </h2>
-                        </div>
-                      </div>
-                      {calc.badge && (
-                        <span className="text-[9px] font-bold text-brand-cyan uppercase tracking-wider bg-brand-cyan/10 border border-brand-cyan/15 px-2.5 py-1 rounded-full shrink-0">
-                          {calc.badge}
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Description */}
-                    <p className="text-sm text-gray-400 leading-relaxed mb-5">{calc.desc}</p>
-
-                    {/* Feature bullets */}
-                    <ul className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                      {calc.features.map((feat, i) => (
-                        <li key={i} className="flex items-center gap-2 text-xs text-gray-300 font-medium">
-                          <CheckCircle className="w-3.5 h-3.5 text-brand-cyan shrink-0" />
-                          <span>{feat}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* CTA */}
-                  <div className="mt-6 pt-4 border-t border-brand-border/50 flex items-center justify-between">
-                    <span className="text-[10px] text-gray-600 font-medium">Clinical Assessment Tool</span>
-                    <Link
-                      href={calc.href}
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-cyan hover:text-white bg-brand-cyan/10 hover:bg-brand-cyan/20 border border-brand-cyan/20 hover:border-brand-cyan/40 px-4 py-2 rounded-lg transition-all"
-                    >
-                      Open Calculator
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
-                  </div>
+                <div className="pt-4 flex items-center">
+                  <Link
+                    href={calc.href}
+                    className="inline-flex items-center justify-center gap-2 w-full bg-gradient-to-r from-brand-cyan to-brand-indigo hover:opacity-95 text-white font-bold text-xs py-3 px-4 rounded-xl transition-all shadow-md shadow-brand-cyan/10"
+                  >
+                    <span>Open Calculator</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
                 </div>
               </div>
             </motion.article>

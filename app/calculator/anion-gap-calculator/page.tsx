@@ -24,13 +24,13 @@ export const metadata: Metadata = {
     "Serum electrolytes calculation",
   ],
   alternates: {
-    canonical: "https://medclinicx.com/anion-gap-calculator",
+    canonical: "https://medclinicx.com/calculator/",
   },
   openGraph: {
     title: "Anion Gap Calculator - Calculate Your Anion Gap Level from Electrolyte Values | Med Clinic X",
     description:
       "Use our free Anion Gap Calculator to estimate your anion gap using sodium, chloride, and bicarbonate values. Learn what anion gap means, how it is calculated, and why it is important in healthcare.",
-    url: "https://medclinicx.com/anion-gap-calculator",
+    url: "https://medclinicx.com/calculator/",
     images: [
       {
         url: "/og-image.png",
@@ -48,7 +48,7 @@ export default function AnionGapCalculatorPage() {
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: "https://medclinicx.com" },
-      { "@type": "ListItem", position: 2, name: "Anion Gap Calculator", item: "https://medclinicx.com/anion-gap-calculator" },
+      { "@type": "ListItem", position: 2, name: "Anion Gap Calculator", item: "https://medclinicx.com/calculator/" },
     ],
   };
 
@@ -57,7 +57,7 @@ export default function AnionGapCalculatorPage() {
     "@type": "MedicalWebPage",
     name: "Anion Gap Calculator",
     description: "Use our free Anion Gap Calculator to estimate your anion gap using sodium, chloride, and bicarbonate values.",
-    url: "https://medclinicx.com/anion-gap-calculator",
+    url: "https://medclinicx.com/calculator/",
     about: {
       "@type": "MedicalCondition",
       name: "Metabolic Acidosis & Electrolyte Imbalance",

@@ -121,32 +121,32 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/a1c-calculator" className="hover:text-brand-cyan transition-colors">
+                <Link href="/calculator/a1c-calculator" className="hover:text-brand-cyan transition-colors">
                   A1C Calculator
                 </Link>
               </li>
               <li>
-                <Link href="/water-calculator" className="hover:text-brand-cyan transition-colors">
+                <Link href="/calculator/water-calculator" className="hover:text-brand-cyan transition-colors">
                   Water Intake Calculator
                 </Link>
               </li>
               <li>
-                <Link href="/lean-body-mass-calculator" className="hover:text-brand-cyan transition-colors">
+                <Link href="/calculator/lean-body-mass-calculator" className="hover:text-brand-cyan transition-colors">
                   Lean Body Mass Calculator
                 </Link>
               </li>
               <li>
-                <Link href="/qtc-calculator" className="hover:text-brand-cyan transition-colors">
+                <Link href="/calculator/qtc-calculator" className="hover:text-brand-cyan transition-colors">
                   QTc Calculator
                 </Link>
               </li>
               <li>
-                <Link href="/anion-gap-calculator" className="hover:text-brand-cyan transition-colors">
+                <Link href="/calculator/anion-gap-calculator" className="hover:text-brand-cyan transition-colors">
                   Anion Gap Calculator
                 </Link>
               </li>
               <li>
-                <Link href="/dental-implant-cost-calculator" className="hover:text-brand-cyan transition-colors">
+                <Link href="/calculator/dental-implant-cost-calculator" className="hover:text-brand-cyan transition-colors">
                   Dental Implant Cost Calculator
                 </Link>
               </li>

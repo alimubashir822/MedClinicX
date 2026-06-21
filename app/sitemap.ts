@@ -91,37 +91,37 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     // ─── Clinical Tools ────────────────────────────────────
     {
-      url: `${BASE_URL}/a1c-calculator`,
+      url: `${BASE_URL}/calculator/a1c-calculator`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
-      url: `${BASE_URL}/water-calculator`,
+      url: `${BASE_URL}/calculator/water-calculator`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
-      url: `${BASE_URL}/lean-body-mass-calculator`,
+      url: `${BASE_URL}/calculator/lean-body-mass-calculator`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
-      url: `${BASE_URL}/qtc-calculator`,
+      url: `${BASE_URL}/calculator/qtc-calculator`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
-      url: `${BASE_URL}/anion-gap-calculator`,
+      url: `${BASE_URL}/calculator/anion-gap-calculator`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
-      url: `${BASE_URL}/dental-implant-cost-calculator`,
+      url: `${BASE_URL}/calculator/dental-implant-cost-calculator`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.8,

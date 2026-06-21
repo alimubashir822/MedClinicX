@@ -26,13 +26,13 @@ export const metadata: Metadata = {
     "American Diabetes Association equations",
   ],
   alternates: {
-    canonical: "https://medclinicx.com/a1c-calculator",
+    canonical: "https://medclinicx.com/calculator/",
   },
   openGraph: {
     title: "A1C Calculator - Estimate HbA1c Level from Average Blood Glucose | Med Clinic X",
     description:
       "Use our free A1C Calculator to estimate your HbA1c level from average blood glucose. Learn about A1C ranges, diabetes monitoring, and blood sugar management.",
-    url: "https://medclinicx.com/a1c-calculator",
+    url: "https://medclinicx.com/calculator/",
     images: [
       {
         url: "/og-image.png",
@@ -50,7 +50,7 @@ export default function A1cCalculatorPage() {
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: "https://medclinicx.com" },
-      { "@type": "ListItem", position: 2, name: "Calculators", item: "https://medclinicx.com/a1c-calculator" },
+      { "@type": "ListItem", position: 2, name: "Calculators", item: "https://medclinicx.com/calculator/" },
     ],
   };
 
@@ -59,7 +59,7 @@ export default function A1cCalculatorPage() {
     "@type": "MedicalWebPage",
     name: "Clinical HbA1c & eAG Calculator",
     description: "ADA-aligned converter for HbA1c percentage and Estimated Average Glucose (eAG).",
-    url: "https://medclinicx.com/a1c-calculator",
+    url: "https://medclinicx.com/calculator/",
     about: {
       "@type": "MedicalCondition",
       name: "Diabetes",
