@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Activity, Mail, Phone, MapPin, ExternalLink } from "lucide-react";
+import { Activity, Mail, Phone, MapPin } from "lucide-react";
 
 export default function Footer() {
   const [email, setEmail] = useState("");

@@ -4,15 +4,12 @@ import { useState } from "react";
 import { 
   Calculator, 
   BookOpen, 
-  Plus, 
   Trash2, 
   FileText, 
   AlertTriangle,
-  ArrowRight,
   Info,
   Scale,
   Activity,
-  CheckCircle,
   PlusCircle
 } from "lucide-react";
 
@@ -146,7 +143,7 @@ export default function LeanBodyMassCalculatorClient() {
         ].map((tab) => (
           <button
             key={tab.id}
-            onClick={() => setActiveTab(tab.id as any)}
+            onClick={() => setActiveTab(tab.id as "calculator" | "logger" | "education")}
             className={`flex items-center gap-2 px-5 py-3 text-xs font-bold border-b-2 transition-all cursor-pointer ${
               activeTab === tab.id
                 ? "border-brand-cyan text-brand-cyan font-extrabold"
@@ -474,7 +471,7 @@ export default function LeanBodyMassCalculatorClient() {
               </div>
             ) : (
               <div className="text-center py-12 text-gray-500 text-sm">
-                No composition logs saved. Return to the LBM Calculator tab and click "Log Composition Entry" to save.
+                No composition logs saved. Return to the LBM Calculator tab and click &quot;Log Composition Entry&quot; to save.
               </div>
             )}
           </div>

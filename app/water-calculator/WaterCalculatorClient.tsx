@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { 
   Activity, 
   Calculator, 
@@ -10,7 +10,6 @@ import {
   FileText, 
   AlertTriangle,
   ArrowRight,
-  Sparkles,
   Info,
   Droplet,
   GlassWater,
@@ -137,7 +136,7 @@ export default function WaterCalculatorClient() {
         ].map((tab) => (
           <button
             key={tab.id}
-            onClick={() => setActiveTab(tab.id as any)}
+            onClick={() => setActiveTab(tab.id as "calculator" | "logger" | "education")}
             className={`flex items-center gap-2 px-5 py-3 text-xs font-bold border-b-2 transition-all cursor-pointer ${
               activeTab === tab.id
                 ? "border-brand-cyan text-brand-cyan font-extrabold"
@@ -219,7 +218,7 @@ export default function WaterCalculatorClient() {
               <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider block">Daily Activity Level</label>
               <select
                 value={activityLevel}
-                onChange={(e) => setActivityLevel(e.target.value as any)}
+                onChange={(e) => setActivityLevel(e.target.value as "sedentary" | "light" | "active" | "veryActive")}
                 className="w-full bg-brand-bg/50 border border-brand-border rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-brand-cyan"
               >
                 <option value="sedentary">Sedentary (desk job, minimal walk)</option>
@@ -283,7 +282,7 @@ export default function WaterCalculatorClient() {
               <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Special Life Stages</label>
               <select
                 value={lifeStage}
-                onChange={(e) => setLifeStage(e.target.value as any)}
+                onChange={(e) => setLifeStage(e.target.value as "none" | "pregnancy" | "breastfeeding")}
                 className="w-full bg-brand-bg/50 border border-brand-border rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-brand-cyan"
               >
                 <option value="none">Standard Adult Needs</option>
@@ -576,7 +575,7 @@ export default function WaterCalculatorClient() {
                   Our body consists of roughly 60% water, making consistent daily fluid intake vital for cellular integrity. Adequate water supports temperature regulation, filters toxic metabolites through kidneys, aids digestion patterns, and lubricates joints.
                 </p>
                 <p>
-                  Relying solely on "feeling thirsty" is often insufficient. Mild dehydration can decrease cognitive alertness, cause fatigue spikes, prompt muscle cramps, and increase heart rate variables.
+                  Relying solely on &quot;feeling thirsty&quot; is often insufficient. Mild dehydration can decrease cognitive alertness, cause fatigue spikes, prompt muscle cramps, and increase heart rate variables.
                 </p>
               </div>
 

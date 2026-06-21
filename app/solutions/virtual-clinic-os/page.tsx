@@ -5,14 +5,11 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight, Sparkles, Brain, HeartPulse, FileText, Calendar,
-  MessageSquare, Shield, Users, Activity, FlaskConical, Upload,
-  CheckCircle, Star, TrendingUp, Lock, Bell, Zap, ChevronDown,
-  LayoutDashboard, Microscope, Stethoscope, BookOpen, Phone,
-  Globe, Database, HardDrive, Clock, X, Wallet, Mic, BookMarked,
-  RefreshCw, BarChart3, Building2, Syringe, Smile, Heart,
-  AlertTriangle, CloudUpload, ShieldCheck, Eye, UserCog,
-  Video, ChevronRight, Download, Search, Share2, DollarSign,
-  Check, Paperclip, MessagesSquare, ExternalLink
+  MessageSquare, Shield, Users, Activity, CheckCircle, Star,
+  TrendingUp, Lock, Bell, ChevronDown, LayoutDashboard, Stethoscope,
+  BookOpen, Globe, Database, HardDrive, Wallet, RefreshCw,
+  BarChart3, Building2, Syringe, Heart, AlertTriangle, CloudUpload,
+  ShieldCheck, Eye, UserCog, Video, Check, ExternalLink
 } from "lucide-react";
 
 /* --- Types --- */
@@ -192,7 +189,7 @@ export default function VirtualClinicOSPage() {
   const [activeTab, setActiveTab] = useState("DoctorWorkspace");
   const [selectedPatientId, setSelectedPatientId] = useState("john-smith");
   const [showTelemedicineRoom, setShowTelemedicineRoom] = useState(false);
-  const [telemedicineTimer, setTelemedicineTimer] = useState("29:54");
+  const [telemedicineTimer] = useState("29:54");
   const [doctorNotes, setDoctorNotes] = useState("");
   const [prescriptionForm, setPrescriptionForm] = useState({ medicine: "", dosage: "", duration: "" });
   const [prescriptionStatus, setPrescriptionStatus] = useState<"idle" | "success">("idle");

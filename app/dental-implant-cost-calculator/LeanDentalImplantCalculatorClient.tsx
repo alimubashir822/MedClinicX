@@ -9,10 +9,7 @@ import {
   FileText, 
   AlertTriangle,
   Activity,
-  DollarSign,
-  Scale,
-  Info,
-  ChevronDown
+  DollarSign
 } from "lucide-react";
 
 interface ImplantEstimateRecord {
@@ -185,7 +182,7 @@ export default function LeanDentalImplantCalculatorClient() {
         ].map((tab) => (
           <button
             key={tab.id}
-            onClick={() => setActiveTab(tab.id as any)}
+            onClick={() => setActiveTab(tab.id as "calculator" | "logger" | "education")}
             className={`flex items-center gap-2 px-5 py-3 text-xs font-bold border-b-2 transition-all cursor-pointer ${
               activeTab === tab.id
                 ? "border-brand-cyan text-brand-cyan font-extrabold"
@@ -213,7 +210,7 @@ export default function LeanDentalImplantCalculatorClient() {
               <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider block">Dental Clinic Location</label>
               <select
                 value={location}
-                onChange={(e) => setLocation(e.target.value as any)}
+                onChange={(e) => setLocation(e.target.value as "low" | "standard" | "high")}
                 className="w-full bg-brand-bg/50 border border-brand-border rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-brand-cyan"
               >
                 <option value="low">Low Cost Area / Rural Tier (0.6x)</option>
@@ -228,7 +225,7 @@ export default function LeanDentalImplantCalculatorClient() {
               <select
                 value={restorationType}
                 onChange={(e) => {
-                  const type = e.target.value as any;
+                  const type = e.target.value as "crown" | "bridge" | "allon4" | "allon6" | "denture";
                   setRestorationType(type);
                   // Sensible default implant numbers based on type
                   if (type === "allon4") setNumImplants(4);
@@ -269,7 +266,7 @@ export default function LeanDentalImplantCalculatorClient() {
                   <button
                     key={type}
                     type="button"
-                    onClick={() => setGrafting(type as any)}
+                    onClick={() => setGrafting(type as "none" | "simple" | "complex")}
                     className={`py-2 text-[9px] font-bold rounded-lg transition-all capitalize cursor-pointer ${
                       grafting === type
                         ? "bg-brand-cyan text-brand-bg shadow-sm"
@@ -479,7 +476,7 @@ export default function LeanDentalImplantCalculatorClient() {
               </div>
             ) : (
               <div className="text-center py-12 text-gray-500 text-sm">
-                No saved estimates. Switch to Implant Cost Calculator and click "Save Estimate Comparison".
+                No saved estimates. Switch to Implant Cost Calculator and click &quot;Save Estimate Comparison&quot;.
               </div>
             )}
           </div>

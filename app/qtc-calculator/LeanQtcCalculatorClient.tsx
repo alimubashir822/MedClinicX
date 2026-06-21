@@ -10,9 +10,7 @@ import {
   AlertTriangle,
   Activity,
   Heart,
-  Scale,
-  Info,
-  ChevronDown
+  Info
 } from "lucide-react";
 
 interface QtcRecord {
@@ -154,7 +152,7 @@ export default function LeanQtcCalculatorClient() {
         ].map((tab) => (
           <button
             key={tab.id}
-            onClick={() => setActiveTab(tab.id as any)}
+            onClick={() => setActiveTab(tab.id as "calculator" | "logger" | "education")}
             className={`flex items-center gap-2 px-5 py-3 text-xs font-bold border-b-2 transition-all cursor-pointer ${
               activeTab === tab.id
                 ? "border-brand-cyan text-brand-cyan font-extrabold"
@@ -426,7 +424,7 @@ export default function LeanQtcCalculatorClient() {
               </div>
             ) : (
               <div className="text-center py-12 text-gray-500 text-sm">
-                No calculated records saved. Go back to QTc Calculator tab and click "Log Current Calculation".
+                No calculated records saved. Go back to QTc Calculator tab and click &quot;Log Current Calculation&quot;.
               </div>
             )}
           </div>

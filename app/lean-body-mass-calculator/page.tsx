@@ -7,11 +7,7 @@ import {
   Sparkles, 
   Activity, 
   Calculator, 
-  BookOpen, 
-  HeartPulse, 
-  Shield,
-  CheckCircle,
-  Scale
+  Shield
 } from "lucide-react";
 import LeanBodyMassCalculatorClient from "./LeanBodyMassCalculatorClient";
 

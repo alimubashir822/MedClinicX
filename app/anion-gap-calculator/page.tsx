@@ -7,10 +7,7 @@ import {
   Sparkles, 
   Activity, 
   Calculator, 
-  BookOpen, 
-  Layers, 
-  Shield,
-  HeartPulse
+  Shield
 } from "lucide-react";
 import LeanAnionGapCalculatorClient from "./LeanAnionGapCalculatorClient";
 
@@ -240,7 +237,7 @@ export default function AnionGapCalculatorPage() {
                   </div>
                   <div className="bg-slate-900/50 border border-brand-border/40 rounded-xl p-4">
                     <h4 className="font-bold text-white text-sm">Bicarbonate Level</h4>
-                    <p className="text-xs text-gray-400 mt-1">Bicarbonate helps regulate the body's acid-base balance.</p>
+                    <p className="text-xs text-gray-400 mt-1">Bicarbonate helps regulate the body&apos;s acid-base balance.</p>
                   </div>
                 </div>
                 <p className="text-gray-300 text-base leading-relaxed">

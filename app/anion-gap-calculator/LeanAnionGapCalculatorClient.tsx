@@ -11,8 +11,7 @@ import {
   Activity,
   Layers,
   Scale,
-  Info,
-  ChevronDown
+  Info
 } from "lucide-react";
 
 interface AnionGapRecord {
@@ -152,7 +151,7 @@ export default function LeanAnionGapCalculatorClient() {
         ].map((tab) => (
           <button
             key={tab.id}
-            onClick={() => setActiveTab(tab.id as any)}
+            onClick={() => setActiveTab(tab.id as "calculator" | "logger" | "education")}
             className={`flex items-center gap-2 px-5 py-3 text-xs font-bold border-b-2 transition-all cursor-pointer ${
               activeTab === tab.id
                 ? "border-brand-cyan text-brand-cyan font-extrabold"
@@ -446,7 +445,7 @@ export default function LeanAnionGapCalculatorClient() {
               </div>
             ) : (
               <div className="text-center py-12 text-gray-500 text-sm">
-                No electrolyte gap entries saved. Return to Anion Gap Calculator and click "Log Electrolyte Gap".
+                No electrolyte gap entries saved. Return to Anion Gap Calculator and click &quot;Log Electrolyte Gap&quot;.
               </div>
             )}
           </div>

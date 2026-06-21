@@ -7,8 +7,6 @@ import {
   Sparkles, 
   Activity, 
   Calculator, 
-  BookOpen, 
-  HeartPulse, 
   Shield 
 } from "lucide-react";
 import A1cCalculatorClient from "./A1cCalculatorClient";
@@ -376,14 +374,14 @@ export default function A1cCalculatorPage() {
                   ))}
                 </div>
                 <p className="text-base leading-relaxed">
-                  Because every person's health situation is different, A1C results should always be interpreted with professional medical guidance when needed.
+                  Because every person&apos;s health situation is different, A1C results should always be interpreted with professional medical guidance when needed.
                 </p>
               </div>
 
               <div className="space-y-4">
                 <h2 className="font-display font-bold text-2xl md:text-3xl text-white tracking-tight">How Can You Improve A1C Levels?</h2>
                 <p className="text-base leading-relaxed">
-                  Improving A1C levels often involves healthy lifestyle habits and following a healthcare provider's recommendations.
+                  Improving A1C levels often involves healthy lifestyle habits and following a healthcare provider&apos;s recommendations.
                 </p>
                 <p className="text-base leading-relaxed">
                   Common approaches include:

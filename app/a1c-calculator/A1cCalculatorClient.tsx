@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { 
   Activity, 
   Calculator, 
@@ -10,8 +9,6 @@ import {
   Trash2, 
   FileText, 
   AlertTriangle,
-  ArrowRight,
-  TrendingDown,
   Sparkles,
   Info,
   Calendar
@@ -173,7 +170,7 @@ export default function A1cCalculatorClient() {
         ].map((tab) => (
           <button
             key={tab.id}
-            onClick={() => setActiveTab(tab.id as any)}
+            onClick={() => setActiveTab(tab.id as "converter" | "estimator" | "education")}
             className={`flex items-center gap-2 px-5 py-3 text-xs font-bold border-b-2 transition-all cursor-pointer ${
               activeTab === tab.id
                 ? "border-brand-cyan text-brand-cyan font-extrabold"
@@ -429,7 +426,7 @@ export default function A1cCalculatorClient() {
                     <button
                       key={type}
                       type="button"
-                      onClick={() => setNewReadingType(type as any)}
+                      onClick={() => setNewReadingType(type as "Fasting" | "Post-Meal" | "Bedtime" | "Random")}
                       className={`py-2 text-[9px] font-bold rounded-lg border transition-all cursor-pointer ${
                         newReadingType === type
                           ? "bg-brand-cyan text-brand-bg border-brand-cyan font-bold"

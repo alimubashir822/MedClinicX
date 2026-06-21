@@ -4,15 +4,11 @@ import { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  ArrowRight, Sparkles, Brain, HeartPulse, FileText, Calendar,
-  MessageSquare, Shield, Users, Activity, FlaskConical, Upload,
-  CheckCircle, Star, TrendingUp, Lock, Bell, Zap, ChevronDown,
-  LayoutDashboard, Microscope, Stethoscope, BookOpen, Phone,
-  Globe, Database, HardDrive, Clock, X, Wallet, Mic, BookMarked,
-  RefreshCw, BarChart3, Building2, Syringe, Smile, Heart,
-  AlertTriangle, CloudUpload, ShieldCheck, Eye, UserCog,
-  Video, ChevronRight, Download, Search, Share2, DollarSign,
-  Check, Paperclip, MessagesSquare, ExternalLink, Mail
+  ArrowRight, Sparkles, Brain, FileText, Shield, Users, Activity,
+  CheckCircle, Star, TrendingUp, Lock, Bell, ChevronDown,
+  LayoutDashboard, Stethoscope, Globe, Database, HardDrive, Clock, Wallet,
+  BarChart3, Building2, Smile, Heart, ShieldCheck, Eye, UserCog,
+  Video, Search, DollarSign, Check
 } from "lucide-react";
 
 /* --- Types --- */

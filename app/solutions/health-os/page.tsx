@@ -4,15 +4,11 @@ import { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  ArrowRight, Sparkles, Brain, HeartPulse, FileText, Calendar,
-  MessageSquare, Shield, Users, Activity, FlaskConical, Upload,
-  CheckCircle, Star, TrendingUp, Lock, Bell, Zap, ChevronDown,
-  LayoutDashboard, Microscope, Stethoscope, BookOpen, Phone,
-  Globe, Database, HardDrive, Clock, X, Wallet, Mic, BookMarked,
-  RefreshCw, BarChart3, Building2, Syringe, Smile, Heart,
-  AlertTriangle, CloudUpload, ShieldCheck, Eye, UserCog,
-  Video, ChevronRight, Download, Search, Share2, DollarSign,
-  Check, Paperclip, MessagesSquare, ExternalLink, Mail
+  ArrowRight, Sparkles, Brain, FileText, Shield, Users, Activity,
+  CheckCircle, TrendingUp, Lock, Zap, ChevronDown, Stethoscope, Phone,
+  Globe, Database, HardDrive, Clock, BarChart3, Building2,
+  ShieldCheck, Eye, UserCog, DollarSign, Check, MessagesSquare,
+  ExternalLink
 } from "lucide-react";
 
 /* --- Types --- */
@@ -126,7 +122,6 @@ const techStack = [
  ======================================================= */
 export default function HealthOSPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const [activeUseCase, setActiveUseCase] = useState(0);
 
   // Interactive Simulator States
   const [activeTab, setActiveTab] = useState("LeadQual");

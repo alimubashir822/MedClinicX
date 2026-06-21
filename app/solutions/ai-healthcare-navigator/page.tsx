@@ -4,15 +4,14 @@ import { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  ArrowRight, Sparkles, Brain, HeartPulse, FileText, Calendar,
-  MessageSquare, Shield, Users, Activity, FlaskConical, Upload,
-  CheckCircle, Star, TrendingUp, Lock, Bell, Zap, ChevronDown,
-  LayoutDashboard, Microscope, Stethoscope, BookOpen, Phone,
-  Globe, Database, HardDrive, Clock, X, Wallet, Mic, BookMarked,
-  RefreshCw, BarChart3, Building2, Syringe, Smile, Heart,
+  ArrowRight, Sparkles, Brain, HeartPulse, FileText,
+  Shield, Users, Activity, Upload,
+  CheckCircle, TrendingUp, Lock, ChevronDown,
+  LayoutDashboard, Stethoscope, BookOpen,
+  Globe, Database, HardDrive, Mic, BookMarked,
+  RefreshCw, BarChart3, Building2,
   AlertTriangle, CloudUpload, ShieldCheck, Eye, UserCog,
-  Video, ChevronRight, Download, Search, Share2, DollarSign,
-  Check, Paperclip, MessagesSquare, ExternalLink
+  ExternalLink
 } from "lucide-react";
 
 /* --- Types --- */
@@ -213,7 +212,6 @@ export default function AIHealthcareNavigatorPage() {
   ]);
   const [chatLoading, setChatLoading] = useState(false);
   const [chatStep, setChatStep] = useState(1);
-  const [selectedSpecialty, setSelectedSpecialty] = useState<string | null>(null);
   const [showDoctorMatch, setShowDoctorMatch] = useState(false);
   const [assessmentSummary, setAssessmentSummary] = useState<AssessmentSummary | null>(null);
 
@@ -260,7 +258,6 @@ export default function AIHealthcareNavigatorPage() {
   };
 
   const generateReport = (specialty: string, concern: string, duration: string) => {
-    setSelectedSpecialty(specialty);
     setAssessmentSummary({
       concern: concern,
       duration: duration,

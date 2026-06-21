@@ -8,10 +8,8 @@ import {
   Activity, 
   Calculator, 
   BookOpen, 
-  HeartPulse, 
   Shield,
-  CheckCircle,
-  Droplet
+  CheckCircle
 } from "lucide-react";
 import WaterCalculatorClient from "./WaterCalculatorClient";
 
@@ -339,7 +337,7 @@ export default function WaterCalculatorPage() {
                   Some people may need more fluids because of increased sweating, physical work, or exercise.
                 </p>
                 <p className="text-gray-300 text-base leading-relaxed">
-                  The best approach is to use your estimated intake as a starting point and adjust based on your body's needs.
+                  The best approach is to use your estimated intake as a starting point and adjust based on your body&apos;s needs.
                 </p>
               </div>
 

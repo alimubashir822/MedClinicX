@@ -7,10 +7,7 @@ import {
   Sparkles, 
   Activity, 
   Calculator, 
-  BookOpen, 
-  DollarSign, 
-  Shield,
-  HeartPulse
+  Shield
 } from "lucide-react";
 import LeanDentalImplantCalculatorClient from "./LeanDentalImplantCalculatorClient";
 
@@ -261,7 +258,7 @@ export default function DentalImplantCostCalculatorPage() {
                   <div className="space-y-1 border-t border-brand-border/20 pt-3">
                     <h5 className="font-bold text-white text-xs uppercase tracking-wider text-brand-cyan">Treatment Complexity</h5>
                     <p className="text-sm text-gray-400 leading-normal">
-                      Every patient's dental situation is different, which can affect planning and pricing.
+                      Every patient&apos;s dental situation is different, which can affect planning and pricing.
                     </p>
                   </div>
                 </div>

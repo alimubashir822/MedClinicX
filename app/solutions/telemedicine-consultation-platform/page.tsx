@@ -5,13 +5,11 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight, Sparkles, Brain, HeartPulse, FileText, Calendar,
-  MessageSquare, Shield, Users, Activity, FlaskConical, Upload,
-  CheckCircle, Star, TrendingUp, Lock, Bell, Zap, ChevronDown,
-  LayoutDashboard, Microscope, Stethoscope, BookOpen, Phone,
-  Globe, Database, Clock, X, Wallet, Mic, BookMarked,
-  RefreshCw, BarChart3, Building2, Syringe, Smile, Heart,
-  AlertTriangle, CloudUpload, ShieldCheck, Eye, UserCog,
-  Video, VideoOff, Volume2, Plus, Info
+  MessageSquare, Shield, Users, Activity, CheckCircle, Star,
+  TrendingUp, Lock, Bell, ChevronDown, LayoutDashboard, Stethoscope,
+  BookOpen, Phone, Globe, Database, X, RefreshCw, Building2,
+  Smile, Heart, AlertTriangle, CloudUpload, ShieldCheck, Eye,
+  UserCog, Video, VideoOff, Volume2, Info
 } from "lucide-react";
 
 /* --- Types --- */
@@ -38,14 +36,7 @@ const coreFeatures: Feature[] = [
   { icon: <RefreshCw className="w-5 h-5" />, title: "EHR Sync Layer", desc: "Bi-directional database synchronization with major institutional EMR systems using HL7 FHIR protocols." }
 ];
 
-const differentiators: Differentiator[] = [
-  { icon: <Video className="w-7 h-7" />, title: "Ultra-Low Latency Video", subtitle: "Sub-100ms WebRTC streams", desc: "Engineered on modern WebRTC protocols. Smooth camera controls, dual-stream layouts, and automated bandwidth adjustments.", color: "from-brand-cyan/20 to-brand-indigo/10", glow: "rgba(6,182,212,0.15)" },
-  { icon: <Brain className="w-7 h-7" />, title: "AI Medical Intake", subtitle: "Pre-interview brief summaries", desc: "AI assistant completes intake interviews with patients beforehand. Saves doctors up to 6 minutes per consultation session.", color: "from-brand-indigo/20 to-purple-500/10", glow: "rgba(99,102,241,0.15)" },
-  { icon: <FileText className="w-7 h-7" />, title: "Inline Clinical Charting", subtitle: "All-in-one provider console", desc: "Write clinic notes, designate ICD-10 diagnosis codes, and cryptographically sign prescriptions directly inside the consult screen.", color: "from-brand-emerald/20 to-brand-cyan/10", glow: "rgba(16,185,129,0.15)" },
-  { icon: <Activity className="w-7 h-7" />, title: "Wearables Telemetry", subtitle: "Live patient vitals streaming", desc: "Synchronize patient blood pressure, glucose, and oxygen metrics live from smart wearables to identify clinical anomalies during calls.", color: "from-amber-500/20 to-orange-500/10", glow: "rgba(245,158,11,0.15)" },
-  { icon: <Globe className="w-7 h-7" />, title: "Real-Time Translation", subtitle: "Global multi-language consults", desc: "AI translates spoken language live. Doctor speaks English, patient hears and views Spanish, Arabic, or Urdu transcripts on-screen.", color: "from-rose-500/20 to-pink-500/10", glow: "rgba(244,63,94,0.15)" },
-  { icon: <ShieldCheck className="w-7 h-7" />, title: "FHIR Compliance ready", subtitle: "Enterprise EMR integration", desc: "Robust FHIR API connections. Safely import historical charts and push completed visit summaries to central clinic databases.", color: "from-violet-500/20 to-brand-indigo/10", glow: "rgba(139,92,246,0.15)" }
-];
+
 
 const portalModules = [
   { icon: <Video className="w-5 h-5" />, title: "Consultation Room", items: ["Secure WebRTC Video feed", "Interactive Chat & Files", "Live Vitals Dashboard", "Provider Screen Share"] },
@@ -266,7 +257,6 @@ export default function TelemedicinePlatformPage() {
   // Tab 3: Video Consult Workspace States
   const [isVideoOn, setIsVideoOn] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
-  const [consultNotes, setConsultNotes] = useState("Patient reports mild rash on lower arm. Initiating assessment.");
   const [prescriptionList, setPrescriptionList] = useState<Array<{ name: string, dose: string, duration: string, instructions: string }>>([]);
   const [newMed, setNewMed] = useState({ name: "Amoxicillin", dose: "500mg", duration: "7 Days", instructions: "After meals" });
   const [prescDownloaded, setPrescDownloaded] = useState(false);

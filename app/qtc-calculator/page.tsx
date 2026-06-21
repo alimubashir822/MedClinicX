@@ -7,10 +7,7 @@ import {
   Sparkles, 
   Activity, 
   Calculator, 
-  BookOpen, 
-  Heart, 
-  Shield,
-  HeartPulse
+  Shield
 } from "lucide-react";
 import LeanQtcCalculatorClient from "./LeanQtcCalculatorClient";
 
