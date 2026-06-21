@@ -10,6 +10,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [solutionsDropdownOpen, setSolutionsDropdownOpen] = useState(false);
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
+  const [calculatorsDropdownOpen, setCalculatorsDropdownOpen] = useState(false);
   const pathname = usePathname();
 
   const solutions = [
@@ -37,12 +38,23 @@ export default function Navbar() {
     { name: "Healthcare SEO & Growth", href: "/services/healthcare-seo-growth" },
   ];
 
+  const calculators = [
+    { name: "A1C Calculator", href: "/a1c-calculator" },
+    { name: "Water Intake Calculator", href: "/water-calculator" },
+    { name: "Lean Body Mass Calculator", href: "/lean-body-mass-calculator" },
+    { name: "QTc Calculator", href: "/qtc-calculator" },
+    { name: "Anion Gap Calculator", href: "/anion-gap-calculator" },
+    { name: "Dental Implant Cost Calculator", href: "/dental-implant-cost-calculator" },
+  ];
+
   const toggleSolutionsDropdown = () => setSolutionsDropdownOpen(!solutionsDropdownOpen);
   const toggleServicesDropdown = () => setServicesDropdownOpen(!servicesDropdownOpen);
+  const toggleCalculatorsDropdown = () => setCalculatorsDropdownOpen(!calculatorsDropdownOpen);
   const closeAll = () => {
     setIsOpen(false);
     setSolutionsDropdownOpen(false);
     setServicesDropdownOpen(false);
+    setCalculatorsDropdownOpen(false);
   };
 
   return (
@@ -76,6 +88,7 @@ export default function Navbar() {
               onMouseEnter={() => {
                 setServicesDropdownOpen(true);
                 setSolutionsDropdownOpen(false);
+                setCalculatorsDropdownOpen(false);
               }}
               className={`flex items-center space-x-1 font-medium text-sm transition-colors py-2 ${
                 pathname?.startsWith("/services") ? "text-brand-cyan font-semibold" : "text-gray-300 hover:text-white"
@@ -124,6 +137,7 @@ export default function Navbar() {
             onMouseEnter={() => {
               setSolutionsDropdownOpen(false);
               setServicesDropdownOpen(false);
+              setCalculatorsDropdownOpen(false);
             }}
             className={`font-medium text-sm transition-colors ${
               pathname === "/about" ? "text-brand-cyan font-semibold" : "text-gray-300 hover:text-white"
@@ -137,6 +151,7 @@ export default function Navbar() {
             onMouseEnter={() => {
               setSolutionsDropdownOpen(false);
               setServicesDropdownOpen(false);
+              setCalculatorsDropdownOpen(false);
             }}
             className={`font-medium text-sm transition-colors ${
               pathname === "/blog" ? "text-brand-cyan font-semibold" : "text-gray-300 hover:text-white"
@@ -155,6 +170,7 @@ export default function Navbar() {
               onMouseEnter={() => {
                 setSolutionsDropdownOpen(true);
                 setServicesDropdownOpen(false);
+                setCalculatorsDropdownOpen(false);
               }}
               className={`flex items-center space-x-1 font-medium text-sm transition-colors py-2 ${
                 pathname?.startsWith("/solutions") ? "text-brand-cyan font-semibold" : "text-gray-300 hover:text-white"
@@ -198,11 +214,68 @@ export default function Navbar() {
             </AnimatePresence>
           </div>
 
+          {/* Calculators Dropdown */}
+          <div 
+            className="relative"
+            onMouseLeave={() => setCalculatorsDropdownOpen(false)}
+          >
+            <button
+              onClick={toggleCalculatorsDropdown}
+              onMouseEnter={() => {
+                setCalculatorsDropdownOpen(true);
+                setSolutionsDropdownOpen(false);
+                setServicesDropdownOpen(false);
+              }}
+              className={`flex items-center space-x-1 font-medium text-sm transition-colors py-2 ${
+                pathname?.startsWith("/calculator") || pathname === "/a1c-calculator" || pathname === "/water-calculator" || pathname === "/lean-body-mass-calculator" || pathname === "/qtc-calculator" || pathname === "/anion-gap-calculator" || pathname === "/dental-implant-cost-calculator"
+                  ? "text-brand-cyan font-semibold"
+                  : "text-gray-300 hover:text-white"
+              }`}
+            >
+              <span>Calculators</span>
+              <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${calculatorsDropdownOpen ? "rotate-180" : ""}`} />
+            </button>
+
+            {/* Dropdown Panel */}
+            <AnimatePresence>
+              {calculatorsDropdownOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  style={{ backgroundColor: "rgba(5, 7, 16, 0.96)" }}
+                  className="absolute left-0 mt-2 w-[520px] glass-panel rounded-xl shadow-2xl p-3 z-50 border border-brand-border grid grid-cols-2 gap-2"
+                >
+                  {calculators.map((item) => (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      onClick={closeAll}
+                      className="block px-3.5 py-2.5 text-xs font-medium text-gray-300 hover:text-white rounded-lg hover:bg-brand-cyan/10 hover:border-l-2 hover:border-brand-cyan transition-all"
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                  <div className="col-span-2 border-t border-brand-border/60 mt-1 pt-2">
+                    <Link
+                      href="/calculator"
+                      onClick={closeAll}
+                      className="block text-center text-xs font-bold text-brand-cyan hover:text-white transition-colors"
+                    >
+                      All Calculators Directory &rarr;
+                    </Link>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
           <Link
             href="/contact"
             onMouseEnter={() => {
               setSolutionsDropdownOpen(false);
               setServicesDropdownOpen(false);
+              setCalculatorsDropdownOpen(false);
             }}
             className={`font-medium text-sm transition-colors ${
               pathname === "/contact" ? "text-brand-cyan font-semibold" : "text-gray-300 hover:text-white"
@@ -304,6 +377,32 @@ export default function Navbar() {
                     All Solutions Directory &rarr;
                   </Link>
                   {solutions.map((item) => (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      onClick={closeAll}
+                      className="block px-3 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-brand-cyan/10 rounded-lg transition-colors pl-6"
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              <div className="border-t border-brand-border my-2" />
+
+              {/* Calculators */}
+              <div>
+                <p className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Calculators</p>
+                <div className="mt-2 space-y-1">
+                  <Link
+                    href="/calculator"
+                    onClick={closeAll}
+                    className="block px-3 py-2 text-sm font-bold text-white hover:text-brand-cyan hover:bg-brand-cyan/10 rounded-lg transition-colors"
+                  >
+                    All Calculators Directory &rarr;
+                  </Link>
+                  {calculators.map((item) => (
                     <Link
                       key={item.name}
                       href={item.href}

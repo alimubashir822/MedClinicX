@@ -81,6 +81,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
 
+    // ─── Calculators Hub ───────────────────────────────────
+    {
+      url: `${BASE_URL}/calculator`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+
     // ─── Clinical Tools ────────────────────────────────────
     {
       url: `${BASE_URL}/a1c-calculator`,

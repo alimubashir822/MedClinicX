@@ -116,7 +116,7 @@ export default function Footer() {
             <h3 className="text-white font-semibold font-display text-sm tracking-wider uppercase mb-4">Calculators</h3>
             <ul className="space-y-2.5 text-sm text-gray-400">
               <li>
-                <Link href="/solutions" style={{ color: "#06b6d4" }} className="font-semibold hover:text-white transition-colors">
+                <Link href="/calculator" style={{ color: "#06b6d4" }} className="font-semibold hover:text-white transition-colors">
                   All Calculators Hub &rarr;
                 </Link>
               </li>
@@ -151,7 +151,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/solutions" style={{ color: "#06b6d4" }} className="font-bold hover:text-white transition-colors">
+                <Link href="/calculator" style={{ color: "#06b6d4" }} className="font-bold hover:text-white transition-colors">
                   More+
                 </Link>
               </li>
