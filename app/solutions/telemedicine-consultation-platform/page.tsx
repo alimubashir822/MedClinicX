@@ -7,14 +7,13 @@ import {
   ArrowRight, Sparkles, Brain, HeartPulse, FileText, Calendar,
   MessageSquare, Shield, Users, Activity, CheckCircle, Star,
   TrendingUp, Lock, Bell, ChevronDown, LayoutDashboard, Stethoscope,
-  BookOpen, Phone, Globe, Database, X, RefreshCw, Building2,
+  BookOpen, Phone, Globe, Database, RefreshCw, Building2,
   Smile, Heart, AlertTriangle, CloudUpload, ShieldCheck, Eye,
   UserCog, Video, VideoOff, Volume2, Info
 } from "lucide-react";
 
 /* --- Types --- */
 interface Feature { icon: React.ReactNode; title: string; desc: string; badge?: string; }
-interface Differentiator { icon: React.ReactNode; title: string; subtitle: string; desc: string; color: string; glow: string; }
 interface FAQ { q: string; a: string; }
 
 /* =======================================================

@@ -9,7 +9,7 @@ import {
   TrendingUp, Lock, Bell, ChevronDown, LayoutDashboard, Stethoscope,
   BookOpen, Globe, Database, HardDrive, Wallet, RefreshCw,
   BarChart3, Building2, Syringe, Heart, AlertTriangle, CloudUpload,
-  ShieldCheck, Eye, UserCog, Video, Check, ExternalLink
+  ShieldCheck, Eye, UserCog, Video, ExternalLink
 } from "lucide-react";
 
 /* --- Types --- */
