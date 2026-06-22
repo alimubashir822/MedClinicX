@@ -42,9 +42,26 @@ export default function Navbar() {
     { name: "A1C Calculator", href: "/calculator/a1c-calculator" },
     { name: "Water Intake Calculator", href: "/calculator/water-calculator" },
     { name: "Lean Body Mass Calculator", href: "/calculator/lean-body-mass-calculator" },
+    { name: "Metabolic Age Calculator", href: "/calculator/metabolic-age-calculator" },
+    { name: "Baby Weight Calculator", href: "/calculator/baby-weight-calculator" },
+    { name: "Baby Age Calculator", href: "/calculator/baby-age-calculator" },
+    { name: "Glasgow Coma Scale Calculator", href: "/calculator/glasgow-coma-scale-calculator" },
     { name: "QTc Calculator", href: "/calculator/qtc-calculator" },
     { name: "Anion Gap Calculator", href: "/calculator/anion-gap-calculator" },
     { name: "Dental Implant Cost Calculator", href: "/calculator/dental-implant-cost-calculator" },
+    { name: "Invisalign Cost Calculator", href: "/calculator/invisalign-cost-calculator" },
+    { name: "CKD Calculator", href: "/calculator/ckd-calculator" },
+    { name: "IV Drip Rate Calculator", href: "/calculator/iv-drip-rate-calculator" },
+    { name: "CPT Calculator", href: "/calculator/cpt-calculator" },
+    { name: "Fat Intake Calculator", href: "/calculator/fat-intake-calculator" },
+    { name: "Medication Dosage Calculator", href: "/calculator/medication-dosage-calculator" },
+    { name: "HbA1c Calculator", href: "/calculator/hba1c-calculator" },
+    { name: "Pediatric Dosage Calculator", href: "/calculator/pediatric-dosage-calculator" },
+    { name: "Fetal Growth Calculator", href: "/calculator/fetal-growth-calculator" },
+    { name: "IV Flow Rate Calculator", href: "/calculator/iv-flow-rate-calculator" },
+    { name: "Baby Growth Calculator", href: "/calculator/baby-growth-calculator" },
+    { name: "Infusion Calculator", href: "/calculator/infusion-calculator" },
+    { name: "Stress Calculator", href: "/calculator/stress-calculator" },
   ];
 
   const toggleSolutionsDropdown = () => setSolutionsDropdownOpen(!solutionsDropdownOpen);
@@ -199,7 +216,7 @@ export default function Navbar() {
                 setServicesDropdownOpen(false);
               }}
               className={`flex items-center space-x-1 font-medium text-sm transition-colors py-2 ${
-                pathname?.startsWith("/calculator") || pathname === "/a1c-calculator" || pathname === "/water-calculator" || pathname === "/lean-body-mass-calculator" || pathname === "/qtc-calculator" || pathname === "/anion-gap-calculator" || pathname === "/dental-implant-cost-calculator"
+                pathname?.startsWith("/calculator")
                   ? "text-brand-cyan font-semibold"
                   : "text-gray-300 hover:text-white"
               }`}

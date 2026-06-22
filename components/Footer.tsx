@@ -136,6 +136,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/calculator/glasgow-coma-scale-calculator" className="hover:text-brand-cyan transition-colors">
+                  Glasgow Coma Scale Calculator
+                </Link>
+              </li>
+              <li>
                 <Link href="/calculator/qtc-calculator" className="hover:text-brand-cyan transition-colors">
                   QTc Calculator
                 </Link>
@@ -143,11 +148,6 @@ export default function Footer() {
               <li>
                 <Link href="/calculator/anion-gap-calculator" className="hover:text-brand-cyan transition-colors">
                   Anion Gap Calculator
-                </Link>
-              </li>
-              <li>
-                <Link href="/calculator/dental-implant-cost-calculator" className="hover:text-brand-cyan transition-colors">
-                  Dental Implant Cost Calculator
                 </Link>
               </li>
               <li>

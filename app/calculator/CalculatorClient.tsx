@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   HeartPulse,
@@ -93,43 +92,32 @@ export default function CalculatorClient() {
               transition={{ duration: 0.25, delay: idx * 0.03 }}
               className="glass-panel rounded-2xl border border-brand-border hover:border-brand-cyan/20 hover:shadow-lg hover:shadow-brand-cyan/5 transition-all overflow-hidden group flex flex-col justify-between"
             >
-              {/* Image Header */}
-              <div className="relative h-44 w-full overflow-hidden bg-brand-bg/60 shrink-0">
-                <Image
-                  src={calc.image}
-                  alt={`${calc.title} — Med Clinic X`}
-                  width={320}
-                  height={180}
-                  className="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-[1.02] transition-all duration-500"
-                />
-                {/* Badge Overlay */}
-                {calc.badge && (
-                  <div className="absolute top-3 left-3">
-                    <span className="text-[9px] font-bold text-brand-cyan uppercase tracking-wider bg-brand-bg/80 border border-brand-cyan/25 px-2.5 py-1 rounded-full backdrop-blur-sm">
-                      {calc.badge}
-                    </span>
-                  </div>
-                )}
-                {/* Stat overlay */}
-                <div className="absolute bottom-3 left-3 bg-brand-bg/85 backdrop-blur-sm border border-brand-cyan/20 rounded-lg px-2.5 py-1">
-                  <p className="font-display font-extrabold text-sm text-brand-cyan leading-none">{calc.stat}</p>
-                  <p className="text-[8px] font-medium text-gray-400 mt-0.5">{calc.statLabel}</p>
-                </div>
-              </div>
-
               {/* Content and details */}
               <div className="p-6 flex-grow flex flex-col justify-between space-y-4">
                 <div className="space-y-3">
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-lg bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center shrink-0">
-                      {iconMap[calc.iconName] || <Calculator className="w-4.5 h-4.5 text-brand-cyan" />}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-8 h-8 rounded-lg bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center shrink-0">
+                        {iconMap[calc.iconName] || <Calculator className="w-4.5 h-4.5 text-brand-cyan" />}
+                      </div>
+                      <span className="text-[9px] font-bold text-gray-500 uppercase tracking-wider">{calc.category}</span>
                     </div>
-                    <span className="text-[9px] font-bold text-gray-500 uppercase tracking-wider">{calc.category}</span>
+                    {calc.badge && (
+                      <span className="text-[9px] font-bold text-brand-cyan uppercase tracking-wider bg-brand-cyan/10 border border-brand-cyan/20 px-2.5 py-0.5 rounded-full">
+                        {calc.badge}
+                      </span>
+                    )}
                   </div>
 
-                  <h3 className="font-display font-bold text-lg text-white group-hover:text-brand-cyan transition-colors leading-tight">
-                    {calc.title}
-                  </h3>
+                  <div className="flex items-start justify-between gap-4 pt-1">
+                    <h3 className="font-display font-bold text-lg text-white group-hover:text-brand-cyan transition-colors leading-tight">
+                      {calc.title}
+                    </h3>
+                    <div className="text-right shrink-0 bg-brand-cyan/5 border border-brand-cyan/20 rounded-lg px-2.5 py-1">
+                      <p className="font-display font-extrabold text-xs text-brand-cyan leading-none">{calc.stat}</p>
+                      <p className="text-[8px] font-medium text-gray-400 mt-0.5">{calc.statLabel}</p>
+                    </div>
+                  </div>
 
                   <p className="text-xs text-gray-400 leading-relaxed line-clamp-3">
                     {calc.desc}

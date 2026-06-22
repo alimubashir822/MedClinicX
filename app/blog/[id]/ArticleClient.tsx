@@ -206,17 +206,7 @@ export default function ArticleClient({ post }: ArticleClientProps) {
           </div>
         </header>
 
-        {/* Featured Image */}
-        <div className="relative w-full aspect-[2/1] max-h-[500px] rounded-2xl overflow-hidden mb-12 border border-brand-border shadow-2xl group">
-          <Image 
-            src={post.featuredImage}
-            alt={post.title}
-            fill
-            className="object-cover transition-transform duration-700 group-hover:scale-105"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-brand-bg/85 via-transparent to-transparent" />
-        </div>
+
 
         {/* Main Content Layout Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
