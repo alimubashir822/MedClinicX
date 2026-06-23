@@ -378,7 +378,7 @@ export default function BabyGrowthCalculatorClient() {
   });
 
   // Baby coordinates
-  let babyX = getX(clampedMonths);
+  const babyX = getX(clampedMonths);
   let babyY = 0;
 
   if (chartType === "weight") {
