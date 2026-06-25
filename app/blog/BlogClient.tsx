@@ -14,7 +14,9 @@ export default function BlogClient() {
 
   const categories = ["All", "Healthcare AI", "Medical Technology", "Clinic Growth", "Patient Experience"];
 
-  const posts = Object.values(blogPosts);
+  const posts = Object.values(blogPosts).sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
 
   const filteredPosts = posts.filter((post) => {
     const matchesCategory = selectedCategory === "All" || post.category === selectedCategory;
