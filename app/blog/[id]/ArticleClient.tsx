@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
@@ -16,6 +16,57 @@ import {
   ChevronDown
 } from "lucide-react";
 import { BlogPost, blogPosts, getPostSlug } from "../blogData";
+
+function renderTextWithLinks(text: string) {
+  const regex = /\[([^\]]+)\]\(([^)]+)\)/g;
+  const parts: (string | ReactNode)[] = [];
+  let lastIndex = 0;
+  let match;
+  
+  while ((match = regex.exec(text)) !== null) {
+    const matchIndex = match.index;
+    const [fullMatch, linkText, url] = match;
+    
+    if (matchIndex > lastIndex) {
+      parts.push(text.substring(lastIndex, matchIndex));
+    }
+    
+    const isInternal = url.startsWith('/') || url.includes('medclinicx.com');
+    const displayUrl = isInternal ? url.replace(/https?:\/\/(www\.)?medclinicx\.com/, '') : url;
+    
+    if (isInternal) {
+      parts.push(
+        <Link 
+          key={matchIndex} 
+          href={displayUrl} 
+          className="text-brand-cyan hover:text-brand-cyan/85 underline font-medium"
+        >
+          {linkText}
+        </Link>
+      );
+    } else {
+      parts.push(
+        <a 
+          key={matchIndex} 
+          href={url} 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="text-brand-cyan hover:text-brand-cyan/85 underline font-medium"
+        >
+          {linkText}
+        </a>
+      );
+    }
+    
+    lastIndex = regex.lastIndex;
+  }
+  
+  if (lastIndex < text.length) {
+    parts.push(text.substring(lastIndex));
+  }
+  
+  return parts.length > 0 ? parts : text;
+}
 
 interface ArticleClientProps {
   post: BlogPost;
@@ -392,7 +443,7 @@ export default function ArticleClient({ post }: ArticleClientProps) {
                   case "paragraph":
                     return (
                       <p key={idx} className="text-gray-300 leading-relaxed text-base font-normal">
-                        {section.text}
+                        {renderTextWithLinks(section.text || "")}
                       </p>
                     );
                   
@@ -431,9 +482,9 @@ export default function ArticleClient({ post }: ArticleClientProps) {
                                 {parts.length > 1 ? (
                                   <>
                                     <strong className="text-white font-semibold">{parts[0]}:</strong>
-                                    {parts.slice(1).join(":")}
+                                    {renderTextWithLinks(parts.slice(1).join(":"))}
                                   </>
-                                ) : item}
+                                ) : renderTextWithLinks(item)}
                               </span>
                             </li>
                           );
@@ -517,7 +568,7 @@ export default function ArticleClient({ post }: ArticleClientProps) {
                           {section.title}
                         </h4>
                         <p className="text-sm leading-relaxed whitespace-pre-line">
-                          {section.text}
+                          {renderTextWithLinks(section.text || "")}
                         </p>
                       </div>
                     );
