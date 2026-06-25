@@ -116,42 +116,42 @@ export default function Footer() {
             <h3 className="text-white font-semibold font-display text-sm tracking-wider uppercase mb-4">Calculators</h3>
             <ul className="space-y-2.5 text-sm text-gray-400">
               <li>
-                <Link href="/calculator" style={{ color: "#06b6d4" }} className="font-semibold hover:text-white transition-colors">
+                <Link href="/calculators" style={{ color: "#06b6d4" }} className="font-semibold hover:text-white transition-colors">
                   All Calculators Hub &rarr;
                 </Link>
               </li>
               <li>
-                <Link href="/calculator/a1c-calculator" className="hover:text-brand-cyan transition-colors">
+                <Link href="/calculators/a1c-calculator" className="hover:text-brand-cyan transition-colors">
                   A1C Calculator
                 </Link>
               </li>
               <li>
-                <Link href="/calculator/water-calculator" className="hover:text-brand-cyan transition-colors">
+                <Link href="/calculators/water-intake-calculator" className="hover:text-brand-cyan transition-colors">
                   Water Intake Calculator
                 </Link>
               </li>
               <li>
-                <Link href="/calculator/lean-body-mass-calculator" className="hover:text-brand-cyan transition-colors">
+                <Link href="/calculators/lean-body-mass-calculator" className="hover:text-brand-cyan transition-colors">
                   Lean Body Mass Calculator
                 </Link>
               </li>
               <li>
-                <Link href="/calculator/glasgow-coma-scale-calculator" className="hover:text-brand-cyan transition-colors">
+                <Link href="/calculators/glasgow-coma-scale-calculator" className="hover:text-brand-cyan transition-colors">
                   Glasgow Coma Scale Calculator
                 </Link>
               </li>
               <li>
-                <Link href="/calculator/qtc-calculator" className="hover:text-brand-cyan transition-colors">
+                <Link href="/calculators/qtc-calculator" className="hover:text-brand-cyan transition-colors">
                   QTc Calculator
                 </Link>
               </li>
               <li>
-                <Link href="/calculator/anion-gap-calculator" className="hover:text-brand-cyan transition-colors">
+                <Link href="/calculators/anion-gap-calculator" className="hover:text-brand-cyan transition-colors">
                   Anion Gap Calculator
                 </Link>
               </li>
               <li>
-                <Link href="/calculator" style={{ color: "#06b6d4" }} className="font-bold hover:text-white transition-colors">
+                <Link href="/calculators" style={{ color: "#06b6d4" }} className="font-bold hover:text-white transition-colors">
                   More+
                 </Link>
               </li>
