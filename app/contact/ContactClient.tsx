@@ -10,22 +10,6 @@ import {
 
 const contactMethods = [
   {
-    icon: <Mail className="w-6 h-6" />,
-    title: "Email Us",
-    detail: "support@medclinicx.com",
-    sub: "We respond within 4 business hours",
-    href: "mailto:support@medclinicx.com",
-    color: "brand-cyan",
-  },
-  {
-    icon: <Phone className="w-6 h-6" />,
-    title: "Call Us",
-    detail: "+1 (800) 555-MDCX",
-    sub: "Mon–Fri, 9am–6pm PT",
-    href: "tel:+18005556329",
-    color: "brand-indigo",
-  },
-  {
     icon: <Calendar className="w-6 h-6" />,
     title: "Book a Demo",
     detail: "30-minute live walkthrough",
@@ -128,8 +112,8 @@ export default function ContactClient() {
         </section>
 
         {/* Contact Cards */}
-        <section className="mb-16">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <section className="mb-16 max-w-3xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {contactMethods.map((m, i) => (
               <motion.a
                 key={m.title}

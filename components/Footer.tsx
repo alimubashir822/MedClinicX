@@ -50,14 +50,6 @@ export default function Footer() {
             </p>
             <div className="space-y-2.5 pt-2 text-sm text-gray-400">
               <div className="flex items-center space-x-2.5">
-                <Phone className="w-4.5 h-4.5 text-brand-cyan" />
-                <span>+1 (800) 555-MDCX</span>
-              </div>
-              <div className="flex items-center space-x-2.5">
-                <Mail className="w-4.5 h-4.5 text-brand-cyan" />
-                <span>support@medclinicx.com</span>
-              </div>
-              <div className="flex items-center space-x-2.5">
                 <MapPin className="w-4.5 h-4.5 text-brand-cyan" />
                 <span>San Francisco, CA (HQ)</span>
               </div>
@@ -253,6 +245,7 @@ export default function Footer() {
             &copy; {currentYear} Med Clinic X Inc. All rights reserved. Built for future healthcare systems.
           </div>
           <div className="flex space-x-6">
+            <Link href="/careers" className="hover:text-gray-400 transition-colors">Careers</Link>
             <Link href="/faq" className="hover:text-gray-400 transition-colors">FAQ</Link>
             <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy Policy</Link>
             <Link href="/terms" className="hover:text-gray-400 transition-colors">Terms of Service</Link>

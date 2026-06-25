@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  distDir: "next_build_dist",
   eslint: {
     ignoreDuringBuilds: true,
   },

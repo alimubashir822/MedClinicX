@@ -275,6 +275,20 @@ export default function Navbar() {
           </Link>
 
           <Link
+            href="/careers"
+            onMouseEnter={() => {
+              setSolutionsDropdownOpen(false);
+              setServicesDropdownOpen(false);
+              setCalculatorsDropdownOpen(false);
+            }}
+            className={`font-medium text-sm transition-colors ${
+              pathname === "/careers" ? "text-brand-cyan font-semibold" : "text-gray-300 hover:text-white"
+            }`}
+          >
+            Careers
+          </Link>
+
+          <Link
             href="/blog"
             onMouseEnter={() => {
               setSolutionsDropdownOpen(false);
@@ -420,6 +434,17 @@ export default function Navbar() {
                 className="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-brand-cyan/10 rounded-lg transition-colors"
               >
                 About
+              </Link>
+
+              <div className="border-t border-brand-border my-2" />
+
+              {/* Careers */}
+              <Link
+                href="/careers"
+                onClick={closeAll}
+                className="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-brand-cyan/10 rounded-lg transition-colors"
+              >
+                Careers
               </Link>
 
               <div className="border-t border-brand-border my-2" />

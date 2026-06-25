@@ -1,0 +1,14 @@
+import { Metadata } from "next";
+import JobClient from "./JobClient";
+export const metadata: Metadata = {
+  title: "Technical SEO Specialist Jobs | Med Clinic X Healthcare",
+  description: "Join Med Clinic X as a Technical SEO Specialist. Optimize healthcare SaaS websites, improve rankings, and drive US healthcare digital growth.",
+  keywords: ["Technical SEO Specialist","Technical SEO Specialist Jobs USA","Healthcare SEO Specialist","SaaS SEO Specialist Healthcare","Digital Health SEO Jobs","Healthcare SEO Analyst","Medical SEO Specialist Jobs","Enterprise SEO Healthcare SaaS","Technical SEO Analyst USA","Healthcare Growth SEO Specialist"],
+  alternates: { canonical: "https://medclinicx.com/careers/technical-seo-specialist" },
+  openGraph: { title: "Technical SEO Specialist Jobs | Med Clinic X Healthcare", description: "Join Med Clinic X as a Technical SEO Specialist. Optimize healthcare SaaS websites, improve rankings, and drive US healthcare digital growth.", url: "https://medclinicx.com/careers/technical-seo-specialist", images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Technical SEO Specialist Job at Med Clinic X" }] },
+};
+export default function JobPage() {
+  const breadcrumb = { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: "https://medclinicx.com" },{ "@type": "ListItem", position: 2, name: "Careers", item: "https://medclinicx.com/careers" },{ "@type": "ListItem", position: 3, name: "Technical SEO Specialist", item: "https://medclinicx.com/careers/technical-seo-specialist" }] };
+  const jobPosting = { "@context": "https://schema.org", "@type": "JobPosting", title: "Technical SEO Specialist", description: "Optimize healthcare SaaS websites, landing pages, and digital health platforms for search engines and drive organic growth for healthcare organizations across the United States.", datePosted: "2026-06-26", employmentType: "FULL_TIME", hiringOrganization: { "@type": "Organization", name: "Med Clinic X", sameAs: "https://medclinicx.com", logo: "https://medclinicx.com/og-image.png" }, jobLocation: { "@type": "Place", address: { "@type": "PostalAddress", addressLocality: "Austin", addressRegion: "TX", postalCode: "78701", addressCountry: "US" } }, jobLocationType: "TELECOMMUTE", applicantLocationRequirements: { "@type": "Country", name: "United States" } };
+  return (<><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} /><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jobPosting) }} /><JobClient /></>);
+}
