@@ -48,3 +48,9 @@ next-env.d.ts
 *.sqlite
 *.sqlite3
 
+
+# build output / cache (too large for GitHub)
+/next_build_dist/
+
+# generator scripts
+gen_db1.js
