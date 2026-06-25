@@ -1,3 +1,4 @@
+import { calculatorData } from "../calculatorData";
 import { Metadata } from "next";
 import Link from "next/link";
 import { 
@@ -476,27 +477,31 @@ export default function MedDosageCalculatorPage() {
 
             {/* Row 8: Related Tools */}
             <div className="border-t border-brand-border/40 pt-16 space-y-4">
-              <h2 className="font-display font-bold text-2xl md:text-3xl text-white tracking-tight">Related Healthcare Tools</h2>
-              <p className="text-base leading-relaxed">Explore more healthcare calculators:</p>
+              <h2 className="font-display font-bold text-2xl md:text-3xl text-white tracking-tight">Related Healthcare Calculators</h2>
+              <p className="text-base leading-relaxed text-gray-400">
+                Explore more helpful clinical and health calculators:
+              </p>
               
-              <div className="grid grid-cols-2 sm:grid-cols-6 gap-4 mt-6">
-                {[
-                  { name: "IV Drip Rate Calculator", path: "/calculators/iv-drip-rate-calculator" },
-                  { name: "CKD Calculator", path: "/calculators/ckd-calculator" },
-                  { name: "Anion Gap Calculator", path: "/calculators/anion-gap-calculator" },
-                  { name: "QTc Calculator", path: "/calculators/qtc-calculator" },
-                  { name: "BMI Calculator", path: "/solutions" },
-                  { name: "A1C Calculator", path: "/calculators/a1c-calculator" }
-                ].map((tool, index) => (
-                  <Link 
-                    key={index} 
-                    href={tool.path}
-                    className="glass-panel border border-brand-border hover:border-brand-cyan/45 p-6 rounded-xl text-center transition-all hover:scale-[1.02] flex flex-col items-center justify-center gap-3 group cursor-pointer"
-                  >
-                    <Calculator className="w-6 h-6 text-brand-cyan group-hover:scale-110 transition-transform" />
-                    <span className="text-xs font-bold text-white group-hover:text-brand-cyan transition-colors leading-tight">{tool.name}</span>
-                  </Link>
-                ))}
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mt-6">
+                {calculatorData
+                  .filter((c) => c.id !== "medication-dosage-calculator")
+                  .sort((a, b) => {
+                    const currentCat = calculatorData.find((c) => c.id === "medication-dosage-calculator")?.category;
+                    if (a.category === currentCat && b.category !== currentCat) return -1;
+                    if (a.category !== currentCat && b.category === currentCat) return 1;
+                    return 0;
+                  })
+                  .slice(0, 6)
+                  .map((tool, index) => (
+                    <Link 
+                      key={index} 
+                      href={tool.href}
+                      className="glass-panel border border-brand-border hover:border-brand-cyan/40 p-6 rounded-xl text-center transition-all hover:scale-[1.02] flex flex-col items-center justify-center gap-3 group cursor-pointer"
+                    >
+                      <Calculator className="w-6 h-6 text-brand-cyan group-hover:scale-110 transition-transform" />
+                      <span className="text-xs font-bold text-white group-hover:text-brand-cyan transition-colors leading-tight">{tool.title}</span>
+                    </Link>
+                  ))}
               </div>
             </div>
 

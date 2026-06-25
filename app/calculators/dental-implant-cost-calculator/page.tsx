@@ -1,3 +1,4 @@
+import { calculatorData } from "../calculatorData";
 import { Metadata } from "next";
 import Link from "next/link";
 import { 
@@ -517,29 +518,32 @@ export default function DentalImplantCostCalculatorPage() {
             </div>
 
             {/* Related Tools */}
-            <div className="border-t border-brand-border/40 pt-16 space-y-4 font-sans">
-              <h2 className="font-display font-bold text-2xl md:text-3xl text-white tracking-tight">Related Healthcare Tools</h2>
-              <p className="text-base leading-relaxed">
-                Explore more helpful calculators:
+            <div className="border-t border-brand-border/40 pt-16 space-y-4">
+              <h2 className="font-display font-bold text-2xl md:text-3xl text-white tracking-tight">Related Healthcare Calculators</h2>
+              <p className="text-base leading-relaxed text-gray-400">
+                Explore more helpful clinical and health calculators:
               </p>
               
-              <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 mt-6">
-                {[
-                  { name: "BMI Calculator", path: "/solutions" },
-                  { name: "Water Intake Calculator", path: "/calculators/water-intake-calculator" },
-                  { name: "A1C Calculator", path: "/calculators/a1c-calculator" },
-                  { name: "Healthcare App Cost Calculator", path: "/solutions" },
-                  { name: "Dental Practice Growth Calculator", path: "/solutions" }
-                ].map((tool, index) => (
-                  <Link 
-                    key={index} 
-                    href={tool.path}
-                    className="glass-panel border border-brand-border hover:border-brand-cyan/40 p-5 rounded-xl text-center transition-all hover:scale-[1.02] flex flex-col items-center justify-center gap-3 group cursor-pointer"
-                  >
-                    <Calculator className="w-5 h-5 text-brand-cyan group-hover:scale-110 transition-transform" />
-                    <span className="text-[10px] font-bold text-white group-hover:text-brand-cyan transition-colors">{tool.name}</span>
-                  </Link>
-                ))}
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mt-6">
+                {calculatorData
+                  .filter((c) => c.id !== "dental-implant-cost-calculator")
+                  .sort((a, b) => {
+                    const currentCat = calculatorData.find((c) => c.id === "dental-implant-cost-calculator")?.category;
+                    if (a.category === currentCat && b.category !== currentCat) return -1;
+                    if (a.category !== currentCat && b.category === currentCat) return 1;
+                    return 0;
+                  })
+                  .slice(0, 6)
+                  .map((tool, index) => (
+                    <Link 
+                      key={index} 
+                      href={tool.href}
+                      className="glass-panel border border-brand-border hover:border-brand-cyan/40 p-6 rounded-xl text-center transition-all hover:scale-[1.02] flex flex-col items-center justify-center gap-3 group cursor-pointer"
+                    >
+                      <Calculator className="w-6 h-6 text-brand-cyan group-hover:scale-110 transition-transform" />
+                      <span className="text-xs font-bold text-white group-hover:text-brand-cyan transition-colors leading-tight">{tool.title}</span>
+                    </Link>
+                  ))}
               </div>
             </div>
 
