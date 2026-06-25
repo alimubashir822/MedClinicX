@@ -55,8 +55,8 @@ export const blogPosts: Record<string, BlogPost> = {
     authorBio: "Chloe Vance has led search engine optimization and digital patient acquisition strategies for top pediatric, dental, and multi-specialty clinical chains.",
     authorImage: "CV",
     authorLinkedin: "https://linkedin.com/in/chloe-vance-medclinicx",
-    date: "June 24, 2026",
-    updatedDate: "June 24, 2026",
+    date: "January 1, 2026",
+    updatedDate: "January 1, 2026",
     readTime: "6 min read",
     featuredImage: "/llm_healthcare_hero.png",
     tableOfContents: [
@@ -432,8 +432,8 @@ export const blogPosts: Record<string, BlogPost> = {
     authorBio: "Chloe Vance has led search engine optimization and digital patient acquisition strategies for top pediatric, dental, and multi-specialty clinical chains.",
     authorImage: "CV",
     authorLinkedin: "https://linkedin.com/in/chloe-vance-medclinicx",
-    date: "June 24, 2026",
-    updatedDate: "June 24, 2026",
+    date: "January 3, 2026",
+    updatedDate: "January 3, 2026",
     readTime: "7 min read",
     featuredImage: "/llm_healthcare_hero.png",
     tableOfContents: [
@@ -686,8 +686,8 @@ export const blogPosts: Record<string, BlogPost> = {
     authorBio: "Chloe Vance has led search engine optimization and digital patient acquisition strategies for top pediatric, dental, and multi-specialty clinical chains.",
     authorImage: "CV",
     authorLinkedin: "https://linkedin.com/in/chloe-vance-medclinicx",
-    date: "June 24, 2026",
-    updatedDate: "June 24, 2026",
+    date: "January 5, 2026",
+    updatedDate: "January 5, 2026",
     readTime: "8 min read",
     featuredImage: "/llm_healthcare_hero.png",
     tableOfContents: [
@@ -1024,8 +1024,8 @@ export const blogPosts: Record<string, BlogPost> = {
     authorBio: "Chloe Vance has led search engine optimization and digital patient acquisition strategies for top pediatric, dental, and multi-specialty clinical chains.",
     authorImage: "CV",
     authorLinkedin: "https://linkedin.com/in/chloe-vance-medclinicx",
-    date: "June 24, 2026",
-    updatedDate: "June 24, 2026",
+    date: "January 7, 2026",
+    updatedDate: "January 7, 2026",
     readTime: "7 min read",
     featuredImage: "/llm_healthcare_hero.png",
     tableOfContents: [
@@ -1297,8 +1297,8 @@ export const blogPosts: Record<string, BlogPost> = {
     authorBio: "Chloe Vance has led search engine optimization and digital patient acquisition strategies for top pediatric, dental, and multi-specialty clinical chains.",
     authorImage: "CV",
     authorLinkedin: "https://linkedin.com/in/chloe-vance-medclinicx",
-    date: "June 24, 2026",
-    updatedDate: "June 24, 2026",
+    date: "January 9, 2026",
+    updatedDate: "January 9, 2026",
     readTime: "8 min read",
     featuredImage: "/llm_healthcare_hero.png",
     tableOfContents: [
@@ -1598,8 +1598,8 @@ export const blogPosts: Record<string, BlogPost> = {
     authorBio: "Chloe Vance has led search engine optimization and digital patient acquisition strategies for top pediatric, dental, and multi-specialty clinical chains.",
     authorImage: "CV",
     authorLinkedin: "https://linkedin.com/in/chloe-vance-medclinicx",
-    date: "June 24, 2026",
-    updatedDate: "June 24, 2026",
+    date: "January 11, 2026",
+    updatedDate: "January 11, 2026",
     readTime: "7 min read",
     featuredImage: "/llm_healthcare_hero.png",
     tableOfContents: [
@@ -1893,8 +1893,8 @@ export const blogPosts: Record<string, BlogPost> = {
     authorBio: "Chloe Vance has led search engine optimization and digital patient acquisition strategies for top pediatric, dental, and multi-specialty clinical chains.",
     authorImage: "CV",
     authorLinkedin: "https://linkedin.com/in/chloe-vance-medclinicx",
-    date: "June 24, 2026",
-    updatedDate: "June 24, 2026",
+    date: "January 13, 2026",
+    updatedDate: "January 13, 2026",
     readTime: "8 min read",
     featuredImage: "/llm_healthcare_hero.png",
     tableOfContents: [
@@ -2215,8 +2215,8 @@ export const blogPosts: Record<string, BlogPost> = {
     authorBio: "Chloe Vance has led search engine optimization and digital patient acquisition strategies for top pediatric, dental, and multi-specialty clinical chains.",
     authorImage: "CV",
     authorLinkedin: "https://linkedin.com/in/chloe-vance-medclinicx",
-    date: "June 24, 2026",
-    updatedDate: "June 24, 2026",
+    date: "January 19, 2026",
+    updatedDate: "January 19, 2026",
     readTime: "8 min read",
     featuredImage: "/llm_healthcare_hero.png",
     tableOfContents: [
@@ -2505,8 +2505,8 @@ export const blogPosts: Record<string, BlogPost> = {
     authorBio: "Chloe Vance has led search engine optimization and digital patient acquisition strategies for top pediatric, dental, and multi-specialty clinical chains.",
     authorImage: "CV",
     authorLinkedin: "https://linkedin.com/in/chloe-vance-medclinicx",
-    date: "June 24, 2026",
-    updatedDate: "June 24, 2026",
+    date: "January 21, 2026",
+    updatedDate: "January 21, 2026",
     readTime: "7 min read",
     featuredImage: "/llm_healthcare_hero.png",
     tableOfContents: [
@@ -2778,8 +2778,8 @@ export const blogPosts: Record<string, BlogPost> = {
     authorBio: "Chloe Vance has led search engine optimization and digital patient acquisition strategies for top pediatric, dental, and multi-specialty clinical chains.",
     authorImage: "CV",
     authorLinkedin: "https://linkedin.com/in/chloe-vance-medclinicx",
-    date: "June 24, 2026",
-    updatedDate: "June 24, 2026",
+    date: "January 23, 2026",
+    updatedDate: "January 23, 2026",
     readTime: "6 min read",
     featuredImage: "/llm_healthcare_hero.png",
     tableOfContents: [
@@ -3057,8 +3057,8 @@ export const blogPosts: Record<string, BlogPost> = {
     authorBio: "Chloe Vance has led search engine optimization and digital patient acquisition strategies for top pediatric, dental, and multi-specialty clinical chains.",
     authorImage: "CV",
     authorLinkedin: "https://linkedin.com/in/chloe-vance-medclinicx",
-    date: "June 24, 2026",
-    updatedDate: "June 24, 2026",
+    date: "January 25, 2026",
+    updatedDate: "January 25, 2026",
     readTime: "7 min read",
     featuredImage: "/llm_healthcare_hero.png",
     tableOfContents: [
@@ -3326,8 +3326,8 @@ export const blogPosts: Record<string, BlogPost> = {
     authorBio: "Chloe Vance has led search engine optimization and digital patient acquisition strategies for top pediatric, dental, and multi-specialty clinical chains.",
     authorImage: "CV",
     authorLinkedin: "https://linkedin.com/in/chloe-vance-medclinicx",
-    date: "June 24, 2026",
-    updatedDate: "June 24, 2026",
+    date: "January 27, 2026",
+    updatedDate: "January 27, 2026",
     readTime: "8 min read",
     featuredImage: "/llm_healthcare_hero.png",
     tableOfContents: [
@@ -3614,8 +3614,8 @@ export const blogPosts: Record<string, BlogPost> = {
   "authorBio": "Marcus Rivera advises mid-sized and large clinical networks on technology adoption, practice expansion, and digital patient acquisition strategies.",
   "authorImage": "MR",
   "authorLinkedin": "https://linkedin.com/in/marcus-rivera-medclinicx",
-  "date": "June 24, 2026",
-  "updatedDate": "June 24, 2026",
+  "date": "February 4, 2026",
+  "updatedDate": "February 4, 2026",
   "readTime": "13 min read",
   "featuredImage": "/llm_healthcare_hero.png",
   "tableOfContents": [
@@ -4723,8 +4723,8 @@ export const blogPosts: Record<string, BlogPost> = {
   "authorBio": "Marcus Rivera advises mid-sized and large clinical networks on technology adoption, practice expansion, and digital patient acquisition strategies.",
   "authorImage": "MR",
   "authorLinkedin": "https://linkedin.com/in/marcus-rivera-medclinicx",
-  "date": "June 24, 2026",
-  "updatedDate": "June 24, 2026",
+  "date": "February 6, 2026",
+  "updatedDate": "February 6, 2026",
   "readTime": "12 min read",
   "featuredImage": "/llm_healthcare_hero.png",
   "tableOfContents": [
@@ -5745,8 +5745,8 @@ export const blogPosts: Record<string, BlogPost> = {
   "authorBio": "Marcus Rivera advises mid-sized and large clinical networks on technology adoption, practice expansion, and digital patient acquisition strategies.",
   "authorImage": "MR",
   "authorLinkedin": "https://linkedin.com/in/marcus-rivera-medclinicx",
-  "date": "June 24, 2026",
-  "updatedDate": "June 24, 2026",
+  "date": "February 8, 2026",
+  "updatedDate": "February 8, 2026",
   "readTime": "11 min read",
   "featuredImage": "/llm_healthcare_hero.png",
   "tableOfContents": [
@@ -6697,8 +6697,8 @@ export const blogPosts: Record<string, BlogPost> = {
   "authorBio": "Marcus Rivera advises mid-sized and large clinical networks on technology adoption, practice expansion, and digital patient acquisition strategies.",
   "authorImage": "MR",
   "authorLinkedin": "https://linkedin.com/in/marcus-rivera-medclinicx",
-  "date": "June 24, 2026",
-  "updatedDate": "June 24, 2026",
+  "date": "January 29, 2026",
+  "updatedDate": "January 29, 2026",
   "readTime": "11 min read",
   "featuredImage": "/llm_healthcare_hero.png",
   "tableOfContents": [
@@ -7518,8 +7518,8 @@ export const blogPosts: Record<string, BlogPost> = {
   "authorBio": "Marcus Rivera advises mid-sized and large clinical networks on technology adoption, practice expansion, and digital patient acquisition strategies.",
   "authorImage": "MR",
   "authorLinkedin": "https://linkedin.com/in/marcus-rivera-medclinicx",
-  "date": "June 24, 2026",
-  "updatedDate": "June 24, 2026",
+  "date": "January 31, 2026",
+  "updatedDate": "January 31, 2026",
   "readTime": "13 min read",
   "featuredImage": "/llm_healthcare_hero.png",
   "tableOfContents": [
@@ -8619,8 +8619,8 @@ export const blogPosts: Record<string, BlogPost> = {
   "authorBio": "Marcus Rivera advises mid-sized and large clinical networks on technology adoption, practice expansion, and digital patient acquisition strategies.",
   "authorImage": "MR",
   "authorLinkedin": "https://linkedin.com/in/marcus-rivera-medclinicx",
-  "date": "June 24, 2026",
-  "updatedDate": "June 24, 2026",
+  "date": "February 2, 2026",
+  "updatedDate": "February 2, 2026",
   "readTime": "12 min read",
   "featuredImage": "/llm_healthcare_hero.png",
   "tableOfContents": [
@@ -9678,870 +9678,6 @@ export const blogPosts: Record<string, BlogPost> = {
     "post-5"
   ]
 },
-  "post-25": {
-  "id": "post-25",
-  "title": "Why Healthcare UX Matters: Improving Patient Experience, Engagement, and Digital Healthcare Growth",
-  "category": "Patient Experience",
-  "excerpt": "Discover why healthcare user experience matters for patient engagement, healthcare growth, and digital transformation in modern clinics and hospitals.",
-  "summary": "Discover why healthcare user experience matters for patient engagement, healthcare growth, and digital transformation in modern clinics and hospitals.",
-  "keyTakeaways": [
-    "First impressions define patient trust and directly impact retention",
-    "Frictionless scheduling reduces patient drop-off and front-desk overload",
-    "Good UX boosts search visibility and organic ranking on search engines"
-  ],
-  "author": "Marcus Rivera",
-  "authorRole": "Practice Management Consultant",
-  "authorBio": "Marcus Rivera advises mid-sized and large clinical networks on technology adoption, practice expansion, and digital patient acquisition strategies.",
-  "authorImage": "MR",
-  "authorLinkedin": "https://linkedin.com/in/marcus-rivera-medclinicx",
-  "date": "June 24, 2026",
-  "updatedDate": "June 24, 2026",
-  "readTime": "11 min read",
-  "featuredImage": "/llm_healthcare_hero.png",
-  "tableOfContents": [
-    {
-      "id": "introduction",
-      "text": "Introduction"
-    },
-    {
-      "id": "what-is-healthcare-user-experience",
-      "text": "What is Healthcare User Experience?"
-    },
-    {
-      "id": "why-healthcare-ux-matters-in-modern-healthcare",
-      "text": "Why Healthcare UX Matters in Modern Healthcare"
-    },
-    {
-      "id": "1-first-impressions-define-patient-trust",
-      "text": "1. First Impressions Define Patient Trust"
-    },
-    {
-      "id": "2-ux-directly-impacts-patient-acquisition",
-      "text": "2. UX Directly Impacts Patient Acquisition"
-    },
-    {
-      "id": "3-poor-ux-increases-operational-burden",
-      "text": "3. Poor UX Increases Operational Burden"
-    },
-    {
-      "id": "4-ux-improves-patient-retention",
-      "text": "4. UX Improves Patient Retention"
-    },
-    {
-      "id": "5-ux-enhances-healthcare-seo-performance",
-      "text": "5. UX Enhances Healthcare SEO Performance"
-    },
-    {
-      "id": "core-elements-of-effective-healthcare-ux-design",
-      "text": "Core Elements of Effective Healthcare UX Design"
-    },
-    {
-      "id": "1-simplicity-and-clarity",
-      "text": "1. Simplicity and Clarity"
-    },
-    {
-      "id": "2-mobile-first-experience",
-      "text": "2. Mobile-First Experience"
-    },
-    {
-      "id": "3-fast-and-frictionless-booking",
-      "text": "3. Fast and Frictionless Booking"
-    },
-    {
-      "id": "4-trust-building-design",
-      "text": "4. Trust-Building Design"
-    },
-    {
-      "id": "5-accessibility-for-all-users",
-      "text": "5. Accessibility for All Users"
-    },
-    {
-      "id": "real-healthcare-examples-of-ux-impact",
-      "text": "Real Healthcare Examples of UX Impact"
-    },
-    {
-      "id": "dental-clinic-example",
-      "text": "Dental Clinic Example"
-    },
-    {
-      "id": "hospital-example",
-      "text": "Hospital Example"
-    },
-    {
-      "id": "medical-startup-example",
-      "text": "Medical Startup Example"
-    },
-    {
-      "id": "technology-behind-healthcare-ux",
-      "text": "Technology Behind Healthcare UX"
-    },
-    {
-      "id": "healthcare-website-development",
-      "text": "Healthcare Website Development"
-    },
-    {
-      "id": "ai-healthcare-solutions",
-      "text": "AI Healthcare Solutions"
-    },
-    {
-      "id": "patient-portal-development",
-      "text": "Patient Portal Development"
-    },
-    {
-      "id": "healthcare-automation",
-      "text": "Healthcare Automation"
-    },
-    {
-      "id": "telemedicine-solutions",
-      "text": "Telemedicine Solutions"
-    },
-    {
-      "id": "trust-security-and-healthcare-ux",
-      "text": "Trust, Security, and Healthcare UX"
-    },
-    {
-      "id": "healthcare-ux-and-digital-growth",
-      "text": "Healthcare UX and Digital Growth"
-    },
-    {
-      "id": "the-future-of-healthcare-ux",
-      "text": "The Future of Healthcare UX"
-    }
-  ],
-  "sections": [
-    {
-      "type": "heading3",
-      "id": "introduction",
-      "text": "Introduction"
-    },
-    {
-      "type": "paragraph",
-      "text": "Healthcare organizations are investing heavily in digital systems—websites, patient portals, telemedicine platforms, and automation tools. Yet many still struggle with low patient engagement, missed appointments, and poor online conversions."
-    },
-    {
-      "type": "paragraph",
-      "text": "The issue is rarely the technology itself. It is how patients experience it."
-    },
-    {
-      "type": "paragraph",
-      "text": "In healthcare, even the smallest friction can lead to lost trust. A confusing website, a slow booking process, or unclear communication can directly influence whether a patient chooses one provider over another."
-    },
-    {
-      "type": "paragraph",
-      "text": "This is why **healthcare user experience** has become one of the most critical factors in modern healthcare success."
-    },
-    {
-      "type": "paragraph",
-      "text": "Patients are no longer passive recipients of care. They are active decision-makers who expect clarity, speed, and convenience across every digital interaction."
-    },
-    {
-      "type": "paragraph",
-      "text": "When healthcare UX is poorly designed, organizations lose patients before care even begins. When it is optimized, it becomes a powerful driver of patient acquisition, retention, and long-term growth."
-    },
-    {
-      "type": "heading2",
-      "id": "what-is-healthcare-user-experience",
-      "text": "What is Healthcare User Experience?"
-    },
-    {
-      "type": "heading3",
-      "id": "understanding-the-concept",
-      "text": "Understanding the Concept"
-    },
-    {
-      "type": "paragraph",
-      "text": "Healthcare user experience refers to how patients, doctors, and staff interact with digital healthcare systems such as:"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Healthcare websites",
-        "Mobile apps",
-        "Patient portals",
-        "Telemedicine platforms",
-        "Appointment booking systems"
-      ]
-    },
-    {
-      "type": "paragraph",
-      "text": "It focuses on:"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Ease of use",
-        "Accessibility",
-        "Clarity of information",
-        "Emotional comfort",
-        "Speed of interaction"
-      ]
-    },
-    {
-      "type": "heading3",
-      "id": "why-it-matters-in-healthcare",
-      "text": "Why It Matters in Healthcare"
-    },
-    {
-      "type": "paragraph",
-      "text": "Unlike other industries, healthcare decisions are emotional and urgent."
-    },
-    {
-      "type": "paragraph",
-      "text": "Poor UX leads to:"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Patient confusion",
-        "Delayed care decisions",
-        "Reduced trust",
-        "Missed appointments"
-      ]
-    },
-    {
-      "type": "paragraph",
-      "text": "Good UX leads to:"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Faster decision-making",
-        "Higher patient satisfaction",
-        "Increased bookings",
-        "Stronger trust in providers"
-      ]
-    },
-    {
-      "type": "heading2",
-      "id": "why-healthcare-ux-matters-in-modern-healthcare",
-      "text": "Why Healthcare UX Matters in Modern Healthcare"
-    },
-    {
-      "type": "heading3",
-      "id": "1-first-impressions-define-patient-trust",
-      "text": "1. First Impressions Define Patient Trust"
-    },
-    {
-      "type": "heading3",
-      "id": "explanation",
-      "text": "Explanation"
-    },
-    {
-      "type": "paragraph",
-      "text": "Patients often judge healthcare providers based on their first digital interaction."
-    },
-    {
-      "type": "heading3",
-      "id": "why-it-matters",
-      "text": "Why It Matters"
-    },
-    {
-      "type": "paragraph",
-      "text": "A poorly designed website can immediately reduce credibility—even if the clinical care is excellent."
-    },
-    {
-      "type": "heading3",
-      "id": "example",
-      "text": "Example"
-    },
-    {
-      "type": "paragraph",
-      "text": "A cardiology clinic with a modern, fast, and clearly structured website will outperform a clinic with outdated design and unclear navigation."
-    },
-    {
-      "type": "heading3",
-      "id": "benefits",
-      "text": "Benefits"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Increased trust",
-        "Higher engagement",
-        "More appointment bookings"
-      ]
-    },
-    {
-      "type": "heading3",
-      "id": "2-ux-directly-impacts-patient-acquisition",
-      "text": "2. UX Directly Impacts Patient Acquisition"
-    },
-    {
-      "type": "heading3",
-      "id": "explanation",
-      "text": "Explanation"
-    },
-    {
-      "type": "paragraph",
-      "text": "Most patients begin their healthcare journey online."
-    },
-    {
-      "type": "heading3",
-      "id": "why-it-matters",
-      "text": "Why It Matters"
-    },
-    {
-      "type": "paragraph",
-      "text": "If users cannot quickly find information or book appointments, they leave."
-    },
-    {
-      "type": "heading3",
-      "id": "example",
-      "text": "Example"
-    },
-    {
-      "type": "paragraph",
-      "text": "A dental clinic with a simple 3-step booking system sees significantly more conversions than a clinic requiring phone-only scheduling."
-    },
-    {
-      "type": "heading3",
-      "id": "benefits",
-      "text": "Benefits"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Higher conversion rates",
-        "Reduced patient drop-off",
-        "Improved digital ROI"
-      ]
-    },
-    {
-      "type": "heading3",
-      "id": "3-poor-ux-increases-operational-burden",
-      "text": "3. Poor UX Increases Operational Burden"
-    },
-    {
-      "type": "heading3",
-      "id": "explanation",
-      "text": "Explanation"
-    },
-    {
-      "type": "paragraph",
-      "text": "Bad UX does not only affect patients—it impacts internal staff too."
-    },
-    {
-      "type": "heading3",
-      "id": "why-it-matters",
-      "text": "Why It Matters"
-    },
-    {
-      "type": "paragraph",
-      "text": "Confusing systems lead to more phone calls, manual scheduling, and administrative workload."
-    },
-    {
-      "type": "heading3",
-      "id": "example",
-      "text": "Example"
-    },
-    {
-      "type": "paragraph",
-      "text": "A hospital without a patient portal receives hundreds of calls daily for basic inquiries like reports and appointments."
-    },
-    {
-      "type": "heading3",
-      "id": "benefits",
-      "text": "Benefits"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Reduced staff workload",
-        "Lower operational costs",
-        "Improved efficiency"
-      ]
-    },
-    {
-      "type": "heading3",
-      "id": "4-ux-improves-patient-retention",
-      "text": "4. UX Improves Patient Retention"
-    },
-    {
-      "type": "heading3",
-      "id": "explanation",
-      "text": "Explanation"
-    },
-    {
-      "type": "paragraph",
-      "text": "A seamless experience encourages patients to return."
-    },
-    {
-      "type": "heading3",
-      "id": "why-it-matters",
-      "text": "Why It Matters"
-    },
-    {
-      "type": "paragraph",
-      "text": "Retention is more cost-effective than acquisition."
-    },
-    {
-      "type": "heading3",
-      "id": "example",
-      "text": "Example"
-    },
-    {
-      "type": "paragraph",
-      "text": "A dermatology clinic that offers post-treatment follow-ups through a patient portal builds stronger long-term relationships."
-    },
-    {
-      "type": "heading3",
-      "id": "benefits",
-      "text": "Benefits"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Higher patient loyalty",
-        "Increased repeat visits",
-        "Better continuity of care"
-      ]
-    },
-    {
-      "type": "heading3",
-      "id": "5-ux-enhances-healthcare-seo-performance",
-      "text": "5. UX Enhances Healthcare SEO Performance"
-    },
-    {
-      "type": "heading3",
-      "id": "explanation",
-      "text": "Explanation"
-    },
-    {
-      "type": "paragraph",
-      "text": "Search engines reward good user experience."
-    },
-    {
-      "type": "heading3",
-      "id": "why-it-matters",
-      "text": "Why It Matters"
-    },
-    {
-      "type": "paragraph",
-      "text": "UX affects bounce rate, time on site, and engagement metrics."
-    },
-    {
-      "type": "heading3",
-      "id": "example",
-      "text": "Example"
-    },
-    {
-      "type": "paragraph",
-      "text": "A healthcare website with fast loading speed and  clear structure ranks higher than a slow, cluttered competitor site."
-    },
-    {
-      "type": "heading3",
-      "id": "benefits",
-      "text": "Benefits"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Better search rankings",
-        "Higher organic traffic",
-        "More patient inquiries"
-      ]
-    },
-    {
-      "type": "heading2",
-      "id": "core-elements-of-effective-healthcare-ux-design",
-      "text": "Core Elements of Effective Healthcare UX Design"
-    },
-    {
-      "type": "heading3",
-      "id": "1-simplicity-and-clarity",
-      "text": "1. Simplicity and Clarity"
-    },
-    {
-      "type": "paragraph",
-      "text": "Patients should immediately understand:"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Services offered",
-        "How to book",
-        "How to contact the provider"
-      ]
-    },
-    {
-      "type": "heading3",
-      "id": "2-mobile-first-experience",
-      "text": "2. Mobile-First Experience"
-    },
-    {
-      "type": "paragraph",
-      "text": "Most healthcare searches happen on mobile devices."
-    },
-    {
-      "type": "paragraph",
-      "text": "A responsive design ensures:"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Faster access",
-        "Better usability",
-        "Higher engagement"
-      ]
-    },
-    {
-      "type": "heading3",
-      "id": "3-fast-and-frictionless-booking",
-      "text": "3. Fast and Frictionless Booking"
-    },
-    {
-      "type": "paragraph",
-      "text": "Booking systems must be:"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Simple",
-        "Quick",
-        "Accessible in few clicks"
-      ]
-    },
-    {
-      "type": "heading3",
-      "id": "4-trust-building-design",
-      "text": "4. Trust-Building Design"
-    },
-    {
-      "type": "paragraph",
-      "text": "Trust is built through:"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Doctor profiles",
-        "Certifications",
-        "Patient testimonials",
-        "Transparent communication"
-      ]
-    },
-    {
-      "type": "heading3",
-      "id": "5-accessibility-for-all-users",
-      "text": "5. Accessibility for All Users"
-    },
-    {
-      "type": "paragraph",
-      "text": "Healthcare UX must support:"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Elderly users",
-        "Non-technical users",
-        "Patients with disabilities"
-      ]
-    },
-    {
-      "type": "heading2",
-      "id": "real-healthcare-examples-of-ux-impact",
-      "text": "Real Healthcare Examples of UX Impact"
-    },
-    {
-      "type": "heading3",
-      "id": "dental-clinic-example",
-      "text": "Dental Clinic Example"
-    },
-    {
-      "type": "paragraph",
-      "text": "A dental clinic improves healthcare user experience by:"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Implementing online booking",
-        "Creating clear treatment pages",
-        "Adding FAQs and patient education content"
-      ]
-    },
-    {
-      "type": "callout",
-      "title": "Result",
-      "text": "Result content",
-      "style": "success"
-    },
-    {
-      "type": "list",
-      "items": [
-        "More appointment bookings",
-        "Reduced phone inquiries",
-        "Better patient satisfaction"
-      ]
-    },
-    {
-      "type": "heading3",
-      "id": "hospital-example",
-      "text": "Hospital Example"
-    },
-    {
-      "type": "paragraph",
-      "text": "A hospital improves UX through:"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Digital check-in systems",
-        "Patient portals",
-        "Real-time appointment tracking"
-      ]
-    },
-    {
-      "type": "callout",
-      "title": "Result",
-      "text": "Result content",
-      "style": "success"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Reduced waiting time",
-        "Improved patient flow",
-        "Higher operational efficiency"
-      ]
-    },
-    {
-      "type": "heading3",
-      "id": "medical-startup-example",
-      "text": "Medical Startup Example"
-    },
-    {
-      "type": "paragraph",
-      "text": "A healthcare startup builds UX-first design with:"
-    },
-    {
-      "type": "list",
-      "items": [
-        "AI-driven onboarding",
-        "Mobile-first telemedicine platform",
-        "Simplified dashboards"
-      ]
-    },
-    {
-      "type": "callout",
-      "title": "Result",
-      "text": "Result content",
-      "style": "success"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Faster adoption",
-        "Higher engagement",
-        "Scalable growth"
-      ]
-    },
-    {
-      "type": "heading2",
-      "id": "technology-behind-healthcare-ux",
-      "text": "Technology Behind Healthcare UX"
-    },
-    {
-      "type": "heading3",
-      "id": "healthcare-website-development",
-      "text": "Healthcare Website Development"
-    },
-    {
-      "type": "paragraph",
-      "text": "A strong UX begins with a well-structured healthcare website:"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Clean layout",
-        "Fast performance",
-        "Clear service structure",
-        "SEO-friendly architecture"
-      ]
-    },
-    {
-      "type": "heading3",
-      "id": "ai-healthcare-solutions",
-      "text": "AI Healthcare Solutions"
-    },
-    {
-      "type": "paragraph",
-      "text": "AI improves UX by:"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Answering patient queries instantly",
-        "Guiding users to services",
-        "Reducing friction in booking"
-      ]
-    },
-    {
-      "type": "heading3",
-      "id": "patient-portal-development",
-      "text": "Patient Portal Development"
-    },
-    {
-      "type": "paragraph",
-      "text": "Patient portals enhance UX by offering:"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Medical records access",
-        "Appointment tracking",
-        "Secure communication"
-      ]
-    },
-    {
-      "type": "heading3",
-      "id": "healthcare-automation",
-      "text": "Healthcare Automation"
-    },
-    {
-      "type": "paragraph",
-      "text": "Automation ensures consistent experience:"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Appointment reminders",
-        "Follow-up notifications",
-        "Billing alerts"
-      ]
-    },
-    {
-      "type": "heading3",
-      "id": "telemedicine-solutions",
-      "text": "Telemedicine Solutions"
-    },
-    {
-      "type": "paragraph",
-      "text": "Telemedicine UX focuses on:"
-    },
-    {
-      "type": "list",
-      "items": [
-        "One-click access",
-        "Stable video experience",
-        "Simple onboarding"
-      ]
-    },
-    {
-      "type": "heading2",
-      "id": "trust-security-and-healthcare-ux",
-      "text": "Trust, Security, and Healthcare UX"
-    },
-    {
-      "type": "paragraph",
-      "text": "Healthcare UX must prioritize:"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Patient privacy",
-        "Data security",
-        "Secure communication",
-        "HIPAA-aligned systems (for US healthcare organizations)"
-      ]
-    },
-    {
-      "type": "paragraph",
-      "text": "Trust is not optional—it is a core UX component."
-    },
-    {
-      "type": "heading2",
-      "id": "healthcare-ux-and-digital-growth",
-      "text": "Healthcare UX and Digital Growth"
-    },
-    {
-      "type": "paragraph",
-      "text": "Strong UX directly contributes to:"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Higher patient acquisition",
-        "Better healthcare SEO performance",
-        "Improved patient retention",
-        "Reduced operational costs",
-        "Stronger brand reputation"
-      ]
-    },
-    {
-      "type": "paragraph",
-      "text": "UX is not design alone—it is a growth system."
-    },
-    {
-      "type": "heading2",
-      "id": "the-future-of-healthcare-ux",
-      "text": "The Future of Healthcare UX"
-    },
-    {
-      "type": "paragraph",
-      "text": "The next generation of healthcare UX will include:"
-    },
-    {
-      "type": "list",
-      "items": [
-        "AI-powered personalization",
-        "Voice-based healthcare navigation",
-        "Predictive patient systems",
-        "Fully digital healthcare journeys",
-        "Real-time patient interaction systems"
-      ]
-    },
-    {
-      "type": "paragraph",
-      "text": "Healthcare organizations that invest early will lead the digital transformation shift."
-    },
-    {
-      "type": "callout",
-      "title": "Growth Consultation",
-      "text": "Modern healthcare success depends on how patients experience your digital systems at every step.",
-      "style": "info"
-    },
-    {
-      "type": "callout",
-      "title": "Growth Consultation",
-      "text": "Med Clinic X helps healthcare organizations design intelligent, user-centered digital platforms that improve patient engagement, streamline operations, and drive sustainable growth.",
-      "style": "info"
-    }
-  ],
-  "faqs": [
-    {
-      "question": "What is healthcare user experience?",
-      "answer": "It is the overall experience patients have when interacting with healthcare digital systems like websites, apps, and portals."
-    },
-    {
-      "question": "Why is healthcare UX important?",
-      "answer": "It improves patient satisfaction, trust, engagement, and healthcare business growth."
-    },
-    {
-      "question": "How does UX affect patient acquisition?",
-      "answer": "Good UX reduces friction, making it easier for patients to book appointments and engage with providers."
-    },
-    {
-      "question": "What makes good healthcare UX design?",
-      "answer": "Simplicity, speed, mobile responsiveness, and trust-building elements."
-    },
-    {
-      "question": "How does UX impact healthcare SEO?",
-      "answer": "Better UX improves engagement metrics, which positively affects search rankings."
-    },
-    {
-      "question": "What tools improve healthcare UX?",
-      "answer": "Analytics tools, patient behavior tracking, A/B testing, and design systems."
-    },
-    {
-      "question": "How can clinics improve UX quickly?",
-      "answer": "By simplifying navigation, improving mobile experience, and optimizing booking flows.\n---"
-    }
-  ],
-  "relatedPostIds": [
-    "post-1",
-    "post-2",
-    "post-5"
-  ]
-},
   "post-26": {
   "id": "post-26",
   "title": "Healthcare Workflow Automation Benefits: How Modern Healthcare Organizations Improve Efficiency, Patient Experience, and Growth",
@@ -10558,8 +9694,8 @@ export const blogPosts: Record<string, BlogPost> = {
   "authorBio": "Dr. Sarah Jenkins is a clinical informaticist with over 12 years of experience integrating healthcare records (EHR) with computational models. She leads the AI clinical validation team at Med Clinic X.",
   "authorImage": "SJ",
   "authorLinkedin": "https://linkedin.com/in/sarah-jenkins-medclinicx",
-  "date": "June 24, 2026",
-  "updatedDate": "June 24, 2026",
+  "date": "February 10, 2026",
+  "updatedDate": "February 10, 2026",
   "readTime": "11 min read",
   "featuredImage": "/llm_healthcare_hero.png",
   "tableOfContents": [
@@ -11388,8 +10524,8 @@ export const blogPosts: Record<string, BlogPost> = {
   "authorBio": "Marcus Rivera advises mid-sized and large clinical networks on technology adoption, practice expansion, and digital patient acquisition strategies.",
   "authorImage": "MR",
   "authorLinkedin": "https://linkedin.com/in/marcus-rivera-medclinicx",
-  "date": "June 24, 2026",
-  "updatedDate": "June 24, 2026",
+  "date": "February 12, 2026",
+  "updatedDate": "February 12, 2026",
   "readTime": "10 min read",
   "featuredImage": "/llm_healthcare_hero.png",
   "tableOfContents": [
@@ -12169,8 +11305,8 @@ export const blogPosts: Record<string, BlogPost> = {
   "authorBio": "Marcus Rivera advises mid-sized and large clinical networks on technology adoption, practice expansion, and digital patient acquisition strategies.",
   "authorImage": "MR",
   "authorLinkedin": "https://linkedin.com/in/marcus-rivera-medclinicx",
-  "date": "June 24, 2026",
-  "updatedDate": "June 24, 2026",
+  "date": "February 14, 2026",
+  "updatedDate": "February 14, 2026",
   "readTime": "11 min read",
   "featuredImage": "/llm_healthcare_hero.png",
   "tableOfContents": [
@@ -13071,8 +12207,8 @@ export const blogPosts: Record<string, BlogPost> = {
   "authorBio": "Alex Chen is a cloud security consultant specialized in healthcare infrastructure compliance, audit preparations, and vulnerability management.",
   "authorImage": "AC",
   "authorLinkedin": "https://linkedin.com/in/alex-chen-medclinicx",
-  "date": "June 24, 2026",
-  "updatedDate": "June 24, 2026",
+  "date": "February 16, 2026",
+  "updatedDate": "February 16, 2026",
   "readTime": "11 min read",
   "featuredImage": "/llm_healthcare_hero.png",
   "tableOfContents": [
@@ -13995,8 +13131,8 @@ export const blogPosts: Record<string, BlogPost> = {
   "authorBio": "Chloe Vance has led search engine optimization and digital patient acquisition strategies for top pediatric, dental, and multi-specialty clinical chains.",
   "authorImage": "CV",
   "authorLinkedin": "https://linkedin.com/in/chloe-vance-medclinicx",
-  "date": "June 24, 2026",
-  "updatedDate": "June 24, 2026",
+  "date": "February 18, 2026",
+  "updatedDate": "February 18, 2026",
   "readTime": "12 min read",
   "featuredImage": "/llm_healthcare_hero.png",
   "tableOfContents": [
@@ -14949,8 +14085,8 @@ export const blogPosts: Record<string, BlogPost> = {
   "authorBio": "Alex Chen is a cloud security consultant specialized in healthcare infrastructure compliance, audit preparations, and vulnerability management.",
   "authorImage": "AC",
   "authorLinkedin": "https://linkedin.com/in/alex-chen-medclinicx",
-  "date": "June 24, 2026",
-  "updatedDate": "June 24, 2026",
+  "date": "February 20, 2026",
+  "updatedDate": "February 20, 2026",
   "readTime": "11 min read",
   "featuredImage": "/llm_healthcare_hero.png",
   "tableOfContents": [
@@ -15881,8 +15017,8 @@ export const blogPosts: Record<string, BlogPost> = {
   "authorBio": "Dr. Sarah Jenkins is a clinical informaticist with over 12 years of experience integrating healthcare records (EHR) with computational models. She leads the AI clinical validation team at Med Clinic X.",
   "authorImage": "SJ",
   "authorLinkedin": "https://linkedin.com/in/sarah-jenkins-medclinicx",
-  "date": "June 24, 2026",
-  "updatedDate": "June 24, 2026",
+  "date": "February 22, 2026",
+  "updatedDate": "February 22, 2026",
   "readTime": "11 min read",
   "featuredImage": "/llm_healthcare_hero.png",
   "tableOfContents": [
@@ -16802,8 +15938,8 @@ export const blogPosts: Record<string, BlogPost> = {
   "authorBio": "Marcus Rivera advises mid-sized and large clinical networks on technology adoption, practice expansion, and digital patient acquisition strategies.",
   "authorImage": "MR",
   "authorLinkedin": "https://linkedin.com/in/marcus-rivera-medclinicx",
-  "date": "June 24, 2026",
-  "updatedDate": "June 24, 2026",
+  "date": "February 24, 2026",
+  "updatedDate": "February 24, 2026",
   "readTime": "11 min read",
   "featuredImage": "/llm_healthcare_hero.png",
   "tableOfContents": [
@@ -17731,8 +16867,8 @@ export const blogPosts: Record<string, BlogPost> = {
   "authorBio": "Chloe Vance has led search engine optimization and digital patient acquisition strategies for top pediatric, dental, and multi-specialty clinical chains.",
   "authorImage": "CV",
   "authorLinkedin": "https://linkedin.com/in/chloe-vance-medclinicx",
-  "date": "June 24, 2026",
-  "updatedDate": "June 24, 2026",
+  "date": "February 26, 2026",
+  "updatedDate": "February 26, 2026",
   "readTime": "10 min read",
   "featuredImage": "/llm_healthcare_hero.png",
   "tableOfContents": [
@@ -18505,8 +17641,8 @@ export const blogPosts: Record<string, BlogPost> = {
   "authorBio": "Marcus Rivera advises mid-sized and large clinical networks on technology adoption, practice expansion, and digital patient acquisition strategies.",
   "authorImage": "MR",
   "authorLinkedin": "https://linkedin.com/in/marcus-rivera-medclinicx",
-  "date": "June 24, 2026",
-  "updatedDate": "June 24, 2026",
+  "date": "February 28, 2026",
+  "updatedDate": "February 28, 2026",
   "readTime": "9 min read",
   "featuredImage": "/llm_healthcare_hero.png",
   "tableOfContents": [
@@ -19229,8 +18365,8 @@ export const blogPosts: Record<string, BlogPost> = {
   "authorBio": "Chloe Vance has led search engine optimization and digital patient acquisition strategies for top pediatric, dental, and multi-specialty clinical chains.",
   "authorImage": "CV",
   "authorLinkedin": "https://linkedin.com/in/chloe-vance-medclinicx",
-  "date": "June 24, 2026",
-  "updatedDate": "June 24, 2026",
+  "date": "March 2, 2026",
+  "updatedDate": "March 2, 2026",
   "readTime": "12 min read",
   "featuredImage": "/llm_healthcare_hero.png",
   "tableOfContents": [
@@ -20140,8 +19276,8 @@ export const blogPosts: Record<string, BlogPost> = {
   "authorBio": "Marcus Rivera advises mid-sized and large clinical networks on technology adoption, practice expansion, and digital patient acquisition strategies.",
   "authorImage": "MR",
   "authorLinkedin": "https://linkedin.com/in/marcus-rivera-medclinicx",
-  "date": "June 24, 2026",
-  "updatedDate": "June 24, 2026",
+  "date": "March 4, 2026",
+  "updatedDate": "March 4, 2026",
   "readTime": "9 min read",
   "featuredImage": "/llm_healthcare_hero.png",
   "tableOfContents": [
@@ -20866,8 +20002,8 @@ export const blogPosts: Record<string, BlogPost> = {
   "authorBio": "Alex Chen is a cloud security consultant specialized in healthcare infrastructure compliance, audit preparations, and vulnerability management.",
   "authorImage": "AC",
   "authorLinkedin": "https://linkedin.com/in/alex-chen-medclinicx",
-  "date": "June 24, 2026",
-  "updatedDate": "June 24, 2026",
+  "date": "March 6, 2026",
+  "updatedDate": "March 6, 2026",
   "readTime": "11 min read",
   "featuredImage": "/llm_healthcare_hero.png",
   "tableOfContents": [
@@ -21729,8 +20865,8 @@ export const blogPosts: Record<string, BlogPost> = {
   "authorBio": "Chloe Vance has led search engine optimization and digital patient acquisition strategies for top pediatric, dental, and multi-specialty clinical chains.",
   "authorImage": "CV",
   "authorLinkedin": "https://linkedin.com/in/chloe-vance-medclinicx",
-  "date": "June 24, 2026",
-  "updatedDate": "June 24, 2026",
+  "date": "March 8, 2026",
+  "updatedDate": "March 8, 2026",
   "readTime": "10 min read",
   "featuredImage": "/llm_healthcare_hero.png",
   "tableOfContents": [
@@ -22590,153 +21726,57 @@ export const blogPosts: Record<string, BlogPost> = {
 }
 };
 
+const slugMap: Record<string, string> = {
+  "post-7": "seo-for-doctors",
+  "post-8": "seo-for-clinics",
+  "post-9": "medical-seo-services",
+  "post-10": "healthcare-reputation-management",
+  "post-11": "digital-marketing-healthcare",
+  "post-12": "healthcare-lead-generation",
+  "post-13": "medical-lead-generation",
+  "post-14": "medical-practice-growth",
+  "post-15": "improve-patient-experience",
+  "post-16": "patient-satisfaction-healthcare",
+  "post-17": "patient-engagement-technology",
+  "post-18": "patient-relationship-management",
+  "post-19": "healthcare-customer-experience",
+  "post-20": "healthcare-customer-journey",
+  "post-21": "patient-journey-healthcare",
+  "post-22": "patient-journey-optimization",
+  "post-23": "healthcare-ux-design",
+  "post-24": "healthcare-user-experience",
+  "post-26": "healthcare-workflow-automation",
+  "post-27": "healthcare-operational-efficiency",
+  "post-28": "healthcare-automation-platform",
+  "post-29": "healthcare-app-development-cost",
+  "post-30": "healthcare-app-ideas",
+  "post-31": "healthcare-mobile-application",
+  "post-32": "patient-portal-features",
+  "post-33": "patient-portal-benefits",
+  "post-34": "patient-feedback-system",
+  "post-35": "doctor-patient-communication-software",
+  "post-36": "digital-front-door-healthcare",
+  "post-37": "healthcare-onboarding-software",
+  "post-38": "healthcare-cybersecurity-software",
+  "post-39": "healthcare-technology-consulting"
+};
+
 export function getPostSlug(title: string, id?: string): string {
-  if (id === "post-25") {
-    return "why-healthcare-ux-matters-importance";
+  if (id && slugMap[id]) {
+    return slugMap[id];
   }
-  if (id === "post-35") {
-    return "doctor-patient-communication-software-guide";
+  // Find key by title in blogPosts if id not provided
+  for (const [key, post] of Object.entries(blogPosts)) {
+    if (post.title === title && slugMap[key]) {
+      return slugMap[key];
+    }
   }
-  if (id === "post-36") {
-    return "digital-front-door-healthcare-strategy";
-  }
-  if (id === "post-37") {
-    return "healthcare-onboarding-software-patient-onboarding-experience";
-  }
-  if (id === "post-38") {
-    return "healthcare-cybersecurity-software-best-practices";
-  }
-  if (id === "post-39") {
-    return "healthcare-technology-consulting-when-needed";
-  }
-  if (title === "Improving Doctor-Patient Communication: How Modern Software Enhances Care Quality and Engagement") {
-    return "doctor-patient-communication-software-guide";
-  }
-  if (title === "Digital Front Door Strategy in Healthcare: How Modern Providers Improve Access, Experience, and Patient Growth") {
-    return "digital-front-door-healthcare-strategy";
-  }
-  if (title === "Healthcare Onboarding Software: Improving Patient Onboarding Experience in Modern Clinics") {
-    return "healthcare-onboarding-software-patient-onboarding-experience";
-  }
-  if (title === "Healthcare Cybersecurity Software: Best Practices for Secure Medical Systems") {
-    return "healthcare-cybersecurity-software-best-practices";
-  }
-  if (title === "Healthcare Technology Consulting: When Healthcare Organizations Need Expert Guidance") {
-    return "healthcare-technology-consulting-when-needed";
-  }
-  if (id === "post-31") {
-    return "healthcare-mobile-application-features-guide";
-  }
-  if (id === "post-32") {
-    return "patient-portal-features-every-clinic-needs";
-  }
-  if (id === "post-33") {
-    return "benefits-of-patient-portals-in-healthcare";
-  }
-  if (id === "post-34") {
-    return "patient-feedback-system-healthcare-importance";
-  }
-  if (title === "Healthcare Mobile App Features Guide: Essential Features for Modern Digital Healthcare Solutions") {
-    return "healthcare-mobile-application-features-guide";
-  }
-  if (title === "Patient Portal Features Every Clinic Needs: Essential Tools for Better Patient Engagement and Digital Care") {
-    return "patient-portal-features-every-clinic-needs";
-  }
-  if (title === "Benefits of Patient Portals in Healthcare: How Digital Access Improves Care, Efficiency, and Patient Engagement") {
-    return "benefits-of-patient-portals-in-healthcare";
-  }
-  if (title === "Why Healthcare Organizations Need a Patient Feedback System to Improve Care Quality & Growth") {
-    return "patient-feedback-system-healthcare-importance";
-  }
-  if (id === "post-28") {
-    return "healthcare-automation-platform-clinic-operations";
-  }
-  if (id === "post-29") {
-    return "healthcare-app-development-cost-guide";
-  }
-  if (id === "post-30") {
-    return "best-healthcare-app-ideas-for-startups";
-  }
-  if (title === "How Automation Improves Clinic Operations: Building a Scalable Healthcare Automation Platform for Modern Practices") {
-    return "healthcare-automation-platform-clinic-operations";
-  }
-  if (title === "Healthcare App Development Cost Guide: Factors, Pricing Models, and Budget Planning for Healthcare Organizations") {
-    return "healthcare-app-development-cost-guide";
-  }
-  if (title === "Best Healthcare App Ideas for Startups: Innovative Digital Health Solutions to Build Scalable Healthcare Businesses") {
-    return "best-healthcare-app-ideas-for-startups";
-  }
-  if (id === "post-26") {
-    return "healthcare-workflow-automation-benefits";
-  }
-  if (id === "post-27") {
-    return "improving-healthcare-operational-efficiency";
-  }
-  if (title === "Healthcare Workflow Automation Benefits: How Modern Healthcare Organizations Improve Efficiency, Patient Experience, and Growth") {
-    return "healthcare-workflow-automation-benefits";
-  }
-  if (title === "Improving Healthcare Operational Efficiency: How Modern Healthcare Systems Reduce Costs, Improve Care, and Scale Growth") {
-    return "improving-healthcare-operational-efficiency";
-  }
-  if (title === "Healthcare Customer Experience: How Modern Healthcare Organizations Improve Patient Satisfaction and Growth") {
-    return "healthcare-customer-experience-improvement";
-  }
-  if (title === "Healthcare Customer Journey Explained: How Modern Healthcare Organizations Improve Patient Experience and Growth") {
-    return "healthcare-customer-journey-explained";
-  }
-  if (title === "Patient Journey Mapping in Healthcare: How Modern Healthcare Organizations Improve Experience, Trust, and Growth") {
-    return "patient-journey-mapping-healthcare";
-  }
-  if (title === "How to Optimize the Patient Journey: A Complete Guide for Modern Healthcare Organizations") {
-    return "how-to-optimize-patient-journey";
-  }
-  if (title === "Healthcare UX Design Best Practices: How Modern Healthcare Organizations Improve Patient Experience and Digital Performance") {
-    return "healthcare-ux-design-best-practices";
-  }
-  if (title === "Why Healthcare UX Matters: Improving Patient Experience, Engagement, and Digital Healthcare Growth") {
-    return "why-healthcare-ux-matters";
-  }
-  if (title === "SEO for Doctors: Proven Strategies to Get More Patients and Grow Your Healthcare Practice") {
-    return "seo-for-doctors-get-more-patients";
-  }
-  if (title === "Healthcare SEO Guide for Medical Clinics: How to Attract More Patients Online") {
-    return "healthcare-seo-guide-for-medical-clinics";
-  }
-  if (title === "Medical SEO Services: How Healthcare SEO Helps Clinics Attract More Patients and Grow") {
-    return "medical-seo-services-help-clinics-grow";
-  }
-  if (title === "Healthcare Reputation Management: How Clinics Build Patient Trust and Grow Online") {
-    return "healthcare-reputation-management-builds-patient-trust";
-  }
-  if (title === "Healthcare Digital Marketing Strategies: How Healthcare Organizations Attract More Patients Online") {
-    return "healthcare-digital-marketing-strategies";
-  }
-  if (title === "Healthcare Lead Generation Strategies: How Clinics Attract and Convert More Patients Online") {
-    return "healthcare-lead-generation-strategies";
-  }
-  if (title === "Medical Lead Generation Strategies: How Doctors Attract and Convert More Patients Online") {
-    return "medical-lead-generation-strategies-doctors";
-  }
-  if (title === "Medical Practice Growth Guide: Proven Strategies to Scale Patient Acquisition and Revenue in Healthcare") {
-    return "medical-practice-growth-guide";
-  }
-  if (title === "Ways Technology Improves Patient Experience in Modern Healthcare Systems") {
-    return "improve-patient-experience-healthcare-technology";
-  }
-  if (title === "How Clinics Improve Patient Satisfaction Using Modern Healthcare Strategies") {
-    return "patient-satisfaction-healthcare-improvement";
-  }
-  if (title === "Patient Engagement Technology Guide: How Healthcare Organizations Improve Care and Retention") {
-    return "patient-engagement-technology-guide";
-  }
-  if (title === "Patient Relationship Management Explained: How Healthcare Organizations Build Long-Term Patient Trust") {
-    return "patient-relationship-management-healthcare";
-  }
+  
+  // Fallback slugify
   return title
     .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, "") // remove non-alphanumeric except spaces/hyphens
-    .replace(/\s+/g, "-")          // replace spaces with hyphens
-    .replace(/-+/g, "-")           // collapse consecutive hyphens
-    .replace(/^-+|-+$/g, "");     // trim hyphens
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-+|-+$/g, "");
 }
-
