@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, BookOpen, Clock, Calendar, User, ArrowRight, BookMarked, ChevronLeft, ChevronRight } from "lucide-react";
 import { blogPosts, getPostSlug } from "./blogData";
@@ -105,13 +106,26 @@ export default function BlogClient() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.3 }}
-              className="glass-panel p-6 rounded-2xl flex flex-col justify-between group"
+              className="glass-panel rounded-2xl flex flex-col justify-between group overflow-hidden"
             >
-              <div>
-                <span className="text-[10px] font-bold text-brand-cyan uppercase tracking-wider bg-brand-cyan/10 px-2.5 py-1 rounded-md border border-brand-cyan/10">
-                  {post.category}
-                </span>
-                 <h2 className="font-display font-bold text-lg text-white leading-snug mt-4 group-hover:text-brand-cyan transition-colors">
+              {/* Thumbnail Image */}
+              <div className="relative w-full h-48 overflow-hidden">
+                <Image
+                  src={post.featuredImage}
+                  alt={post.title}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-bg/60 to-transparent" />
+                <div className="absolute top-3 left-3">
+                  <span className="text-[10px] font-bold text-brand-cyan uppercase tracking-wider bg-brand-bg/80 backdrop-blur-sm px-2.5 py-1 rounded-md border border-brand-cyan/20">
+                    {post.category}
+                  </span>
+                </div>
+              </div>
+              <div className="p-6 flex flex-col flex-1">
+                <h2 className="font-display font-bold text-lg text-white leading-snug group-hover:text-brand-cyan transition-colors">
                   <Link href={`/blog/${getPostSlug(post.title, post.id)}`}>
                     {post.title}
                   </Link>
@@ -119,7 +133,7 @@ export default function BlogClient() {
                 <p className="text-xs text-gray-400 leading-relaxed mt-3">{post.excerpt}</p>
               </div>
 
-              <div className="mt-8 border-t border-brand-border pt-4 flex flex-col gap-4">
+              <div className="px-6 pb-6 border-t border-brand-border pt-4 flex flex-col gap-4">
                 <div className="flex items-center justify-between text-[11px] text-gray-500">
                   <div className="flex items-center space-x-1">
                     <User className="w-3.5 h-3.5" />

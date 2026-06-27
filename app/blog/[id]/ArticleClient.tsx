@@ -257,7 +257,20 @@ export default function ArticleClient({ post }: ArticleClientProps) {
           </div>
         </header>
 
-
+        {/* Featured Hero Image */}
+        {post.featuredImage && (
+          <div className="relative w-full h-64 sm:h-80 md:h-96 rounded-2xl overflow-hidden mb-12 border border-brand-border/40">
+            <Image
+              src={post.featuredImage}
+              alt={post.title}
+              fill
+              className="object-cover"
+              priority
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-brand-bg/40 via-transparent to-transparent" />
+          </div>
+        )}
 
         {/* Main Content Layout Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">

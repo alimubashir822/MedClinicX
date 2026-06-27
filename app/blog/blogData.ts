@@ -1,4 +1,4 @@
-export interface BlogSection {
+﻿export interface BlogSection {
   type: "paragraph" | "heading2" | "heading3" | "list" | "table" | "code" | "callout";
   id?: string;
   text?: string;
@@ -58,7 +58,7 @@ export const blogPosts: Record<string, BlogPost> = {
     date: "January 1, 2026",
     updatedDate: "January 1, 2026",
     readTime: "6 min read",
-    featuredImage: "/llm_healthcare_hero.png",
+    featuredImage: "/blog-img/SEO for doctors.png",
     tableOfContents: [
       { id: "what-is-seo-for-doctors", text: "What Is SEO for Doctors?" },
       { id: "why-doctors-need-seo-to-grow-their-practice", text: "Why SEO Matters" },
@@ -88,7 +88,7 @@ export const blogPosts: Record<string, BlogPost> = {
       },
       {
         type: "paragraph",
-        text: "A clinic may provide excellent care, have experienced physicians, and deliver strong patient outcomes — but if potential patients cannot find the practice online, they may choose another provider."
+        text: "A clinic may provide excellent care, have experienced physicians, and deliver strong patient outcomes â€” but if potential patients cannot find the practice online, they may choose another provider."
       },
       {
         type: "paragraph",
@@ -127,7 +127,7 @@ export const blogPosts: Record<string, BlogPost> = {
       },
       {
         type: "paragraph",
-        text: "A strong medical SEO strategy helps your practice appear when those searches happen. Healthcare SEO includes website optimization, medical content creation, local SEO, patient-focused website design, online reputation management, technical SEO, and modern healthcare technology integrations. The goal is not simply more website visitors — the goal is attracting the right patients and turning online searches into appointments."
+        text: "A strong medical SEO strategy helps your practice appear when those searches happen. Healthcare SEO includes website optimization, medical content creation, local SEO, patient-focused website design, online reputation management, technical SEO, and modern healthcare technology integrations. The goal is not simply more website visitors â€” the goal is attracting the right patients and turning online searches into appointments."
       },
       {
         type: "heading2",
@@ -325,7 +325,7 @@ export const blogPosts: Record<string, BlogPost> = {
       },
       {
         type: "paragraph",
-        text: "Successful SEO requires regular measurement. Clinics should track website traffic trends, online appointment requests, keyword rankings for medical services, and overall conversion rates. The target isn't just higher ranking — it is driving measurable clinic growth."
+        text: "Successful SEO requires regular measurement. Clinics should track website traffic trends, online appointment requests, keyword rankings for medical services, and overall conversion rates. The target isn't just higher ranking â€” it is driving measurable clinic growth."
       },
       {
         type: "heading2",
@@ -387,7 +387,7 @@ export const blogPosts: Record<string, BlogPost> = {
     faqs: [
       {
         question: "What is SEO for doctors?",
-        answer: "SEO for doctors is the process of improving a medical practice’s online visibility so patients can find healthcare services through search engines. It includes website optimization, medical content, local SEO, and technical improvements."
+        answer: "SEO for doctors is the process of improving a medical practiceâ€™s online visibility so patients can find healthcare services through search engines. It includes website optimization, medical content, local SEO, and technical improvements."
       },
       {
         question: "How does SEO help doctors get more patients?",
@@ -435,7 +435,7 @@ export const blogPosts: Record<string, BlogPost> = {
     date: "January 3, 2026",
     updatedDate: "January 3, 2026",
     readTime: "7 min read",
-    featuredImage: "/llm_healthcare_hero.png",
+    featuredImage: "/blog-img/medical SEO services.png",
     tableOfContents: [
       { id: "why-healthcare-seo-matters-for-medical-clinics", text: "Why SEO Matters" },
       { id: "what-is-seo-for-clinics", text: "What Is SEO for Clinics?" },
@@ -489,7 +489,7 @@ export const blogPosts: Record<string, BlogPost> = {
       },
       {
         type: "paragraph",
-        text: "Healthcare SEO includes website optimization, medical content strategy, local SEO, online reputation management, technical SEO, and patient experience improvements. The goal is not only more website traffic — the goal is attracting the right patients and increasing appointment opportunities."
+        text: "Healthcare SEO includes website optimization, medical content strategy, local SEO, online reputation management, technical SEO, and patient experience improvements. The goal is not only more website traffic â€” the goal is attracting the right patients and increasing appointment opportunities."
       },
       {
         type: "heading2",
@@ -689,7 +689,7 @@ export const blogPosts: Record<string, BlogPost> = {
     date: "January 5, 2026",
     updatedDate: "January 5, 2026",
     readTime: "8 min read",
-    featuredImage: "/llm_healthcare_hero.png",
+    featuredImage: "/blog-img/medical SEO services.png",
     tableOfContents: [
       { id: "why-medical-seo-has-become-essential", text: "Why SEO Is Essential" },
       { id: "what-are-medical-seo-services", text: "What Are Medical SEO Services?" },
@@ -983,7 +983,7 @@ export const blogPosts: Record<string, BlogPost> = {
     faqs: [
       {
         question: "What are medical SEO services?",
-        answer: "Medical SEO services are healthcare-focused optimization strategies that improve a clinic’s online visibility and help patients find medical services through search engines."
+        answer: "Medical SEO services are healthcare-focused optimization strategies that improve a clinicâ€™s online visibility and help patients find medical services through search engines."
       },
       {
         question: "How does medical SEO help clinics grow?",
@@ -1027,7 +1027,7 @@ export const blogPosts: Record<string, BlogPost> = {
     date: "January 7, 2026",
     updatedDate: "January 7, 2026",
     readTime: "7 min read",
-    featuredImage: "/llm_healthcare_hero.png",
+    featuredImage: "/blog-img/healthcare reputation management.png",
     tableOfContents: [
       { id: "why-patient-trust-has-become-a-digital-healthcare-priority", text: "Why Trust Matters" },
       { id: "what-is-healthcare-reputation-management", text: "What Is Reputation Management?" },
@@ -1300,7 +1300,7 @@ export const blogPosts: Record<string, BlogPost> = {
     date: "January 9, 2026",
     updatedDate: "January 9, 2026",
     readTime: "8 min read",
-    featuredImage: "/llm_healthcare_hero.png",
+    featuredImage: "/blog-img/digital marketing healthcare.png",
     tableOfContents: [
       { id: "why-digital-marketing-has-become-essential-in-healthcare", text: "Why Marketing Matters" },
       { id: "what-is-digital-marketing-healthcare", text: "What Is Digital Marketing?" },
@@ -1601,7 +1601,7 @@ export const blogPosts: Record<string, BlogPost> = {
     date: "January 11, 2026",
     updatedDate: "January 11, 2026",
     readTime: "7 min read",
-    featuredImage: "/llm_healthcare_hero.png",
+    featuredImage: "/blog-img/healthcare lead generation.png",
     tableOfContents: [
       { id: "why-lead-generation-has-become-critical-in-healthcare", text: "Why Lead Gen Matters" },
       { id: "what-is-healthcare-lead-generation", text: "What Is Lead Generation?" },
@@ -1634,7 +1634,7 @@ export const blogPosts: Record<string, BlogPost> = {
       {
         type: "callout",
         title: "Conversion Gaps",
-        text: "A physiotherapy clinic may receive hundreds of website visitors monthly, but without proper lead generation systems—such as online booking, treatment pages, and follow-up automation—most visitors leave without booking.",
+        text: "A physiotherapy clinic may receive hundreds of website visitors monthly, but without proper lead generation systemsâ€”such as online booking, treatment pages, and follow-up automationâ€”most visitors leave without booking.",
         style: "warning"
       },
       {
@@ -1896,7 +1896,7 @@ export const blogPosts: Record<string, BlogPost> = {
     date: "January 13, 2026",
     updatedDate: "January 13, 2026",
     readTime: "8 min read",
-    featuredImage: "/llm_healthcare_hero.png",
+    featuredImage: "/blog-img/medical lead generation.png",
     tableOfContents: [
       { id: "why-medical-lead-generation-has-become-essential-for-doctors", text: "Why Lead Gen Is Essential" },
       { id: "what-is-medical-lead-generation", text: "What Is Medical Lead Gen?" },
@@ -2218,7 +2218,7 @@ export const blogPosts: Record<string, BlogPost> = {
     date: "January 19, 2026",
     updatedDate: "January 19, 2026",
     readTime: "8 min read",
-    featuredImage: "/llm_healthcare_hero.png",
+    featuredImage: "/blog-img/medical practice growth.png",
     tableOfContents: [
       { id: "why-medical-practice-growth-has-fundamentally-changed", text: "Why Growth Has Changed" },
       { id: "what-is-medical-practice-growth", text: "What Is Medical Practice Growth?" },
@@ -2236,7 +2236,7 @@ export const blogPosts: Record<string, BlogPost> = {
     sections: [
       {
         type: "paragraph",
-        text: "Medical practice growth is no longer driven only by referrals, word-of-mouth, or physical presence. Today’s patients behave differently. They search online, compare providers, read reviews, and expect seamless digital experiences before booking appointments."
+        text: "Medical practice growth is no longer driven only by referrals, word-of-mouth, or physical presence. Todayâ€™s patients behave differently. They search online, compare providers, read reviews, and expect seamless digital experiences before booking appointments."
       },
       {
         type: "paragraph",
@@ -2250,7 +2250,7 @@ export const blogPosts: Record<string, BlogPost> = {
       },
       {
         type: "paragraph",
-        text: "Growth is no longer accidental—it is engineered through technology."
+        text: "Growth is no longer accidentalâ€”it is engineered through technology."
       },
       {
         type: "heading2",
@@ -2259,7 +2259,7 @@ export const blogPosts: Record<string, BlogPost> = {
       },
       {
         type: "paragraph",
-        text: "Medical practice growth refers to the expansion and improvement of a healthcare organization in terms of patient acquisition, patient retention, revenue generation, operational efficiency, and brand authority. Modern growth is not just about increasing patient numbers—it is about building a scalable healthcare ecosystem."
+        text: "Medical practice growth refers to the expansion and improvement of a healthcare organization in terms of patient acquisition, patient retention, revenue generation, operational efficiency, and brand authority. Modern growth is not just about increasing patient numbersâ€”it is about building a scalable healthcare ecosystem."
       },
       {
         type: "heading2",
@@ -2508,7 +2508,7 @@ export const blogPosts: Record<string, BlogPost> = {
     date: "January 21, 2026",
     updatedDate: "January 21, 2026",
     readTime: "7 min read",
-    featuredImage: "/llm_healthcare_hero.png",
+    featuredImage: "/blog-img/improve patient experience.png",
     tableOfContents: [
       { id: "why-patient-experience-is-now-a-core-healthcare-metric", text: "Why Experience Matters" },
       { id: "what-does-it-mean-to-improve-patient-experience", text: "What Does Experience Mean?" },
@@ -2781,7 +2781,7 @@ export const blogPosts: Record<string, BlogPost> = {
     date: "January 23, 2026",
     updatedDate: "January 23, 2026",
     readTime: "6 min read",
-    featuredImage: "/llm_healthcare_hero.png",
+    featuredImage: "/blog-img/patient satisfaction healthcare.png",
     tableOfContents: [
       { id: "introduction", text: "Introduction" },
       { id: "what-is-patient-satisfaction-in-healthcare", text: "What Is Patient Satisfaction?" },
@@ -2802,15 +2802,15 @@ export const blogPosts: Record<string, BlogPost> = {
     sections: [
       {
         type: "paragraph",
-        text: "Patient expectations in healthcare have changed dramatically over the past decade. Patients no longer judge a clinic only by clinical outcomes—they evaluate the entire experience, from booking an appointment to follow-up care. Long waiting times, poor communication, and lack of digital access are now major reasons patients switch providers."
+        text: "Patient expectations in healthcare have changed dramatically over the past decade. Patients no longer judge a clinic only by clinical outcomesâ€”they evaluate the entire experience, from booking an appointment to follow-up care. Long waiting times, poor communication, and lack of digital access are now major reasons patients switch providers."
       },
       {
         type: "paragraph",
-        text: "For healthcare organizations, improving patient satisfaction healthcare outcomes is no longer optional—it directly impacts retention, reputation, and long-term growth. Clinics that fail to modernize their systems often struggle with missed appointments, negative reviews, and reduced patient loyalty. On the other hand, clinics that invest in digital healthcare systems consistently see better engagement and stronger patient trust."
+        text: "For healthcare organizations, improving patient satisfaction healthcare outcomes is no longer optionalâ€”it directly impacts retention, reputation, and long-term growth. Clinics that fail to modernize their systems often struggle with missed appointments, negative reviews, and reduced patient loyalty. On the other hand, clinics that invest in digital healthcare systems consistently see better engagement and stronger patient trust."
       },
       {
         type: "paragraph",
-        text: "This blog explains how modern clinics can improve patient satisfaction using practical, technology-driven strategies that align with today’s healthcare expectations."
+        text: "This blog explains how modern clinics can improve patient satisfaction using practical, technology-driven strategies that align with todayâ€™s healthcare expectations."
       },
       {
         type: "heading2",
@@ -3004,7 +3004,7 @@ export const blogPosts: Record<string, BlogPost> = {
       },
       {
         type: "paragraph",
-        text: "Med Clinic X builds modern clinical technology systems—including portal software, telemedicine integrations, scheduling automations, and custom apps—to help clinics deliver excellent, convenient patient experiences."
+        text: "Med Clinic X builds modern clinical technology systemsâ€”including portal software, telemedicine integrations, scheduling automations, and custom appsâ€”to help clinics deliver excellent, convenient patient experiences."
       },
       {
         type: "callout",
@@ -3060,7 +3060,7 @@ export const blogPosts: Record<string, BlogPost> = {
     date: "January 25, 2026",
     updatedDate: "January 25, 2026",
     readTime: "7 min read",
-    featuredImage: "/llm_healthcare_hero.png",
+    featuredImage: "/blog-img/patient engagement technology.png",
     tableOfContents: [
       { id: "introduction", text: "Introduction" },
       { id: "what-is-patient-engagement-technology", text: "What Is Patient Engagement Tech?" },
@@ -3080,7 +3080,7 @@ export const blogPosts: Record<string, BlogPost> = {
     sections: [
       {
         type: "paragraph",
-        text: "Healthcare is rapidly shifting from provider-centered care to patient-centered experiences. Today, patients expect more than treatment—they expect communication, convenience, and digital access throughout their healthcare journey. However, many clinics and hospitals still rely on outdated systems that create gaps in engagement, communication delays, and missed follow-ups."
+        text: "Healthcare is rapidly shifting from provider-centered care to patient-centered experiences. Today, patients expect more than treatmentâ€”they expect communication, convenience, and digital access throughout their healthcare journey. However, many clinics and hospitals still rely on outdated systems that create gaps in engagement, communication delays, and missed follow-ups."
       },
       {
         type: "paragraph",
@@ -3273,7 +3273,7 @@ export const blogPosts: Record<string, BlogPost> = {
       },
       {
         type: "paragraph",
-        text: "Med Clinic X designs robust patient engagement technology solutions—such as portals, scheduling automations, telemedicine platforms, and custom mobile apps—to build long-term patient relationships."
+        text: "Med Clinic X designs robust patient engagement technology solutionsâ€”such as portals, scheduling automations, telemedicine platforms, and custom mobile appsâ€”to build long-term patient relationships."
       },
       {
         type: "callout",
@@ -3329,7 +3329,7 @@ export const blogPosts: Record<string, BlogPost> = {
     date: "January 27, 2026",
     updatedDate: "January 27, 2026",
     readTime: "8 min read",
-    featuredImage: "/llm_healthcare_hero.png",
+    featuredImage: "/blog-img/patient relationship management.png",
     tableOfContents: [
       { id: "introduction", text: "Introduction" },
       { id: "what-is-patient-relationship-management", text: "What Is Patient Relationship Management?" },
@@ -3561,7 +3561,7 @@ export const blogPosts: Record<string, BlogPost> = {
       },
       {
         type: "paragraph",
-        text: "Med Clinic X builds custom patient relationship management technology—integrating clinical CRM setups, secure portals, telemedicine, scheduling widgets, and automation features—to support clinic retention and growth."
+        text: "Med Clinic X builds custom patient relationship management technologyâ€”integrating clinical CRM setups, secure portals, telemedicine, scheduling widgets, and automation featuresâ€”to support clinic retention and growth."
       },
       {
         type: "callout",
@@ -3617,7 +3617,7 @@ export const blogPosts: Record<string, BlogPost> = {
   "date": "February 4, 2026",
   "updatedDate": "February 4, 2026",
   "readTime": "13 min read",
-  "featuredImage": "/llm_healthcare_hero.png",
+  "featuredImage": "/blog-img/patient journey optimization.png",
   "tableOfContents": [
     {
       "id": "introduction",
@@ -3848,7 +3848,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "Most healthcare organizations lose patients long before a consultation ever happens. The issue is rarely medical quality—it is the experience surrounding care."
+      "text": "Most healthcare organizations lose patients long before a consultation ever happens. The issue is rarely medical qualityâ€”it is the experience surrounding care."
     },
     {
       "type": "paragraph",
@@ -3877,7 +3877,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "It is the process of improving every interaction a patient has with a healthcare organization—from discovery to long-term care—to create a seamless, efficient, and trust-driven experience."
+      "text": "It is the process of improving every interaction a patient has with a healthcare organizationâ€”from discovery to long-term careâ€”to create a seamless, efficient, and trust-driven experience."
     },
     {
       "type": "paragraph",
@@ -3919,7 +3919,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "Healthcare is no longer service-only—it is experience-driven."
+      "text": "Healthcare is no longer service-onlyâ€”it is experience-driven."
     },
     {
       "type": "paragraph",
@@ -3996,7 +3996,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "A patient searching “best orthopedic clinic near me” will choose based on visibility and trust signals."
+      "text": "A patient searching â€œbest orthopedic clinic near meâ€ will choose based on visibility and trust signals."
     },
     {
       "type": "heading3",
@@ -4661,7 +4661,7 @@ export const blogPosts: Record<string, BlogPost> = {
     {
       "type": "callout",
       "title": "Growth Consultation",
-      "text": "Optimizing the patient journey is no longer optional—it is the foundation of modern healthcare growth and patient experience.",
+      "text": "Optimizing the patient journey is no longer optionalâ€”it is the foundation of modern healthcare growth and patient experience.",
       "style": "info"
     },
     {
@@ -4726,7 +4726,7 @@ export const blogPosts: Record<string, BlogPost> = {
   "date": "February 6, 2026",
   "updatedDate": "February 6, 2026",
   "readTime": "12 min read",
-  "featuredImage": "/llm_healthcare_hero.png",
+  "featuredImage": "/blog-img/healthcare UX design.png",
   "tableOfContents": [
     {
       "id": "introduction",
@@ -4969,7 +4969,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "Good UX (User Experience) ensures that patients can easily navigate websites, book appointments, understand services, and communicate with providers without friction. Poor UX does the opposite—it creates barriers that directly impact revenue and reputation."
+      "text": "Good UX (User Experience) ensures that patients can easily navigate websites, book appointments, understand services, and communicate with providers without friction. Poor UX does the oppositeâ€”it creates barriers that directly impact revenue and reputation."
     },
     {
       "type": "paragraph",
@@ -4987,7 +4987,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "Healthcare UX design refers to the process of designing digital healthcare systems—websites, apps, portals, and platforms—around the needs, expectations, and behaviors of patients and healthcare professionals."
+      "text": "Healthcare UX design refers to the process of designing digital healthcare systemsâ€”websites, apps, portals, and platformsâ€”around the needs, expectations, and behaviors of patients and healthcare professionals."
     },
     {
       "type": "paragraph",
@@ -5073,7 +5073,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "A cardiology clinic that simplifies its website into clear sections like “Book Appointment,” “Find Doctor,” and “Services” will outperform a cluttered site with medical jargon-heavy menus."
+      "text": "A cardiology clinic that simplifies its website into clear sections like â€œBook Appointment,â€ â€œFind Doctor,â€ and â€œServicesâ€ will outperform a cluttered site with medical jargon-heavy menus."
     },
     {
       "type": "heading3",
@@ -5163,7 +5163,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "Instead of technical explanations, a dermatology clinic explains “acne treatment options” in simple language with visuals and FAQs."
+      "text": "Instead of technical explanations, a dermatology clinic explains â€œacne treatment optionsâ€ in simple language with visuals and FAQs."
     },
     {
       "type": "heading3",
@@ -5630,7 +5630,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "Trust is not just messaging—it is part of UX design."
+      "text": "Trust is not just messagingâ€”it is part of UX design."
     },
     {
       "type": "heading2",
@@ -5748,7 +5748,7 @@ export const blogPosts: Record<string, BlogPost> = {
   "date": "February 8, 2026",
   "updatedDate": "February 8, 2026",
   "readTime": "11 min read",
-  "featuredImage": "/llm_healthcare_hero.png",
+  "featuredImage": "/blog-img/healthcare user experience.png",
   "tableOfContents": [
     {
       "id": "introduction",
@@ -5955,7 +5955,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "Healthcare organizations are investing heavily in digital systems—websites, patient portals, telemedicine platforms, and automation tools. Yet many still struggle with low patient engagement, missed appointments, and poor online conversions."
+      "text": "Healthcare organizations are investing heavily in digital systemsâ€”websites, patient portals, telemedicine platforms, and automation tools. Yet many still struggle with low patient engagement, missed appointments, and poor online conversions."
     },
     {
       "type": "paragraph",
@@ -6076,7 +6076,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "A poorly designed website can immediately reduce credibility—even if the clinical care is excellent."
+      "text": "A poorly designed website can immediately reduce credibilityâ€”even if the clinical care is excellent."
     },
     {
       "type": "heading3",
@@ -6157,7 +6157,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "Bad UX does not only affect patients—it impacts internal staff too."
+      "text": "Bad UX does not only affect patientsâ€”it impacts internal staff too."
     },
     {
       "type": "heading3",
@@ -6584,7 +6584,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "Trust is not optional—it is a core UX component."
+      "text": "Trust is not optionalâ€”it is a core UX component."
     },
     {
       "type": "heading2",
@@ -6607,7 +6607,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "UX is not design alone—it is a growth system."
+      "text": "UX is not design aloneâ€”it is a growth system."
     },
     {
       "type": "heading2",
@@ -6700,7 +6700,7 @@ export const blogPosts: Record<string, BlogPost> = {
   "date": "January 29, 2026",
   "updatedDate": "January 29, 2026",
   "readTime": "11 min read",
-  "featuredImage": "/llm_healthcare_hero.png",
+  "featuredImage": "/blog-img/healthcare customer experience.png",
   "tableOfContents": [
     {
       "id": "introduction",
@@ -6823,11 +6823,11 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "Healthcare is no longer judged only by clinical outcomes. Today, patients evaluate their entire journey—from the first online search to post-treatment follow-ups. A slow website, unclear communication, or difficult appointment booking can negatively impact trust long before a patient ever meets a doctor."
+      "text": "Healthcare is no longer judged only by clinical outcomes. Today, patients evaluate their entire journeyâ€”from the first online search to post-treatment follow-ups. A slow website, unclear communication, or difficult appointment booking can negatively impact trust long before a patient ever meets a doctor."
     },
     {
       "type": "paragraph",
-      "text": "This shift has made **healthcare customer experience** one of the most important factors in the success of clinics, hospitals, dental practices, and medical startups. Patients now expect the same level of convenience they experience in retail, banking, and e-commerce—fast access, transparency, and digital-first communication."
+      "text": "This shift has made **healthcare customer experience** one of the most important factors in the success of clinics, hospitals, dental practices, and medical startups. Patients now expect the same level of convenience they experience in retail, banking, and e-commerceâ€”fast access, transparency, and digital-first communication."
     },
     {
       "type": "paragraph",
@@ -6835,7 +6835,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "This blog explores how healthcare organizations can transform patient interactions using modern technology, automation, and digital experience design—ultimately improving satisfaction, retention, and revenue growth."
+      "text": "This blog explores how healthcare organizations can transform patient interactions using modern technology, automation, and digital experience designâ€”ultimately improving satisfaction, retention, and revenue growth."
     },
     {
       "type": "heading2",
@@ -6878,7 +6878,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "Patients are now “healthcare consumers.” They compare providers before making decisions."
+      "text": "Patients are now â€œhealthcare consumers.â€ They compare providers before making decisions."
     },
     {
       "type": "paragraph",
@@ -7350,7 +7350,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "A cardiology clinic publishing articles on “heart disease prevention” builds authority and attracts high-intent patients."
+      "text": "A cardiology clinic publishing articles on â€œheart disease preventionâ€ builds authority and attracts high-intent patients."
     },
     {
       "type": "heading3",
@@ -7359,7 +7359,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "SEO is not just marketing—it directly impacts experience."
+      "text": "SEO is not just marketingâ€”it directly impacts experience."
     },
     {
       "type": "paragraph",
@@ -7456,7 +7456,7 @@ export const blogPosts: Record<string, BlogPost> = {
     {
       "type": "callout",
       "title": "Growth Consultation",
-      "text": "Modern healthcare success is defined by more than treatment quality—it depends on how patients experience every interaction with your organization.",
+      "text": "Modern healthcare success is defined by more than treatment qualityâ€”it depends on how patients experience every interaction with your organization.",
       "style": "info"
     },
     {
@@ -7521,7 +7521,7 @@ export const blogPosts: Record<string, BlogPost> = {
   "date": "January 31, 2026",
   "updatedDate": "January 31, 2026",
   "readTime": "13 min read",
-  "featuredImage": "/llm_healthcare_hero.png",
+  "featuredImage": "/blog-img/healthcare customer journey.png",
   "tableOfContents": [
     {
       "id": "introduction",
@@ -7756,7 +7756,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "Healthcare decisions are no longer made at the clinic door. They begin long before a patient books an appointment—and continue well after treatment ends. A patient may search symptoms online, compare providers, read reviews, visit a website, book an appointment, and evaluate follow-up care as part of a single continuous journey."
+      "text": "Healthcare decisions are no longer made at the clinic door. They begin long before a patient books an appointmentâ€”and continue well after treatment ends. A patient may search symptoms online, compare providers, read reviews, visit a website, book an appointment, and evaluate follow-up care as part of a single continuous journey."
     },
     {
       "type": "paragraph",
@@ -7772,7 +7772,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "Understanding and optimizing the healthcare customer journey is no longer optional—it is a core requirement for modern healthcare growth, digital transformation, and patient satisfaction."
+      "text": "Understanding and optimizing the healthcare customer journey is no longer optionalâ€”it is a core requirement for modern healthcare growth, digital transformation, and patient satisfaction."
     },
     {
       "type": "heading2",
@@ -7786,7 +7786,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "The healthcare customer journey is the complete series of interactions a patient has with a healthcare provider—from awareness to post-care follow-up."
+      "text": "The healthcare customer journey is the complete series of interactions a patient has with a healthcare providerâ€”from awareness to post-care follow-up."
     },
     {
       "type": "paragraph",
@@ -7880,7 +7880,7 @@ export const blogPosts: Record<string, BlogPost> = {
     {
       "type": "list",
       "items": [
-        "“Best cardiologist near me” search",
+        "â€œBest cardiologist near meâ€ search",
         "Google results for dental implants",
         "Social media health awareness content"
       ]
@@ -8002,7 +8002,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "Patients take action—booking an appointment or contacting the clinic."
+      "text": "Patients take actionâ€”booking an appointment or contacting the clinic."
     },
     {
       "type": "heading3",
@@ -8557,7 +8557,7 @@ export const blogPosts: Record<string, BlogPost> = {
     {
       "type": "callout",
       "title": "Growth Consultation",
-      "text": "Modern healthcare success depends on how well you manage every step of the patient journey—from discovery to long-term care.",
+      "text": "Modern healthcare success depends on how well you manage every step of the patient journeyâ€”from discovery to long-term care.",
       "style": "info"
     },
     {
@@ -8622,7 +8622,7 @@ export const blogPosts: Record<string, BlogPost> = {
   "date": "February 2, 2026",
   "updatedDate": "February 2, 2026",
   "readTime": "12 min read",
-  "featuredImage": "/llm_healthcare_hero.png",
+  "featuredImage": "/blog-img/patient journey healthcare.png",
   "tableOfContents": [
     {
       "id": "introduction",
@@ -8849,7 +8849,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "Healthcare today is no longer defined only by treatment quality. It is defined by how patients experience every step of their interaction with a healthcare provider—from the first search online to post-treatment care and long-term follow-ups."
+      "text": "Healthcare today is no longer defined only by treatment quality. It is defined by how patients experience every step of their interaction with a healthcare providerâ€”from the first search online to post-treatment care and long-term follow-ups."
     },
     {
       "type": "paragraph",
@@ -8865,7 +8865,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "It helps healthcare organizations understand, design, and optimize every patient interaction—leading to better satisfaction, improved operational efficiency, and stronger patient retention."
+      "text": "It helps healthcare organizations understand, design, and optimize every patient interactionâ€”leading to better satisfaction, improved operational efficiency, and stronger patient retention."
     },
     {
       "type": "heading2",
@@ -8971,7 +8971,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "A patient searching “best dental implants near me” will choose providers based on visibility, reviews, and clarity of information."
+      "text": "A patient searching â€œbest dental implants near meâ€ will choose providers based on visibility, reviews, and clarity of information."
     },
     {
       "type": "heading3",
@@ -9578,7 +9578,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "Trust is not optional—it directly affects conversion and retention."
+      "text": "Trust is not optionalâ€”it directly affects conversion and retention."
     },
     {
       "type": "heading2",
@@ -9632,7 +9632,7 @@ export const blogPosts: Record<string, BlogPost> = {
     {
       "type": "callout",
       "title": "Growth Consultation",
-      "text": "Modern healthcare success depends on understanding and optimizing every step of the patient journey—from discovery to long-term care.",
+      "text": "Modern healthcare success depends on understanding and optimizing every step of the patient journeyâ€”from discovery to long-term care.",
       "style": "info"
     },
     {
@@ -9697,7 +9697,7 @@ export const blogPosts: Record<string, BlogPost> = {
   "date": "February 10, 2026",
   "updatedDate": "February 10, 2026",
   "readTime": "11 min read",
-  "featuredImage": "/llm_healthcare_hero.png",
+  "featuredImage": "/blog-img/healthcare workflow automation.png",
   "tableOfContents": [
     {
       "id": "introduction",
@@ -9804,7 +9804,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "Despite this, many healthcare systems still rely on manual processes—paper-based workflows, phone-based scheduling, and disconnected software tools. These inefficiencies slow down care delivery and negatively impact patient experience."
+      "text": "Despite this, many healthcare systems still rely on manual processesâ€”paper-based workflows, phone-based scheduling, and disconnected software tools. These inefficiencies slow down care delivery and negatively impact patient experience."
     },
     {
       "type": "paragraph",
@@ -9812,7 +9812,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "Automation is no longer a luxury—it is a foundational requirement for modern healthcare systems. It allows clinics, hospitals, and healthcare startups to streamline operations, reduce human error, and create a seamless experience across the entire patient journey."
+      "text": "Automation is no longer a luxuryâ€”it is a foundational requirement for modern healthcare systems. It allows clinics, hospitals, and healthcare startups to streamline operations, reduce human error, and create a seamless experience across the entire patient journey."
     },
     {
       "type": "paragraph",
@@ -10412,7 +10412,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "Trust is a core requirement—not an optional feature."
+      "text": "Trust is a core requirementâ€”not an optional feature."
     },
     {
       "type": "heading2",
@@ -10527,7 +10527,7 @@ export const blogPosts: Record<string, BlogPost> = {
   "date": "February 12, 2026",
   "updatedDate": "February 12, 2026",
   "readTime": "10 min read",
-  "featuredImage": "/llm_healthcare_hero.png",
+  "featuredImage": "/blog-img/healthcare operational efficiency.png",
   "tableOfContents": [
     {
       "id": "introduction",
@@ -10626,7 +10626,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "Healthcare organizations are under increasing pressure to deliver faster, more accurate, and more patient-centric services—while simultaneously managing rising operational costs and staff shortages."
+      "text": "Healthcare organizations are under increasing pressure to deliver faster, more accurate, and more patient-centric servicesâ€”while simultaneously managing rising operational costs and staff shortages."
     },
     {
       "type": "paragraph",
@@ -10634,11 +10634,11 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "In this environment, **healthcare operational efficiency** is no longer just a performance metric—it is a survival requirement."
+      "text": "In this environment, **healthcare operational efficiency** is no longer just a performance metricâ€”it is a survival requirement."
     },
     {
       "type": "paragraph",
-      "text": "Efficient healthcare operations ensure that every resource—time, staff, technology, and infrastructure—is used in the most effective way possible to improve patient outcomes and organizational performance."
+      "text": "Efficient healthcare operations ensure that every resourceâ€”time, staff, technology, and infrastructureâ€”is used in the most effective way possible to improve patient outcomes and organizational performance."
     },
     {
       "type": "paragraph",
@@ -11243,7 +11243,7 @@ export const blogPosts: Record<string, BlogPost> = {
     {
       "type": "callout",
       "title": "Growth Consultation",
-      "text": "Improving healthcare [operational efficiency](/blog/healthcare-operational-efficiency) is no longer optional—it is essential for delivering high-quality care and scaling modern healthcare organizations.",
+      "text": "Improving healthcare [operational efficiency](/blog/healthcare-operational-efficiency) is no longer optionalâ€”it is essential for delivering high-quality care and scaling modern healthcare organizations.",
       "style": "info"
     },
     {
@@ -11308,7 +11308,7 @@ export const blogPosts: Record<string, BlogPost> = {
   "date": "February 14, 2026",
   "updatedDate": "February 14, 2026",
   "readTime": "11 min read",
-  "featuredImage": "/llm_healthcare_hero.png",
+  "featuredImage": "/blog-img/healthcare automation platform.png",
   "tableOfContents": [
     {
       "id": "introduction",
@@ -11443,7 +11443,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "Despite this pressure, many clinics still rely on fragmented systems—manual scheduling, paper-based workflows, and disconnected software tools. These inefficiencies slow down operations and directly impact patient satisfaction."
+      "text": "Despite this pressure, many clinics still rely on fragmented systemsâ€”manual scheduling, paper-based workflows, and disconnected software tools. These inefficiencies slow down operations and directly impact patient satisfaction."
     },
     {
       "type": "paragraph",
@@ -11451,11 +11451,11 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "A well-designed automation system connects every part of clinic operations into a single, intelligent workflow—reducing manual effort, improving coordination, and enabling healthcare teams to focus more on patient care rather than administrative tasks."
+      "text": "A well-designed automation system connects every part of clinic operations into a single, intelligent workflowâ€”reducing manual effort, improving coordination, and enabling healthcare teams to focus more on patient care rather than administrative tasks."
     },
     {
       "type": "paragraph",
-      "text": "In today’s healthcare environment, automation is not just an upgrade. It is a foundation for scalable, efficient, and patient-centered healthcare delivery."
+      "text": "In todayâ€™s healthcare environment, automation is not just an upgrade. It is a foundation for scalable, efficient, and patient-centered healthcare delivery."
     },
     {
       "type": "heading2",
@@ -12145,7 +12145,7 @@ export const blogPosts: Record<string, BlogPost> = {
     {
       "type": "callout",
       "title": "Growth Consultation",
-      "text": "Clinic operations are becoming more complex, but they don’t have to become inefficient.",
+      "text": "Clinic operations are becoming more complex, but they donâ€™t have to become inefficient.",
       "style": "info"
     },
     {
@@ -12210,7 +12210,7 @@ export const blogPosts: Record<string, BlogPost> = {
   "date": "February 16, 2026",
   "updatedDate": "February 16, 2026",
   "readTime": "11 min read",
-  "featuredImage": "/llm_healthcare_hero.png",
+  "featuredImage": "/blog-img/healthcare app development cost.png",
   "tableOfContents": [
     {
       "id": "introduction",
@@ -12432,7 +12432,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "They are no longer optional—they are core infrastructure for modern healthcare organizations."
+      "text": "They are no longer optionalâ€”they are core infrastructure for modern healthcare organizations."
     },
     {
       "type": "heading2",
@@ -12734,7 +12734,7 @@ export const blogPosts: Record<string, BlogPost> = {
     {
       "type": "list",
       "items": [
-        "$10,000 – $40,000"
+        "$10,000 â€“ $40,000"
       ]
     },
     {
@@ -12762,7 +12762,7 @@ export const blogPosts: Record<string, BlogPost> = {
     {
       "type": "list",
       "items": [
-        "$40,000 – $120,000"
+        "$40,000 â€“ $120,000"
       ]
     },
     {
@@ -12791,7 +12791,7 @@ export const blogPosts: Record<string, BlogPost> = {
     {
       "type": "list",
       "items": [
-        "$120,000 – $500,000+"
+        "$120,000 â€“ $500,000+"
       ]
     },
     {
@@ -13069,7 +13069,7 @@ export const blogPosts: Record<string, BlogPost> = {
     {
       "type": "callout",
       "title": "Growth Consultation",
-      "text": "Building a healthcare application is not just a technical investment—it is a strategic decision that defines how modern healthcare organizations deliver care.",
+      "text": "Building a healthcare application is not just a technical investmentâ€”it is a strategic decision that defines how modern healthcare organizations deliver care.",
       "style": "info"
     },
     {
@@ -13134,7 +13134,7 @@ export const blogPosts: Record<string, BlogPost> = {
   "date": "February 18, 2026",
   "updatedDate": "February 18, 2026",
   "readTime": "12 min read",
-  "featuredImage": "/llm_healthcare_hero.png",
+  "featuredImage": "/blog-img/healthcare app ideas.png",
   "tableOfContents": [
     {
       "id": "introduction",
@@ -13261,7 +13261,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "Modern **healthcare app ideas** are no longer just about convenience—they are about solving real clinical, operational, and patient engagement challenges."
+      "text": "Modern **healthcare app ideas** are no longer just about convenienceâ€”they are about solving real clinical, operational, and patient engagement challenges."
     },
     {
       "type": "paragraph",
@@ -13269,7 +13269,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "For startups, this is one of the most promising industries for innovation. However, success depends on choosing the right idea—one that solves a real problem and aligns with clinical workflows."
+      "text": "For startups, this is one of the most promising industries for innovation. However, success depends on choosing the right ideaâ€”one that solves a real problem and aligns with clinical workflows."
     },
     {
       "type": "paragraph",
@@ -13491,7 +13491,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "A heart patient’s vitals are tracked remotely and shared with doctors in real time."
+      "text": "A heart patientâ€™s vitals are tracked remotely and shared with doctors in real time."
     },
     {
       "type": "heading3",
@@ -14088,7 +14088,7 @@ export const blogPosts: Record<string, BlogPost> = {
   "date": "February 20, 2026",
   "updatedDate": "February 20, 2026",
   "readTime": "11 min read",
-  "featuredImage": "/llm_healthcare_hero.png",
+  "featuredImage": "/blog-img/healthcare mobile application.png",
   "tableOfContents": [
     {
       "id": "introduction",
@@ -14219,7 +14219,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "However, many healthcare organizations struggle to understand what features actually matter. A mobile app is not just about digital presence—it must improve clinical workflows, enhance patient engagement, and support long-term care outcomes."
+      "text": "However, many healthcare organizations struggle to understand what features actually matter. A mobile app is not just about digital presenceâ€”it must improve clinical workflows, enhance patient engagement, and support long-term care outcomes."
     },
     {
       "type": "paragraph",
@@ -14679,7 +14679,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "A cardiac patient’s heart rate and blood pressure are monitored in real time."
+      "text": "A cardiac patientâ€™s heart rate and blood pressure are monitored in real time."
     },
     {
       "type": "heading3",
@@ -15020,7 +15020,7 @@ export const blogPosts: Record<string, BlogPost> = {
   "date": "February 22, 2026",
   "updatedDate": "February 22, 2026",
   "readTime": "11 min read",
-  "featuredImage": "/llm_healthcare_hero.png",
+  "featuredImage": "/blog-img/patient portal features.png",
   "tableOfContents": [
     {
       "id": "introduction",
@@ -15151,7 +15151,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "A well-designed patient portal is no longer optional—it is a core part of healthcare delivery. It directly impacts patient satisfaction, operational efficiency, and long-term retention."
+      "text": "A well-designed patient portal is no longer optionalâ€”it is a core part of healthcare delivery. It directly impacts patient satisfaction, operational efficiency, and long-term retention."
     },
     {
       "type": "paragraph",
@@ -15941,7 +15941,7 @@ export const blogPosts: Record<string, BlogPost> = {
   "date": "February 24, 2026",
   "updatedDate": "February 24, 2026",
   "readTime": "11 min read",
-  "featuredImage": "/llm_healthcare_hero.png",
+  "featuredImage": "/blog-img/patient portal benefits.png",
   "tableOfContents": [
     {
       "id": "introduction",
@@ -16068,7 +16068,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "Despite this shift, many clinics and hospitals still rely on outdated communication systems, manual scheduling, and fragmented data access—leading to inefficiencies, delays, and poor patient experiences."
+      "text": "Despite this shift, many clinics and hospitals still rely on outdated communication systems, manual scheduling, and fragmented data accessâ€”leading to inefficiencies, delays, and poor patient experiences."
     },
     {
       "type": "paragraph",
@@ -16090,7 +16090,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "Modern healthcare is no longer provider-driven—it is patient-driven."
+      "text": "Modern healthcare is no longer provider-drivenâ€”it is patient-driven."
     },
     {
       "type": "paragraph",
@@ -16870,7 +16870,7 @@ export const blogPosts: Record<string, BlogPost> = {
   "date": "February 26, 2026",
   "updatedDate": "February 26, 2026",
   "readTime": "10 min read",
-  "featuredImage": "/llm_healthcare_hero.png",
+  "featuredImage": "/blog-img/patient feedback system.png",
   "tableOfContents": [
     {
       "id": "introduction",
@@ -17005,7 +17005,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "Healthcare has changed significantly in the last decade. Patients today expect more than treatment—they expect communication, transparency, and a seamless care experience across every interaction."
+      "text": "Healthcare has changed significantly in the last decade. Patients today expect more than treatmentâ€”they expect communication, transparency, and a seamless care experience across every interaction."
     },
     {
       "type": "paragraph",
@@ -17198,7 +17198,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "Feedback is not just about patients—it improves internal teams."
+      "text": "Feedback is not just about patientsâ€”it improves internal teams."
     },
     {
       "type": "paragraph",
@@ -17371,7 +17371,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "A **patient feedback system** is not just a tool—it is a core part of healthcare digital transformation."
+      "text": "A **patient feedback system** is not just a toolâ€”it is a core part of healthcare digital transformation."
     },
     {
       "type": "paragraph",
@@ -17579,7 +17579,7 @@ export const blogPosts: Record<string, BlogPost> = {
     {
       "type": "callout",
       "title": "Growth Consultation",
-      "text": "Healthcare organizations that prioritize patient feedback consistently outperform those that don’t.",
+      "text": "Healthcare organizations that prioritize patient feedback consistently outperform those that donâ€™t.",
       "style": "info"
     },
     {
@@ -17644,7 +17644,7 @@ export const blogPosts: Record<string, BlogPost> = {
   "date": "February 28, 2026",
   "updatedDate": "February 28, 2026",
   "readTime": "9 min read",
-  "featuredImage": "/llm_healthcare_hero.png",
+  "featuredImage": "/blog-img/doctor patient communication software.png",
   "tableOfContents": [
     {
       "id": "introduction",
@@ -18298,12 +18298,12 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "As healthcare continues to evolve digitally, communication systems will become essential infrastructure—not optional tools."
+      "text": "As healthcare continues to evolve digitally, communication systems will become essential infrastructureâ€”not optional tools."
     },
     {
       "type": "callout",
       "title": "Growth Consultation",
-      "text": "Healthcare communication is no longer optional—it is a core part of patient experience and clinical efficiency.",
+      "text": "Healthcare communication is no longer optionalâ€”it is a core part of patient experience and clinical efficiency.",
       "style": "info"
     },
     {
@@ -18368,7 +18368,7 @@ export const blogPosts: Record<string, BlogPost> = {
   "date": "March 2, 2026",
   "updatedDate": "March 2, 2026",
   "readTime": "12 min read",
-  "featuredImage": "/llm_healthcare_hero.png",
+  "featuredImage": "/blog-img/digital front door healthcare.png",
   "tableOfContents": [
     {
       "id": "introduction",
@@ -18539,7 +18539,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "Today’s patients no longer begin their healthcare journey inside a clinic—they start online. Whether searching for symptoms, booking appointments, or comparing providers, the first interaction happens digitally."
+      "text": "Todayâ€™s patients no longer begin their healthcare journey inside a clinicâ€”they start online. Whether searching for symptoms, booking appointments, or comparing providers, the first interaction happens digitally."
     },
     {
       "type": "paragraph",
@@ -18551,7 +18551,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "A digital front door is the unified digital entry point where patients engage with healthcare providers—from discovery to booking, consultation, follow-up, and ongoing care. It transforms disconnected systems into a seamless patient journey."
+      "text": "A digital front door is the unified digital entry point where patients engage with healthcare providersâ€”from discovery to booking, consultation, follow-up, and ongoing care. It transforms disconnected systems into a seamless patient journey."
     },
     {
       "type": "paragraph",
@@ -18640,7 +18640,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "A patient’s first interaction is often:"
+      "text": "A patientâ€™s first interaction is often:"
     },
     {
       "type": "list",
@@ -19279,7 +19279,7 @@ export const blogPosts: Record<string, BlogPost> = {
   "date": "March 4, 2026",
   "updatedDate": "March 4, 2026",
   "readTime": "9 min read",
-  "featuredImage": "/llm_healthcare_hero.png",
+  "featuredImage": "/blog-img/healthcare onboarding software.png",
   "tableOfContents": [
     {
       "id": "introduction",
@@ -19426,7 +19426,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "In many healthcare organizations, the first interaction a patient has with a clinic still feels outdated—paper forms, long waiting times, repeated data entry, and fragmented communication. This creates unnecessary friction at a stage where trust and comfort should be at their highest."
+      "text": "In many healthcare organizations, the first interaction a patient has with a clinic still feels outdatedâ€”paper forms, long waiting times, repeated data entry, and fragmented communication. This creates unnecessary friction at a stage where trust and comfort should be at their highest."
     },
     {
       "type": "paragraph",
@@ -19434,7 +19434,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "Modern healthcare onboarding software is changing this experience by digitizing intake, automating workflows, and connecting patient data directly into clinical systems. For clinics, hospitals, and healthcare startups, this is no longer optional—it is a core part of digital transformation and patient engagement strategy."
+      "text": "Modern healthcare onboarding software is changing this experience by digitizing intake, automating workflows, and connecting patient data directly into clinical systems. For clinics, hospitals, and healthcare startups, this is no longer optionalâ€”it is a core part of digital transformation and patient engagement strategy."
     },
     {
       "type": "paragraph",
@@ -19498,7 +19498,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "Manual onboarding often takes 15–30 minutes per patient. Digital systems reduce this to just a few minutes."
+      "text": "Manual onboarding often takes 15â€“30 minutes per patient. Digital systems reduce this to just a few minutes."
     },
     {
       "type": "heading3",
@@ -19634,7 +19634,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "A small clinic with limited staff reduces administrative workload by 40–60% after implementing onboarding automation."
+      "text": "A small clinic with limited staff reduces administrative workload by 40â€“60% after implementing onboarding automation."
     },
     {
       "type": "heading3",
@@ -19822,7 +19822,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "Healthcare onboarding software is not just about automation—it directly impacts UX and operational performance."
+      "text": "Healthcare onboarding software is not just about automationâ€”it directly impacts UX and operational performance."
     },
     {
       "type": "heading3",
@@ -19921,7 +19921,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "Implementing onboarding software is not just an operational upgrade—it is a growth strategy."
+      "text": "Implementing onboarding software is not just an operational upgradeâ€”it is a growth strategy."
     },
     {
       "type": "heading3",
@@ -20005,7 +20005,7 @@ export const blogPosts: Record<string, BlogPost> = {
   "date": "March 6, 2026",
   "updatedDate": "March 6, 2026",
   "readTime": "11 min read",
-  "featuredImage": "/llm_healthcare_hero.png",
+  "featuredImage": "/blog-img/healthcare cybersecurity software.png",
   "tableOfContents": [
     {
       "id": "introduction",
@@ -20176,7 +20176,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "Healthcare organizations are now among the most targeted industries for cyberattacks. From hospitals to small clinics, sensitive patient data, billing records, and clinical systems are constantly at risk. As healthcare becomes more digital, the attack surface expands—making security not just an IT concern but a core operational priority."
+      "text": "Healthcare organizations are now among the most targeted industries for cyberattacks. From hospitals to small clinics, sensitive patient data, billing records, and clinical systems are constantly at risk. As healthcare becomes more digital, the attack surface expandsâ€”making security not just an IT concern but a core operational priority."
     },
     {
       "type": "paragraph",
@@ -20691,7 +20691,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "Security should not be an afterthought—it must be integrated into development."
+      "text": "Security should not be an afterthoughtâ€”it must be integrated into development."
     },
     {
       "type": "heading3",
@@ -20783,7 +20783,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "Cybersecurity is not just protection—it directly impacts growth."
+      "text": "Cybersecurity is not just protectionâ€”it directly impacts growth."
     },
     {
       "type": "heading3",
@@ -20803,7 +20803,7 @@ export const blogPosts: Record<string, BlogPost> = {
     {
       "type": "callout",
       "title": "Growth Consultation",
-      "text": "Healthcare cybersecurity is no longer optional—it is a critical foundation for digital healthcare systems.",
+      "text": "Healthcare cybersecurity is no longer optionalâ€”it is a critical foundation for digital healthcare systems.",
       "style": "info"
     },
     {
@@ -20868,7 +20868,7 @@ export const blogPosts: Record<string, BlogPost> = {
   "date": "March 8, 2026",
   "updatedDate": "March 8, 2026",
   "readTime": "10 min read",
-  "featuredImage": "/llm_healthcare_hero.png",
+  "featuredImage": "/blog-img/healthcare technology consulting.png",
   "tableOfContents": [
     {
       "id": "introduction",
@@ -21043,7 +21043,7 @@ export const blogPosts: Record<string, BlogPost> = {
     },
     {
       "type": "paragraph",
-      "text": "Healthcare organizations are under increasing pressure to modernize their systems, improve patient experience, and reduce operational inefficiencies—all while maintaining compliance and controlling costs. However, many hospitals, clinics, and healthcare startups struggle to decide *what to build, when to upgrade, and how to integrate technology effectively*."
+      "text": "Healthcare organizations are under increasing pressure to modernize their systems, improve patient experience, and reduce operational inefficienciesâ€”all while maintaining compliance and controlling costs. However, many hospitals, clinics, and healthcare startups struggle to decide *what to build, when to upgrade, and how to integrate technology effectively*."
     },
     {
       "type": "paragraph",
@@ -21129,7 +21129,7 @@ export const blogPosts: Record<string, BlogPost> = {
     {
       "type": "list",
       "items": [
-        "Legacy systems that don’t integrate",
+        "Legacy systems that donâ€™t integrate",
         "Lack of automation strategy",
         "Poor data flow between departments"
       ]
