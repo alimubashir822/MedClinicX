@@ -1,8 +1,5 @@
 import { NextResponse } from "next/server";
-import { Resend } from "resend";
-
-const resendApiKey = process.env.RESEND_API_KEY;
-const resend = resendApiKey ? new Resend(resendApiKey) : null;
+import nodemailer from "nodemailer";
 
 export async function POST(req: Request) {
   try {
@@ -12,6 +9,9 @@ export async function POST(req: Request) {
     if (!email) {
       return NextResponse.json({ error: "Email is required" }, { status: 400 });
     }
+
+    const gmailUser = process.env.GMAIL_USER;
+    const gmailPass = process.env.GMAIL_APP_PASSWORD;
 
     const emailSubject = `[MedClinicX - Subscription] New Subscriber Alert`;
     const emailHtml = `
@@ -45,46 +45,36 @@ export async function POST(req: Request) {
       </div>
     `;
 
-    // 1. Send via Resend if API key is configured
-    if (resend) {
-      const recipients = ["medclinicx@gmail.com"];
-      let sentCount = 0;
-      let lastErrorMsg = "Failed to send email";
+    // 1. Send via Gmail SMTP if credentials are configured
+    if (gmailUser && gmailPass) {
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: gmailUser,
+          pass: gmailPass,
+        },
+      });
 
-      for (const recipient of recipients) {
-        try {
-          const { error } = await resend.emails.send({
-            from: "Med Clinic X <onboarding@resend.dev>", // replace with domain once verified
-            to: [recipient],
-            subject: emailSubject,
-            html: emailHtml,
-          });
+      try {
+        await transporter.sendMail({
+          from: `"Med Clinic X" <${gmailUser}>`,
+          to: "medclinicx@gmail.com",
+          subject: emailSubject,
+          html: emailHtml,
+        });
 
-          if (error) {
-            console.error(`Resend newsletter send error for ${recipient}:`, error);
-            lastErrorMsg = error.message;
-          } else {
-            sentCount++;
-          }
-        } catch (err: unknown) {
-          console.error(`Resend connection exception for ${recipient}:`, err);
-          if (err instanceof Error) {
-            lastErrorMsg = err.message;
-          }
-        }
+        return NextResponse.json({ success: true });
+      } catch (err: unknown) {
+        console.error("Gmail SMTP error:", err);
+        const errMessage = err instanceof Error ? err.message : "Failed to send email";
+        return NextResponse.json({ error: errMessage }, { status: 500 });
       }
-
-      if (sentCount === 0) {
-        return NextResponse.json({ error: lastErrorMsg }, { status: 400 });
-      }
-
-      return NextResponse.json({ success: true, sentCount });
     }
 
-    // 2. Dev fallback logging if no API key is found
+    // 2. Dev fallback logging if no credentials are found
     console.log("=================================================");
-    console.log("🔔 [DEV MOCK EMAIL] RESEND_API_KEY not configured.");
-    console.log(`FROM: Med Clinic X <onboarding@resend.dev>`);
+    console.log("🔔 [DEV MOCK EMAIL] GMAIL_USER / GMAIL_APP_PASSWORD not configured.");
+    console.log(`FROM: Med Clinic X <medclinicx@gmail.com>`);
     console.log(`TO: medclinicx@gmail.com`);
     console.log(`SUBJECT: ${emailSubject}`);
     console.log("---------------- CONTENT ----------------");
@@ -94,7 +84,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       success: true,
-      message: "Newsletter subscription logged successfully. Add RESEND_API_KEY in .env for live email delivery.",
+      message: "Newsletter subscription logged successfully. Add GMAIL_USER and GMAIL_APP_PASSWORD in .env for live email delivery.",
       mock: true
     });
   } catch (error: unknown) {
