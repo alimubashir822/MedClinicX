@@ -60,7 +60,7 @@ export async function POST(req: Request) {
 
     // 1. Send via Resend if API key is configured
     if (resend) {
-      const recipients = ["medclinicx@gmail.com"];
+      const recipients = ["alimubashir822@gmail.com"];
       let sentCount = 0;
       let lastErrorMsg = "Failed to send email";
 
@@ -98,7 +98,7 @@ export async function POST(req: Request) {
     console.log("=================================================");
     console.log("🔔 [DEV MOCK EMAIL] RESEND_API_KEY not configured.");
     console.log(`FROM: Med Clinic X <onboarding@resend.dev>`);
-    console.log(`TO: medclinicx@gmail.com`);
+    console.log(`TO: alimubashir822@gmail.com`);
     console.log(`SUBJECT: ${emailSubject}`);
     console.log("---------------- CONTENT ----------------");
     console.log(`Source: Contact Form`);
