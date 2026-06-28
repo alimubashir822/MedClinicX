@@ -30,15 +30,7 @@ export default function JobClient() {
   });
 
   // Sandbox State
-  const [sandboxSetup, setSandboxSetup] = useState({
-    dataMigration: "",
-    slaEscalation: "",
-    oauthConfig: ""
-  });
-  const [sandboxAttempts, setSandboxAttempts] = useState(0);
-  const [sandboxSuccess, setSandboxSuccess] = useState(false);
-  const [sandboxError, setSandboxError] = useState("");
-
+        
   // Submission States
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -80,32 +72,30 @@ export default function JobClient() {
     }
   };
 
-  const validateSandbox = () => {
-    setSandboxAttempts(prev => prev + 1);
-    
-    const correctMigration = sandboxSetup.dataMigration === "synthesized_secure_import";
-    const correctEscalation = sandboxSetup.slaEscalation === "sla_triage_routing";
-    const correctOAuth = sandboxSetup.oauthConfig === "oauth_tenant_isolation";
-    
-    if (correctMigration && correctEscalation && correctOAuth) {
-      setSandboxSuccess(true);
-      setSandboxError("");
-    } else {
-      setSandboxSuccess(false);
-      let incorrectCount = 0;
-      if (!correctMigration) incorrectCount++;
-      if (!correctEscalation) incorrectCount++;
-      if (!correctOAuth) incorrectCount++;
-      
-      setSandboxError(
-        `Onboarding audit failed. ${incorrectCount}/3 configurations are non-optimal. Hint: Ensure HIPAA-safe dry runs by mapping synthesized records; coordinate quick SLA incident logs with routing directly to engineering; and set up tenant-isolated, dynamic public-key OAuth clients for patient endpoint security.`
-      );
-    }
-  };
-
+  
   const submitApplication = async () => {
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    try {
+      const res = await fetch("/api/careers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          portfolioUrl: formData.portfolioUrl,
+          resumeName: formData.resumeName,
+          position: "Technical Account Manager",
+          extraFields: {
+            ...formData
+          }
+        }),
+      });
+      if (!res.ok) {
+        console.error("Failed to submit application");
+      }
+    } catch (err) {
+      console.error("Submit error:", err);
+    }
     setIsSubmitting(false);
     setSubmitSuccess(true);
   };
@@ -370,9 +360,9 @@ export default function JobClient() {
                       <span className={formStep === 1 ? "text-brand-cyan font-bold" : "text-gray-500"}>01. Profile</span>
                       <span className={formStep === 2 ? "text-brand-cyan font-bold" : "text-gray-500"}>02. Experience</span>
                       <span className={formStep === 3 ? "text-brand-cyan font-bold" : "text-gray-500"}>03. Triage Sandbox</span>
-                      <span className={formStep === 4 ? "text-brand-cyan font-bold" : "text-gray-500"}>04. Submit</span>
+                      
                     </div>
-                    <span className="text-gray-500">Step {formStep} of 4</span>
+                    <span className="text-gray-500">Step {formStep} of 3</span>
                   </div>
 
                   {submitSuccess ? (
@@ -395,9 +385,9 @@ export default function JobClient() {
                         onClick={() => {
                           setFormStep(1);
                           setSubmitSuccess(false);
-                          setSandboxSuccess(false);
-                          setSandboxAttempts(0);
-                          setSandboxSetup({ dataMigration: "", slaEscalation: "", oauthConfig: "" });
+                          
+                          
+                          
                           setFormData({
                             name: "",
                             email: "",
@@ -567,7 +557,7 @@ export default function JobClient() {
                               onClick={() => setFormStep(3)}
                               className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs cursor-pointer"
                             >
-                              <span>Proceed to Sandbox</span>
+                              <span>Review Application</span>
                               <ArrowRight className="w-3.5 h-3.5" />
                             </button>
                           </div>
@@ -575,142 +565,10 @@ export default function JobClient() {
                       )}
 
                       {/* STEP 3: Sandbox */}
-                      {formStep === 3 && (
-                        <div className="space-y-5">
-                          <div className="flex justify-between items-start">
-                            <div>
-                              <h3 className="font-display font-extrabold text-lg text-white">Client Onboarding & SLA Triage Sandbox</h3>
-                              <p className="text-xs text-gray-400 mt-1">
-                                Secure client data migrations, configure incident response escalations, and audit EHR API authorizations.
-                              </p>
-                            </div>
-                            <span className="text-[9px] font-bold px-2 py-0.5 bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/20 rounded font-mono">
-                              TAM Console
-                            </span>
-                          </div>
-
-                          {/* SANDBOX CHALLENGE */}
-                          <div className="space-y-4 font-sans text-xs">
-                            
-                            {/* Scenario 1 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-cyan rounded-full shrink-0" />
-                                <span>Parameter 1: Onboarding Client Data Migration</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;How should a new hospital client's legacy patient record base be migrated to staging during kickoff?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={sandboxSetup.dataMigration}
-                                  onChange={(e) => setSandboxSetup(prev => ({ ...prev, dataMigration: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Migration Strategy --</option>
-                                  <option value="synthesized_secure_import">Perform dry-run database migrations using synthesized records to map client schemas into Med Clinic X FHIR structures (Correct!)</option>
-                                  <option value="unencrypted_csv_sftp">Have the client email unencrypted patient CSV rosters over public threads for rapid upload to staging</option>
-                                  <option value="direct_production_overwrite">Directly overwrite the production database tables with the client's raw SQL dump files</option>
-                                </select>
-                              </div>
-                            </div>
-
-                            {/* Scenario 2 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-indigo rounded-full shrink-0" />
-                                <span>Parameter 2: Client SLA SLA Triage & Severity-1 Escalation</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;Under SLA parameters, what is the optimal path when a client logs a Severity-1 portal synchronization blackout?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={sandboxSetup.slaEscalation}
-                                  onChange={(e) => setSandboxSetup(prev => ({ ...prev, slaEscalation: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Incident Escalation --</option>
-                                  <option value="sla_triage_routing">Acknowledge Sev-1 API outages within 15 minutes, gather payload logs, and assign to backend engineering (Correct!)</option>
-                                  <option value="auto_responder">Setup a standard email auto-responder informing patients that the team will check issues in the next weekly sprint</option>
-                                  <option value="restart_containers">Manually restart client database containers before investigating request errors or logging alerts</option>
-                                </select>
-                              </div>
-                            </div>
-
-                            {/* Scenario 3 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-emerald rounded-full shrink-0" />
-                                <span>Parameter 3: EHR API Integrations & OAuth Credentials Audit</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;How should external API client logins be authenticated to prevent data breaches between competing clinic tenants?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={sandboxSetup.oauthConfig}
-                                  onChange={(e) => setSandboxSetup(prev => ({ ...prev, oauthConfig: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Client Authorization --</option>
-                                  <option value="oauth_tenant_isolation">Configure tenant-isolated OAuth 2.0 clients with dynamic public-key authentication for EHR endpoints (Correct!)</option>
-                                  <option value="global_api_token">Issue a single high-privilege global API credential to all clients to bypass onboarding sync limits</option>
-                                  <option value="disable_auth_test">Temporarily disable client API request authentication during staging validation tests</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Error message */}
-                          {sandboxError && (
-                            <div className="flex items-start space-x-2.5 p-3.5 bg-red-950/40 border border-red-500/20 text-red-300 rounded-xl text-xs">
-                              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                              <span>{sandboxError}</span>
-                            </div>
-                          )}
-
-                          {/* Correct notification */}
-                          {sandboxSuccess && (
-                            <div className="flex items-start space-x-2.5 p-3.5 bg-brand-emerald/10 border border-brand-emerald/20 text-brand-emerald rounded-xl text-xs">
-                              <CheckCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                              <span>TAM pre-screen audits completed! Synthesized dry-run migrations verified, Sev-1 incident pathways set, and tenant-isolated OAuth configurations approved.</span>
-                            </div>
-                          )}
-
-                          <div className="pt-4 flex justify-between">
-                            <button
-                              type="button"
-                              onClick={() => setFormStep(2)}
-                              className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
-                            >
-                              <span>Back</span>
-                            </button>
-                            
-                            {!sandboxSuccess ? (
-                              <button
-                                type="button"
-                                onClick={validateSandbox}
-                                className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs cursor-pointer"
-                              >
-                                <span>Audit Client Architecture ({sandboxAttempts} attempts)</span>
-                              </button>
-                            ) : (
-                              <button
-                                type="button"
-                                onClick={() => setFormStep(4)}
-                                className="inline-flex items-center space-x-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold px-5 py-3 rounded-xl hover:opacity-95 transition-opacity text-xs cursor-pointer"
-                              >
-                                <span>Proceed to Review</span>
-                                <ArrowRight className="w-3.5 h-3.5" />
-                              </button>
-                            )}
-                          </div>
-                        </div>
-                      )}
+                      
 
                       {/* STEP 4: Review and Submit */}
-                      {formStep === 4 && (
+                      {formStep === 3 && (
                         <div className="space-y-5">
                           <h3 className="font-display font-extrabold text-lg text-white">Review & Submit Application</h3>
                           
@@ -735,19 +593,13 @@ export default function JobClient() {
                               <p className="text-gray-300"><span className="text-gray-500 font-sans">FHIR Comfort:</span> {formData.hipaaFamiliar}</p>
                             </div>
 
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-1.5">
-                              <p className="text-gray-500 uppercase text-[10px] tracking-wider mb-2 font-bold font-sans">Sandbox Pre-screen Result</p>
-                              <p className="text-brand-emerald flex items-center space-x-1.5">
-                                <CheckCircle className="w-3.5 h-3.5" />
-                                <span>Dry-run migrations, 15-minute SLA incident triage metrics, and isolated OAuth 2.0 authentications validated</span>
-                              </p>
-                            </div>
+                            
                           </div>
 
                           <div className="pt-4 flex justify-between">
                             <button
                               type="button"
-                              onClick={() => setFormStep(3)}
+                              onClick={() => setFormStep(2)}
                               className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
                             >
                               <span>Back</span>

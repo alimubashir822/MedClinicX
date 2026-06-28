@@ -30,15 +30,7 @@ export default function JobClient() {
   });
 
   // Integration Sandbox State
-  const [integrationSetup, setIntegrationSetup] = useState({
-    apiStandard: "",
-    authFlow: "",
-    syncSchedule: ""
-  });
-  const [sandboxAttempts, setSandboxAttempts] = useState(0);
-  const [sandboxSuccess, setSandboxSuccess] = useState(false);
-  const [sandboxError, setSandboxError] = useState("");
-
+        
   // Submission States
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -80,37 +72,30 @@ export default function JobClient() {
     }
   };
 
-  const validateIntegration = () => {
-    setSandboxAttempts(prev => prev + 1);
-    
-    // Correct integration choices:
-    // apiStandard -> fhir_json (HL7 FHIR JSON endpoints over HTTPS)
-    // authFlow -> oauth_jwt (OAuth 2.0 Client Credentials flow with JWT signing & 15-min expiry)
-    // syncSchedule -> webhook_realtime (Webhook triggers for real-time events + SSN/birthdate validation)
-    
-    const correctStandard = integrationSetup.apiStandard === "fhir_json";
-    const correctAuth = integrationSetup.authFlow === "oauth_jwt";
-    const correctSync = integrationSetup.syncSchedule === "webhook_realtime";
-    
-    if (correctStandard && correctAuth && correctSync) {
-      setSandboxSuccess(true);
-      setSandboxError("");
-    } else {
-      setSandboxSuccess(false);
-      let incorrectCount = 0;
-      if (!correctStandard) incorrectCount++;
-      if (!correctAuth) incorrectCount++;
-      if (!correctSync) incorrectCount++;
-      
-      setSandboxError(
-        `Integration audit failed. ${incorrectCount}/3 configurations contain errors. Hint: Prioritize HL7 FHIR JSON protocols for modern REST connections; enforce ephemeral JWTs for API access security; and leverage webhooks for real-time updates.`
-      );
-    }
-  };
-
+  
   const submitApplication = async () => {
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    try {
+      const res = await fetch("/api/careers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          portfolioUrl: formData.portfolioUrl,
+          resumeName: formData.resumeName,
+          position: "Solutions Engineer",
+          extraFields: {
+            ...formData
+          }
+        }),
+      });
+      if (!res.ok) {
+        console.error("Failed to submit application");
+      }
+    } catch (err) {
+      console.error("Submit error:", err);
+    }
     setIsSubmitting(false);
     setSubmitSuccess(true);
   };
@@ -348,9 +333,9 @@ export default function JobClient() {
                       <span className={formStep === 1 ? "text-brand-cyan font-bold" : "text-gray-500"}>01. Profile</span>
                       <span className={formStep === 2 ? "text-brand-cyan font-bold" : "text-gray-500"}>02. Experience</span>
                       <span className={formStep === 3 ? "text-brand-cyan font-bold" : "text-gray-500"}>03. Integration Sandbox</span>
-                      <span className={formStep === 4 ? "text-brand-cyan font-bold" : "text-gray-500"}>04. Submit</span>
+                      
                     </div>
-                    <span className="text-gray-500">Step {formStep} of 4</span>
+                    <span className="text-gray-500">Step {formStep} of 3</span>
                   </div>
 
                   {submitSuccess ? (
@@ -373,9 +358,9 @@ export default function JobClient() {
                         onClick={() => {
                           setFormStep(1);
                           setSubmitSuccess(false);
-                          setSandboxSuccess(false);
-                          setSandboxAttempts(0);
-                          setIntegrationSetup({ apiStandard: "", authFlow: "", syncSchedule: "" });
+                          
+                          
+                          
                           setFormData({
                             name: "",
                             email: "",
@@ -553,142 +538,10 @@ export default function JobClient() {
                       )}
 
                       {/* STEP 3: Integration Sandbox */}
-                      {formStep === 3 && (
-                        <div className="space-y-5">
-                          <div className="flex justify-between items-start">
-                            <div>
-                              <h3 className="font-display font-extrabold text-lg text-white">Solutions Engineering API & System Integration Sandbox</h3>
-                              <p className="text-xs text-gray-400 mt-1">
-                                Design the integration topology connecting Med Clinic X's patient portal with a hospital's legacy Epic EHR server.
-                              </p>
-                            </div>
-                            <span className="text-[9px] font-bold px-2 py-0.5 bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/20 rounded font-mono">
-                              Integration Challenge
-                            </span>
-                          </div>
-
-                          {/* SANDBOX CHALLENGE */}
-                          <div className="space-y-4 font-sans text-xs">
-                            
-                            {/* Scenario 1 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-cyan rounded-full shrink-0" />
-                                <span>Parameter 1: API Protocol & Patient Data Standard</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;Which REST API protocol standard is preferred for exchanging patient demographical records with external EHRs?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={integrationSetup.apiStandard}
-                                  onChange={(e) => setIntegrationSetup(prev => ({ ...prev, apiStandard: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Protocol --</option>
-                                  <option value="soap_xml">Integrate via custom SOAP XML web services over custom VPN tunnels</option>
-                                  <option value="fhir_json">Use HL7 FHIR JSON endpoints over secure HTTPS (Correct!)</option>
-                                  <option value="direct_sql">Expose direct JDBC connections from the hospital server database</option>
-                                </select>
-                              </div>
-                            </div>
-
-                            {/* Scenario 2 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-indigo rounded-full shrink-0" />
-                                <span>Parameter 2: Access Token & Authentication Flow</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;What security handshake authentication flow is required to secure the patient sync client endpoints?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={integrationSetup.authFlow}
-                                  onChange={(e) => setIntegrationSetup(prev => ({ ...prev, authFlow: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Auth Flow --</option>
-                                  <option value="basic_auth">HTTP Basic Authentication with static client passwords</option>
-                                  <option value="oauth_jwt">OAuth 2.0 Client Credentials flow with JWT signing & 15-minute token expiry (Correct!)</option>
-                                  <option value="none_ip">Secure via IP address whitelisting, skipping credential verification</option>
-                                </select>
-                              </div>
-                            </div>
-
-                            {/* Scenario 3 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-emerald rounded-full shrink-0" />
-                                <span>Parameter 3: Patient Sync Schedule & Conflict Resolution</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;How should the SaaS update patient records when details are edited in both the local portal and the hospital database?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={integrationSetup.syncSchedule}
-                                  onChange={(e) => setIntegrationSetup(prev => ({ ...prev, syncSchedule: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Sync Method --</option>
-                                  <option value="webhook_realtime">Deploy webhook triggers for real-time sync with patient birthdate & SSN validation (Correct!)</option>
-                                  <option value="batch_nightly">Run a nightly batch SQL script to overwrite all portal edits with EMR snapshots</option>
-                                  <option value="manual_export">Train administrators to manually export and import CSV data logs daily</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Error message */}
-                          {sandboxError && (
-                            <div className="flex items-start space-x-2.5 p-3.5 bg-red-950/40 border border-red-500/20 text-red-300 rounded-xl text-xs">
-                              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                              <span>{sandboxError}</span>
-                            </div>
-                          )}
-
-                          {/* Correct notification */}
-                          {sandboxSuccess && (
-                            <div className="flex items-start space-x-2.5 p-3.5 bg-brand-emerald/10 border border-brand-emerald/20 text-brand-emerald rounded-xl text-xs">
-                              <CheckCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                              <span>Integration parameters verified! FHIR JSON selected, OAuth 2.0 active with ephemeral JWT tokens, and real-time webhook sync configured.</span>
-                            </div>
-                          )}
-
-                          <div className="pt-4 flex justify-between">
-                            <button
-                              type="button"
-                              onClick={() => setFormStep(2)}
-                              className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
-                            >
-                              <span>Back</span>
-                            </button>
-                            
-                            {!sandboxSuccess ? (
-                              <button
-                                type="button"
-                                onClick={validateIntegration}
-                                className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs cursor-pointer"
-                              >
-                                <span>Audit Integration Config ({sandboxAttempts} attempts)</span>
-                              </button>
-                            ) : (
-                              <button
-                                type="button"
-                                onClick={() => setFormStep(4)}
-                                className="inline-flex items-center space-x-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold px-5 py-3 rounded-xl hover:opacity-95 transition-opacity text-xs cursor-pointer"
-                              >
-                                <span>Proceed to Review</span>
-                                <ArrowRight className="w-3.5 h-3.5" />
-                              </button>
-                            )}
-                          </div>
-                        </div>
-                      )}
+                      
 
                       {/* STEP 4: Review and Submit */}
-                      {formStep === 4 && (
+                      {formStep === 3 && (
                         <div className="space-y-5">
                           <h3 className="font-display font-extrabold text-lg text-white">Review & Submit Application</h3>
                           
@@ -713,19 +566,13 @@ export default function JobClient() {
                               <p className="text-gray-300"><span className="text-gray-500 font-sans">HL7/FHIR Schema Familiarity:</span> {formData.fhirFamiliar}</p>
                             </div>
 
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-1.5">
-                              <p className="text-gray-500 uppercase text-[10px] tracking-wider mb-2 font-bold font-sans">Sandbox Audit Validation</p>
-                              <p className="text-brand-emerald flex items-center space-x-1.5">
-                                <CheckCircle className="w-3.5 h-3.5" />
-                                <span>HL7 FHIR REST protocols, OAuth 2.0 Client credentials, and real-time webhook sync loops approved</span>
-                              </p>
-                            </div>
+                            
                           </div>
 
                           <div className="pt-4 flex justify-between">
                             <button
                               type="button"
-                              onClick={() => setFormStep(3)}
+                              onClick={() => setFormStep(2)}
                               className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
                             >
                               <span>Back</span>

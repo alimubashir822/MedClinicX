@@ -30,16 +30,7 @@ export default function JobClient() {
   });
 
   // Project Dependency Matcher State
-  const [dependencies, setDependencies] = useState({
-    phaseA: "",
-    phaseB: "",
-    phaseC: "",
-    phaseD: ""
-  });
-  const [sandboxAttempts, setSandboxAttempts] = useState(0);
-  const [sandboxSuccess, setSandboxSuccess] = useState(false);
-  const [sandboxError, setSandboxError] = useState("");
-
+        
   // Submission States
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -81,40 +72,30 @@ export default function JobClient() {
     }
   };
 
-  const validateDependencies = () => {
-    setSandboxAttempts(prev => prev + 1);
-    
-    // Correct predecessors:
-    // phaseA -> none
-    // phaseB -> phaseA
-    // phaseC -> phaseA
-    // phaseD -> bothBC
-    
-    const correctA = dependencies.phaseA === "none";
-    const correctB = dependencies.phaseB === "phaseA";
-    const correctC = dependencies.phaseC === "phaseA";
-    const correctD = dependencies.phaseD === "bothBC";
-    
-    if (correctA && correctB && correctC && correctD) {
-      setSandboxSuccess(true);
-      setSandboxError("");
-    } else {
-      setSandboxSuccess(false);
-      let incorrectCount = 0;
-      if (!correctA) incorrectCount++;
-      if (!correctB) incorrectCount++;
-      if (!correctC) incorrectCount++;
-      if (!correctD) incorrectCount++;
-      
-      setSandboxError(
-        `Scoping error. ${incorrectCount}/4 dependencies mapped incorrectly. Hint: EHR API Development (Phase B) and AI Model Training (Phase C) can run in parallel but both require Requirements (Phase A) to start first. System Integration (Phase D) requires both completion before launch.`
-      );
-    }
-  };
-
+  
   const submitApplication = async () => {
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    try {
+      const res = await fetch("/api/careers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          portfolioUrl: formData.portfolioUrl,
+          resumeName: formData.resumeName,
+          position: "Healthcare Project Manager",
+          extraFields: {
+            ...formData
+          }
+        }),
+      });
+      if (!res.ok) {
+        console.error("Failed to submit application");
+      }
+    } catch (err) {
+      console.error("Submit error:", err);
+    }
     setIsSubmitting(false);
     setSubmitSuccess(true);
   };
@@ -460,18 +441,18 @@ export default function JobClient() {
               {/* Progress bar */}
               <div className="mb-8">
                 <div className="flex justify-between text-xs text-gray-400 mb-2 font-mono">
-                  <span>STEP {formStep} OF 4</span>
+                  <span>Step {formStep} of 3</span>
                   <span>
                     {formStep === 1 && "Personal Information"}
                     {formStep === 2 && "Agile & Certifications"}
-                    {formStep === 3 && "Healthcare Dependency Matcher"}
-                    {formStep === 4 && "Review & Submit"}
+                    
+                    {formStep === 3 && "Review & Submit"}
                   </span>
                 </div>
                 <div className="w-full bg-slate-900 border border-brand-border h-2 rounded-full overflow-hidden">
                   <div
                     className="bg-gradient-to-r from-brand-cyan to-brand-indigo h-full transition-all duration-300"
-                    style={{ width: `${(formStep / 4) * 100}%` }}
+                    style={{ width: `${(formStep / 3) * 100}%` }}
                   />
                 </div>
               </div>
@@ -508,9 +489,9 @@ export default function JobClient() {
                       onClick={() => {
                         setFormStep(1);
                         setSubmitSuccess(false);
-                        setSandboxSuccess(false);
-                        setSandboxAttempts(0);
-                        setDependencies({ phaseA: "", phaseB: "", phaseC: "", phaseD: "" });
+                        
+                        
+                        
                         setFormData({
                           name: "",
                           email: "",
@@ -687,174 +668,10 @@ export default function JobClient() {
                     )}
 
                     {/* STEP 3: Interactive Sandbox */}
-                    {formStep === 3 && (
-                      <div className="space-y-5">
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <h3 className="font-display font-extrabold text-lg text-white">Healthcare Project Roadmap Scheduler</h3>
-                            <p className="text-xs text-gray-400 mt-1">
-                              Match each EHR Integration Phase to its correct project Predecessor Task.
-                            </p>
-                          </div>
-                          <span className="text-[9px] font-bold px-2 py-0.5 bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/20 rounded font-mono">
-                            Roadmap Scoping
-                          </span>
-                        </div>
-
-                        {/* MAPPING INTERFACE */}
-                        <div className="space-y-4 font-sans text-xs">
-                          {/* Row 1: Phase A */}
-                          <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center bg-white/2 border border-white/5 p-3 rounded-xl">
-                            <div className="sm:col-span-5 font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                              <span className="w-2 h-2 bg-brand-cyan rounded-full" />
-                              <span>Phase A: Clinical Requirements & HIPAA Audit</span>
-                            </div>
-                            <div className="sm:col-span-1 text-center text-gray-500 font-semibold">&rarr;</div>
-                            <div className="sm:col-span-6">
-                              <select
-                                value={dependencies.phaseA}
-                                onChange={(e) => setDependencies(prev => ({ ...prev, phaseA: e.target.value }))}
-                                className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                              >
-                                <option value="">-- Select Predecessor task --</option>
-                                <option value="none">No Predecessors (Starts Project First)</option>
-                                <option value="phaseA">Phase A (Requirements & HIPAA Completed)</option>
-                                <option value="bothBC">Both Phase B and Phase C Completed</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          {/* Row 2: Phase B */}
-                          <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center bg-white/2 border border-white/5 p-3 rounded-xl">
-                            <div className="sm:col-span-5 font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                              <span className="w-2 h-2 bg-brand-indigo rounded-full" />
-                              <span>Phase B: EHR API Development & Data Mapping</span>
-                            </div>
-                            <div className="sm:col-span-1 text-center text-gray-500 font-semibold">&rarr;</div>
-                            <div className="sm:col-span-6">
-                              <select
-                                value={dependencies.phaseB}
-                                onChange={(e) => setDependencies(prev => ({ ...prev, phaseB: e.target.value }))}
-                                className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                              >
-                                <option value="">-- Select Predecessor task --</option>
-                                <option value="none">No Predecessors (Starts Project First)</option>
-                                <option value="phaseA">Phase A (Requirements & HIPAA Completed)</option>
-                                <option value="bothBC">Both Phase B and Phase C Completed</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          {/* Row 3: Phase C */}
-                          <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center bg-white/2 border border-white/5 p-3 rounded-xl">
-                            <div className="sm:col-span-5 font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                              <span className="w-2 h-2 bg-brand-emerald rounded-full" />
-                              <span>Phase C: AI Receptionist Model Training</span>
-                            </div>
-                            <div className="sm:col-span-1 text-center text-gray-500 font-semibold">&rarr;</div>
-                            <div className="sm:col-span-6">
-                              <select
-                                value={dependencies.phaseC}
-                                onChange={(e) => setDependencies(prev => ({ ...prev, phaseC: e.target.value }))}
-                                className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                              >
-                                <option value="">-- Select Predecessor task --</option>
-                                <option value="none">No Predecessors (Starts Project First)</option>
-                                <option value="phaseA">Phase A (Requirements & HIPAA Completed)</option>
-                                <option value="bothBC">Both Phase B and Phase C Completed</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          {/* Row 4: Phase D */}
-                          <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center bg-white/2 border border-white/5 p-3 rounded-xl">
-                            <div className="sm:col-span-5 font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                              <span className="w-2 h-2 bg-amber-400 rounded-full" />
-                              <span>Phase D: System Integration & Pilot Launch</span>
-                            </div>
-                            <div className="sm:col-span-1 text-center text-gray-500 font-semibold">&rarr;</div>
-                            <div className="sm:col-span-6">
-                              <select
-                                value={dependencies.phaseD}
-                                onChange={(e) => setDependencies(prev => ({ ...prev, phaseD: e.target.value }))}
-                                className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                              >
-                                <option value="">-- Select Predecessor task --</option>
-                                <option value="none">No Predecessors (Starts Project First)</option>
-                                <option value="phaseA">Phase A (Requirements & HIPAA Completed)</option>
-                                <option value="bothBC">Both Phase B and Phase C Completed</option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Execute Button */}
-                        <div className="flex items-center gap-3">
-                          <button
-                            type="button"
-                            onClick={validateDependencies}
-                            className="bg-brand-indigo/25 hover:bg-brand-indigo/40 text-brand-indigo-light border border-brand-indigo/35 font-bold text-xs px-4 py-2.5 rounded-xl transition-all cursor-pointer"
-                          >
-                            Verify Roadmap Schedule
-                          </button>
-                          {sandboxAttempts > 0 && (
-                            <span className="text-[11px] font-semibold font-mono text-gray-400">
-                              {sandboxAttempts} validation check{sandboxAttempts > 1 ? "s" : ""}
-                            </span>
-                          )}
-                        </div>
-
-                        {/* Output Sandbox console */}
-                        {sandboxAttempts > 0 && (
-                          <div className={`p-4 rounded-xl border font-mono text-xs ${
-                            sandboxSuccess 
-                              ? "bg-brand-emerald/5 border-brand-emerald/30 text-brand-emerald" 
-                              : "bg-rose-950/20 border-rose-500/30 text-rose-400"
-                          }`}>
-                            <div className="flex items-start space-x-2">
-                              {sandboxSuccess ? (
-                                <>
-                                  <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                                  <div className="space-y-1.5">
-                                    <p className="font-bold">✓ Success: Roadmap dependencies and critical path verified!</p>
-                                    <p className="text-[10px] text-gray-400 leading-normal">
-                                      Phase A has no predecessor. Phase B and Phase C depend on Phase A. Phase D requires completion of both Phase B and C. Roadmap evaluation passed successfully.
-                                    </p>
-                                  </div>
-                                </>
-                              ) : (
-                                <>
-                                  <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                                  <p className="leading-relaxed font-semibold">{sandboxError}</p>
-                                </>
-                              )}
-                            </div>
-                          </div>
-                        )}
-
-                        <div className="pt-4 flex justify-between">
-                          <button
-                            type="button"
-                            onClick={() => setFormStep(2)}
-                            className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
-                          >
-                            <span>Back</span>
-                          </button>
-                          <button
-                            type="button"
-                            disabled={!sandboxSuccess}
-                            onClick={() => setFormStep(4)}
-                            className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs disabled:opacity-30 cursor-pointer"
-                          >
-                            <span>Review Application</span>
-                            <ArrowRight className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                      </div>
-                    )}
+                    
 
                     {/* STEP 4: Review & Submit */}
-                    {formStep === 4 && (
+                    {formStep === 3 && (
                       <div className="space-y-6">
                         <h3 className="font-display font-extrabold text-lg text-white">Review &amp; Submit</h3>
                         
@@ -901,7 +718,7 @@ export default function JobClient() {
                         <div className="pt-4 flex justify-between">
                           <button
                             type="button"
-                            onClick={() => setFormStep(3)}
+                            onClick={() => setFormStep(2)}
                             className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
                           >
                             <span>Back</span>

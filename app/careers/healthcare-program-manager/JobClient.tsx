@@ -30,15 +30,7 @@ export default function JobClient() {
   });
 
   // Program Governance Sandbox State
-  const [governance, setGovernance] = useState({
-    resourcePath: "",
-    governanceGate: "",
-    launchDependency: ""
-  });
-  const [sandboxAttempts, setSandboxAttempts] = useState(0);
-  const [sandboxSuccess, setSandboxSuccess] = useState(false);
-  const [sandboxError, setSandboxError] = useState("");
-
+        
   // Submission States
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -80,37 +72,30 @@ export default function JobClient() {
     }
   };
 
-  const validateGovernance = () => {
-    setSandboxAttempts(prev => prev + 1);
-    
-    // Correct governance answers:
-    // resourcePath -> reallocate (Reallocate senior resources from parallel, non-blocking tracks to the critical path)
-    // governanceGate -> compliance_accuracy (HIPAA compliance auditing & clinical accuracy verification by medical officers)
-    // launchDependency -> integrate_complete (Only after EHR Portal and AI Urgency Webhook complete integration testing)
-    
-    const correctPath = governance.resourcePath === "reallocate";
-    const correctGate = governance.governanceGate === "compliance_accuracy";
-    const correctLaunch = governance.launchDependency === "integrate_complete";
-    
-    if (correctPath && correctGate && correctLaunch) {
-      setSandboxSuccess(true);
-      setSandboxError("");
-    } else {
-      setSandboxSuccess(false);
-      let incorrectCount = 0;
-      if (!correctPath) incorrectCount++;
-      if (!correctGate) incorrectCount++;
-      if (!correctLaunch) incorrectCount++;
-      
-      setSandboxError(
-        `Portfolio alignment mismatch. ${incorrectCount}/3 parameters mapped incorrectly. Hint: Mitigate blocking delays by shifting resources to critical paths; audit AI nodes for HIPAA/Accuracy before clinical pilot launch; and launch pilots only when integration steps succeed.`
-      );
-    }
-  };
-
+  
   const submitApplication = async () => {
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    try {
+      const res = await fetch("/api/careers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          portfolioUrl: formData.portfolioUrl,
+          resumeName: formData.resumeName,
+          position: "Healthcare Program Manager",
+          extraFields: {
+            ...formData
+          }
+        }),
+      });
+      if (!res.ok) {
+        console.error("Failed to submit application");
+      }
+    } catch (err) {
+      console.error("Submit error:", err);
+    }
     setIsSubmitting(false);
     setSubmitSuccess(true);
   };
@@ -348,9 +333,9 @@ export default function JobClient() {
                       <span className={formStep === 1 ? "text-brand-cyan font-bold" : "text-gray-500"}>01. Profile</span>
                       <span className={formStep === 2 ? "text-brand-cyan font-bold" : "text-gray-500"}>02. Experience</span>
                       <span className={formStep === 3 ? "text-brand-cyan font-bold" : "text-gray-500"}>03. Alignment Sandbox</span>
-                      <span className={formStep === 4 ? "text-brand-cyan font-bold" : "text-gray-500"}>04. Submit</span>
+                      
                     </div>
-                    <span className="text-gray-500">Step {formStep} of 4</span>
+                    <span className="text-gray-500">Step {formStep} of 3</span>
                   </div>
 
                   {submitSuccess ? (
@@ -373,9 +358,9 @@ export default function JobClient() {
                         onClick={() => {
                           setFormStep(1);
                           setSubmitSuccess(false);
-                          setSandboxSuccess(false);
-                          setSandboxAttempts(0);
-                          setGovernance({ resourcePath: "", governanceGate: "", launchDependency: "" });
+                          
+                          
+                          
                           setFormData({
                             name: "",
                             email: "",
@@ -552,142 +537,10 @@ export default function JobClient() {
                       )}
 
                       {/* STEP 3: Program Governance Sandbox */}
-                      {formStep === 3 && (
-                        <div className="space-y-5">
-                          <div className="flex justify-between items-start">
-                            <div>
-                              <h3 className="font-display font-extrabold text-lg text-white">Healthcare Portfolio & Dependency Governance Sandbox</h3>
-                              <p className="text-xs text-gray-400 mt-1">
-                                Resolve dependency blocks, choose compliance risk gates, and structure launch dependencies for our multi-initiative clinical portal program.
-                              </p>
-                            </div>
-                            <span className="text-[9px] font-bold px-2 py-0.5 bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/20 rounded font-mono">
-                              Program Matcher
-                            </span>
-                          </div>
-
-                          {/* SANDBOX CHALLENGE */}
-                          <div className="space-y-4 font-sans text-xs">
-                            
-                            {/* Scenario 1 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-cyan rounded-full shrink-0" />
-                                <span>Parameter 1: Resource Reallocation Strategy</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;Project 1 (Core EMR API Integration) is running 2 weeks late, threatening Project 2 (AI Symptom intake webhook deployment) which relies directly on EMR endpoints. How do you re-schedule?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={governance.resourcePath}
-                                  onChange={(e) => setGovernance(prev => ({ ...prev, resourcePath: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Strategy --</option>
-                                  <option value="delay">Delay Project 2 and absorb the 2-week slip across the whole program</option>
-                                  <option value="reallocate">Reallocate senior developers from parallel, non-blocking tracks to Project 1 (Correct!)</option>
-                                  <option value="scope">Reduce EMR API test coverage specifications to hit the timeline</option>
-                                </select>
-                              </div>
-                            </div>
-
-                            {/* Scenario 2 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-indigo rounded-full shrink-0" />
-                                <span>Parameter 2: Clinical Governance Risk Gate</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;Before pushing the AI Urgency Webhook tool to public pilot testing, what clinical governance audit must be completed?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={governance.governanceGate}
-                                  onChange={(e) => setGovernance(prev => ({ ...prev, governanceGate: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Risk Gate --</option>
-                                  <option value="compliance_accuracy">HIPAA compliance auditing & clinical accuracy verification by medical officers (Correct!)</option>
-                                  <option value="marketing_ui">UI/UX user feedback survey and aesthetic branding alignment reviews</option>
-                                  <option value="speed_perf">Load testing execution and database querying performance audit</option>
-                                </select>
-                              </div>
-                            </div>
-
-                            {/* Scenario 3 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-emerald rounded-full shrink-0" />
-                                <span>Parameter 3: Multi-Project Pilot Launch Dependency</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;Under what dependency sequence can the final Hospital Pilot Deployment (Project 3) begin?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={governance.launchDependency}
-                                  onChange={(e) => setGovernance(prev => ({ ...prev, launchDependency: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Launch Condition --</option>
-                                  <option value="emr_ready">Immediately after Project 1 (EMR API Integration) completes, running the AI webhook concurrently</option>
-                                  <option value="integrate_complete">Only after EHR Portal and AI Urgency Webhook complete integration testing (Correct!)</option>
-                                  <option value="immediate">Start Pilot immediately using mock datasets, skipping real-time API integrations</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Error message */}
-                          {sandboxError && (
-                            <div className="flex items-start space-x-2.5 p-3.5 bg-red-950/40 border border-red-500/20 text-red-300 rounded-xl text-xs">
-                              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                              <span>{sandboxError}</span>
-                            </div>
-                          )}
-
-                          {/* Correct notification */}
-                          {sandboxSuccess && (
-                            <div className="flex items-start space-x-2.5 p-3.5 bg-brand-emerald/10 border border-brand-emerald/20 text-brand-emerald rounded-xl text-xs">
-                              <CheckCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                              <span>Program portfolio governance validated! Dependencies aligned successfully with HIPAA and clinical safeguards.</span>
-                            </div>
-                          )}
-
-                          <div className="pt-4 flex justify-between">
-                            <button
-                              type="button"
-                              onClick={() => setFormStep(2)}
-                              className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
-                            >
-                              <span>Back</span>
-                            </button>
-                            
-                            {!sandboxSuccess ? (
-                              <button
-                                type="button"
-                                onClick={validateGovernance}
-                                className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs cursor-pointer"
-                              >
-                                <span>Align Portfolio Metrics ({sandboxAttempts} attempts)</span>
-                              </button>
-                            ) : (
-                              <button
-                                type="button"
-                                onClick={() => setFormStep(4)}
-                                className="inline-flex items-center space-x-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold px-5 py-3 rounded-xl hover:opacity-95 transition-opacity text-xs cursor-pointer"
-                              >
-                                <span>Proceed to Review</span>
-                                <ArrowRight className="w-3.5 h-3.5" />
-                              </button>
-                            )}
-                          </div>
-                        </div>
-                      )}
+                      
 
                       {/* STEP 4: Review and Submit */}
-                      {formStep === 4 && (
+                      {formStep === 3 && (
                         <div className="space-y-5">
                           <h3 className="font-display font-extrabold text-lg text-white">Review & Submit Application</h3>
                           
@@ -712,19 +565,13 @@ export default function JobClient() {
                               <p className="text-gray-300"><span className="text-gray-500 font-sans">Cross-Scrum Agile Comfort:</span> {formData.agileComfort}</p>
                             </div>
 
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-1.5">
-                              <p className="text-gray-500 uppercase text-[10px] tracking-wider mb-2 font-bold font-sans">Program Sandbox Validation</p>
-                              <p className="text-brand-emerald flex items-center space-x-1.5">
-                                <CheckCircle className="w-3.5 h-3.5" />
-                                <span>Multi-project dependencies and clinical compliance risk gates verified</span>
-                              </p>
-                            </div>
+                            
                           </div>
 
                           <div className="pt-4 flex justify-between">
                             <button
                               type="button"
-                              onClick={() => setFormStep(3)}
+                              onClick={() => setFormStep(2)}
                               className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
                             >
                               <span>Back</span>

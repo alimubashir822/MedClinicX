@@ -30,15 +30,7 @@ export default function JobClient() {
   });
 
   // Sandbox State
-  const [sandboxSetup, setSandboxSetup] = useState({
-    connectionPool: "",
-    jpaStrategy: "",
-    rateLimiting: ""
-  });
-  const [sandboxAttempts, setSandboxAttempts] = useState(0);
-  const [sandboxSuccess, setSandboxSuccess] = useState(false);
-  const [sandboxError, setSandboxError] = useState("");
-
+        
   // Submission States
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -80,32 +72,30 @@ export default function JobClient() {
     }
   };
 
-  const validateSandbox = () => {
-    setSandboxAttempts(prev => prev + 1);
-    
-    const correctPool = sandboxSetup.connectionPool === "pool_size_opt";
-    const correctJpa = sandboxSetup.jpaStrategy === "jpa_readonly_stream";
-    const correctRate = sandboxSetup.rateLimiting === "bucket4j_limiter";
-    
-    if (correctPool && correctJpa && correctRate) {
-      setSandboxSuccess(true);
-      setSandboxError("");
-    } else {
-      setSandboxSuccess(false);
-      let incorrectCount = 0;
-      if (!correctPool) incorrectCount++;
-      if (!correctJpa) incorrectCount++;
-      if (!correctRate) incorrectCount++;
-      
-      setSandboxError(
-        `Backend audit failed. ${incorrectCount}/3 configurations are non-optimal. Hint: Size connection pools matching database capacities with timeouts; process large datasets in read-only paginated streams; and enforce API rate limits via filters to prevent server starvation.`
-      );
-    }
-  };
-
+  
   const submitApplication = async () => {
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    try {
+      const res = await fetch("/api/careers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          portfolioUrl: formData.portfolioUrl,
+          resumeName: formData.resumeName,
+          position: "Java Developer",
+          extraFields: {
+            ...formData
+          }
+        }),
+      });
+      if (!res.ok) {
+        console.error("Failed to submit application");
+      }
+    } catch (err) {
+      console.error("Submit error:", err);
+    }
     setIsSubmitting(false);
     setSubmitSuccess(true);
   };
@@ -370,9 +360,9 @@ export default function JobClient() {
                       <span className={formStep === 1 ? "text-brand-cyan font-bold" : "text-gray-500"}>01. Profile</span>
                       <span className={formStep === 2 ? "text-brand-cyan font-bold" : "text-gray-500"}>02. Experience</span>
                       <span className={formStep === 3 ? "text-brand-cyan font-bold" : "text-gray-500"}>03. Performance Sandbox</span>
-                      <span className={formStep === 4 ? "text-brand-cyan font-bold" : "text-gray-500"}>04. Submit</span>
+                      
                     </div>
-                    <span className="text-gray-500">Step {formStep} of 4</span>
+                    <span className="text-gray-500">Step {formStep} of 3</span>
                   </div>
 
                   {submitSuccess ? (
@@ -395,9 +385,9 @@ export default function JobClient() {
                         onClick={() => {
                           setFormStep(1);
                           setSubmitSuccess(false);
-                          setSandboxSuccess(false);
-                          setSandboxAttempts(0);
-                          setSandboxSetup({ connectionPool: "", jpaStrategy: "", rateLimiting: "" });
+                          
+                          
+                          
                           setFormData({
                             name: "",
                             email: "",
@@ -567,7 +557,7 @@ export default function JobClient() {
                               onClick={() => setFormStep(3)}
                               className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs cursor-pointer"
                             >
-                              <span>Proceed to Sandbox</span>
+                              <span>Review Application</span>
                               <ArrowRight className="w-3.5 h-3.5" />
                             </button>
                           </div>
@@ -575,142 +565,10 @@ export default function JobClient() {
                       )}
 
                       {/* STEP 3: Sandbox */}
-                      {formStep === 3 && (
-                        <div className="space-y-5">
-                          <div className="flex justify-between items-start">
-                            <div>
-                              <h3 className="font-display font-extrabold text-lg text-white">Java Backend Performance Sandbox</h3>
-                              <p className="text-xs text-gray-400 mt-1">
-                                Optimize connection pools, choose JPA strategies for big data queries, and define rate limits to prevent latency spikes.
-                              </p>
-                            </div>
-                            <span className="text-[9px] font-bold px-2 py-0.5 bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/20 rounded font-mono">
-                              JVM Configuration
-                            </span>
-                          </div>
-
-                          {/* SANDBOX CHALLENGE */}
-                          <div className="space-y-4 font-sans text-xs">
-                            
-                            {/* Scenario 1 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-cyan rounded-full shrink-0" />
-                                <span>Parameter 1: HikariCP Database Connection Pool Sizing</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;Under heavy parallel clinical API throughput, how should the database connection pool be sized?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={sandboxSetup.connectionPool}
-                                  onChange={(e) => setSandboxSetup(prev => ({ ...prev, connectionPool: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Connection Pool Config --</option>
-                                  <option value="pool_size_opt">Set pool size matching target DB core limits (e.g., 10) with explicit connection timeouts of 30,000ms (Correct!)</option>
-                                  <option value="pool_size_too_high">Raise pool size to 100 to maximize throughput and allow connections to hang open indefinitely</option>
-                                  <option value="pool_size_too_low">Restrict pool size to 1 to reduce memory footprint, blocking concurrent threads</option>
-                                </select>
-                              </div>
-                            </div>
-
-                            {/* Scenario 2 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-indigo rounded-full shrink-0" />
-                                <span>Parameter 2: JPA Transaction Strategy & Large Patient Datasets</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;How should the backend process large reports of 100,000+ patient records without causing Java Heap Out-Of-Memory errors?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={sandboxSetup.jpaStrategy}
-                                  onChange={(e) => setSandboxSetup(prev => ({ ...prev, jpaStrategy: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose JPA Strategy --</option>
-                                  <option value="jpa_readonly_stream">Use @Transactional(readOnly = true) and stream rows via ScrollableResults or offset pagination (Correct!)</option>
-                                  <option value="jpa_eager_list">Retrieve all records eagerly using JpaRepository.findAll() in a single write-heavy transaction</option>
-                                  <option value="jpa_no_transaction">Disable transactional boundaries entirely and fetch records in unmanaged concurrent loops</option>
-                                </select>
-                              </div>
-                            </div>
-
-                            {/* Scenario 3 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-emerald rounded-full shrink-0" />
-                                <span>Parameter 3: REST API Rate Limiting & Denial of Service Protection</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;How should patient portal API endpoints protect downstream databases from credential stuffing or high-frequency automated scraping?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={sandboxSetup.rateLimiting}
-                                  onChange={(e) => setSandboxSetup(prev => ({ ...prev, rateLimiting: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Rate Limiter Setup --</option>
-                                  <option value="bucket4j_limiter">Implement dynamic Bucket4j Token Bucket rate limit filters on endpoints with HTTP 429 status code returns (Correct!)</option>
-                                  <option value="unlimited_concurrency">Permit all client traffic freely, relying on database replicas and write scaling to handle peaks</option>
-                                  <option value="ip_ban_wildcard">Manually log firewall IP bans in database tables when thread latency starts spiking</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Error message */}
-                          {sandboxError && (
-                            <div className="flex items-start space-x-2.5 p-3.5 bg-red-950/40 border border-red-500/20 text-red-300 rounded-xl text-xs">
-                              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                              <span>{sandboxError}</span>
-                            </div>
-                          )}
-
-                          {/* Correct notification */}
-                          {sandboxSuccess && (
-                            <div className="flex items-start space-x-2.5 p-3.5 bg-brand-emerald/10 border border-brand-emerald/20 text-brand-emerald rounded-xl text-xs">
-                              <CheckCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                              <span>Java JVM & Database tuning parameters verified. Pool configuration is optimized, JPA heap usage is managed, and Bucket4j rate limiter is active.</span>
-                            </div>
-                          )}
-
-                          <div className="pt-4 flex justify-between">
-                            <button
-                              type="button"
-                              onClick={() => setFormStep(2)}
-                              className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
-                            >
-                              <span>Back</span>
-                            </button>
-                            
-                            {!sandboxSuccess ? (
-                              <button
-                                type="button"
-                                onClick={validateSandbox}
-                                className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs cursor-pointer"
-                              >
-                                <span>Audit Server Configuration ({sandboxAttempts} attempts)</span>
-                              </button>
-                            ) : (
-                              <button
-                                type="button"
-                                onClick={() => setFormStep(4)}
-                                className="inline-flex items-center space-x-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold px-5 py-3 rounded-xl hover:opacity-95 transition-opacity text-xs cursor-pointer"
-                              >
-                                <span>Proceed to Review</span>
-                                <ArrowRight className="w-3.5 h-3.5" />
-                              </button>
-                            )}
-                          </div>
-                        </div>
-                      )}
+                      
 
                       {/* STEP 4: Review and Submit */}
-                      {formStep === 4 && (
+                      {formStep === 3 && (
                         <div className="space-y-5">
                           <h3 className="font-display font-extrabold text-lg text-white">Review & Submit Application</h3>
                           
@@ -735,19 +593,13 @@ export default function JobClient() {
                               <p className="text-gray-300"><span className="text-gray-500 font-sans">HikariCP Comfort:</span> {formData.hipaaFamiliar}</p>
                             </div>
 
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-1.5">
-                              <p className="text-gray-500 uppercase text-[10px] tracking-wider mb-2 font-bold font-sans">Sandbox Pre-screen Result</p>
-                              <p className="text-brand-emerald flex items-center space-x-1.5">
-                                <CheckCircle className="w-3.5 h-3.5" />
-                                <span>HikariCP core bounds, JPA read-only stream scrolling, and Bucket4j token bucket rate limiting filters validated</span>
-                              </p>
-                            </div>
+                            
                           </div>
 
                           <div className="pt-4 flex justify-between">
                             <button
                               type="button"
-                              onClick={() => setFormStep(3)}
+                              onClick={() => setFormStep(2)}
                               className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
                             >
                               <span>Back</span>

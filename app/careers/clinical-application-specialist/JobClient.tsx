@@ -30,15 +30,7 @@ export default function JobClient() {
   });
 
   // Ticket Triage Sandbox State
-  const [tickets, setTickets] = useState({
-    ticket1: "",
-    ticket2: "",
-    ticket3: ""
-  });
-  const [sandboxAttempts, setSandboxAttempts] = useState(0);
-  const [sandboxSuccess, setSandboxSuccess] = useState(false);
-  const [sandboxError, setSandboxError] = useState("");
-
+        
   // Submission States
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -80,37 +72,30 @@ export default function JobClient() {
     }
   };
 
-  const validateTicketTriage = () => {
-    setSandboxAttempts(prev => prev + 1);
-    
-    // Correct choices:
-    // ticket1 -> size (Check the file size and verify upload limits)
-    // ticket2 -> sync (Verify EHR API integration sync logs and clear system cache)
-    // ticket3 -> consent (Walk the nurse through checking patient consent signing status)
-    
-    const correct1 = tickets.ticket1 === "size";
-    const correct2 = tickets.ticket2 === "sync";
-    const correct3 = tickets.ticket3 === "consent";
-    
-    if (correct1 && correct2 && correct3) {
-      setSandboxSuccess(true);
-      setSandboxError("");
-    } else {
-      setSandboxSuccess(false);
-      let incorrectCount = 0;
-      if (!correct1) incorrectCount++;
-      if (!correct2) incorrectCount++;
-      if (!correct3) incorrectCount++;
-      
-      setSandboxError(
-        `Triage error. ${incorrectCount}/3 support actions mapped incorrectly. Hint: Payload bounds (413) is a file size indicator; calendar delays require sync API audits; consent blocks should be checked inside the patient consent form.`
-      );
-    }
-  };
-
+  
   const submitApplication = async () => {
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    try {
+      const res = await fetch("/api/careers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          portfolioUrl: formData.portfolioUrl,
+          resumeName: formData.resumeName,
+          position: "Clinical Application Specialist",
+          extraFields: {
+            ...formData
+          }
+        }),
+      });
+      if (!res.ok) {
+        console.error("Failed to submit application");
+      }
+    } catch (err) {
+      console.error("Submit error:", err);
+    }
     setIsSubmitting(false);
     setSubmitSuccess(true);
   };
@@ -452,18 +437,18 @@ export default function JobClient() {
               {/* Progress bar */}
               <div className="mb-8">
                 <div className="flex justify-between text-xs text-gray-400 mb-2 font-mono">
-                  <span>STEP {formStep} OF 4</span>
+                  <span>Step {formStep} of 3</span>
                   <span>
                     {formStep === 1 && "Personal Information"}
                     {formStep === 2 && "Informatics Experience"}
-                    {formStep === 3 && "Support Ticket Sandbox"}
-                    {formStep === 4 && "Review & Submit"}
+                    
+                    {formStep === 3 && "Review & Submit"}
                   </span>
                 </div>
                 <div className="w-full bg-slate-900 border border-brand-border h-2 rounded-full overflow-hidden">
                   <div
                     className="bg-gradient-to-r from-brand-cyan to-brand-indigo h-full transition-all duration-300"
-                    style={{ width: `${(formStep / 4) * 100}%` }}
+                    style={{ width: `${(formStep / 3) * 100}%` }}
                   />
                 </div>
               </div>
@@ -500,9 +485,9 @@ export default function JobClient() {
                       onClick={() => {
                         setFormStep(1);
                         setSubmitSuccess(false);
-                        setSandboxSuccess(false);
-                        setSandboxAttempts(0);
-                        setTickets({ ticket1: "", ticket2: "", ticket3: "" });
+                        
+                        
+                        
                         setFormData({
                           name: "",
                           email: "",
@@ -679,159 +664,10 @@ export default function JobClient() {
                     )}
 
                     {/* STEP 3: Support Ticket Sandbox */}
-                    {formStep === 3 && (
-                      <div className="space-y-5">
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <h3 className="font-display font-extrabold text-lg text-white">Application Support Triage Simulator</h3>
-                            <p className="text-xs text-gray-400 mt-1">
-                              Select the correct troubleshooting action for each clinical support ticket.
-                            </p>
-                          </div>
-                          <span className="text-[9px] font-bold px-2 py-0.5 bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/20 rounded font-mono">
-                            Triage Sandbox
-                          </span>
-                        </div>
-
-                        {/* MAPPING INTERFACE */}
-                        <div className="space-y-4 font-sans text-xs">
-                          {/* Ticket 1 */}
-                          <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                            <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                              <span className="w-2 h-2 bg-brand-cyan rounded-full shrink-0" />
-                              <span>Ticket 1: Patient report upload error</span>
-                            </div>
-                            <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                              &quot;When trying to upload a patient chart report in PDF format, the portal gives a &apos;Network Payload Out of Bounds (413)&apos; error.&quot;
-                            </p>
-                            <div>
-                              <select
-                                value={tickets.ticket1}
-                                onChange={(e) => setTickets(prev => ({ ...prev, ticket1: e.target.value }))}
-                                className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                              >
-                                <option value="">-- Select troubleshooting action --</option>
-                                <option value="password">Reset the clinical user&apos;s password credentials</option>
-                                <option value="size">Check the PDF file size and verify network upload limits (Correct!)</option>
-                                <option value="delete">Delete the patient&apos;s record from the system and retry</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          {/* Ticket 2 */}
-                          <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                            <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                              <span className="w-2 h-2 bg-brand-indigo rounded-full shrink-0" />
-                              <span>Ticket 2: Doctor schedule synchronization issue</span>
-                            </div>
-                            <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                              &quot;A provider updated their available appointment slots in their EMR calendar, but the patient-facing portal is still showing their old slots.&quot;
-                            </p>
-                            <div>
-                              <select
-                                value={tickets.ticket2}
-                                onChange={(e) => setTickets(prev => ({ ...prev, ticket2: e.target.value }))}
-                                className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                              >
-                                <option value="">-- Select troubleshooting action --</option>
-                                <option value="sync">Verify EHR sync API payload logs and refresh system calendar cache (Correct!)</option>
-                                <option value="disable">Disable the booking calendar features globally to avoid user confusion</option>
-                                <option value="update">Update the database booking slot coordinates manually inside pgAdmin</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          {/* Ticket 3 */}
-                          <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                            <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                              <span className="w-2 h-2 bg-brand-emerald rounded-full shrink-0" />
-                              <span>Ticket 3: PHI Consent missing error</span>
-                            </div>
-                            <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                              &quot;A nurse is attempting to share clinical summaries with a cardiology clinic but receives a &apos;PHI Consent Missing&apos; block error.&quot;
-                            </p>
-                            <div>
-                              <select
-                                value={tickets.ticket3}
-                                onChange={(e) => setTickets(prev => ({ ...prev, ticket3: e.target.value }))}
-                                className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                              >
-                                <option value="">-- Select troubleshooting action --</option>
-                                <option value="bypass">Elevate user role privileges to Administrator to bypass the PHI check</option>
-                                <option value="consent">Walk the nurse through checking patient consent signing status in the profile (Correct!)</option>
-                                <option value="disable">Temporarily disable HIPAA compliance validation in the portal config</option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Execute Button */}
-                        <div className="flex items-center gap-3">
-                          <button
-                            type="button"
-                            onClick={validateTicketTriage}
-                            className="bg-brand-indigo/25 hover:bg-brand-indigo/40 text-brand-indigo-light border border-brand-indigo/35 font-bold text-xs px-4 py-2.5 rounded-xl transition-all cursor-pointer"
-                          >
-                            Triage Support Tickets
-                          </button>
-                          {sandboxAttempts > 0 && (
-                            <span className="text-[11px] font-semibold font-mono text-gray-400">
-                              {sandboxAttempts} validation check{sandboxAttempts > 1 ? "s" : ""}
-                            </span>
-                          )}
-                        </div>
-
-                        {/* Output Sandbox console */}
-                        {sandboxAttempts > 0 && (
-                          <div className={`p-4 rounded-xl border font-mono text-xs ${
-                            sandboxSuccess 
-                              ? "bg-brand-emerald/5 border-brand-emerald/30 text-brand-emerald" 
-                              : "bg-rose-950/20 border-rose-500/30 text-rose-400"
-                          }`}>
-                            <div className="flex items-start space-x-2">
-                              {sandboxSuccess ? (
-                                <>
-                                  <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                                  <div className="space-y-1.5">
-                                    <p className="font-bold">✓ Success: All support tickets triaged successfully!</p>
-                                    <p className="text-[10px] text-gray-400 leading-normal">
-                                      Ticket 1 matched to File Size limits. Ticket 2 matched to EHR sync logging cache updates. Ticket 3 matched to Patient Consent compliance verification. Verification complete.
-                                    </p>
-                                  </div>
-                                </>
-                              ) : (
-                                <>
-                                  <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                                  <p className="leading-relaxed font-semibold">{sandboxError}</p>
-                                </>
-                              )}
-                            </div>
-                          </div>
-                        )}
-
-                        <div className="pt-4 flex justify-between">
-                          <button
-                            type="button"
-                            onClick={() => setFormStep(2)}
-                            className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
-                          >
-                            <span>Back</span>
-                          </button>
-                          <button
-                            type="button"
-                            disabled={!sandboxSuccess}
-                            onClick={() => setFormStep(4)}
-                            className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs disabled:opacity-30 cursor-pointer"
-                          >
-                            <span>Review Application</span>
-                            <ArrowRight className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                      </div>
-                    )}
+                    
 
                     {/* STEP 4: Review & Submit */}
-                    {formStep === 4 && (
+                    {formStep === 3 && (
                       <div className="space-y-6">
                         <h3 className="font-display font-extrabold text-lg text-white">Review &amp; Submit</h3>
                         
@@ -878,7 +714,7 @@ export default function JobClient() {
                         <div className="pt-4 flex justify-between">
                           <button
                             type="button"
-                            onClick={() => setFormStep(3)}
+                            onClick={() => setFormStep(2)}
                             className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
                           >
                             <span>Back</span>

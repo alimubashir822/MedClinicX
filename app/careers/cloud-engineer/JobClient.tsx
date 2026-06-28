@@ -30,15 +30,7 @@ export default function JobClient() {
   });
 
   // Cloud Sandbox State
-  const [infraSetup, setInfraSetup] = useState({
-    subnetPlacement: "",
-    securityGroup: "",
-    encryptionStandard: ""
-  });
-  const [sandboxAttempts, setSandboxAttempts] = useState(0);
-  const [sandboxSuccess, setSandboxSuccess] = useState(false);
-  const [sandboxError, setSandboxError] = useState("");
-
+        
   // Submission States
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -80,37 +72,30 @@ export default function JobClient() {
     }
   };
 
-  const validateInfra = () => {
-    setSandboxAttempts(prev => prev + 1);
-    
-    // Correct infrastructure choices:
-    // subnetPlacement -> private_isolated (Private Subnet - Isolated: No internet routes, VPC Endpoints only)
-    // securityGroup -> alb_only (Allow port 443 from Public ALB security group only)
-    // encryptionStandard -> kms_tls (AES-256 with KMS Customer Managed Keys + TLS 1.3 enforced)
-    
-    const correctSubnet = infraSetup.subnetPlacement === "private_isolated";
-    const correctSecurity = infraSetup.securityGroup === "alb_only";
-    const correctEncryption = infraSetup.encryptionStandard === "kms_tls";
-    
-    if (correctSubnet && correctSecurity && correctEncryption) {
-      setSandboxSuccess(true);
-      setSandboxError("");
-    } else {
-      setSandboxSuccess(false);
-      let incorrectCount = 0;
-      if (!correctSubnet) incorrectCount++;
-      if (!correctSecurity) incorrectCount++;
-      if (!correctEncryption) incorrectCount++;
-      
-      setSandboxError(
-        `Security audit failed. ${incorrectCount}/3 configurations are non-compliant. Hint: The PHI database must have zero outbound internet pathways; the API server must reject traffic not routed through the ALB; and HIPAA requires Customer Managed Keys and TLS 1.3 enforcement.`
-      );
-    }
-  };
-
+  
   const submitApplication = async () => {
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    try {
+      const res = await fetch("/api/careers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          portfolioUrl: formData.portfolioUrl,
+          resumeName: formData.resumeName,
+          position: "Cloud Engineer",
+          extraFields: {
+            ...formData
+          }
+        }),
+      });
+      if (!res.ok) {
+        console.error("Failed to submit application");
+      }
+    } catch (err) {
+      console.error("Submit error:", err);
+    }
     setIsSubmitting(false);
     setSubmitSuccess(true);
   };
@@ -347,10 +332,10 @@ export default function JobClient() {
                     <div className="flex space-x-4">
                       <span className={formStep === 1 ? "text-brand-cyan font-bold" : "text-gray-500"}>01. Profile</span>
                       <span className={formStep === 2 ? "text-brand-cyan font-bold" : "text-gray-500"}>02. Experience</span>
-                      <span className={formStep === 3 ? "text-brand-cyan font-bold" : "text-gray-500"}>03. Infrastructure Sandbox</span>
-                      <span className={formStep === 4 ? "text-brand-cyan font-bold" : "text-gray-500"}>04. Submit</span>
+                      <span className={formStep === 3 ? "text-brand-cyan font-bold" : "text-gray-500"}>03. Review & Submit Sandbox</span>
+                      
                     </div>
-                    <span className="text-gray-500">Step {formStep} of 4</span>
+                    <span className="text-gray-500">Step {formStep} of 3</span>
                   </div>
 
                   {submitSuccess ? (
@@ -373,9 +358,9 @@ export default function JobClient() {
                         onClick={() => {
                           setFormStep(1);
                           setSubmitSuccess(false);
-                          setSandboxSuccess(false);
-                          setSandboxAttempts(0);
-                          setInfraSetup({ subnetPlacement: "", securityGroup: "", encryptionStandard: "" });
+                          
+                          
+                          
                           setFormData({
                             name: "",
                             email: "",
@@ -544,7 +529,7 @@ export default function JobClient() {
                               onClick={() => setFormStep(3)}
                               className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs cursor-pointer"
                             >
-                              <span>Proceed to Infrastructure Sandbox</span>
+                              <span>Review Application</span>
                               <ArrowRight className="w-3.5 h-3.5" />
                             </button>
                           </div>
@@ -552,142 +537,10 @@ export default function JobClient() {
                       )}
 
                       {/* STEP 3: Infrastructure Sandbox */}
-                      {formStep === 3 && (
-                        <div className="space-y-5">
-                          <div className="flex justify-between items-start">
-                            <div>
-                              <h3 className="font-display font-extrabold text-lg text-white">VPC Network & Compliance Hardening Sandbox</h3>
-                              <p className="text-xs text-gray-400 mt-1">
-                                Secure our cloud topology hosting database nodes containing Protected Health Information (PHI) to satisfy HIPAA rules.
-                              </p>
-                            </div>
-                            <span className="text-[9px] font-bold px-2 py-0.5 bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/20 rounded font-mono">
-                              Architect Challenge
-                            </span>
-                          </div>
-
-                          {/* SANDBOX CHALLENGE */}
-                          <div className="space-y-4 font-sans text-xs">
-                            
-                            {/* Scenario 1 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-cyan rounded-full shrink-0" />
-                                <span>Parameter 1: Database Subnet Placement</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;In which subnet group should we provision the database cluster containing clinical vital signs and patient records?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={infraSetup.subnetPlacement}
-                                  onChange={(e) => setInfraSetup(prev => ({ ...prev, subnetPlacement: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Subnet Type --</option>
-                                  <option value="public">Public Subnet (Internet gateway route attached)</option>
-                                  <option value="private_nat">Private Subnet (Internet access via NAT gateway route)</option>
-                                  <option value="private_isolated">Private Subnet - Isolated (VPC endpoint access only, zero internet route) (Correct!)</option>
-                                </select>
-                              </div>
-                            </div>
-
-                            {/* Scenario 2 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-indigo rounded-full shrink-0" />
-                                <span>Parameter 2: Security Group ingress permissions</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;How should inbound traffic rules be mapped on the EHR API microservice instance?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={infraSetup.securityGroup}
-                                  onChange={(e) => setInfraSetup(prev => ({ ...prev, securityGroup: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Security Group Rule --</option>
-                                  <option value="open_all">Allow port 443 inbound requests from 0.0.0.0/0 (Global WAN)</option>
-                                  <option value="alb_only">Allow port 443 inbound requests from the Public Load Balancer Security Group only (Correct!)</option>
-                                  <option value="ssh_open">Allow ports 22 (SSH) and 443 from all corporate networks</option>
-                                </select>
-                              </div>
-                            </div>
-
-                            {/* Scenario 3 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-emerald rounded-full shrink-0" />
-                                <span>Parameter 3: Data Encryption & Transit Security</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;What storage volume encryption and transit security protocols must be mapped on this cloud environment?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={infraSetup.encryptionStandard}
-                                  onChange={(e) => setInfraSetup(prev => ({ ...prev, encryptionStandard: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Encryption Setup --</option>
-                                  <option value="standard">Standard cloud-provider default encryption (AWS/Azure managed keys)</option>
-                                  <option value="kms_tls">AES-256 with KMS Customer Managed Keys (CMK) + TLS 1.3 enforced (Correct!)</option>
-                                  <option value="none">Enforced TLS 1.2 in transit, storage volume unencrypted to maximize write throughput</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Error message */}
-                          {sandboxError && (
-                            <div className="flex items-start space-x-2.5 p-3.5 bg-red-950/40 border border-red-500/20 text-red-300 rounded-xl text-xs">
-                              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                              <span>{sandboxError}</span>
-                            </div>
-                          )}
-
-                          {/* Correct notification */}
-                          {sandboxSuccess && (
-                            <div className="flex items-start space-x-2.5 p-3.5 bg-brand-emerald/10 border border-brand-emerald/20 text-brand-emerald rounded-xl text-xs">
-                              <CheckCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                              <span>Infrastructure plan approved! VPC network topology secure against external ingress; HIPAA compliance verified.</span>
-                            </div>
-                          )}
-
-                          <div className="pt-4 flex justify-between">
-                            <button
-                              type="button"
-                              onClick={() => setFormStep(2)}
-                              className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
-                            >
-                              <span>Back</span>
-                            </button>
-                            
-                            {!sandboxSuccess ? (
-                              <button
-                                type="button"
-                                onClick={validateInfra}
-                                className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs cursor-pointer"
-                              >
-                                <span>Validate Cloud Architecture ({sandboxAttempts} attempts)</span>
-                              </button>
-                            ) : (
-                              <button
-                                type="button"
-                                onClick={() => setFormStep(4)}
-                                className="inline-flex items-center space-x-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold px-5 py-3 rounded-xl hover:opacity-95 transition-opacity text-xs cursor-pointer"
-                              >
-                                <span>Proceed to Review</span>
-                                <ArrowRight className="w-3.5 h-3.5" />
-                              </button>
-                            )}
-                          </div>
-                        </div>
-                      )}
+                      
 
                       {/* STEP 4: Review and Submit */}
-                      {formStep === 4 && (
+                      {formStep === 3 && (
                         <div className="space-y-5">
                           <h3 className="font-display font-extrabold text-lg text-white">Review & Submit Application</h3>
                           
@@ -712,19 +565,13 @@ export default function JobClient() {
                               <p className="text-gray-300"><span className="text-gray-500 font-sans">IaC (Terraform) Proficiency:</span> {formData.iacFamiliar}</p>
                             </div>
 
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-1.5">
-                              <p className="text-gray-500 uppercase text-[10px] tracking-wider mb-2 font-bold font-sans">Sandbox Audit Validation</p>
-                              <p className="text-brand-emerald flex items-center space-x-1.5">
-                                <CheckCircle className="w-3.5 h-3.5" />
-                                <span>Isolated subnets, ALB security ingress, and KMS encryption standards approved</span>
-                              </p>
-                            </div>
+                            
                           </div>
 
                           <div className="pt-4 flex justify-between">
                             <button
                               type="button"
-                              onClick={() => setFormStep(3)}
+                              onClick={() => setFormStep(2)}
                               className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
                             >
                               <span>Back</span>

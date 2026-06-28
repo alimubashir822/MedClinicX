@@ -30,16 +30,7 @@ export default function JobClient() {
   });
 
   // Clinical Coding Matcher State
-  const [mappings, setMappings] = useState({
-    icd10: "",
-    loinc: "",
-    snomed: "",
-    rxnorm: ""
-  });
-  const [sandboxAttempts, setSandboxAttempts] = useState(0);
-  const [sandboxSuccess, setSandboxSuccess] = useState(false);
-  const [sandboxError, setSandboxError] = useState("");
-
+        
   // Submission States
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -81,40 +72,30 @@ export default function JobClient() {
     }
   };
 
-  const validateMappings = () => {
-    setSandboxAttempts(prev => prev + 1);
-    
-    // Correct mappings:
-    // icd10 -> diagnoses
-    // loinc -> labs
-    // snomed -> symptoms
-    // rxnorm -> medications
-    
-    const correctIcd = mappings.icd10 === "diagnoses";
-    const correctLoinc = mappings.loinc === "labs";
-    const correctSnomed = mappings.snomed === "symptoms";
-    const correctRx = mappings.rxnorm === "medications";
-    
-    if (correctIcd && correctLoinc && correctSnomed && correctRx) {
-      setSandboxSuccess(true);
-      setSandboxError("");
-    } else {
-      setSandboxSuccess(false);
-      let incorrectCount = 0;
-      if (!correctIcd) incorrectCount++;
-      if (!correctLoinc) incorrectCount++;
-      if (!correctSnomed) incorrectCount++;
-      if (!correctRx) incorrectCount++;
-      
-      setSandboxError(
-        `Mapping verification failed. ${incorrectCount}/4 standards mapped incorrectly. Hint: LOINC maps laboratory observations, and SNOMED-CT maps general clinical terminology like signs & symptoms.`
-      );
-    }
-  };
-
+  
   const submitApplication = async () => {
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    try {
+      const res = await fetch("/api/careers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          portfolioUrl: formData.portfolioUrl,
+          resumeName: formData.resumeName,
+          position: "Clinical Informatics Specialist",
+          extraFields: {
+            ...formData
+          }
+        }),
+      });
+      if (!res.ok) {
+        console.error("Failed to submit application");
+      }
+    } catch (err) {
+      console.error("Submit error:", err);
+    }
     setIsSubmitting(false);
     setSubmitSuccess(true);
   };
@@ -459,18 +440,18 @@ export default function JobClient() {
               {/* Progress bar */}
               <div className="mb-8">
                 <div className="flex justify-between text-xs text-gray-400 mb-2 font-mono">
-                  <span>STEP {formStep} OF 4</span>
+                  <span>Step {formStep} of 3</span>
                   <span>
                     {formStep === 1 && "Personal Information"}
                     {formStep === 2 && "Clinical Experience"}
-                    {formStep === 3 && "Interoperability Matcher"}
-                    {formStep === 4 && "Review & Submit"}
+                    
+                    {formStep === 3 && "Review & Submit"}
                   </span>
                 </div>
                 <div className="w-full bg-slate-900 border border-brand-border h-2 rounded-full overflow-hidden">
                   <div
                     className="bg-gradient-to-r from-brand-cyan to-brand-indigo h-full transition-all duration-300"
-                    style={{ width: `${(formStep / 4) * 100}%` }}
+                    style={{ width: `${(formStep / 3) * 100}%` }}
                   />
                 </div>
               </div>
@@ -507,9 +488,9 @@ export default function JobClient() {
                       onClick={() => {
                         setFormStep(1);
                         setSubmitSuccess(false);
-                        setSandboxSuccess(false);
-                        setSandboxAttempts(0);
-                        setMappings({ icd10: "", loinc: "", snomed: "", rxnorm: "" });
+                        
+                        
+                        
                         setFormData({
                           name: "",
                           email: "",
@@ -687,178 +668,10 @@ export default function JobClient() {
                     )}
 
                     {/* STEP 3: Interactive Sandbox */}
-                    {formStep === 3 && (
-                      <div className="space-y-5">
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <h3 className="font-display font-extrabold text-lg text-white">Clinical Interoperability Matcher</h3>
-                            <p className="text-xs text-gray-400 mt-1">
-                              Match each standard coding terminology to its correct clinical domain.
-                            </p>
-                          </div>
-                          <span className="text-[9px] font-bold px-2 py-0.5 bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/20 rounded font-mono">
-                            Coding Competency
-                          </span>
-                        </div>
-
-                        {/* MAPPING INTERFACE */}
-                        <div className="space-y-4 font-sans text-xs">
-                          {/* Row 1: ICD-10 */}
-                          <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center bg-white/2 border border-white/5 p-3 rounded-xl">
-                            <div className="sm:col-span-5 font-mono text-white text-sm font-semibold flex items-center space-x-2">
-                              <span className="w-2 h-2 bg-brand-cyan rounded-full" />
-                              <span>ICD-10 Code Standards</span>
-                            </div>
-                            <div className="sm:col-span-1 text-center text-gray-500 font-semibold">&rarr;</div>
-                            <div className="sm:col-span-6">
-                              <select
-                                value={mappings.icd10}
-                                onChange={(e) => setMappings(prev => ({ ...prev, icd10: e.target.value }))}
-                                className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                              >
-                                <option value="">-- Choose Clinical Domain --</option>
-                                <option value="medications">Medications & Prescriptions (RxNorm)</option>
-                                <option value="labs">Laboratory Tests & Observational Measurements (LOINC)</option>
-                                <option value="diagnoses">Diagnoses & Diseases (ICD-10)</option>
-                                <option value="symptoms">Clinical Findings & Signs (SNOMED-CT)</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          {/* Row 2: LOINC */}
-                          <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center bg-white/2 border border-white/5 p-3 rounded-xl">
-                            <div className="sm:col-span-5 font-mono text-white text-sm font-semibold flex items-center space-x-2">
-                              <span className="w-2 h-2 bg-brand-indigo rounded-full" />
-                              <span>LOINC Terminology</span>
-                            </div>
-                            <div className="sm:col-span-1 text-center text-gray-500 font-semibold">&rarr;</div>
-                            <div className="sm:col-span-6">
-                              <select
-                                value={mappings.loinc}
-                                onChange={(e) => setMappings(prev => ({ ...prev, loinc: e.target.value }))}
-                                className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                              >
-                                <option value="">-- Choose Clinical Domain --</option>
-                                <option value="medications">Medications & Prescriptions (RxNorm)</option>
-                                <option value="labs">Laboratory Tests & Observational Measurements (LOINC)</option>
-                                <option value="diagnoses">Diagnoses & Diseases (ICD-10)</option>
-                                <option value="symptoms">Clinical Findings & Signs (SNOMED-CT)</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          {/* Row 3: SNOMED-CT */}
-                          <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center bg-white/2 border border-white/5 p-3 rounded-xl">
-                            <div className="sm:col-span-5 font-mono text-white text-sm font-semibold flex items-center space-x-2">
-                              <span className="w-2 h-2 bg-brand-emerald rounded-full" />
-                              <span>SNOMED-CT Concepts</span>
-                            </div>
-                            <div className="sm:col-span-1 text-center text-gray-500 font-semibold">&rarr;</div>
-                            <div className="sm:col-span-6">
-                              <select
-                                value={mappings.snomed}
-                                onChange={(e) => setMappings(prev => ({ ...prev, snomed: e.target.value }))}
-                                className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                              >
-                                <option value="">-- Choose Clinical Domain --</option>
-                                <option value="medications">Medications & Prescriptions (RxNorm)</option>
-                                <option value="labs">Laboratory Tests & Observational Measurements (LOINC)</option>
-                                <option value="diagnoses">Diagnoses & Diseases (ICD-10)</option>
-                                <option value="symptoms">Clinical Findings & Signs (SNOMED-CT)</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          {/* Row 4: RxNorm */}
-                          <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center bg-white/2 border border-white/5 p-3 rounded-xl">
-                            <div className="sm:col-span-5 font-mono text-white text-sm font-semibold flex items-center space-x-2">
-                              <span className="w-2 h-2 bg-amber-400 rounded-full" />
-                              <span>RxNorm Nomenclature</span>
-                            </div>
-                            <div className="sm:col-span-1 text-center text-gray-500 font-semibold">&rarr;</div>
-                            <div className="sm:col-span-6">
-                              <select
-                                value={mappings.rxnorm}
-                                onChange={(e) => setMappings(prev => ({ ...prev, rxnorm: e.target.value }))}
-                                className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                              >
-                                <option value="">-- Choose Clinical Domain --</option>
-                                <option value="medications">Medications & Prescriptions (RxNorm)</option>
-                                <option value="labs">Laboratory Tests & Observational Measurements (LOINC)</option>
-                                <option value="diagnoses">Diagnoses & Diseases (ICD-10)</option>
-                                <option value="symptoms">Clinical Findings & Signs (SNOMED-CT)</option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Execute Button */}
-                        <div className="flex items-center gap-3">
-                          <button
-                            type="button"
-                            onClick={validateMappings}
-                            className="bg-brand-indigo/25 hover:bg-brand-indigo/40 text-brand-indigo-light border border-brand-indigo/35 font-bold text-xs px-4 py-2.5 rounded-xl transition-all cursor-pointer"
-                          >
-                            Verify Terminology Map
-                          </button>
-                          {sandboxAttempts > 0 && (
-                            <span className="text-[11px] font-semibold font-mono text-gray-400">
-                              {sandboxAttempts} validation check{sandboxAttempts > 1 ? "s" : ""}
-                            </span>
-                          )}
-                        </div>
-
-                        {/* Output Sandbox console */}
-                        {sandboxAttempts > 0 && (
-                          <div className={`p-4 rounded-xl border font-mono text-xs ${
-                            sandboxSuccess 
-                              ? "bg-brand-emerald/5 border-brand-emerald/30 text-brand-emerald" 
-                              : "bg-rose-950/20 border-rose-500/30 text-rose-400"
-                          }`}>
-                            <div className="flex items-start space-x-2">
-                              {sandboxSuccess ? (
-                                <>
-                                  <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                                  <div className="space-y-1.5">
-                                    <p className="font-bold">✓ Success: All Terminology mappings verified!</p>
-                                    <p className="text-[10px] text-gray-400 leading-normal">
-                                      ICD-10 mapped to Diagnoses. LOINC mapped to Labs. SNOMED-CT mapped to Symptoms. RxNorm mapped to Medications. Interoperability evaluation successfully completed.
-                                    </p>
-                                  </div>
-                                </>
-                              ) : (
-                                <>
-                                  <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                                  <p className="leading-relaxed font-semibold">{sandboxError}</p>
-                                </>
-                              )}
-                            </div>
-                          </div>
-                        )}
-
-                        <div className="pt-4 flex justify-between">
-                          <button
-                            type="button"
-                            onClick={() => setFormStep(2)}
-                            className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
-                          >
-                            <span>Back</span>
-                          </button>
-                          <button
-                            type="button"
-                            disabled={!sandboxSuccess}
-                            onClick={() => setFormStep(4)}
-                            className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs disabled:opacity-30 cursor-pointer"
-                          >
-                            <span>Review Application</span>
-                            <ArrowRight className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                      </div>
-                    )}
+                    
 
                     {/* STEP 4: Review & Submit */}
-                    {formStep === 4 && (
+                    {formStep === 3 && (
                       <div className="space-y-6">
                         <h3 className="font-display font-extrabold text-lg text-white">Review &amp; Submit</h3>
                         
@@ -905,7 +718,7 @@ export default function JobClient() {
                         <div className="pt-4 flex justify-between">
                           <button
                             type="button"
-                            onClick={() => setFormStep(3)}
+                            onClick={() => setFormStep(2)}
                             className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
                           >
                             <span>Back</span>

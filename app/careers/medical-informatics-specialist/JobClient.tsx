@@ -30,15 +30,7 @@ export default function JobClient() {
   });
 
   // Schema Mapping Sandbox State
-  const [scenarios, setScenarios] = useState({
-    categoryCode: "",
-    loincCode: "",
-    ucumUnit: ""
-  });
-  const [sandboxAttempts, setSandboxAttempts] = useState(0);
-  const [sandboxSuccess, setSandboxSuccess] = useState(false);
-  const [sandboxError, setSandboxError] = useState("");
-
+        
   // Submission States
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -80,37 +72,30 @@ export default function JobClient() {
     }
   };
 
-  const validateScenarios = () => {
-    setSandboxAttempts(prev => prev + 1);
-    
-    // Correct choices:
-    // categoryCode -> vital_signs (vital-signs (LOINC / FHIR Category Code))
-    // loincCode -> systolic_bp (8480-6 (Systolic blood pressure LOINC))
-    // ucumUnit -> mm_hg (mm[Hg] (Millimeters of Mercury UCUM))
-    
-    const correct1 = scenarios.categoryCode === "vital_signs";
-    const correct2 = scenarios.loincCode === "systolic_bp";
-    const correct3 = scenarios.ucumUnit === "mm_hg";
-    
-    if (correct1 && correct2 && correct3) {
-      setSandboxSuccess(true);
-      setSandboxError("");
-    } else {
-      setSandboxSuccess(false);
-      let incorrectCount = 0;
-      if (!correct1) incorrectCount++;
-      if (!correct2) incorrectCount++;
-      if (!correct3) incorrectCount++;
-      
-      setSandboxError(
-        `Database mapping mismatch. ${incorrectCount}/3 resource parameters mapped incorrectly. Hint: Observations category is vital-signs; systolic blood pressure LOINC is 8480-6; UCUM units for blood pressure is mm[Hg].`
-      );
-    }
-  };
-
+  
   const submitApplication = async () => {
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    try {
+      const res = await fetch("/api/careers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          portfolioUrl: formData.portfolioUrl,
+          resumeName: formData.resumeName,
+          position: "Medical Informatics Specialist",
+          extraFields: {
+            ...formData
+          }
+        }),
+      });
+      if (!res.ok) {
+        console.error("Failed to submit application");
+      }
+    } catch (err) {
+      console.error("Submit error:", err);
+    }
     setIsSubmitting(false);
     setSubmitSuccess(true);
   };
@@ -452,18 +437,18 @@ export default function JobClient() {
               {/* Progress bar */}
               <div className="mb-8">
                 <div className="flex justify-between text-xs text-gray-400 mb-2 font-mono">
-                  <span>STEP {formStep} OF 4</span>
+                  <span>Step {formStep} of 3</span>
                   <span>
                     {formStep === 1 && "Personal Information"}
                     {formStep === 2 && "Clinical Informatics Focus"}
-                    {formStep === 3 && "Schema Mapping Sandbox"}
-                    {formStep === 4 && "Review & Submit"}
+                    
+                    {formStep === 3 && "Review & Submit"}
                   </span>
                 </div>
                 <div className="w-full bg-slate-900 border border-brand-border h-2 rounded-full overflow-hidden">
                   <div
                     className="bg-gradient-to-r from-brand-cyan to-brand-indigo h-full transition-all duration-300"
-                    style={{ width: `${(formStep / 4) * 100}%` }}
+                    style={{ width: `${(formStep / 3) * 100}%` }}
                   />
                 </div>
               </div>
@@ -500,9 +485,9 @@ export default function JobClient() {
                       onClick={() => {
                         setFormStep(1);
                         setSubmitSuccess(false);
-                        setSandboxSuccess(false);
-                        setSandboxAttempts(0);
-                        setScenarios({ categoryCode: "", loincCode: "", ucumUnit: "" });
+                        
+                        
+                        
                         setFormData({
                           name: "",
                           email: "",
@@ -671,7 +656,7 @@ export default function JobClient() {
                             onClick={() => setFormStep(3)}
                             className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs cursor-pointer"
                           >
-                            <span>Proceed to Schema Sandbox</span>
+                            <span>Review Application</span>
                             <ArrowRight className="w-3.5 h-3.5" />
                           </button>
                         </div>
@@ -679,142 +664,10 @@ export default function JobClient() {
                     )}
 
                     {/* STEP 3: Schema Mapping Sandbox */}
-                    {formStep === 3 && (
-                      <div className="space-y-5">
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <h3 className="font-display font-extrabold text-lg text-white">Clinical EMR Schema Mapping Sandbox</h3>
-                            <p className="text-xs text-gray-400 mt-1">
-                              Map incoming clinical vital sign metrics to the correct FHIR Observation resource schema.
-                            </p>
-                          </div>
-                          <span className="text-[9px] font-bold px-2 py-0.5 bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/20 rounded font-mono">
-                            Mapping Challenge
-                          </span>
-                        </div>
-
-                        {/* MAPPING INTERFACE */}
-                        <div className="space-y-4 font-sans text-xs">
-                          
-                          {/* Parameter 1 */}
-                          <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                            <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                              <span className="w-2 h-2 bg-brand-cyan rounded-full shrink-0" />
-                              <span>Parameter 1: Observation Category Code</span>
-                            </div>
-                            <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                              &quot;Classify the category code for patient blood pressure measurements.&quot;
-                            </p>
-                            <div>
-                              <select
-                                value={scenarios.categoryCode}
-                                onChange={(e) => setScenarios(prev => ({ ...prev, categoryCode: e.target.value }))}
-                                className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                              >
-                                <option value="">-- Choose Category Code --</option>
-                                <option value="laboratory">laboratory (LOINC / FHIR Lab Code)</option>
-                                <option value="vital_signs">vital-signs (LOINC / FHIR Category Code) (Correct!)</option>
-                                <option value="social_history">social-history (Demographic data classes)</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          {/* Parameter 2 */}
-                          <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                            <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                              <span className="w-2 h-2 bg-brand-indigo rounded-full shrink-0" />
-                              <span>Parameter 2: Systolic Blood Pressure LOINC Code</span>
-                            </div>
-                            <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                              &quot;Identify the correct standardized LOINC terminology code for Systolic Blood Pressure.&quot;
-                            </p>
-                            <div>
-                              <select
-                                value={scenarios.loincCode}
-                                onChange={(e) => setScenarios(prev => ({ ...prev, loincCode: e.target.value }))}
-                                className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                              >
-                                <option value="">-- Choose LOINC Code --</option>
-                                <option value="diastolic_bp">8462-4 (Diastolic blood pressure LOINC)</option>
-                                <option value="heart_rate">8867-4 (Heart rate LOINC)</option>
-                                <option value="systolic_bp">8480-6 (Systolic blood pressure LOINC) (Correct!)</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          {/* Parameter 3 */}
-                          <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                            <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                              <span className="w-2 h-2 bg-brand-emerald rounded-full shrink-0" />
-                              <span>Parameter 3: Measurement Standard Unit (UCUM)</span>
-                            </div>
-                            <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                              &quot;Select the UCUM measurement unit corresponding to blood pressure metrics.&quot;
-                            </p>
-                            <div>
-                              <select
-                                value={scenarios.ucumUnit}
-                                onChange={(e) => setScenarios(prev => ({ ...prev, ucumUnit: e.target.value }))}
-                                className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                              >
-                                <option value="">-- Choose UCUM Unit --</option>
-                                <option value="celsius">Cel (Celsius)</option>
-                                <option value="mm_hg">mm[Hg] (Millimeters of Mercury) (Correct!)</option>
-                                <option value="beats_min">/min (beats per minute)</option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Error message */}
-                        {sandboxError && (
-                          <div className="flex items-start space-x-2.5 p-3.5 bg-red-950/40 border border-red-500/20 text-red-300 rounded-xl text-xs">
-                            <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                            <span>{sandboxError}</span>
-                          </div>
-                        )}
-
-                        {/* Correct notification */}
-                        {sandboxSuccess && (
-                          <div className="flex items-start space-x-2.5 p-3.5 bg-brand-emerald/10 border border-brand-emerald/20 text-brand-emerald rounded-xl text-xs">
-                            <CheckCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                            <span>Informatics schema validated! All database mappings converge successfully.</span>
-                          </div>
-                        )}
-
-                        <div className="pt-4 flex justify-between">
-                          <button
-                            type="button"
-                            onClick={() => setFormStep(2)}
-                            className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
-                          >
-                            <span>Back</span>
-                          </button>
-                          
-                          {!sandboxSuccess ? (
-                            <button
-                              type="button"
-                              onClick={validateScenarios}
-                              className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs cursor-pointer"
-                            >
-                              <span>Test Database Mappings ({sandboxAttempts} attempts)</span>
-                            </button>
-                          ) : (
-                            <button
-                              type="button"
-                              onClick={() => setFormStep(4)}
-                              className="inline-flex items-center space-x-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold px-5 py-3 rounded-xl hover:opacity-95 transition-opacity text-xs cursor-pointer"
-                            >
-                              <span>Proceed to Review</span>
-                              <ArrowRight className="w-3.5 h-3.5" />
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                    )}
+                    
 
                     {/* STEP 4: Review and Submit */}
-                    {formStep === 4 && (
+                    {formStep === 3 && (
                       <div className="space-y-5">
                         <h3 className="font-display font-extrabold text-lg text-white">Review & Submit Application</h3>
                         
@@ -839,19 +692,13 @@ export default function JobClient() {
                             <p className="text-gray-300"><span className="text-gray-500">FHIR database mapping:</span> {formData.fhirFamiliar}</p>
                           </div>
 
-                          <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-1.5">
-                            <p className="text-gray-500 uppercase text-[10px] tracking-wider mb-2 font-bold">Schema Sandbox Validation</p>
-                            <p className="text-brand-emerald flex items-center space-x-1.5">
-                              <CheckCircle className="w-3.5 h-3.5" />
-                              <span>Clinical vital metrics database mappings to FHIR schemas verified</span>
-                            </p>
-                          </div>
+                          
                         </div>
 
                         <div className="pt-4 flex justify-between">
                           <button
                             type="button"
-                            onClick={() => setFormStep(3)}
+                            onClick={() => setFormStep(2)}
                             className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
                           >
                             <span>Back</span>

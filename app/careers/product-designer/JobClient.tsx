@@ -30,15 +30,7 @@ export default function JobClient() {
   });
 
   // UI/UX Sandbox State
-  const [designSetup, setDesignSetup] = useState({
-    uiHierarchy: "",
-    phiObfuscation: "",
-    accessibilityFocus: ""
-  });
-  const [sandboxAttempts, setSandboxAttempts] = useState(0);
-  const [sandboxSuccess, setSandboxSuccess] = useState(false);
-  const [sandboxError, setSandboxError] = useState("");
-
+        
   // Submission States
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -80,37 +72,30 @@ export default function JobClient() {
     }
   };
 
-  const validateDesign = () => {
-    setSandboxAttempts(prev => prev + 1);
-    
-    // Correct Design choices:
-    // uiHierarchy -> high_contrast (Large bold headers, high-contrast text ratios, clear headings structure)
-    // phiObfuscation -> obfuscated_phi (Mask/obfuscate sensitive clinical fields until hovered or clicked)
-    // accessibilityFocus -> wcag_accessible (Full keyboard focus support, tabIndex, ARIA labels, and focus rings)
-    
-    const correctHierarchy = designSetup.uiHierarchy === "high_contrast";
-    const correctObfuscation = designSetup.phiObfuscation === "obfuscated_phi";
-    const correctAccess = designSetup.accessibilityFocus === "wcag_accessible";
-    
-    if (correctHierarchy && correctObfuscation && correctAccess) {
-      setSandboxSuccess(true);
-      setSandboxError("");
-    } else {
-      setSandboxSuccess(false);
-      let incorrectCount = 0;
-      if (!correctHierarchy) incorrectCount++;
-      if (!correctObfuscation) incorrectCount++;
-      if (!correctAccess) incorrectCount++;
-      
-      setSandboxError(
-        `Design audit failed. ${incorrectCount}/3 components violate safety or accessibility guidelines. Hint: Ensure strong contrast for low-vision clinic settings; obfuscate PHI keys by default to protect screen privacy; and follow WCAG keyboard routing.`
-      );
-    }
-  };
-
+  
   const submitApplication = async () => {
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    try {
+      const res = await fetch("/api/careers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          portfolioUrl: formData.portfolioUrl,
+          resumeName: formData.resumeName,
+          position: "Product Designer",
+          extraFields: {
+            ...formData
+          }
+        }),
+      });
+      if (!res.ok) {
+        console.error("Failed to submit application");
+      }
+    } catch (err) {
+      console.error("Submit error:", err);
+    }
     setIsSubmitting(false);
     setSubmitSuccess(true);
   };
@@ -348,9 +333,9 @@ export default function JobClient() {
                       <span className={formStep === 1 ? "text-brand-cyan font-bold" : "text-gray-500"}>01. Profile</span>
                       <span className={formStep === 2 ? "text-brand-cyan font-bold" : "text-gray-500"}>02. Experience</span>
                       <span className={formStep === 3 ? "text-brand-cyan font-bold" : "text-gray-500"}>03. Design Sandbox</span>
-                      <span className={formStep === 4 ? "text-brand-cyan font-bold" : "text-gray-500"}>04. Submit</span>
+                      
                     </div>
-                    <span className="text-gray-500">Step {formStep} of 4</span>
+                    <span className="text-gray-500">Step {formStep} of 3</span>
                   </div>
 
                   {submitSuccess ? (
@@ -373,9 +358,9 @@ export default function JobClient() {
                         onClick={() => {
                           setFormStep(1);
                           setSubmitSuccess(false);
-                          setSandboxSuccess(false);
-                          setSandboxAttempts(0);
-                          setDesignSetup({ uiHierarchy: "", phiObfuscation: "", accessibilityFocus: "" });
+                          
+                          
+                          
                           setFormData({
                             name: "",
                             email: "",
@@ -544,7 +529,7 @@ export default function JobClient() {
                               onClick={() => setFormStep(3)}
                               className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs cursor-pointer"
                             >
-                              <span>Proceed to Design Sandbox</span>
+                              <span>Review Application</span>
                               <ArrowRight className="w-3.5 h-3.5" />
                             </button>
                           </div>
@@ -552,142 +537,10 @@ export default function JobClient() {
                       )}
 
                       {/* STEP 3: Design Sandbox */}
-                      {formStep === 3 && (
-                        <div className="space-y-5">
-                          <div className="flex justify-between items-start">
-                            <div>
-                              <h3 className="font-display font-extrabold text-lg text-white">Healthcare UI/UX Design System & Accessibility Sandbox</h3>
-                              <p className="text-xs text-gray-400 mt-1">
-                                Design a WCAG-compliant prescription renewal dashboard card while protecting PHI screen-privacy values.
-                              </p>
-                            </div>
-                            <span className="text-[9px] font-bold px-2 py-0.5 bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/20 rounded font-mono">
-                              UX Challenge
-                            </span>
-                          </div>
-
-                          {/* SANDBOX CHALLENGE */}
-                          <div className="space-y-4 font-sans text-xs">
-                            
-                            {/* Parameter 1 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-cyan rounded-full shrink-0" />
-                                <span>Parameter 1: Typography & Contrast Ratio</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;Configure readability hierarchy specifications to align layout buttons with clinical viewing environments.&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={designSetup.uiHierarchy}
-                                  onChange={(e) => setDesignSetup(prev => ({ ...prev, uiHierarchy: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Typography Style --</option>
-                                  <option value="high_contrast">Large bold headers, high-contrast text ratios (4.5:1 min), clear headings structure (Correct!)</option>
-                                  <option value="aesthetic_light">Thin, light gray typography to maximize whitespace clean aesthetics</option>
-                                  <option value="micro_text">Compressed, space-saving layouts to display multiple cards without scrolling</option>
-                                </select>
-                              </div>
-                            </div>
-
-                            {/* Parameter 2 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-indigo rounded-full shrink-0" />
-                                <span>Parameter 2: Screen Privacy (PHI Obfuscation)</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;How should sensitive patient name codes and drug descriptions display on a shared-screen clinic monitor dashboard?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={designSetup.phiObfuscation}
-                                  onChange={(e) => setDesignSetup(prev => ({ ...prev, phiObfuscation: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Privacy Behavior --</option>
-                                  <option value="plain_text">Display full patient name, birthdates, and drug details directly in plain text</option>
-                                  <option value="obfuscated_phi">Mask/obfuscate sensitive clinical fields until hovered or triggered by the provider (Correct!)</option>
-                                  <option value="mask_none">Keep all data unmasked, relying on screen filter sheets for privacy security</option>
-                                </select>
-                              </div>
-                            </div>
-
-                            {/* Parameter 3 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-emerald rounded-full shrink-0" />
-                                <span>Parameter 3: Keyboard Navigation & Assistive Tech</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;What accessibility guidelines must be set to ensure screen-reader compliance for the renew CTA action?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={designSetup.accessibilityFocus}
-                                  onChange={(e) => setDesignSetup(prev => ({ ...prev, accessibilityFocus: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Access Rules --</option>
-                                  <option value="mouse_only">Configure click listeners mapping coordinates, optimized for mouse use only</option>
-                                  <option value="wcag_accessible">Full keyboard tab routing (tabIndex=0), ARIA labeling, and focus rings (Correct!)</option>
-                                  <option value="swipe_gesture">Enable mobile swipe gestures with fallback animations, skipping keyboard tab hooks</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Error message */}
-                          {sandboxError && (
-                            <div className="flex items-start space-x-2.5 p-3.5 bg-red-950/40 border border-red-500/20 text-red-300 rounded-xl text-xs">
-                              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                              <span>{sandboxError}</span>
-                            </div>
-                          )}
-
-                          {/* Correct notification */}
-                          {sandboxSuccess && (
-                            <div className="flex items-start space-x-2.5 p-3.5 bg-brand-emerald/10 border border-brand-emerald/20 text-brand-emerald rounded-xl text-xs">
-                              <CheckCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                              <span>Design system patterns validated! Contrast ratios, PHI screen-masking, and WCAG keyboard standards are compliant.</span>
-                            </div>
-                          )}
-
-                          <div className="pt-4 flex justify-between">
-                            <button
-                              type="button"
-                              onClick={() => setFormStep(2)}
-                              className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
-                            >
-                              <span>Back</span>
-                            </button>
-                            
-                            {!sandboxSuccess ? (
-                              <button
-                                type="button"
-                                onClick={validateDesign}
-                                className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs cursor-pointer"
-                              >
-                                <span>Audit Design Specs ({sandboxAttempts} attempts)</span>
-                              </button>
-                            ) : (
-                              <button
-                                type="button"
-                                onClick={() => setFormStep(4)}
-                                className="inline-flex items-center space-x-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold px-5 py-3 rounded-xl hover:opacity-95 transition-opacity text-xs cursor-pointer"
-                              >
-                                <span>Proceed to Review</span>
-                                <ArrowRight className="w-3.5 h-3.5" />
-                              </button>
-                            )}
-                          </div>
-                        </div>
-                      )}
+                      
 
                       {/* STEP 4: Review and Submit */}
-                      {formStep === 4 && (
+                      {formStep === 3 && (
                         <div className="space-y-5">
                           <h3 className="font-display font-extrabold text-lg text-white">Review & Submit Application</h3>
                           
@@ -712,19 +565,13 @@ export default function JobClient() {
                               <p className="text-gray-300"><span className="text-gray-500 font-sans">HIPAA-UX Design Rules:</span> {formData.hipaaUXComfort}</p>
                             </div>
 
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-1.5">
-                              <p className="text-gray-500 uppercase text-[10px] tracking-wider mb-2 font-bold font-sans">Sandbox Audit Validation</p>
-                              <p className="text-brand-emerald flex items-center space-x-1.5">
-                                <CheckCircle className="w-3.5 h-3.5" />
-                                <span>Typography contrast ratio, PHI obfuscation triggers, and WCAG keyboard standards validated</span>
-                              </p>
-                            </div>
+                            
                           </div>
 
                           <div className="pt-4 flex justify-between">
                             <button
                               type="button"
-                              onClick={() => setFormStep(3)}
+                              onClick={() => setFormStep(2)}
                               className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
                             >
                               <span>Back</span>

@@ -32,10 +32,7 @@ export default function JobClient() {
   });
 
   // SQL Test State
-  const [sqlError, setSqlError] = useState("");
-  const [sqlSuccess, setSqlSuccess] = useState(false);
-  const [sqlAttempts, setSqlAttempts] = useState(0);
-
+      
   // Submission States
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -78,38 +75,30 @@ export default function JobClient() {
   };
 
   // Tolerant SQL Validator
-  const validateSQLQuery = () => {
-    const query = formData.sqlQuery.trim().toLowerCase().replace(/\s+/g, " ").replace(/;$/, "");
-    setSqlAttempts(prev => prev + 1);
-
-    const expected = "select * from patients where department = 'neurology'";
-    const alternateExpected = "select * from patients where department='neurology'";
-    const doubleQuoteExpected = "select * from patients where department = \"neurology\"";
-    const doubleQuoteAlternate = "select * from patients where department=\"neurology\"";
-
-    if (query === expected || query === alternateExpected || query === doubleQuoteExpected || query === doubleQuoteAlternate) {
-      setSqlSuccess(true);
-      setSqlError("");
-    } else {
-      setSqlSuccess(false);
-      if (!query.includes("select")) {
-        setSqlError("Error: Missing SELECT keyword. Remember to start with SELECT *.");
-      } else if (!query.includes("from patients")) {
-        setSqlError("Error: Query target missing or incorrect. Are you selecting FROM patients?");
-      } else if (!query.includes("where")) {
-        setSqlError("Error: Missing WHERE clause to filter the patient department.");
-      } else if (!query.includes("neurology")) {
-        setSqlError("Error: The department filter should specify 'Neurology'. Check your quotes.");
-      } else {
-        setSqlError("Syntax Error / Query Mismatch. Double-check your column and table names.");
-      }
-    }
-  };
-
+  
   const submitApplication = async () => {
     setIsSubmitting(true);
-    // Simulate API call delay
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    try {
+      const res = await fetch("/api/careers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          portfolioUrl: formData.portfolioUrl,
+          resumeName: formData.resumeName,
+          position: "Healthcare Data Analyst",
+          extraFields: {
+            ...formData
+          }
+        }),
+      });
+      if (!res.ok) {
+        console.error("Failed to submit application");
+      }
+    } catch (err) {
+      console.error("Submit error:", err);
+    }
     setIsSubmitting(false);
     setSubmitSuccess(true);
   };
@@ -469,18 +458,18 @@ export default function JobClient() {
               {/* Application Progress Bar */}
               <div className="mb-8">
                 <div className="flex justify-between text-xs text-gray-400 mb-2 font-mono">
-                  <span>STEP {formStep} OF 4</span>
+                  <span>Step {formStep} of 3</span>
                   <span>
                     {formStep === 1 && "Personal Information"}
                     {formStep === 2 && "Experience Questionnaire"}
-                    {formStep === 3 && "Technical Analyst Screening"}
-                    {formStep === 4 && "Review & Submit"}
+                    
+                    {formStep === 3 && "Review & Submit"}
                   </span>
                 </div>
                 <div className="w-full bg-slate-900 border border-brand-border h-2 rounded-full overflow-hidden">
                   <div
                     className="bg-gradient-to-r from-brand-cyan to-brand-indigo h-full transition-all duration-300"
-                    style={{ width: `${(formStep / 4) * 100}%` }}
+                    style={{ width: `${(formStep / 3) * 100}%` }}
                   />
                 </div>
               </div>
@@ -516,8 +505,8 @@ export default function JobClient() {
                       onClick={() => {
                         setFormStep(1);
                         setSubmitSuccess(false);
-                        setSqlSuccess(false);
-                        setSqlAttempts(0);
+                        
+                        
                         setFormData({
                           name: "",
                           email: "",
@@ -687,147 +676,6 @@ export default function JobClient() {
                             onClick={() => setFormStep(3)}
                             className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs cursor-pointer"
                           >
-                            <span>Proceed to Technical Test</span>
-                            <ArrowRight className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                      </div>
-                    )}
-
-                    {/* STEP 3: Technical Analyst Screening */}
-                    {formStep === 3 && (
-                      <div className="space-y-5">
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <h3 className="font-display font-extrabold text-lg text-white">Technical Analyst Screening</h3>
-                            <p className="text-xs text-gray-400 mt-1">
-                              Show us your SQL skills by querying our mock patient database.
-                            </p>
-                          </div>
-                          <span className="text-[9px] font-bold px-2 py-0.5 bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/20 rounded font-mono">
-                            Interactive Sandbox
-                          </span>
-                        </div>
-
-                        {/* SQL Challenge Details */}
-                        <div className="bg-slate-950 rounded-2xl border border-brand-border p-4.5 space-y-3 font-mono text-xs">
-                          <p className="text-gray-300 font-bold uppercase text-[9px] text-brand-cyan tracking-wider">Database Table: `patients`</p>
-                          <table className="w-full text-[10px] text-gray-400 border-collapse">
-                            <thead>
-                              <tr className="border-b border-brand-border text-left">
-                                <th className="pb-1.5">id (INT)</th>
-                                <th className="pb-1.5">name (VARCHAR)</th>
-                                <th className="pb-1.5">department (VARCHAR)</th>
-                                <th className="pb-1.5">diagnostic_code (VARCHAR)</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr className="border-b border-white/5">
-                                <td className="py-1">101</td>
-                                <td>Alice Smith</td>
-                                <td>Neurology</td>
-                                <td>G43.90 (Migraine)</td>
-                              </tr>
-                              <tr className="border-b border-white/5">
-                                <td className="py-1">102</td>
-                                <td>Bob Miller</td>
-                                <td>Orthopedics</td>
-                                <td>M17.11 (Knee Osteoarthritis)</td>
-                              </tr>
-                              <tr>
-                                <td className="py-1">103</td>
-                                <td>Clara Davis</td>
-                                <td>Neurology</td>
-                                <td>G40.90 (Epilepsy)</td>
-                              </tr>
-                            </tbody>
-                          </table>
-
-                          <div className="bg-white/2 border border-white/5 rounded-xl p-3 text-[11px] text-gray-300 leading-normal space-y-1.5">
-                            <span className="text-white font-bold block">Objective:</span>
-                            <p>
-                              Write an SQL query to select all patient columns (<code className="text-brand-cyan bg-brand-cyan/10 px-1 py-0.5 rounded font-mono">*</code>) from the <code className="text-white font-semibold">patients</code> table where the <code className="text-white font-semibold">department</code> is exactly <code className="text-brand-cyan bg-brand-cyan/10 px-1 py-0.5 rounded font-mono">&apos;Neurology&apos;</code>.
-                            </p>
-                          </div>
-                        </div>
-
-                        {/* SQL Input Area */}
-                        <div className="space-y-3">
-                          <div className="flex justify-between items-center text-xs">
-                            <label className="font-semibold text-gray-300">Enter SQL Statement</label>
-                            <span className="text-[10px] text-gray-500 font-mono">Run Query to validate</span>
-                          </div>
-                          
-                          <div className="relative font-mono text-xs">
-                            <textarea
-                              rows={4}
-                              value={formData.sqlQuery}
-                              onChange={(e) => setFormData(prev => ({ ...prev, sqlQuery: e.target.value }))}
-                              placeholder="SELECT * FROM patients WHERE ..."
-                              className="w-full bg-slate-950 border border-brand-border rounded-xl px-4 py-3 text-sm text-gray-200 placeholder-gray-600 focus:outline-none focus:border-brand-cyan font-mono resize-none focus:ring-1 focus:ring-brand-cyan"
-                            />
-                          </div>
-
-                          <div className="flex items-center gap-3">
-                            <button
-                              type="button"
-                              onClick={validateSQLQuery}
-                              className="bg-brand-indigo/25 hover:bg-brand-indigo/40 text-brand-indigo-light border border-brand-indigo/35 font-bold text-xs px-4 py-2.5 rounded-xl transition-all cursor-pointer flex items-center space-x-1.5"
-                            >
-                              <Code className="w-3.5 h-3.5" />
-                              <span>Execute Query</span>
-                            </button>
-                            
-                            {sqlAttempts > 0 && (
-                              <span className="text-[11px] font-semibold font-mono text-gray-400">
-                                {sqlAttempts} attempt{sqlAttempts > 1 ? "s" : ""}
-                              </span>
-                            )}
-                          </div>
-                        </div>
-
-                        {/* Output Sandbox Console */}
-                        {sqlAttempts > 0 && (
-                          <div className={`p-4 rounded-xl border font-mono text-xs ${
-                            sqlSuccess 
-                              ? "bg-brand-emerald/5 border-brand-emerald/30 text-brand-emerald" 
-                              : "bg-rose-950/20 border-rose-500/30 text-rose-400"
-                          }`}>
-                            <div className="flex items-start space-x-2">
-                              {sqlSuccess ? (
-                                <>
-                                  <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                                  <div className="space-y-2">
-                                    <p className="font-bold">✓ Success: Query executed successfully!</p>
-                                    <p className="text-[10px] text-gray-400 leading-normal">
-                                      Database matched 2 rows in 0.003s. Columns returned: id, name, department, diagnostic_code. Output triaged successfully.
-                                    </p>
-                                  </div>
-                                </>
-                              ) : (
-                                <>
-                                  <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                                  <p className="leading-relaxed font-semibold">{sqlError}</p>
-                                </>
-                              )}
-                            </div>
-                          </div>
-                        )}
-
-                        <div className="pt-4 flex justify-between">
-                          <button
-                            type="button"
-                            onClick={() => setFormStep(2)}
-                            className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
-                          >
-                            <span>Back</span>
-                          </button>
-                          <button
-                            type="button"
-                            disabled={!sqlSuccess}
-                            onClick={() => setFormStep(4)}
-                            className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs disabled:opacity-30 cursor-pointer"
-                          >
                             <span>Review Application</span>
                             <ArrowRight className="w-3.5 h-3.5" />
                           </button>
@@ -835,8 +683,11 @@ export default function JobClient() {
                       </div>
                     )}
 
+                    {/* STEP 3: Technical Analyst Screening */}
+                    
+
                     {/* STEP 4: Review & Submit */}
-                    {formStep === 4 && (
+                    {formStep === 3 && (
                       <div className="space-y-6">
                         <h3 className="font-display font-extrabold text-lg text-white">Review &amp; Submit Application</h3>
                         
@@ -883,7 +734,7 @@ export default function JobClient() {
                         <div className="pt-4 flex justify-between">
                           <button
                             type="button"
-                            onClick={() => setFormStep(3)}
+                            onClick={() => setFormStep(2)}
                             className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
                           >
                             <span>Back</span>

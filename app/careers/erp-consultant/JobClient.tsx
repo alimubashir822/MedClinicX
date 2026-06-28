@@ -30,15 +30,7 @@ export default function JobClient() {
   });
 
   // ERP Sandbox State
-  const [sandboxSetup, setSandboxSetup] = useState({
-    moduleSync: "",
-    reconciliation: "",
-    hipaaGovernance: ""
-  });
-  const [sandboxAttempts, setSandboxAttempts] = useState(0);
-  const [sandboxSuccess, setSandboxSuccess] = useState(false);
-  const [sandboxError, setSandboxError] = useState("");
-
+        
   // Submission States
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -80,37 +72,30 @@ export default function JobClient() {
     }
   };
 
-  const validateSandbox = () => {
-    setSandboxAttempts(prev => prev + 1);
-    
-    // Correct choices:
-    // moduleSync -> operational_inventory_sync
-    // reconciliation -> automated_reconciliation_cleared
-    // hipaaGovernance -> invoice_mask_phi
-    
-    const correctSync = sandboxSetup.moduleSync === "operational_inventory_sync";
-    const correctRecon = sandboxSetup.reconciliation === "automated_reconciliation_cleared";
-    const correctGovernance = sandboxSetup.hipaaGovernance === "invoice_mask_phi";
-    
-    if (correctSync && correctRecon && correctGovernance) {
-      setSandboxSuccess(true);
-      setSandboxError("");
-    } else {
-      setSandboxSuccess(false);
-      let incorrectCount = 0;
-      if (!correctSync) incorrectCount++;
-      if (!correctRecon) incorrectCount++;
-      if (!correctGovernance) incorrectCount++;
-      
-      setSandboxError(
-        `ERP Sandbox validation failed. ${incorrectCount}/3 model configurations contain errors. Hint: Prioritize linking surgical inventories directly with active scheduler codes; automate nightly reconciliation cycles with clear error limits; and mask patient PHI (like names/SSNs) on administrative financial invoices.`
-      );
-    }
-  };
-
+  
   const submitApplication = async () => {
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    try {
+      const res = await fetch("/api/careers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          portfolioUrl: formData.portfolioUrl,
+          resumeName: formData.resumeName,
+          position: "ERP Consultant",
+          extraFields: {
+            ...formData
+          }
+        }),
+      });
+      if (!res.ok) {
+        console.error("Failed to submit application");
+      }
+    } catch (err) {
+      console.error("Submit error:", err);
+    }
     setIsSubmitting(false);
     setSubmitSuccess(true);
   };
@@ -375,9 +360,9 @@ export default function JobClient() {
                       <span className={formStep === 1 ? "text-brand-cyan font-bold" : "text-gray-500"}>01. Profile</span>
                       <span className={formStep === 2 ? "text-brand-cyan font-bold" : "text-gray-500"}>02. Experience</span>
                       <span className={formStep === 3 ? "text-brand-cyan font-bold" : "text-gray-500"}>03. ERP Sandbox</span>
-                      <span className={formStep === 4 ? "text-brand-cyan font-bold" : "text-gray-500"}>04. Submit</span>
+                      
                     </div>
-                    <span className="text-gray-500">Step {formStep} of 4</span>
+                    <span className="text-gray-500">Step {formStep} of 3</span>
                   </div>
 
                   {submitSuccess ? (
@@ -400,9 +385,9 @@ export default function JobClient() {
                         onClick={() => {
                           setFormStep(1);
                           setSubmitSuccess(false);
-                          setSandboxSuccess(false);
-                          setSandboxAttempts(0);
-                          setSandboxSetup({ moduleSync: "", reconciliation: "", hipaaGovernance: "" });
+                          
+                          
+                          
                           setFormData({
                             name: "",
                             email: "",
@@ -580,142 +565,10 @@ export default function JobClient() {
                       )}
 
                       {/* STEP 3: ERP Sandbox */}
-                      {formStep === 3 && (
-                        <div className="space-y-5">
-                          <div className="flex justify-between items-start">
-                            <div>
-                              <h3 className="font-display font-extrabold text-lg text-white">Healthcare ERP Module & Security Sandbox</h3>
-                              <p className="text-xs text-gray-400 mt-1">
-                                Configure supply chain integrations, financial reconciliation triggers, and role-based access rules.
-                              </p>
-                            </div>
-                            <span className="text-[9px] font-bold px-2 py-0.5 bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/20 rounded font-mono">
-                              ERP Configuration
-                            </span>
-                          </div>
-
-                          {/* SANDBOX CHALLENGE */}
-                          <div className="space-y-4 font-sans text-xs">
-                            
-                            {/* Scenario 1 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-cyan rounded-full shrink-0" />
-                                <span>Parameter 1: Inventory & Supply Chain Module Mapping</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;Which module linkage synchronizes surgical inventory levels with active clinical EHR booking schedules?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={sandboxSetup.moduleSync}
-                                  onChange={(e) => setSandboxSetup(prev => ({ ...prev, moduleSync: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Linkage --</option>
-                                  <option value="operational_inventory_sync">Link Operational Inventory Module to EHR surgical scheduler events (Correct!)</option>
-                                  <option value="financial_ledger_only">Expose general financial ledger accounts, bypassing inventory tracking</option>
-                                  <option value="manual_requisition">Link manual procurement logs with no active automated scheduling sync</option>
-                                </select>
-                              </div>
-                            </div>
-
-                            {/* Scenario 2 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-indigo rounded-full shrink-0" />
-                                <span>Parameter 2: Ledger Reconciliation Sync Cycles</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;How should clinical procedure billing charges from patient portals reconcile with the General Ledger (GL)?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={sandboxSetup.reconciliation}
-                                  onChange={(e) => setSandboxSetup(prev => ({ ...prev, reconciliation: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Sync Method --</option>
-                                  <option value="automated_reconciliation_cleared">Run automated nightly matches with batch error alerts for claim mismatches (Correct!)</option>
-                                  <option value="manual_accountant_review">Import spreadsheets weekly for manual reconciliation by auditor staff</option>
-                                  <option value="instantaneous_live_posting">Post billing transactions instantly without initial validation filters</option>
-                                </select>
-                              </div>
-                            </div>
-
-                            {/* Scenario 3 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-emerald rounded-full shrink-0" />
-                                <span>Parameter 3: HIPAA Access Security Constraints</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;Which constraint secures patient PHI when non-clinical billing users view ERP procurement invoice logs?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={sandboxSetup.hipaaGovernance}
-                                  onChange={(e) => setSandboxSetup(prev => ({ ...prev, hipaaGovernance: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Security Rule --</option>
-                                  <option value="invoice_mask_phi">Mask patient names, diagnoses, and SSNs; show only billing codes (Correct!)</option>
-                                  <option value="show_all_clinical_data">Grant billing users full query access to electronic health record descriptions</option>
-                                  <option value="restrict_invoice_access">Restrict invoice visibility, requiring physical printing of billing statements</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Error message */}
-                          {sandboxError && (
-                            <div className="flex items-start space-x-2.5 p-3.5 bg-red-950/40 border border-red-500/20 text-red-300 rounded-xl text-xs">
-                              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                              <span>{sandboxError}</span>
-                            </div>
-                          )}
-
-                          {/* Correct notification */}
-                          {sandboxSuccess && (
-                            <div className="flex items-start space-x-2.5 p-3.5 bg-brand-emerald/10 border border-brand-emerald/20 text-brand-emerald rounded-xl text-xs">
-                              <CheckCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                              <span>ERP Module configuration approved! Inventory linked to scheduler, automated nightly ledger sync active, and billing PHI masking validated.</span>
-                            </div>
-                          )}
-
-                          <div className="pt-4 flex justify-between">
-                            <button
-                              type="button"
-                              onClick={() => setFormStep(2)}
-                              className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
-                            >
-                              <span>Back</span>
-                            </button>
-                            
-                            {!sandboxSuccess ? (
-                              <button
-                                type="button"
-                                onClick={validateSandbox}
-                                className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs cursor-pointer"
-                              >
-                                <span>Validate ERP Config ({sandboxAttempts} attempts)</span>
-                              </button>
-                            ) : (
-                              <button
-                                type="button"
-                                onClick={() => setFormStep(4)}
-                                className="inline-flex items-center space-x-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold px-5 py-3 rounded-xl hover:opacity-95 transition-opacity text-xs cursor-pointer"
-                              >
-                                <span>Proceed to Review</span>
-                                <ArrowRight className="w-3.5 h-3.5" />
-                              </button>
-                            )}
-                          </div>
-                        </div>
-                      )}
+                      
 
                       {/* STEP 4: Review and Submit */}
-                      {formStep === 4 && (
+                      {formStep === 3 && (
                         <div className="space-y-5">
                           <h3 className="font-display font-extrabold text-lg text-white">Review & Submit Application</h3>
                           
@@ -740,19 +593,13 @@ export default function JobClient() {
                               <p className="text-gray-300"><span className="text-gray-500 font-sans">EMR-Inventory Mapping Comfort:</span> {formData.hipaaFamiliar}</p>
                             </div>
 
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-1.5">
-                              <p className="text-gray-500 uppercase text-[10px] tracking-wider mb-2 font-bold font-sans">Sandbox Audit Validation</p>
-                              <p className="text-brand-emerald flex items-center space-x-1.5">
-                                <CheckCircle className="w-3.5 h-3.5" />
-                                <span>Inventory Sync scheduler connection, nightly automated matches, and billing PHI masks approved</span>
-                              </p>
-                            </div>
+                            
                           </div>
 
                           <div className="pt-4 flex justify-between">
                             <button
                               type="button"
-                              onClick={() => setFormStep(3)}
+                              onClick={() => setFormStep(2)}
                               className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
                             >
                               <span>Back</span>

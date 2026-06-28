@@ -30,15 +30,7 @@ export default function JobClient() {
   });
 
   // PM Sandbox State
-  const [sandboxSetup, setSandboxSetup] = useState({
-    backlogPriority: "",
-    interoperability: "",
-    accessControl: ""
-  });
-  const [sandboxAttempts, setSandboxAttempts] = useState(0);
-  const [sandboxSuccess, setSandboxSuccess] = useState(false);
-  const [sandboxError, setSandboxError] = useState("");
-
+        
   // Submission States
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -80,37 +72,30 @@ export default function JobClient() {
     }
   };
 
-  const validateSandbox = () => {
-    setSandboxAttempts(prev => prev + 1);
-    
-    // Correct choices:
-    // backlogPriority -> ai_triage_clinical
-    // interoperability -> fhir_intake_sync
-    // accessControl -> minimum_necessary_role
-    
-    const correctPriority = sandboxSetup.backlogPriority === "ai_triage_clinical";
-    const correctInterop = sandboxSetup.interoperability === "fhir_intake_sync";
-    const correctAccess = sandboxSetup.accessControl === "minimum_necessary_role";
-    
-    if (correctPriority && correctInterop && correctAccess) {
-      setSandboxSuccess(true);
-      setSandboxError("");
-    } else {
-      setSandboxSuccess(false);
-      let incorrectCount = 0;
-      if (!correctPriority) incorrectCount++;
-      if (!correctInterop) incorrectCount++;
-      if (!correctAccess) incorrectCount++;
-      
-      setSandboxError(
-        `Backlog audit failed. ${incorrectCount}/3 roadmap configurations contain issues. Hint: Prioritize the AI helper due to its superior user reach and impact; insist on standard FHIR write-back integrations for patient forms; and enforce role-based access to limit patient data views on dashboards.`
-      );
-    }
-  };
-
+  
   const submitApplication = async () => {
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    try {
+      const res = await fetch("/api/careers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          portfolioUrl: formData.portfolioUrl,
+          resumeName: formData.resumeName,
+          position: "Technical Product Manager",
+          extraFields: {
+            ...formData
+          }
+        }),
+      });
+      if (!res.ok) {
+        console.error("Failed to submit application");
+      }
+    } catch (err) {
+      console.error("Submit error:", err);
+    }
     setIsSubmitting(false);
     setSubmitSuccess(true);
   };
@@ -375,9 +360,9 @@ export default function JobClient() {
                       <span className={formStep === 1 ? "text-brand-cyan font-bold" : "text-gray-500"}>01. Profile</span>
                       <span className={formStep === 2 ? "text-brand-cyan font-bold" : "text-gray-500"}>02. Experience</span>
                       <span className={formStep === 3 ? "text-brand-cyan font-bold" : "text-gray-500"}>03. Roadmap Sandbox</span>
-                      <span className={formStep === 4 ? "text-brand-cyan font-bold" : "text-gray-500"}>04. Submit</span>
+                      
                     </div>
-                    <span className="text-gray-500">Step {formStep} of 4</span>
+                    <span className="text-gray-500">Step {formStep} of 3</span>
                   </div>
 
                   {submitSuccess ? (
@@ -400,9 +385,9 @@ export default function JobClient() {
                         onClick={() => {
                           setFormStep(1);
                           setSubmitSuccess(false);
-                          setSandboxSuccess(false);
-                          setSandboxAttempts(0);
-                          setSandboxSetup({ backlogPriority: "", interoperability: "", accessControl: "" });
+                          
+                          
+                          
                           setFormData({
                             name: "",
                             email: "",
@@ -579,142 +564,10 @@ export default function JobClient() {
                       )}
 
                       {/* STEP 3: Roadmap Sandbox */}
-                      {formStep === 3 && (
-                        <div className="space-y-5">
-                          <div className="flex justify-between items-start">
-                            <div>
-                              <h3 className="font-display font-extrabold text-lg text-white">Technical Product Roadmap Sandbox</h3>
-                              <p className="text-xs text-gray-400 mt-1">
-                                Prioritize the product backlog, specify interoperability guidelines, and verify compliance constraints.
-                              </p>
-                            </div>
-                            <span className="text-[9px] font-bold px-2 py-0.5 bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/20 rounded font-mono">
-                              Backlog Audit
-                            </span>
-                          </div>
-
-                          {/* SANDBOX CHALLENGE */}
-                          <div className="space-y-4 font-sans text-xs">
-                            
-                            {/* Scenario 1 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-cyan rounded-full shrink-0" />
-                                <span>Parameter 1: Backlog Prioritization (RICE Score)</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;Which backlog feature should be prioritized for the upcoming sprint, targeting optimal RICE value?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={sandboxSetup.backlogPriority}
-                                  onChange={(e) => setSandboxSetup(prev => ({ ...prev, backlogPriority: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Feature --</option>
-                                  <option value="ai_triage_clinical">AI clinical triage helper (high reach, clinical efficiency, verified confidence, moderate dev effort) (Correct!)</option>
-                                  <option value="legacy_database_migration">Migrate secondary historical clinical database (low reach, moderate impact, high effort)</option>
-                                  <option value="custom_theme_portal">Support fully customizable color themes for portal accounts (high reach, low impact, low effort)</option>
-                                </select>
-                              </div>
-                            </div>
-
-                            {/* Scenario 2 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-indigo rounded-full shrink-0" />
-                                <span>Parameter 2: EMR Interoperability Standard</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;How should the technical requirements define syncing patient medical intakes with hospital Epic/Cerner databases?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={sandboxSetup.interoperability}
-                                  onChange={(e) => setSandboxSetup(prev => ({ ...prev, interoperability: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Interoperability Rule --</option>
-                                  <option value="fhir_intake_sync">Require writes of patient forms to hospital EMR servers using HL7 FHIR questionnaire resource structures (Correct!)</option>
-                                  <option value="csv_export_manual">Export patient forms to a daily CSV file and distribute manually via email</option>
-                                  <option value="database_direct_view">Allow direct SQL database read access from hospital terminals, bypassing API layers</option>
-                                </select>
-                              </div>
-                            </div>
-
-                            {/* Scenario 3 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-emerald rounded-full shrink-0" />
-                                <span>Parameter 3: HIPAA Access Security Rules</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;Which access rule must be enforced on clinical dashboards to comply with HIPAA guidelines?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={sandboxSetup.accessControl}
-                                  onChange={(e) => setSandboxSetup(prev => ({ ...prev, accessControl: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Access Rule --</option>
-                                  <option value="minimum_necessary_role">Configure RBAC restricting patient details to care providers, masking identifiers for admins (Correct!)</option>
-                                  <option value="all_access_dashboard">Grant view access to all clinical dashboards for all registered platform staff users</option>
-                                  <option value="physician_override_off">Allow physician users to override patient visibility limits without audit trail records</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Error message */}
-                          {sandboxError && (
-                            <div className="flex items-start space-x-2.5 p-3.5 bg-red-950/40 border border-red-500/20 text-red-300 rounded-xl text-xs">
-                              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                              <span>{sandboxError}</span>
-                            </div>
-                          )}
-
-                          {/* Correct notification */}
-                          {sandboxSuccess && (
-                            <div className="flex items-start space-x-2.5 p-3.5 bg-brand-emerald/10 border border-brand-emerald/20 text-brand-emerald rounded-xl text-xs">
-                              <CheckCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                              <span>Roadmap requirements validated! AI Triage prioritized, HL7 FHIR questionnaire write-backs set, and minimum-necessary RBAC policy approved.</span>
-                            </div>
-                          )}
-
-                          <div className="pt-4 flex justify-between">
-                            <button
-                              type="button"
-                              onClick={() => setFormStep(2)}
-                              className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
-                            >
-                              <span>Back</span>
-                            </button>
-                            
-                            {!sandboxSuccess ? (
-                              <button
-                                type="button"
-                                onClick={validateSandbox}
-                                className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs cursor-pointer"
-                              >
-                                <span>Audit Requirements Setup ({sandboxAttempts} attempts)</span>
-                              </button>
-                            ) : (
-                              <button
-                                type="button"
-                                onClick={() => setFormStep(4)}
-                                className="inline-flex items-center space-x-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold px-5 py-3 rounded-xl hover:opacity-95 transition-opacity text-xs cursor-pointer"
-                              >
-                                <span>Proceed to Review</span>
-                                <ArrowRight className="w-3.5 h-3.5" />
-                              </button>
-                            )}
-                          </div>
-                        </div>
-                      )}
+                      
 
                       {/* STEP 4: Review and Submit */}
-                      {formStep === 4 && (
+                      {formStep === 3 && (
                         <div className="space-y-5">
                           <h3 className="font-display font-extrabold text-lg text-white">Review & Submit Application</h3>
                           
@@ -739,19 +592,13 @@ export default function JobClient() {
                               <p className="text-gray-300"><span className="text-gray-500 font-sans">EHR Spec Mapping Comfort:</span> {formData.hipaaFamiliar}</p>
                             </div>
 
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-1.5">
-                              <p className="text-gray-500 uppercase text-[10px] tracking-wider mb-2 font-bold font-sans">Sandbox Audit Validation</p>
-                              <p className="text-brand-emerald flex items-center space-x-1.5">
-                                <CheckCircle className="w-3.5 h-3.5" />
-                                <span>AI clinical triage priority, FHIR intake sync requirements, and RBAC visibility rules approved</span>
-                              </p>
-                            </div>
+                            
                           </div>
 
                           <div className="pt-4 flex justify-between">
                             <button
                               type="button"
-                              onClick={() => setFormStep(3)}
+                              onClick={() => setFormStep(2)}
                               className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
                             >
                               <span>Back</span>

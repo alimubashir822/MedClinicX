@@ -30,15 +30,7 @@ export default function JobClient() {
   });
 
   // Sandbox State
-  const [sandboxSetup, setSandboxSetup] = useState({
-    taskScheduling: "",
-    networkEncryption: "",
-    otaSecurity: ""
-  });
-  const [sandboxAttempts, setSandboxAttempts] = useState(0);
-  const [sandboxSuccess, setSandboxSuccess] = useState(false);
-  const [sandboxError, setSandboxError] = useState("");
-
+        
   // Submission States
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -80,32 +72,30 @@ export default function JobClient() {
     }
   };
 
-  const validateSandbox = () => {
-    setSandboxAttempts(prev => prev + 1);
-    
-    const correctScheduling = sandboxSetup.taskScheduling === "rtos_task_priorities";
-    const correctEncryption = sandboxSetup.networkEncryption === "secure_mqtt_tls";
-    const correctOTA = sandboxSetup.otaSecurity === "secure_boot_aes";
-    
-    if (correctScheduling && correctEncryption && correctOTA) {
-      setSandboxSuccess(true);
-      setSandboxError("");
-    } else {
-      setSandboxSuccess(false);
-      let incorrectCount = 0;
-      if (!correctScheduling) incorrectCount++;
-      if (!correctEncryption) incorrectCount++;
-      if (!correctOTA) incorrectCount++;
-      
-      setSandboxError(
-        `Firmware audit failed. ${incorrectCount}/3 configurations are non-optimal. Hint: Structure FreeRTOS task priorities so telemetry preempts logging; secure network logs using MQTT over TLS 1.3 with broker validation; and prevent code injection via hardware-enforced Secure Boot OTA verification.`
-      );
-    }
-  };
-
+  
   const submitApplication = async () => {
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    try {
+      const res = await fetch("/api/careers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          portfolioUrl: formData.portfolioUrl,
+          resumeName: formData.resumeName,
+          position: "Firmware Engineer",
+          extraFields: {
+            ...formData
+          }
+        }),
+      });
+      if (!res.ok) {
+        console.error("Failed to submit application");
+      }
+    } catch (err) {
+      console.error("Submit error:", err);
+    }
     setIsSubmitting(false);
     setSubmitSuccess(true);
   };
@@ -370,9 +360,9 @@ export default function JobClient() {
                       <span className={formStep === 1 ? "text-brand-cyan font-bold" : "text-gray-500"}>01. Profile</span>
                       <span className={formStep === 2 ? "text-brand-cyan font-bold" : "text-gray-500"}>02. Experience</span>
                       <span className={formStep === 3 ? "text-brand-cyan font-bold" : "text-gray-500"}>03. Firmware Sandbox</span>
-                      <span className={formStep === 4 ? "text-brand-cyan font-bold" : "text-gray-500"}>04. Submit</span>
+                      
                     </div>
-                    <span className="text-gray-500">Step {formStep} of 4</span>
+                    <span className="text-gray-500">Step {formStep} of 3</span>
                   </div>
 
                   {submitSuccess ? (
@@ -395,9 +385,9 @@ export default function JobClient() {
                         onClick={() => {
                           setFormStep(1);
                           setSubmitSuccess(false);
-                          setSandboxSuccess(false);
-                          setSandboxAttempts(0);
-                          setSandboxSetup({ taskScheduling: "", networkEncryption: "", otaSecurity: "" });
+                          
+                          
+                          
                           setFormData({
                             name: "",
                             email: "",
@@ -567,7 +557,7 @@ export default function JobClient() {
                               onClick={() => setFormStep(3)}
                               className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs cursor-pointer"
                             >
-                              <span>Proceed to Sandbox</span>
+                              <span>Review Application</span>
                               <ArrowRight className="w-3.5 h-3.5" />
                             </button>
                           </div>
@@ -575,142 +565,10 @@ export default function JobClient() {
                       )}
 
                       {/* STEP 3: Sandbox */}
-                      {formStep === 3 && (
-                        <div className="space-y-5">
-                          <div className="flex justify-between items-start">
-                            <div>
-                              <h3 className="font-display font-extrabold text-lg text-white">IoT Firmware & Telemetry Security Sandbox</h3>
-                              <p className="text-xs text-gray-400 mt-1">
-                                Structure preemptive thread schedules, encrypt IoT streams, and configure secure boot firmware validation.
-                              </p>
-                            </div>
-                            <span className="text-[9px] font-bold px-2 py-0.5 bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/20 rounded font-mono">
-                              Device Flash
-                            </span>
-                          </div>
-
-                          {/* SANDBOX CHALLENGE */}
-                          <div className="space-y-4 font-sans text-xs">
-                            
-                            {/* Scenario 1 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-cyan rounded-full shrink-0" />
-                                <span>Parameter 1: Preemptive Task Scheduling & RTOS Priorities</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;How should vital-sign sensor sampling and diagnostic logging threads be scheduled in an RTOS?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={sandboxSetup.taskScheduling}
-                                  onChange={(e) => setSandboxSetup(prev => ({ ...prev, taskScheduling: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose RTOS Schedule --</option>
-                                  <option value="rtos_task_priorities">Define deterministic FreeRTOS task priorities, ensuring the critical vital-sign telemetry thread preempts logging (Correct!)</option>
-                                  <option value="cooperative_polling_loop">Implement a single cooperative polling loop, checking all sensors and network queues in a single thread</option>
-                                  <option value="random_delays">Introduce random delay flags in the main scheduler loop to mitigate priority inversion</option>
-                                </select>
-                              </div>
-                            </div>
-
-                            {/* Scenario 2 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-indigo rounded-full shrink-0" />
-                                <span>Parameter 2: Device Telemetry & Network Encryption</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;What protocol ensures patient monitoring logs remain private when sent to the cloud?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={sandboxSetup.networkEncryption}
-                                  onChange={(e) => setSandboxSetup(prev => ({ ...prev, networkEncryption: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Telemetry Protocol --</option>
-                                  <option value="secure_mqtt_tls">Configure secure MQTT telemetry streaming over TLS 1.3, validating broker certificates in flash (Correct!)</option>
-                                  <option value="plaintext_tcp_only">Transmit patient monitoring logs over plain TCP/IP text streams for speed and simplicity</option>
-                                  <option value="local_storage_no_upload">Store all vitals data on local device EEPROM with no external network uploads</option>
-                                </select>
-                              </div>
-                            </div>
-
-                            {/* Scenario 3 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-emerald rounded-full shrink-0" />
-                                <span>Parameter 3: Secure Boot & Firmware Updates (OTA)</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;How should Over-The-Air (OTA) firmware updates be verified before execution on a medical device?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={sandboxSetup.otaSecurity}
-                                  onChange={(e) => setSandboxSetup(prev => ({ ...prev, otaSecurity: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose OTA Verification --</option>
-                                  <option value="secure_boot_aes">Implement hardware-enforced Secure Boot using public-key cryptography to verify OTA updates in flash (Correct!)</option>
-                                  <option value="unverified_ota_pull">Download binary updates directly via unencrypted HTTP and execute them in primary partition sectors</option>
-                                  <option value="disable_updates_entirely">Disable all OTA update pipelines, forcing manual JTAG flashing on all devices</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Error message */}
-                          {sandboxError && (
-                            <div className="flex items-start space-x-2.5 p-3.5 bg-red-950/40 border border-red-500/20 text-red-300 rounded-xl text-xs">
-                              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                              <span>{sandboxError}</span>
-                            </div>
-                          )}
-
-                          {/* Correct notification */}
-                          {sandboxSuccess && (
-                            <div className="flex items-start space-x-2.5 p-3.5 bg-brand-emerald/10 border border-brand-emerald/20 text-brand-emerald rounded-xl text-xs">
-                              <CheckCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                              <span>Firmware verification audit approved. Preemptive task schedules set, TLS 1.3 telemetry encryption verified, and hardware-secured Boot check unlocked.</span>
-                            </div>
-                          )}
-
-                          <div className="pt-4 flex justify-between">
-                            <button
-                              type="button"
-                              onClick={() => setFormStep(2)}
-                              className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
-                            >
-                              <span>Back</span>
-                            </button>
-                            
-                            {!sandboxSuccess ? (
-                              <button
-                                type="button"
-                                onClick={validateSandbox}
-                                className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs cursor-pointer"
-                              >
-                                <span>Audit Device Configuration ({sandboxAttempts} attempts)</span>
-                              </button>
-                            ) : (
-                              <button
-                                type="button"
-                                onClick={() => setFormStep(4)}
-                                className="inline-flex items-center space-x-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold px-5 py-3 rounded-xl hover:opacity-95 transition-opacity text-xs cursor-pointer"
-                              >
-                                <span>Proceed to Review</span>
-                                <ArrowRight className="w-3.5 h-3.5" />
-                              </button>
-                            )}
-                          </div>
-                        </div>
-                      )}
+                      
 
                       {/* STEP 4: Review and Submit */}
-                      {formStep === 4 && (
+                      {formStep === 3 && (
                         <div className="space-y-5">
                           <h3 className="font-display font-extrabold text-lg text-white">Review & Submit Application</h3>
                           
@@ -735,19 +593,13 @@ export default function JobClient() {
                               <p className="text-gray-300"><span className="text-gray-500 font-sans">JTAG Debugging:</span> {formData.hipaaFamiliar}</p>
                             </div>
 
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-1.5">
-                              <p className="text-gray-500 uppercase text-[10px] tracking-wider mb-2 font-bold font-sans">Sandbox Pre-screen Result</p>
-                              <p className="text-brand-emerald flex items-center space-x-1.5">
-                                <CheckCircle className="w-3.5 h-3.5" />
-                                <span>Preemptive vital priority scheduling, encrypted MQTT over TLS 1.3, and cryptographic secure boot OTA validation approved</span>
-                              </p>
-                            </div>
+                            
                           </div>
 
                           <div className="pt-4 flex justify-between">
                             <button
                               type="button"
-                              onClick={() => setFormStep(3)}
+                              onClick={() => setFormStep(2)}
                               className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
                             >
                               <span>Back</span>

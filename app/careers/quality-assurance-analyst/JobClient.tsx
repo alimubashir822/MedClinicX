@@ -30,15 +30,7 @@ export default function JobClient() {
   });
 
   // Sandbox State
-  const [sandboxSetup, setSandboxSetup] = useState({
-    testCoverage: "",
-    hipaaMocking: "",
-    pipelineGate: ""
-  });
-  const [sandboxAttempts, setSandboxAttempts] = useState(0);
-  const [sandboxSuccess, setSandboxSuccess] = useState(false);
-  const [sandboxError, setSandboxError] = useState("");
-
+        
   // Submission States
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -80,32 +72,30 @@ export default function JobClient() {
     }
   };
 
-  const validateSandbox = () => {
-    setSandboxAttempts(prev => prev + 1);
-    
-    const correctCoverage = sandboxSetup.testCoverage === "integration_fhir_auth";
-    const correctMock = sandboxSetup.hipaaMocking === "synthetically_masked_data";
-    const correctGate = sandboxSetup.pipelineGate === "regression_gated_build";
-    
-    if (correctCoverage && correctMock && correctGate) {
-      setSandboxSuccess(true);
-      setSandboxError("");
-    } else {
-      setSandboxSuccess(false);
-      let incorrectCount = 0;
-      if (!correctCoverage) incorrectCount++;
-      if (!correctMock) incorrectCount++;
-      if (!correctGate) incorrectCount++;
-      
-      setSandboxError(
-        `QA System Audit failed. ${incorrectCount}/3 configurations are non-optimal. Hint: Focus on integration testing validating FHIR schemas and OAuth scopes; ensure HIPAA compliance by generating synthetically masked records; and deploy regression gates to block builds unless success rate is 100%.`
-      );
-    }
-  };
-
+  
   const submitApplication = async () => {
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    try {
+      const res = await fetch("/api/careers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          portfolioUrl: formData.portfolioUrl,
+          resumeName: formData.resumeName,
+          position: "Quality Assurance Analyst",
+          extraFields: {
+            ...formData
+          }
+        }),
+      });
+      if (!res.ok) {
+        console.error("Failed to submit application");
+      }
+    } catch (err) {
+      console.error("Submit error:", err);
+    }
     setIsSubmitting(false);
     setSubmitSuccess(true);
   };
@@ -369,10 +359,10 @@ export default function JobClient() {
                     <div className="flex space-x-4">
                       <span className={formStep === 1 ? "text-brand-cyan font-bold" : "text-gray-500"}>01. Profile</span>
                       <span className={formStep === 2 ? "text-brand-cyan font-bold" : "text-gray-500"}>02. Experience</span>
-                      <span className={formStep === 3 ? "text-brand-cyan font-bold" : "text-gray-500"}>03. Test Sandbox</span>
-                      <span className={formStep === 4 ? "text-brand-cyan font-bold" : "text-gray-500"}>04. Submit</span>
+                      <span className={formStep === 3 ? "text-brand-cyan font-bold" : "text-gray-500"}>03. Review & Submit Sandbox</span>
+                      
                     </div>
-                    <span className="text-gray-500">Step {formStep} of 4</span>
+                    <span className="text-gray-500">Step {formStep} of 3</span>
                   </div>
 
                   {submitSuccess ? (
@@ -395,9 +385,9 @@ export default function JobClient() {
                         onClick={() => {
                           setFormStep(1);
                           setSubmitSuccess(false);
-                          setSandboxSuccess(false);
-                          setSandboxAttempts(0);
-                          setSandboxSetup({ testCoverage: "", hipaaMocking: "", pipelineGate: "" });
+                          
+                          
+                          
                           setFormData({
                             name: "",
                             email: "",
@@ -567,7 +557,7 @@ export default function JobClient() {
                               onClick={() => setFormStep(3)}
                               className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs cursor-pointer"
                             >
-                              <span>Proceed to Sandbox</span>
+                              <span>Review Application</span>
                               <ArrowRight className="w-3.5 h-3.5" />
                             </button>
                           </div>
@@ -575,142 +565,10 @@ export default function JobClient() {
                       )}
 
                       {/* STEP 3: Sandbox */}
-                      {formStep === 3 && (
-                        <div className="space-y-5">
-                          <div className="flex justify-between items-start">
-                            <div>
-                              <h3 className="font-display font-extrabold text-lg text-white">Healthcare Test Suite & Automation Sandbox</h3>
-                              <p className="text-xs text-gray-400 mt-1">
-                                Align API testing coverage, create safe HIPAA mocks, and configure CI/CD pipeline blocking gates.
-                              </p>
-                            </div>
-                            <span className="text-[9px] font-bold px-2 py-0.5 bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/20 rounded font-mono">
-                              Suite Auditor
-                            </span>
-                          </div>
-
-                          {/* SANDBOX CHALLENGE */}
-                          <div className="space-y-4 font-sans text-xs">
-                            
-                            {/* Scenario 1 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-cyan rounded-full shrink-0" />
-                                <span>Parameter 1: Test Case Integration Focus</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;How should the automated test suite validate user logins and FHIR API synchronization across environments?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={sandboxSetup.testCoverage}
-                                  onChange={(e) => setSandboxSetup(prev => ({ ...prev, testCoverage: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Integration Focus --</option>
-                                  <option value="integration_fhir_auth">Develop integration tests verifying OAuth 2.0 patient scopes and HL7 FHIR questionnaire resource schema parsing (Correct!)</option>
-                                  <option value="manual_clicking">Perform manual UI exploratory tests on local development builds to spot cosmetic alignments</option>
-                                  <option value="unit_testing_mock_less">Write unit tests targeting internal helpers, ignoring third-party patient portal API endpoints</option>
-                                </select>
-                              </div>
-                            </div>
-
-                            {/* Scenario 2 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-indigo rounded-full shrink-0" />
-                                <span>Parameter 2: HIPAA Compliance & Mocking Strategy</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;What database population method complies with HIPAA regulations during high-volume end-to-end dashboard load runs?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={sandboxSetup.hipaaMocking}
-                                  onChange={(e) => setSandboxSetup(prev => ({ ...prev, hipaaMocking: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose HIPAA Mocking Strategy --</option>
-                                  <option value="synthetically_masked_data">Deploy synthetically generated patient records with dummy data to mask PHI before logging test executions (Correct!)</option>
-                                  <option value="production_db_mirror">Sync a mirror copy of the production database containing real clinician and patient logs into the local QA container</option>
-                                  <option value="skip_db_verification">Verify web interface page flows, skipping database and EHR data persistence validation</option>
-                                </select>
-                              </div>
-                            </div>
-
-                            {/* Scenario 3 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-emerald rounded-full shrink-0" />
-                                <span>Parameter 3: CI/CD Pipeline Gate Rules</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;Under what pipeline gating rules should staging builds compile and ship code into the production cluster?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={sandboxSetup.pipelineGate}
-                                  onChange={(e) => setSandboxSetup(prev => ({ ...prev, pipelineGate: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Pipeline Gate Rule --</option>
-                                  <option value="regression_gated_build">Trigger regression test runs on pull-requests and gate master branch deployments if success rate is below 100% (Correct!)</option>
-                                  <option value="manual_weekly_runs">Schedule automated scripts to run manually once a week, allowing rapid developer deployments</option>
-                                  <option value="bypass_failed_scenarios">Allow deployments to proceed even with minor failing QA checks, logging tickets for later</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Error message */}
-                          {sandboxError && (
-                            <div className="flex items-start space-x-2.5 p-3.5 bg-red-950/40 border border-red-500/20 text-red-300 rounded-xl text-xs">
-                              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                              <span>{sandboxError}</span>
-                            </div>
-                          )}
-
-                          {/* Correct notification */}
-                          {sandboxSuccess && (
-                            <div className="flex items-start space-x-2.5 p-3.5 bg-brand-emerald/10 border border-brand-emerald/20 text-brand-emerald rounded-xl text-xs">
-                              <CheckCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                              <span>Test suite criteria matched! FHIR schemas validated, synthetic compliance mocking verified, and CI/CD master branch gating rules set.</span>
-                            </div>
-                          )}
-
-                          <div className="pt-4 flex justify-between">
-                            <button
-                              type="button"
-                              onClick={() => setFormStep(2)}
-                              className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
-                            >
-                              <span>Back</span>
-                            </button>
-                            
-                            {!sandboxSuccess ? (
-                              <button
-                                type="button"
-                                onClick={validateSandbox}
-                                className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs cursor-pointer"
-                              >
-                                <span>Audit Testing Configuration ({sandboxAttempts} attempts)</span>
-                              </button>
-                            ) : (
-                              <button
-                                type="button"
-                                onClick={() => setFormStep(4)}
-                                className="inline-flex items-center space-x-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold px-5 py-3 rounded-xl hover:opacity-95 transition-opacity text-xs cursor-pointer"
-                              >
-                                <span>Proceed to Review</span>
-                                <ArrowRight className="w-3.5 h-3.5" />
-                              </button>
-                            )}
-                          </div>
-                        </div>
-                      )}
+                      
 
                       {/* STEP 4: Review and Submit */}
-                      {formStep === 4 && (
+                      {formStep === 3 && (
                         <div className="space-y-5">
                           <h3 className="font-display font-extrabold text-lg text-white">Review & Submit Application</h3>
                           
@@ -735,19 +593,13 @@ export default function JobClient() {
                               <p className="text-gray-300"><span className="text-gray-500 font-sans">FHIR Mapping Comfort:</span> {formData.hipaaFamiliar}</p>
                             </div>
 
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-1.5">
-                              <p className="text-gray-500 uppercase text-[10px] tracking-wider mb-2 font-bold font-sans">Sandbox Pre-screen Result</p>
-                              <p className="text-brand-emerald flex items-center space-x-1.5">
-                                <CheckCircle className="w-3.5 h-3.5" />
-                                <span>FHIR OAuth schema audits, synthetic PII test files, and master CI/CD regression gates validated</span>
-                              </p>
-                            </div>
+                            
                           </div>
 
                           <div className="pt-4 flex justify-between">
                             <button
                               type="button"
-                              onClick={() => setFormStep(3)}
+                              onClick={() => setFormStep(2)}
                               className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
                             >
                               <span>Back</span>

@@ -31,15 +31,7 @@ export default function JobClient() {
   });
 
   // Pipeline Automation Sandbox State
-  const [scenarios, setScenarios] = useState({
-    triggerNode: "",
-    aiNode: "",
-    routerNode: ""
-  });
-  const [sandboxAttempts, setSandboxAttempts] = useState(0);
-  const [sandboxSuccess, setSandboxSuccess] = useState(false);
-  const [sandboxError, setSandboxError] = useState("");
-
+        
   // Submission States
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -81,37 +73,30 @@ export default function JobClient() {
     }
   };
 
-  const validateScenarios = () => {
-    setSandboxAttempts(prev => prev + 1);
-    
-    // Correct choices:
-    // triggerNode -> patient_form_submit (Webhook / API Trigger: On Patient Form Submit)
-    // aiNode -> clinical_ner (LLM / NLP Action: Clinical NER (Entity Extraction) & Urgency Classifier)
-    // routerNode -> urgency_router (Router Switch: If urgency = "High" THEN alert_doctor() ELSE schedule_appointment())
-    
-    const correct1 = scenarios.triggerNode === "patient_form_submit";
-    const correct2 = scenarios.aiNode === "clinical_ner";
-    const correct3 = scenarios.routerNode === "urgency_router";
-    
-    if (correct1 && correct2 && correct3) {
-      setSandboxSuccess(true);
-      setSandboxError("");
-    } else {
-      setSandboxSuccess(false);
-      let incorrectCount = 0;
-      if (!correct1) incorrectCount++;
-      if (!correct2) incorrectCount++;
-      if (!correct3) incorrectCount++;
-      
-      setSandboxError(
-        `Pipeline validation error. ${incorrectCount}/3 steps configured incorrectly. Hint: Pipeline starts on patient submission; AI action extracts clinical entities & urgency; routing switch forks high-urgency alerts to doctor queue.`
-      );
-    }
-  };
-
+  
   const submitApplication = async () => {
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    try {
+      const res = await fetch("/api/careers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          portfolioUrl: formData.portfolioUrl,
+          resumeName: formData.resumeName,
+          position: "AI Automation Specialist",
+          extraFields: {
+            ...formData
+          }
+        }),
+      });
+      if (!res.ok) {
+        console.error("Failed to submit application");
+      }
+    } catch (err) {
+      console.error("Submit error:", err);
+    }
     setIsSubmitting(false);
     setSubmitSuccess(true);
   };
@@ -453,18 +438,18 @@ export default function JobClient() {
               {/* Progress bar */}
               <div className="mb-8">
                 <div className="flex justify-between text-xs text-gray-400 mb-2 font-mono">
-                  <span>STEP {formStep} OF 4</span>
+                  <span>Step {formStep} of 3</span>
                   <span>
                     {formStep === 1 && "Personal Information"}
                     {formStep === 2 && "Automation Experience"}
-                    {formStep === 3 && "Workflow Sandbox"}
-                    {formStep === 4 && "Review & Submit"}
+                    
+                    {formStep === 3 && "Review & Submit"}
                   </span>
                 </div>
                 <div className="w-full bg-slate-900 border border-brand-border h-2 rounded-full overflow-hidden">
                   <div
                     className="bg-gradient-to-r from-brand-cyan to-brand-indigo h-full transition-all duration-300"
-                    style={{ width: `${(formStep / 4) * 100}%` }}
+                    style={{ width: `${(formStep / 3) * 100}%` }}
                   />
                 </div>
               </div>
@@ -501,9 +486,9 @@ export default function JobClient() {
                       onClick={() => {
                         setFormStep(1);
                         setSubmitSuccess(false);
-                        setSandboxSuccess(false);
-                        setSandboxAttempts(0);
-                        setScenarios({ triggerNode: "", aiNode: "", routerNode: "" });
+                        
+                        
+                        
                         setFormData({
                           name: "",
                           email: "",
@@ -680,142 +665,10 @@ export default function JobClient() {
                     )}
 
                     {/* STEP 3: Pipeline Sandbox */}
-                    {formStep === 3 && (
-                      <div className="space-y-5">
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <h3 className="font-display font-extrabold text-lg text-white">Clinical Intake Pipeline Sandbox</h3>
-                            <p className="text-xs text-gray-400 mt-1">
-                              Configure an automated triage pipeline executing clinical NLP symptom analysis.
-                            </p>
-                          </div>
-                          <span className="text-[9px] font-bold px-2 py-0.5 bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/20 rounded font-mono">
-                            Automation Challenge
-                          </span>
-                        </div>
-
-                        {/* MAPPING INTERFACE */}
-                        <div className="space-y-4 font-sans text-xs">
-                          
-                          {/* Step 1 */}
-                          <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                            <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                              <span className="w-2 h-2 bg-brand-cyan rounded-full shrink-0" />
-                              <span>Step 1: Pipeline Entry / Trigger Node</span>
-                            </div>
-                            <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                              &quot;Trigger the automation sequence instantly when a patient submits a new clinical intake questionnaire.&quot;
-                            </p>
-                            <div>
-                              <select
-                                value={scenarios.triggerNode}
-                                onChange={(e) => setScenarios(prev => ({ ...prev, triggerNode: e.target.value }))}
-                                className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                              >
-                                <option value="">-- Choose Trigger Node --</option>
-                                <option value="cron_schedule">CRON Schedule (run hourly queries on patient table)</option>
-                                <option value="patient_form_submit">Webhook / API Trigger: On Patient Form Submit (Correct!)</option>
-                                <option value="manual_run">Manual Run (clicked by clinic administrator)</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          {/* Step 2 */}
-                          <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                            <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                              <span className="w-2 h-2 bg-brand-indigo rounded-full shrink-0" />
-                              <span>Step 2: AI / NLP Parsing Node</span>
-                            </div>
-                            <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                              &quot;Parse unstructured symptom details to identify the primary reason for visit and assess patient urgency.&quot;
-                            </p>
-                            <div>
-                              <select
-                                value={scenarios.aiNode}
-                                onChange={(e) => setScenarios(prev => ({ ...prev, aiNode: e.target.value }))}
-                                className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                              >
-                                <option value="">-- Choose Action Node --</option>
-                                <option value="clinical_ner">LLM / NLP Action: Clinical NER (Entity Extraction) & Urgency Classifier (Correct!)</option>
-                                <option value="translation">Translation Action: Translate questionnaire details to Spanish</option>
-                                <option value="regex_validate">Regex Action: Match input against valid phone/email patterns</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          {/* Step 3 */}
-                          <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                            <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                              <span className="w-2 h-2 bg-brand-emerald rounded-full shrink-0" />
-                              <span>Step 3: Urgency Routing Node</span>
-                            </div>
-                            <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                              &quot;Direct patients with severe indicators immediately to emergency medical queues, routing non-urgent patients to standard calendars.&quot;
-                            </p>
-                            <div>
-                              <select
-                                value={scenarios.routerNode}
-                                onChange={(e) => setScenarios(prev => ({ ...prev, routerNode: e.target.value }))}
-                                className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                              >
-                                <option value="">-- Choose Routing Node --</option>
-                                <option value="email_confirm">Email Action: Send confirmation receipt to patient address</option>
-                                <option value="urgency_router">Router Switch: If urgency = &quot;High&quot; THEN alert_doctor() ELSE schedule_appointment() (Correct!)</option>
-                                <option value="db_write">Database Write: Append raw patient inputs directly to logs</option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Error message */}
-                        {sandboxError && (
-                          <div className="flex items-start space-x-2.5 p-3.5 bg-red-950/40 border border-red-500/20 text-red-300 rounded-xl text-xs">
-                            <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                            <span>{sandboxError}</span>
-                          </div>
-                        )}
-
-                        {/* Correct notification */}
-                        {sandboxSuccess && (
-                          <div className="flex items-start space-x-2.5 p-3.5 bg-brand-emerald/10 border border-brand-emerald/20 text-brand-emerald rounded-xl text-xs">
-                            <CheckCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                            <span>Pipeline validation complete! All nodes connect and process data correctly.</span>
-                          </div>
-                        )}
-
-                        <div className="pt-4 flex justify-between">
-                          <button
-                            type="button"
-                            onClick={() => setFormStep(2)}
-                            className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
-                          >
-                            <span>Back</span>
-                          </button>
-                          
-                          {!sandboxSuccess ? (
-                            <button
-                              type="button"
-                              onClick={validateScenarios}
-                              className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs cursor-pointer"
-                            >
-                              <span>Test Automated Pipeline ({sandboxAttempts} attempts)</span>
-                            </button>
-                          ) : (
-                            <button
-                              type="button"
-                              onClick={() => setFormStep(4)}
-                              className="inline-flex items-center space-x-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold px-5 py-3 rounded-xl hover:opacity-95 transition-opacity text-xs cursor-pointer"
-                            >
-                              <span>Proceed to Review</span>
-                              <ArrowRight className="w-3.5 h-3.5" />
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                    )}
+                    
 
                     {/* STEP 4: Review and Submit */}
-                    {formStep === 4 && (
+                    {formStep === 3 && (
                       <div className="space-y-5">
                         <h3 className="font-display font-extrabold text-lg text-white">Review & Submit Application</h3>
                         
@@ -852,7 +705,7 @@ export default function JobClient() {
                         <div className="pt-4 flex justify-between">
                           <button
                             type="button"
-                            onClick={() => setFormStep(3)}
+                            onClick={() => setFormStep(2)}
                             className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
                           >
                             <span>Back</span>

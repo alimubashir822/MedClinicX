@@ -31,15 +31,7 @@ export default function JobClient() {
   });
 
   // Cohort Filtering Sandbox State
-  const [scenarios, setScenarios] = useState({
-    diagnosisCode: "",
-    labThreshold: "",
-    visitExclusion: ""
-  });
-  const [sandboxAttempts, setSandboxAttempts] = useState(0);
-  const [sandboxSuccess, setSandboxSuccess] = useState(false);
-  const [sandboxError, setSandboxError] = useState("");
-
+        
   // Submission States
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -81,37 +73,30 @@ export default function JobClient() {
     }
   };
 
-  const validateScenarios = () => {
-    setSandboxAttempts(prev => prev + 1);
-    
-    // Correct choices:
-    // diagnosisCode -> icd10_e11 (ICD-10: E11 - Type 2 Diabetes mellitus)
-    // labThreshold -> hba1c_gt_8 (HbA1c > 8.0%)
-    // visitExclusion -> no_endo_12m (Exclude Endocrinology visit within last 12M)
-    
-    const correct1 = scenarios.diagnosisCode === "icd10_e11";
-    const correct2 = scenarios.labThreshold === "hba1c_gt_8";
-    const correct3 = scenarios.visitExclusion === "no_endo_12m";
-    
-    if (correct1 && correct2 && correct3) {
-      setSandboxSuccess(true);
-      setSandboxError("");
-    } else {
-      setSandboxSuccess(false);
-      let incorrectCount = 0;
-      if (!correct1) incorrectCount++;
-      if (!correct2) incorrectCount++;
-      if (!correct3) incorrectCount++;
-      
-      setSandboxError(
-        `Cohort validation mismatch. ${incorrectCount}/3 filter parameters configured incorrectly. Hint: Outreach target is Type 2 Diabetes (E11); lab target is uncontrolled HbA1c (> 8.0%); and operational target is patients who have NOT seen an Endocrinologist within 12M.`
-      );
-    }
-  };
-
+  
   const submitApplication = async () => {
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    try {
+      const res = await fetch("/api/careers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          portfolioUrl: formData.portfolioUrl,
+          resumeName: formData.resumeName,
+          position: "Medical Data Analyst",
+          extraFields: {
+            ...formData
+          }
+        }),
+      });
+      if (!res.ok) {
+        console.error("Failed to submit application");
+      }
+    } catch (err) {
+      console.error("Submit error:", err);
+    }
     setIsSubmitting(false);
     setSubmitSuccess(true);
   };
@@ -453,18 +438,18 @@ export default function JobClient() {
               {/* Progress bar */}
               <div className="mb-8">
                 <div className="flex justify-between text-xs text-gray-400 mb-2 font-mono">
-                  <span>STEP {formStep} OF 4</span>
+                  <span>Step {formStep} of 3</span>
                   <span>
                     {formStep === 1 && "Personal Information"}
                     {formStep === 2 && "SQL & BI Experience"}
-                    {formStep === 3 && "Cohort Outreach Triage"}
-                    {formStep === 4 && "Review & Submit"}
+                    
+                    {formStep === 3 && "Review & Submit"}
                   </span>
                 </div>
                 <div className="w-full bg-slate-900 border border-brand-border h-2 rounded-full overflow-hidden">
                   <div
                     className="bg-gradient-to-r from-brand-cyan to-brand-indigo h-full transition-all duration-300"
-                    style={{ width: `${(formStep / 4) * 100}%` }}
+                    style={{ width: `${(formStep / 3) * 100}%` }}
                   />
                 </div>
               </div>
@@ -501,9 +486,9 @@ export default function JobClient() {
                       onClick={() => {
                         setFormStep(1);
                         setSubmitSuccess(false);
-                        setSandboxSuccess(false);
-                        setSandboxAttempts(0);
-                        setScenarios({ diagnosisCode: "", labThreshold: "", visitExclusion: "" });
+                        
+                        
+                        
                         setFormData({
                           name: "",
                           email: "",
@@ -680,142 +665,10 @@ export default function JobClient() {
                     )}
 
                     {/* STEP 3: Cohort Filtering Sandbox */}
-                    {formStep === 3 && (
-                      <div className="space-y-5">
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <h3 className="font-display font-extrabold text-lg text-white">Clinical Cohort Validation Sandbox</h3>
-                            <p className="text-xs text-gray-400 mt-1">
-                              Configure the dataset filters for our diabetic patient outreach program.
-                            </p>
-                          </div>
-                          <span className="text-[9px] font-bold px-2 py-0.5 bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/20 rounded font-mono">
-                            Cohort Challenge
-                          </span>
-                        </div>
-
-                        {/* MAPPING INTERFACE */}
-                        <div className="space-y-4 font-sans text-xs">
-                          
-                          {/* Parameter 1 */}
-                          <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                            <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                              <span className="w-2 h-2 bg-brand-cyan rounded-full shrink-0" />
-                              <span>Filter 1: Primary Diagnosis Selection (ICD-10)</span>
-                            </div>
-                            <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                              &quot;Select the correct diagnosis code mapping for Type 2 Diabetes mellitus cohorts.&quot;
-                            </p>
-                            <div>
-                              <select
-                                value={scenarios.diagnosisCode}
-                                onChange={(e) => setScenarios(prev => ({ ...prev, diagnosisCode: e.target.value }))}
-                                className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                              >
-                                <option value="">-- Choose Diagnosis Filter --</option>
-                                <option value="icd10_e10">ICD-10: E10 (Type 1 diabetes mellitus)</option>
-                                <option value="icd10_e11">ICD-10: E11 (Type 2 diabetes mellitus) (Correct!)</option>
-                                <option value="icd10_i10">ICD-10: I10 (Essential hypertension)</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          {/* Parameter 2 */}
-                          <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                            <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                              <span className="w-2 h-2 bg-brand-indigo rounded-full shrink-0" />
-                              <span>Filter 2: Laboratory Test & Threshold</span>
-                            </div>
-                            <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                              &quot;Target patients with poorly managed glycemic levels (uncontrolled diabetes marker).&quot;
-                            </p>
-                            <div>
-                              <select
-                                value={scenarios.labThreshold}
-                                onChange={(e) => setScenarios(prev => ({ ...prev, labThreshold: e.target.value }))}
-                                className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                              >
-                                <option value="">-- Choose Lab Target --</option>
-                                <option value="glucose_gt_100">Fasting Glucose &gt; 100 mg/dL</option>
-                                <option value="hba1c_gt_8">HbA1c &gt; 8.0% (Correct!)</option>
-                                <option value="hba1c_lt_57">HbA1c &lt; 5.7% (Healthy range)</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          {/* Parameter 3 */}
-                          <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                            <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                              <span className="w-2 h-2 bg-brand-emerald rounded-full shrink-0" />
-                              <span>Filter 3: Visit Specialty Exclusion</span>
-                            </div>
-                            <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                              &quot;Exclude patients who have already seen a specialist within the last 12 months, avoiding redundant scheduling outreach.&quot;
-                            </p>
-                            <div>
-                              <select
-                                value={scenarios.visitExclusion}
-                                onChange={(e) => setScenarios(prev => ({ ...prev, visitExclusion: e.target.value }))}
-                                className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                              >
-                                <option value="">-- Choose Visit Exclusion --</option>
-                                <option value="no_endo_12m">Exclude: Specialty visit = Endocrinology within 12M (Correct!)</option>
-                                <option value="no_cardio_6m">Exclude: Specialty visit = Cardiology within 6M</option>
-                                <option value="all_visits">Exclude: any general clinic consultation within 12M</option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Error message */}
-                        {sandboxError && (
-                          <div className="flex items-start space-x-2.5 p-3.5 bg-red-950/40 border border-red-500/20 text-red-300 rounded-xl text-xs">
-                            <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                            <span>{sandboxError}</span>
-                          </div>
-                        )}
-
-                        {/* Correct notification */}
-                        {sandboxSuccess && (
-                          <div className="flex items-start space-x-2.5 p-3.5 bg-brand-emerald/10 border border-brand-emerald/20 text-brand-emerald rounded-xl text-xs">
-                            <CheckCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                            <span>Cohort validation complete! All filters align perfectly. Proceeding to final review.</span>
-                          </div>
-                        )}
-
-                        <div className="pt-4 flex justify-between">
-                          <button
-                            type="button"
-                            onClick={() => setFormStep(2)}
-                            className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
-                          >
-                            <span>Back</span>
-                          </button>
-                          
-                          {!sandboxSuccess ? (
-                            <button
-                              type="button"
-                              onClick={validateScenarios}
-                              className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs cursor-pointer"
-                            >
-                              <span>Validate Cohort ({sandboxAttempts} attempts)</span>
-                            </button>
-                          ) : (
-                            <button
-                              type="button"
-                              onClick={() => setFormStep(4)}
-                              className="inline-flex items-center space-x-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold px-5 py-3 rounded-xl hover:opacity-95 transition-opacity text-xs cursor-pointer"
-                            >
-                              <span>Proceed to Review</span>
-                              <ArrowRight className="w-3.5 h-3.5" />
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                    )}
+                    
 
                     {/* STEP 4: Review and Submit */}
-                    {formStep === 4 && (
+                    {formStep === 3 && (
                       <div className="space-y-5">
                         <h3 className="font-display font-extrabold text-lg text-white">Review & Submit Application</h3>
                         
@@ -840,19 +693,13 @@ export default function JobClient() {
                             <p className="text-gray-300"><span className="text-gray-500">Clarity/Cerner DB experience:</span> {formData.biExperience}</p>
                           </div>
 
-                          <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-1.5">
-                            <p className="text-gray-500 uppercase text-[10px] tracking-wider mb-2 font-bold">Cohort Validation Sandbox</p>
-                            <p className="text-brand-emerald flex items-center space-x-1.5">
-                              <CheckCircle className="w-3.5 h-3.5" />
-                              <span>Outreach campaign SQL cohort configurations validated successfully</span>
-                            </p>
-                          </div>
+                          
                         </div>
 
                         <div className="pt-4 flex justify-between">
                           <button
                             type="button"
-                            onClick={() => setFormStep(3)}
+                            onClick={() => setFormStep(2)}
                             className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
                           >
                             <span>Back</span>

@@ -31,18 +31,7 @@ export default function JobClient() {
   });
 
   // Model Tuning Sandbox State
-  const [scenarios, setScenarios] = useState({
-    scenario1Algo: "",
-    scenario1Metric: "",
-    scenario2Algo: "",
-    scenario2Metric: "",
-    scenario3Algo: "",
-    scenario3Metric: ""
-  });
-  const [sandboxAttempts, setSandboxAttempts] = useState(0);
-  const [sandboxSuccess, setSandboxSuccess] = useState(false);
-  const [sandboxError, setSandboxError] = useState("");
-
+        
   // Submission States
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -84,37 +73,30 @@ export default function JobClient() {
     }
   };
 
-  const validateScenarios = () => {
-    setSandboxAttempts(prev => prev + 1);
-    
-    // Correct choices:
-    // scenario1 (Readmission) -> xgboost, recall (or sensitivity)
-    // scenario2 (X-Ray) -> cnn, sensitivity
-    // scenario3 (Symptom parsing) -> transformer, f1
-    
-    const correct1 = scenarios.scenario1Algo === "xgboost" && scenarios.scenario1Metric === "recall";
-    const correct2 = scenarios.scenario2Algo === "cnn" && scenarios.scenario2Metric === "sensitivity";
-    const correct3 = scenarios.scenario3Algo === "transformer" && scenarios.scenario3Metric === "f1";
-    
-    if (correct1 && correct2 && correct3) {
-      setSandboxSuccess(true);
-      setSandboxError("");
-    } else {
-      setSandboxSuccess(false);
-      let incorrectCount = 0;
-      if (!correct1) incorrectCount++;
-      if (!correct2) incorrectCount++;
-      if (!correct3) incorrectCount++;
-      
-      setSandboxError(
-        `ML validation failed. ${incorrectCount}/3 model architectures tuned suboptimally. Hint: Tabular readmissions thrive on XGBoost/Recall; medical images demand CNNs/Sensitivity to catch diseases; text symptom extraction is best resolved with Transformers/F1.`
-      );
-    }
-  };
-
+  
   const submitApplication = async () => {
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    try {
+      const res = await fetch("/api/careers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          portfolioUrl: formData.portfolioUrl,
+          resumeName: formData.resumeName,
+          position: "Healthcare Data Scientist",
+          extraFields: {
+            ...formData
+          }
+        }),
+      });
+      if (!res.ok) {
+        console.error("Failed to submit application");
+      }
+    } catch (err) {
+      console.error("Submit error:", err);
+    }
     setIsSubmitting(false);
     setSubmitSuccess(true);
   };
@@ -456,18 +438,18 @@ export default function JobClient() {
               {/* Progress bar */}
               <div className="mb-8">
                 <div className="flex justify-between text-xs text-gray-400 mb-2 font-mono">
-                  <span>STEP {formStep} OF 4</span>
+                  <span>Step {formStep} of 3</span>
                   <span>
                     {formStep === 1 && "Personal Information"}
                     {formStep === 2 && "Research Focus"}
-                    {formStep === 3 && "Model Tuning Sandbox"}
-                    {formStep === 4 && "Review & Submit"}
+                    
+                    {formStep === 3 && "Review & Submit"}
                   </span>
                 </div>
                 <div className="w-full bg-slate-900 border border-brand-border h-2 rounded-full overflow-hidden">
                   <div
                     className="bg-gradient-to-r from-brand-cyan to-brand-indigo h-full transition-all duration-300"
-                    style={{ width: `${(formStep / 4) * 100}%` }}
+                    style={{ width: `${(formStep / 3) * 100}%` }}
                   />
                 </div>
               </div>
@@ -504,16 +486,9 @@ export default function JobClient() {
                       onClick={() => {
                         setFormStep(1);
                         setSubmitSuccess(false);
-                        setSandboxSuccess(false);
-                        setSandboxAttempts(0);
-                        setScenarios({
-                          scenario1Algo: "",
-                          scenario1Metric: "",
-                          scenario2Algo: "",
-                          scenario2Metric: "",
-                          scenario3Algo: "",
-                          scenario3Metric: ""
-                        });
+                        
+                        
+                        
                         setFormData({
                           name: "",
                           email: "",
@@ -690,189 +665,10 @@ export default function JobClient() {
                     )}
 
                     {/* STEP 3: Model Tuning Sandbox */}
-                    {formStep === 3 && (
-                      <div className="space-y-5">
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <h3 className="font-display font-extrabold text-lg text-white">Healthcare Model Tuning Sandbox</h3>
-                            <p className="text-xs text-gray-400 mt-1">
-                              Tune the algorithm architecture and selection metrics for our clinical tasks.
-                            </p>
-                          </div>
-                          <span className="text-[9px] font-bold px-2 py-0.5 bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/20 rounded font-mono">
-                            ML Sandbox
-                          </span>
-                        </div>
-
-                        {/* MAPPING INTERFACE */}
-                        <div className="space-y-4 font-sans text-xs">
-                          {/* Scenario 1 */}
-                          <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                            <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                              <span className="w-2 h-2 bg-brand-cyan rounded-full shrink-0" />
-                              <span>Task 1: 30-Day Hospital Readmission Risk</span>
-                            </div>
-                            <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                              &quot;Predict whether a patient will be readmitted within 30 days based on demographic history, ICD-10 visit history, and lab scores.&quot;
-                            </p>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                              <div>
-                                <label className="block text-[10px] text-gray-400 mb-1 font-semibold">Algorithm Selection</label>
-                                <select
-                                  value={scenarios.scenario1Algo}
-                                  onChange={(e) => setScenarios(prev => ({ ...prev, scenario1Algo: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Algorithm --</option>
-                                  <option value="cnn">Convolutional Neural Network (CNN)</option>
-                                  <option value="xgboost">Gradient Boosted Decision Trees (XGBoost)</option>
-                                  <option value="lstm">Recurrent LSTM Sequence Model</option>
-                                </select>
-                              </div>
-                              <div>
-                                <label className="block text-[10px] text-gray-400 mb-1 font-semibold">Optimization Target Metric</label>
-                                <select
-                                  value={scenarios.scenario1Metric}
-                                  onChange={(e) => setScenarios(prev => ({ ...prev, scenario1Metric: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Metric --</option>
-                                  <option value="accuracy">Global Accuracy (overall classification correctness)</option>
-                                  <option value="recall">Recall / Sensitivity (minimize clinical false negatives)</option>
-                                  <option value="precision">Precision (minimize false alarms)</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Scenario 2 */}
-                          <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                            <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                              <span className="w-2 h-2 bg-brand-indigo rounded-full shrink-0" />
-                              <span>Task 2: Pneumonia Detection in Chest X-Rays</span>
-                            </div>
-                            <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                              &quot;Classify high-resolution chest radiograph images to flags patients suffering from pneumonia.&quot;
-                            </p>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                              <div>
-                                <label className="block text-[10px] text-gray-400 mb-1 font-semibold">Algorithm Selection</label>
-                                <select
-                                  value={scenarios.scenario2Algo}
-                                  onChange={(e) => setScenarios(prev => ({ ...prev, scenario2Algo: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Algorithm --</option>
-                                  <option value="cnn">Convolutional Neural Network (CNN / ResNet)</option>
-                                  <option value="svm">Support Vector Machine (SVM)</option>
-                                  <option value="transformer">BERT-style clinical textual transformer</option>
-                                </select>
-                              </div>
-                              <div>
-                                <label className="block text-[10px] text-gray-400 mb-1 font-semibold">Optimization Target Metric</label>
-                                <select
-                                  value={scenarios.scenario2Metric}
-                                  onChange={(e) => setScenarios(prev => ({ ...prev, scenario2Metric: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Metric --</option>
-                                  <option value="specificity">Specificity (high exclusion rate of healthy scans)</option>
-                                  <option value="sensitivity">Sensitivity / Recall (insulate clinical safety defaults)</option>
-                                  <option value="mae">Mean Absolute Error (residual deviation margin)</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Scenario 3 */}
-                          <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                            <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                              <span className="w-2 h-2 bg-brand-emerald rounded-full shrink-0" />
-                              <span>Task 3: Medical Intent & Symptom parsing from notes</span>
-                            </div>
-                            <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                              &quot;Extract structured symptoms, diagnoses, and medical prescriptions text spans from clinical intake free-text documents.&quot;
-                            </p>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                              <div>
-                                <label className="block text-[10px] text-gray-400 mb-1 font-semibold">Algorithm Selection</label>
-                                <select
-                                  value={scenarios.scenario3Algo}
-                                  onChange={(e) => setScenarios(prev => ({ ...prev, scenario3Algo: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Algorithm --</option>
-                                  <option value="linear">Logistic Regression (TF-IDF bag of words)</option>
-                                  <option value="transformer">Transformer Language Model (clinicalBERT/LLM)</option>
-                                  <option value="kmeans">K-Means Text Clustering</option>
-                                </select>
-                              </div>
-                              <div>
-                                <label className="block text-[10px] text-gray-400 mb-1 font-semibold">Optimization Target Metric</label>
-                                <select
-                                  value={scenarios.scenario3Metric}
-                                  onChange={(e) => setScenarios(prev => ({ ...prev, scenario3Metric: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Metric --</option>
-                                  <option value="f1">F1-Score (harmonized balance of precision and recall)</option>
-                                  <option value="rmse">Root Mean Squared Error (log-loss margin)</option>
-                                  <option value="perplexity">Language Model Perplexity</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Error message */}
-                        {sandboxError && (
-                          <div className="flex items-start space-x-2.5 p-3.5 bg-red-950/40 border border-red-500/20 text-red-300 rounded-xl text-xs">
-                            <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                            <span>{sandboxError}</span>
-                          </div>
-                        )}
-
-                        {/* Correct notification */}
-                        {sandboxSuccess && (
-                          <div className="flex items-start space-x-2.5 p-3.5 bg-brand-emerald/10 border border-brand-emerald/20 text-brand-emerald rounded-xl text-xs">
-                            <CheckCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                            <span>Hyperparameter validation complete! All models converge on the global maximum.</span>
-                          </div>
-                        )}
-
-                        <div className="pt-4 flex justify-between">
-                          <button
-                            type="button"
-                            onClick={() => setFormStep(2)}
-                            className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
-                          >
-                            <span>Back</span>
-                          </button>
-                          
-                          {!sandboxSuccess ? (
-                            <button
-                              type="button"
-                              onClick={validateScenarios}
-                              className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs cursor-pointer"
-                            >
-                              <span>Verify Optimizations ({sandboxAttempts} attempts)</span>
-                            </button>
-                          ) : (
-                            <button
-                              type="button"
-                              onClick={() => setFormStep(4)}
-                              className="inline-flex items-center space-x-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold px-5 py-3 rounded-xl hover:opacity-95 transition-opacity text-xs cursor-pointer"
-                            >
-                              <span>Proceed to Review</span>
-                              <ArrowRight className="w-3.5 h-3.5" />
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                    )}
+                    
 
                     {/* STEP 4: Review and Submit */}
-                    {formStep === 4 && (
+                    {formStep === 3 && (
                       <div className="space-y-5">
                         <h3 className="font-display font-extrabold text-lg text-white">Review & Submit Application</h3>
                         
@@ -897,19 +693,13 @@ export default function JobClient() {
                             <p className="text-gray-300"><span className="text-gray-500">Comfortable with MLOps:</span> {formData.mlOpsComfort}</p>
                           </div>
 
-                          <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-1.5">
-                            <p className="text-gray-500 uppercase text-[10px] tracking-wider mb-2 font-bold">Model Validation Sandbox</p>
-                            <p className="text-brand-emerald flex items-center space-x-1.5">
-                              <CheckCircle className="w-3.5 h-3.5" />
-                              <span>All 3 predictive tasks configured and tuned correctly</span>
-                            </p>
-                          </div>
+                          
                         </div>
 
                         <div className="pt-4 flex justify-between">
                           <button
                             type="button"
-                            onClick={() => setFormStep(3)}
+                            onClick={() => setFormStep(2)}
                             className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
                           >
                             <span>Back</span>

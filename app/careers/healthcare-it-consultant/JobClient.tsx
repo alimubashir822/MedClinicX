@@ -30,15 +30,7 @@ export default function JobClient() {
   });
 
   // Ticket Triage Sandbox State
-  const [scenarios, setScenarios] = useState({
-    scenario1: "",
-    scenario2: "",
-    scenario3: ""
-  });
-  const [sandboxAttempts, setSandboxAttempts] = useState(0);
-  const [sandboxSuccess, setSandboxSuccess] = useState(false);
-  const [sandboxError, setSandboxError] = useState("");
-
+        
   // Submission States
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -80,37 +72,30 @@ export default function JobClient() {
     }
   };
 
-  const validateScenarios = () => {
-    setSandboxAttempts(prev => prev + 1);
-    
-    // Correct choices:
-    // scenario1 -> loinc
-    // scenario2 -> fhir
-    // scenario3 -> rxnorm
-    
-    const correct1 = scenarios.scenario1 === "loinc";
-    const correct2 = scenarios.scenario2 === "fhir";
-    const correct3 = scenarios.scenario3 === "rxnorm";
-    
-    if (correct1 && correct2 && correct3) {
-      setSandboxSuccess(true);
-      setSandboxError("");
-    } else {
-      setSandboxSuccess(false);
-      let incorrectCount = 0;
-      if (!correct1) incorrectCount++;
-      if (!correct2) incorrectCount++;
-      if (!correct3) incorrectCount++;
-      
-      setSandboxError(
-        `Advisory error. ${incorrectCount}/3 recommendations mapped incorrectly. Hint: LOINC is for laboratory measurements; FHIR is for interoperable patient resources; RxNorm is for normalized medication nomenclature.`
-      );
-    }
-  };
-
+  
   const submitApplication = async () => {
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    try {
+      const res = await fetch("/api/careers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          portfolioUrl: formData.portfolioUrl,
+          resumeName: formData.resumeName,
+          position: "Healthcare IT Consultant",
+          extraFields: {
+            ...formData
+          }
+        }),
+      });
+      if (!res.ok) {
+        console.error("Failed to submit application");
+      }
+    } catch (err) {
+      console.error("Submit error:", err);
+    }
     setIsSubmitting(false);
     setSubmitSuccess(true);
   };
@@ -452,18 +437,18 @@ export default function JobClient() {
               {/* Progress bar */}
               <div className="mb-8">
                 <div className="flex justify-between text-xs text-gray-400 mb-2 font-mono">
-                  <span>STEP {formStep} OF 4</span>
+                  <span>Step {formStep} of 3</span>
                   <span>
                     {formStep === 1 && "Personal Information"}
                     {formStep === 2 && "Consulting Experience"}
-                    {formStep === 3 && "Interoperability Strategy"}
-                    {formStep === 4 && "Review & Submit"}
+                    
+                    {formStep === 3 && "Review & Submit"}
                   </span>
                 </div>
                 <div className="w-full bg-slate-900 border border-brand-border h-2 rounded-full overflow-hidden">
                   <div
                     className="bg-gradient-to-r from-brand-cyan to-brand-indigo h-full transition-all duration-300"
-                    style={{ width: `${(formStep / 4) * 100}%` }}
+                    style={{ width: `${(formStep / 3) * 100}%` }}
                   />
                 </div>
               </div>
@@ -500,9 +485,9 @@ export default function JobClient() {
                       onClick={() => {
                         setFormStep(1);
                         setSubmitSuccess(false);
-                        setSandboxSuccess(false);
-                        setSandboxAttempts(0);
-                        setScenarios({ scenario1: "", scenario2: "", scenario3: "" });
+                        
+                        
+                        
                         setFormData({
                           name: "",
                           email: "",
@@ -679,159 +664,10 @@ export default function JobClient() {
                     )}
 
                     {/* STEP 3: Scenario Matcher */}
-                    {formStep === 3 && (
-                      <div className="space-y-5">
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <h3 className="font-display font-extrabold text-lg text-white">Healthcare Interoperability Matcher</h3>
-                            <p className="text-xs text-gray-400 mt-1">
-                              Advise each clinic scenario on the correct standard terminology or architecture.
-                            </p>
-                          </div>
-                          <span className="text-[9px] font-bold px-2 py-0.5 bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/20 rounded font-mono">
-                            Advisory Challenge
-                          </span>
-                        </div>
-
-                        {/* MAPPING INTERFACE */}
-                        <div className="space-y-4 font-sans text-xs">
-                          {/* Scenario 1 */}
-                          <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                            <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                              <span className="w-2 h-2 bg-brand-cyan rounded-full shrink-0" />
-                              <span>Scenario 1: Lab observations database consolidation</span>
-                            </div>
-                            <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                              &quot;A clinic seeks to consolidate clinical lab observations from multiple laboratory networks into a single database schema.&quot;
-                            </p>
-                            <div>
-                              <select
-                                value={scenarios.scenario1}
-                                onChange={(e) => setScenarios(prev => ({ ...prev, scenario1: e.target.value }))}
-                                className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                              >
-                                <option value="">-- Choose Standard Recommendation --</option>
-                                <option value="icd10">ICD-10 (Diagnoses and disease coding)</option>
-                                <option value="loinc">LOINC (Logical Observation Identifiers Names and Codes) (Correct!)</option>
-                                <option value="rxnorm">RxNorm (Medications nomenclature mapping)</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          {/* Scenario 2 */}
-                          <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                            <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                              <span className="w-2 h-2 bg-brand-indigo rounded-full shrink-0" />
-                              <span>Scenario 2: Cross-vendor patient care summary exchange</span>
-                            </div>
-                            <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                              &quot;A hospital network needs to exchange patient care summary sheets securely across separate clinical applications.&quot;
-                            </p>
-                            <div>
-                              <select
-                                value={scenarios.scenario2}
-                                onChange={(e) => setScenarios(prev => ({ ...prev, scenario2: e.target.value }))}
-                                className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                              >
-                                <option value="">-- Choose Standard Recommendation --</option>
-                                <option value="fhir">HL7 FHIR (Fast Healthcare Interoperability Resources) (Correct!)</option>
-                                <option value="dicom">DICOM (Digital Imaging and Communications standard)</option>
-                                <option value="snomed">SNOMED-CT (General clinical findings coding)</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          {/* Scenario 3 */}
-                          <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                            <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                              <span className="w-2 h-2 bg-brand-emerald rounded-full shrink-0" />
-                              <span>Scenario 3: Normalized patient portals prescriptions</span>
-                            </div>
-                            <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                              &quot;A clinic is deploying a patient portal and needs to query a standard normalized database to verify medication and drug prescriptions.&quot;
-                            </p>
-                            <div>
-                              <select
-                                value={scenarios.scenario3}
-                                onChange={(e) => setScenarios(prev => ({ ...prev, scenario3: e.target.value }))}
-                                className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                              >
-                                <option value="">-- Choose Standard Recommendation --</option>
-                                <option value="cpt">CPT (Current Procedural Terminology codes)</option>
-                                <option value="loinc">LOINC (Logical Observation Identifiers Names and Codes)</option>
-                                <option value="rxnorm">RxNorm (Medications & Prescriptions standard) (Correct!)</option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Execute Button */}
-                        <div className="flex items-center gap-3">
-                          <button
-                            type="button"
-                            onClick={validateScenarios}
-                            className="bg-brand-indigo/25 hover:bg-brand-indigo/40 text-brand-indigo-light border border-brand-indigo/35 font-bold text-xs px-4 py-2.5 rounded-xl transition-all cursor-pointer"
-                          >
-                            Verify Advisory Recommendations
-                          </button>
-                          {sandboxAttempts > 0 && (
-                            <span className="text-[11px] font-semibold font-mono text-gray-400">
-                              {sandboxAttempts} validation check{sandboxAttempts > 1 ? "s" : ""}
-                            </span>
-                          )}
-                        </div>
-
-                        {/* Output Sandbox console */}
-                        {sandboxAttempts > 0 && (
-                          <div className={`p-4 rounded-xl border font-mono text-xs ${
-                            sandboxSuccess 
-                              ? "bg-brand-emerald/5 border-brand-emerald/30 text-brand-emerald" 
-                              : "bg-rose-950/20 border-rose-500/30 text-rose-400"
-                          }`}>
-                            <div className="flex items-start space-x-2">
-                              {sandboxSuccess ? (
-                                <>
-                                  <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                                  <div className="space-y-1.5">
-                                    <p className="font-bold">✓ Success: All advisory recommendations verified!</p>
-                                    <p className="text-[10px] text-gray-400 leading-normal">
-                                      Scenario 1 matched to LOINC. Scenario 2 matched to HL7 FHIR structures. Scenario 3 matched to RxNorm nomenclature. Interoperability advisory verified.
-                                    </p>
-                                  </div>
-                                </>
-                              ) : (
-                                <>
-                                  <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                                  <p className="leading-relaxed font-semibold">{sandboxError}</p>
-                                </>
-                              )}
-                            </div>
-                          </div>
-                        )}
-
-                        <div className="pt-4 flex justify-between">
-                          <button
-                            type="button"
-                            onClick={() => setFormStep(2)}
-                            className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
-                          >
-                            <span>Back</span>
-                          </button>
-                          <button
-                            type="button"
-                            disabled={!sandboxSuccess}
-                            onClick={() => setFormStep(4)}
-                            className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs disabled:opacity-30 cursor-pointer"
-                          >
-                            <span>Review Application</span>
-                            <ArrowRight className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                      </div>
-                    )}
+                    
 
                     {/* STEP 4: Review & Submit */}
-                    {formStep === 4 && (
+                    {formStep === 3 && (
                       <div className="space-y-6">
                         <h3 className="font-display font-extrabold text-lg text-white">Review &amp; Submit</h3>
                         
@@ -878,7 +714,7 @@ export default function JobClient() {
                         <div className="pt-4 flex justify-between">
                           <button
                             type="button"
-                            onClick={() => setFormStep(3)}
+                            onClick={() => setFormStep(2)}
                             className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
                           >
                             <span>Back</span>

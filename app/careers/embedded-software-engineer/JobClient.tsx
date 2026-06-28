@@ -30,15 +30,7 @@ export default function JobClient() {
   });
 
   // IoT Embedded Sandbox State
-  const [sandboxSetup, setSandboxSetup] = useState({
-    kernelModel: "",
-    iotProtocol: "",
-    securityBoot: ""
-  });
-  const [sandboxAttempts, setSandboxAttempts] = useState(0);
-  const [sandboxSuccess, setSandboxSuccess] = useState(false);
-  const [sandboxError, setSandboxError] = useState("");
-
+        
   // Submission States
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -80,37 +72,30 @@ export default function JobClient() {
     }
   };
 
-  const validateSandbox = () => {
-    setSandboxAttempts(prev => prev + 1);
-    
-    // Correct choices:
-    // kernelModel -> rtos_preemptive
-    // iotProtocol -> mqtt_qos1
-    // securityBoot -> secure_boot_aes_tls
-    
-    const correctKernel = sandboxSetup.kernelModel === "rtos_preemptive";
-    const correctProtocol = sandboxSetup.iotProtocol === "mqtt_qos1";
-    const correctSecurity = sandboxSetup.securityBoot === "secure_boot_aes_tls";
-    
-    if (correctKernel && correctProtocol && correctSecurity) {
-      setSandboxSuccess(true);
-      setSandboxError("");
-    } else {
-      setSandboxSuccess(false);
-      let incorrectCount = 0;
-      if (!correctKernel) incorrectCount++;
-      if (!correctProtocol) incorrectCount++;
-      if (!correctSecurity) incorrectCount++;
-      
-      setSandboxError(
-        `Firmware verification failed. ${incorrectCount}/3 configurations contain issues. Hint: Prioritize a preemptive scheduler for heart rate capture tasks to avoid delay jitter; deploy MQTT over TLS with QoS 1 for reliable wireless packet transmission; and enforce hardware-secured boot alongside AES packet payload encryption.`
-      );
-    }
-  };
-
+  
   const submitApplication = async () => {
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    try {
+      const res = await fetch("/api/careers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          portfolioUrl: formData.portfolioUrl,
+          resumeName: formData.resumeName,
+          position: "Embedded Software Engineer",
+          extraFields: {
+            ...formData
+          }
+        }),
+      });
+      if (!res.ok) {
+        console.error("Failed to submit application");
+      }
+    } catch (err) {
+      console.error("Submit error:", err);
+    }
     setIsSubmitting(false);
     setSubmitSuccess(true);
   };
@@ -375,9 +360,9 @@ export default function JobClient() {
                       <span className={formStep === 1 ? "text-brand-cyan font-bold" : "text-gray-500"}>01. Profile</span>
                       <span className={formStep === 2 ? "text-brand-cyan font-bold" : "text-gray-500"}>02. Experience</span>
                       <span className={formStep === 3 ? "text-brand-cyan font-bold" : "text-gray-500"}>03. IoT Sandbox</span>
-                      <span className={formStep === 4 ? "text-brand-cyan font-bold" : "text-gray-500"}>04. Submit</span>
+                      
                     </div>
-                    <span className="text-gray-500">Step {formStep} of 4</span>
+                    <span className="text-gray-500">Step {formStep} of 3</span>
                   </div>
 
                   {submitSuccess ? (
@@ -400,9 +385,9 @@ export default function JobClient() {
                         onClick={() => {
                           setFormStep(1);
                           setSubmitSuccess(false);
-                          setSandboxSuccess(false);
-                          setSandboxAttempts(0);
-                          setSandboxSetup({ kernelModel: "", iotProtocol: "", securityBoot: "" });
+                          
+                          
+                          
                           setFormData({
                             name: "",
                             email: "",
@@ -580,142 +565,10 @@ export default function JobClient() {
                       )}
 
                       {/* STEP 3: IoT Sandbox */}
-                      {formStep === 3 && (
-                        <div className="space-y-5">
-                          <div className="flex justify-between items-start">
-                            <div>
-                              <h3 className="font-display font-extrabold text-lg text-white">IoT Medical Device Firmware Sandbox</h3>
-                              <p className="text-xs text-gray-400 mt-1">
-                                Design the scheduler tasks, cloud telemetry packets, and secure boot updates for an active cardiac monitor patch.
-                              </p>
-                            </div>
-                            <span className="text-[9px] font-bold px-2 py-0.5 bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/20 rounded font-mono">
-                              Firmware Configuration
-                            </span>
-                          </div>
-
-                          {/* SANDBOX CHALLENGE */}
-                          <div className="space-y-4 font-sans text-xs">
-                            
-                            {/* Scenario 1 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-cyan rounded-full shrink-0" />
-                                <span>Parameter 1: Kernel Threading & Scheduler Selection</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;Which kernel configuration prevents thread starvation and jitter during patient heart rate sensor capture loops?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={sandboxSetup.kernelModel}
-                                  onChange={(e) => setSandboxSetup(prev => ({ ...prev, kernelModel: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Kernel Model --</option>
-                                  <option value="rtos_preemptive">FreeRTOS with preemptive scheduling and high-priority telemetry tasks (Correct!)</option>
-                                  <option value="bare_metal_loop">Bare-metal single thread main loop running basic polling delays</option>
-                                  <option value="cooperative_round_robin">Cooperative scheduler with equal time-slice rounds and yield loops</option>
-                                </select>
-                              </div>
-                            </div>
-
-                            {/* Scenario 2 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-indigo rounded-full shrink-0" />
-                                <span>Parameter 2: Device-to-Cloud Telemetry Protocol</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;What wireless transport standard is preferred to stream sensor packets securely over unstable clinic networks?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={sandboxSetup.iotProtocol}
-                                  onChange={(e) => setSandboxSetup(prev => ({ ...prev, iotProtocol: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Protocol --</option>
-                                  <option value="mqtt_qos1">MQTT over TLS 1.3 with Quality of Service 1 (At Least Once) (Correct!)</option>
-                                  <option value="http_post_polling">HTTP POST polling requesting full TCP socket reconnects every 5 seconds</option>
-                                  <option value="coap_unencrypted">CoAP over UDP with unencrypted payloads to minimize battery drain</option>
-                                </select>
-                              </div>
-                            </div>
-
-                            {/* Scenario 3 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-emerald rounded-full shrink-0" />
-                                <span>Parameter 3: Secure Update & Cryptographic Verification</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;How should the device validate OTA firmware updates and secure telemetry logs in transit?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={sandboxSetup.securityBoot}
-                                  onChange={(e) => setSandboxSetup(prev => ({ ...prev, securityBoot: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Security Model --</option>
-                                  <option value="secure_boot_aes_tls">Hardware Secure Boot (ECDSA validation) + hardware-accelerated AES-256-GCM (Correct!)</option>
-                                  <option value="checksum_verify">CRC-32 checksum updates with telemetry stream payload in cleartext</option>
-                                  <option value="static_shared_key">Static pre-shared symmetric key authentication stored in flash storage</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Error message */}
-                          {sandboxError && (
-                            <div className="flex items-start space-x-2.5 p-3.5 bg-red-950/40 border border-red-500/20 text-red-300 rounded-xl text-xs">
-                              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                              <span>{sandboxError}</span>
-                            </div>
-                          )}
-
-                          {/* Correct notification */}
-                          {sandboxSuccess && (
-                            <div className="flex items-start space-x-2.5 p-3.5 bg-brand-emerald/10 border border-brand-emerald/20 text-brand-emerald rounded-xl text-xs">
-                              <CheckCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                              <span>Firmware verification successful! Preemptive FreeRTOS selected, secure MQTT QoS 1 connection active, and Secure Boot + AES-256-GCM verified.</span>
-                            </div>
-                          )}
-
-                          <div className="pt-4 flex justify-between">
-                            <button
-                              type="button"
-                              onClick={() => setFormStep(2)}
-                              className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
-                            >
-                              <span>Back</span>
-                            </button>
-                            
-                            {!sandboxSuccess ? (
-                              <button
-                                type="button"
-                                onClick={validateSandbox}
-                                className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs cursor-pointer"
-                              >
-                                <span>Audit Firmware Setup ({sandboxAttempts} attempts)</span>
-                              </button>
-                            ) : (
-                              <button
-                                type="button"
-                                onClick={() => setFormStep(4)}
-                                className="inline-flex items-center space-x-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold px-5 py-3 rounded-xl hover:opacity-95 transition-opacity text-xs cursor-pointer"
-                              >
-                                <span>Proceed to Review</span>
-                                <ArrowRight className="w-3.5 h-3.5" />
-                              </button>
-                            )}
-                          </div>
-                        </div>
-                      )}
+                      
 
                       {/* STEP 4: Review and Submit */}
-                      {formStep === 4 && (
+                      {formStep === 3 && (
                         <div className="space-y-5">
                           <h3 className="font-display font-extrabold text-lg text-white">Review & Submit Application</h3>
                           
@@ -740,19 +593,13 @@ export default function JobClient() {
                               <p className="text-gray-300"><span className="text-gray-500 font-sans">RTOS Comfort:</span> {formData.rtosFamiliar}</p>
                             </div>
 
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-1.5">
-                              <p className="text-gray-500 uppercase text-[10px] tracking-wider mb-2 font-bold font-sans">Sandbox Audit Validation</p>
-                              <p className="text-brand-emerald flex items-center space-x-1.5">
-                                <CheckCircle className="w-3.5 h-3.5" />
-                                <span>Preemptive FreeRTOS, secure MQTT over TLS, and secure boot/AES encryption verified</span>
-                              </p>
-                            </div>
+                            
                           </div>
 
                           <div className="pt-4 flex justify-between">
                             <button
                               type="button"
-                              onClick={() => setFormStep(3)}
+                              onClick={() => setFormStep(2)}
                               className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
                             >
                               <span>Back</span>

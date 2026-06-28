@@ -30,15 +30,7 @@ export default function JobClient() {
   });
 
   // DevOps Sandbox State
-  const [pipelineSetup, setPipelineSetup] = useState({
-    pipelineScan: "",
-    secretManagement: "",
-    deploymentPolicy: ""
-  });
-  const [sandboxAttempts, setSandboxAttempts] = useState(0);
-  const [sandboxSuccess, setSandboxSuccess] = useState(false);
-  const [sandboxError, setSandboxError] = useState("");
-
+        
   // Submission States
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -80,37 +72,30 @@ export default function JobClient() {
     }
   };
 
-  const validatePipeline = () => {
-    setSandboxAttempts(prev => prev + 1);
-    
-    // Correct DevOps choices:
-    // pipelineScan -> push_scan (Run code scanning + HIPAA vulnerability analysis on push)
-    // secretManagement -> vault_k8s (Inject secrets via HashiCorp Vault or AWS Secrets Manager into memory-only volumes)
-    // deploymentPolicy -> canary_rollout (Route 10% traffic, monitor health checks, auto-rollback on error)
-    
-    const correctScan = pipelineSetup.pipelineScan === "push_scan";
-    const correctSecret = pipelineSetup.secretManagement === "vault_k8s";
-    const correctPolicy = pipelineSetup.deploymentPolicy === "canary_rollout";
-    
-    if (correctScan && correctSecret && correctPolicy) {
-      setSandboxSuccess(true);
-      setSandboxError("");
-    } else {
-      setSandboxSuccess(false);
-      let incorrectCount = 0;
-      if (!correctScan) incorrectCount++;
-      if (!correctSecret) incorrectCount++;
-      if (!correctPolicy) incorrectCount++;
-      
-      setSandboxError(
-        `Pipeline deployment failed. ${incorrectCount}/3 steps mapped incorrectly. Hint: Enforce vulnerability checks on code push; inject clinical database credentials from secure vaults at runtime; and minimize clinical outage risks via automated canary rollouts.`
-      );
-    }
-  };
-
+  
   const submitApplication = async () => {
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    try {
+      const res = await fetch("/api/careers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          portfolioUrl: formData.portfolioUrl,
+          resumeName: formData.resumeName,
+          position: "DevOps Engineer",
+          extraFields: {
+            ...formData
+          }
+        }),
+      });
+      if (!res.ok) {
+        console.error("Failed to submit application");
+      }
+    } catch (err) {
+      console.error("Submit error:", err);
+    }
     setIsSubmitting(false);
     setSubmitSuccess(true);
   };
@@ -348,9 +333,9 @@ export default function JobClient() {
                       <span className={formStep === 1 ? "text-brand-cyan font-bold" : "text-gray-500"}>01. Profile</span>
                       <span className={formStep === 2 ? "text-brand-cyan font-bold" : "text-gray-500"}>02. Experience</span>
                       <span className={formStep === 3 ? "text-brand-cyan font-bold" : "text-gray-500"}>03. Deployment Sandbox</span>
-                      <span className={formStep === 4 ? "text-brand-cyan font-bold" : "text-gray-500"}>04. Submit</span>
+                      
                     </div>
-                    <span className="text-gray-500">Step {formStep} of 4</span>
+                    <span className="text-gray-500">Step {formStep} of 3</span>
                   </div>
 
                   {submitSuccess ? (
@@ -373,9 +358,9 @@ export default function JobClient() {
                         onClick={() => {
                           setFormStep(1);
                           setSubmitSuccess(false);
-                          setSandboxSuccess(false);
-                          setSandboxAttempts(0);
-                          setPipelineSetup({ pipelineScan: "", secretManagement: "", deploymentPolicy: "" });
+                          
+                          
+                          
                           setFormData({
                             name: "",
                             email: "",
@@ -553,142 +538,10 @@ export default function JobClient() {
                       )}
 
                       {/* STEP 3: Deployment Sandbox */}
-                      {formStep === 3 && (
-                        <div className="space-y-5">
-                          <div className="flex justify-between items-start">
-                            <div>
-                              <h3 className="font-display font-extrabold text-lg text-white">CI/CD Pipeline & Kubernetes Deployment Sandbox</h3>
-                              <p className="text-xs text-gray-400 mt-1">
-                                Secure our automated pipeline deploy config for launching the new patient portal microservice.
-                              </p>
-                            </div>
-                            <span className="text-[9px] font-bold px-2 py-0.5 bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/20 rounded font-mono">
-                              Deploy Challenge
-                            </span>
-                          </div>
-
-                          {/* SANDBOX CHALLENGE */}
-                          <div className="space-y-4 font-sans text-xs">
-                            
-                            {/* Scenario 1 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-cyan rounded-full shrink-0" />
-                                <span>Parameter 1: Pipeline Triggers & Vulnerability Scanning</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;Which scanning strategy should we trigger when developers push new backend code to main branches?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={pipelineSetup.pipelineScan}
-                                  onChange={(e) => setPipelineSetup(prev => ({ ...prev, pipelineScan: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Pipeline Scan --</option>
-                                  <option value="push_scan">Run code scanning (SAST/DAST) + HIPAA vulnerability analysis on push (Correct!)</option>
-                                  <option value="manual_no_scan">Deploy manually without linting/scanning to accelerate release iterations</option>
-                                  <option value="commit_autodeploy">Auto-deploy every commit directly to production, relying on post-launch analytics</option>
-                                </select>
-                              </div>
-                            </div>
-
-                            {/* Scenario 2 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-indigo rounded-full shrink-0" />
-                                <span>Parameter 2: Kubernetes Secrets & API Keys Injection</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;How should the Kubernetes pods ingest sensitive clinical database passwords and encryption credentials?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={pipelineSetup.secretManagement}
-                                  onChange={(e) => setPipelineSetup(prev => ({ ...prev, secretManagement: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Secret Management --</option>
-                                  <option value="env_var">Hardcode database passwords directly in plain-text environment variables inside the YAML</option>
-                                  <option value="vault_k8s">Inject credentials at runtime using AWS Secrets Manager or HashiCorp Vault into memory-only volumes (Correct!)</option>
-                                  <option value="public_repo">Store database credentials inside a private repository and fetch them on pod start-up</option>
-                                </select>
-                              </div>
-                            </div>
-
-                            {/* Scenario 3 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-emerald rounded-full shrink-0" />
-                                <span>Parameter 3: Zero-Outage Deployment & Rollback Policy</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;How should new microservice image builds be rolled out to the Kubernetes cluster without creating clinical downtime?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={pipelineSetup.deploymentPolicy}
-                                  onChange={(e) => setPipelineSetup(prev => ({ ...prev, deploymentPolicy: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Deployment Policy --</option>
-                                  <option value="all_at_once">Recreate Rollout: Shut down all v1 pods first, then deploy all v2 pods simultaneously</option>
-                                  <option value="canary_rollout">Canary Deployment: Route 10% traffic to v2, verify health metrics, then expand with auto-rollback on error (Correct!)</option>
-                                  <option value="manual_roll">Manually reload configurations, monitoring container console outputs for crash alerts</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Error message */}
-                          {sandboxError && (
-                            <div className="flex items-start space-x-2.5 p-3.5 bg-red-950/40 border border-red-500/20 text-red-300 rounded-xl text-xs">
-                              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                              <span>{sandboxError}</span>
-                            </div>
-                          )}
-
-                          {/* Correct notification */}
-                          {sandboxSuccess && (
-                            <div className="flex items-start space-x-2.5 p-3.5 bg-brand-emerald/10 border border-brand-emerald/20 text-brand-emerald rounded-xl text-xs">
-                              <CheckCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                              <span>CI/CD pipeline parameters approved! Automated code scans configured, secrets hardened, and canary rollout policy validated.</span>
-                            </div>
-                          )}
-
-                          <div className="pt-4 flex justify-between">
-                            <button
-                              type="button"
-                              onClick={() => setFormStep(2)}
-                              className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
-                            >
-                              <span>Back</span>
-                            </button>
-                            
-                            {!sandboxSuccess ? (
-                              <button
-                                type="button"
-                                onClick={validatePipeline}
-                                className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs cursor-pointer"
-                              >
-                                <span>Validate Build Configuration ({sandboxAttempts} attempts)</span>
-                              </button>
-                            ) : (
-                              <button
-                                type="button"
-                                onClick={() => setFormStep(4)}
-                                className="inline-flex items-center space-x-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold px-5 py-3 rounded-xl hover:opacity-95 transition-opacity text-xs cursor-pointer"
-                              >
-                                <span>Proceed to Review</span>
-                                <ArrowRight className="w-3.5 h-3.5" />
-                              </button>
-                            )}
-                          </div>
-                        </div>
-                      )}
+                      
 
                       {/* STEP 4: Review and Submit */}
-                      {formStep === 4 && (
+                      {formStep === 3 && (
                         <div className="space-y-5">
                           <h3 className="font-display font-extrabold text-lg text-white">Review & Submit Application</h3>
                           
@@ -713,19 +566,13 @@ export default function JobClient() {
                               <p className="text-gray-300"><span className="text-gray-500 font-sans">Kubernetes Comfort:</span> {formData.k8sFamiliar}</p>
                             </div>
 
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-1.5">
-                              <p className="text-gray-500 uppercase text-[10px] tracking-wider mb-2 font-bold font-sans">Sandbox Pipeline Validation</p>
-                              <p className="text-brand-emerald flex items-center space-x-1.5">
-                                <CheckCircle className="w-3.5 h-3.5" />
-                                <span>Canary rollouts, HashiCorp Vault secrets, and code scanning pipelines approved</span>
-                              </p>
-                            </div>
+                            
                           </div>
 
                           <div className="pt-4 flex justify-between">
                             <button
                               type="button"
-                              onClick={() => setFormStep(3)}
+                              onClick={() => setFormStep(2)}
                               className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
                             >
                               <span>Back</span>

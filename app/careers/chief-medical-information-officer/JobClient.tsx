@@ -30,15 +30,7 @@ export default function JobClient() {
   });
 
   // Governance Sandbox State
-  const [scenarios, setScenarios] = useState({
-    aiOversight: "",
-    alertFatigue: "",
-    dataSharing: ""
-  });
-  const [sandboxAttempts, setSandboxAttempts] = useState(0);
-  const [sandboxSuccess, setSandboxSuccess] = useState(false);
-  const [sandboxError, setSandboxError] = useState("");
-
+        
   // Submission States
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -80,37 +72,30 @@ export default function JobClient() {
     }
   };
 
-  const validateScenarios = () => {
-    setSandboxAttempts(prev => prev + 1);
-    
-    // Correct choices:
-    // aiOversight -> human_validation (Human-in-the-loop validation by clinical staff before taking action)
-    // alertFatigue -> severity_throttling (Enable severity-based alert throttling with asynchronous dashboard notifications)
-    // dataSharing -> deidentify_fhir (De-identify data sets using Safe Harbor standards under a secure FHIR API gateway)
-    
-    const correct1 = scenarios.aiOversight === "human_validation";
-    const correct2 = scenarios.alertFatigue === "severity_throttling";
-    const correct3 = scenarios.dataSharing === "deidentify_fhir";
-    
-    if (correct1 && correct2 && correct3) {
-      setSandboxSuccess(true);
-      setSandboxError("");
-    } else {
-      setSandboxSuccess(false);
-      let incorrectCount = 0;
-      if (!correct1) incorrectCount++;
-      if (!correct2) incorrectCount++;
-      if (!correct3) incorrectCount++;
-      
-      setSandboxError(
-        `Governance alignment error. ${incorrectCount}/3 policy configurations mismatch. Hint: Clinical AI requires human-in-the-loop validation; alert fatigue is solved via severity-based throttling; secure clinical research demands de-identified data over FHIR API gateways.`
-      );
-    }
-  };
-
+  
   const submitApplication = async () => {
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    try {
+      const res = await fetch("/api/careers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          portfolioUrl: formData.portfolioUrl,
+          resumeName: formData.resumeName,
+          position: "CMIO",
+          extraFields: {
+            ...formData
+          }
+        }),
+      });
+      if (!res.ok) {
+        console.error("Failed to submit application");
+      }
+    } catch (err) {
+      console.error("Submit error:", err);
+    }
     setIsSubmitting(false);
     setSubmitSuccess(true);
   };
@@ -452,18 +437,18 @@ export default function JobClient() {
               {/* Progress bar */}
               <div className="mb-8">
                 <div className="flex justify-between text-xs text-gray-400 mb-2 font-mono">
-                  <span>STEP {formStep} OF 4</span>
+                  <span>Step {formStep} of 3</span>
                   <span>
                     {formStep === 1 && "Personal Information"}
                     {formStep === 2 && "Clinical Leadership Background"}
-                    {formStep === 3 && "Governance & AI Sandbox"}
-                    {formStep === 4 && "Review & Submit"}
+                    
+                    {formStep === 3 && "Review & Submit"}
                   </span>
                 </div>
                 <div className="w-full bg-slate-900 border border-brand-border h-2 rounded-full overflow-hidden">
                   <div
                     className="bg-gradient-to-r from-brand-cyan to-brand-indigo h-full transition-all duration-300"
-                    style={{ width: `${(formStep / 4) * 100}%` }}
+                    style={{ width: `${(formStep / 3) * 100}%` }}
                   />
                 </div>
               </div>
@@ -500,9 +485,9 @@ export default function JobClient() {
                       onClick={() => {
                         setFormStep(1);
                         setSubmitSuccess(false);
-                        setSandboxSuccess(false);
-                        setSandboxAttempts(0);
-                        setScenarios({ aiOversight: "", alertFatigue: "", dataSharing: "" });
+                        
+                        
+                        
                         setFormData({
                           name: "",
                           email: "",
@@ -671,7 +656,7 @@ export default function JobClient() {
                             onClick={() => setFormStep(3)}
                             className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs cursor-pointer"
                           >
-                            <span>Proceed to Governance Sandbox</span>
+                            <span>Review Application</span>
                             <ArrowRight className="w-3.5 h-3.5" />
                           </button>
                         </div>
@@ -679,142 +664,10 @@ export default function JobClient() {
                     )}
 
                     {/* STEP 3: Governance Sandbox */}
-                    {formStep === 3 && (
-                      <div className="space-y-5">
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <h3 className="font-display font-extrabold text-lg text-white">Clinical Governance & AI Policy Sandbox</h3>
-                            <p className="text-xs text-gray-400 mt-1">
-                              Establish validation policies for AI deployment, alert safety, and de-identification.
-                            </p>
-                          </div>
-                          <span className="text-[9px] font-bold px-2 py-0.5 bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/20 rounded font-mono">
-                            Governance Challenge
-                          </span>
-                        </div>
-
-                        {/* MAPPING INTERFACE */}
-                        <div className="space-y-4 font-sans text-xs">
-                          
-                          {/* Scenario 1 */}
-                          <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                            <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                              <span className="w-2 h-2 bg-brand-cyan rounded-full shrink-0" />
-                              <span>Governance Policy 1: Clinical AI Oversight (Sepsis Alerts)</span>
-                            </div>
-                            <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                              &quot;Establish validation guidelines when introducing automatic diagnostic model alerts directly into nurse queues.&quot;
-                            </p>
-                            <div>
-                              <select
-                                value={scenarios.aiOversight}
-                                onChange={(e) => setScenarios(prev => ({ ...prev, aiOversight: e.target.value }))}
-                                className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                              >
-                                <option value="">-- Choose AI Safety Policy --</option>
-                                <option value="auto_order">Automatic Ordering: Sepsis model output immediately prescribes lab tests</option>
-                                <option value="human_validation">Human-in-the-loop validation: Clinical review before taking action (Correct!)</option>
-                                <option value="silent_audit">Silent Auditing: Run model invisibly, evaluate predictions monthly</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          {/* Scenario 2 */}
-                          <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                            <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                              <span className="w-2 h-2 bg-brand-indigo rounded-full shrink-0" />
-                              <span>Governance Policy 2: Alert Fatigue Mitigation</span>
-                            </div>
-                            <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                              &quot;Mitigate physician alert fatigue triggered by secondary EMR notifications.&quot;
-                            </p>
-                            <div>
-                              <select
-                                value={scenarios.alertFatigue}
-                                onChange={(e) => setScenarios(prev => ({ ...prev, alertFatigue: e.target.value }))}
-                                className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                              >
-                                <option value="">-- Choose Alert Strategy --</option>
-                                <option value="mute_all">Mute all notifications except emergency resuscitation red flags</option>
-                                <option value="severity_throttling">Enable severity-based alert throttling with asynchronous dashboard notifications (Correct!)</option>
-                                <option value="force_ack">Require multi-click password verification to dismiss every pop-up alert</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          {/* Scenario 3 */}
-                          <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                            <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                              <span className="w-2 h-2 bg-brand-emerald rounded-full shrink-0" />
-                              <span>Governance Policy 3: Clinical Research Data Exchange</span>
-                            </div>
-                            <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                              &quot;Authorize data exports of clinical patient cohorts to third-party academic research partners.&quot;
-                            </p>
-                            <div>
-                              <select
-                                value={scenarios.dataSharing}
-                                onChange={(e) => setScenarios(prev => ({ ...prev, dataSharing: e.target.value }))}
-                                className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                              >
-                                <option value="">-- Choose Data Sharing Policy --</option>
-                                <option value="raw_email">Transmit raw patient records over HIPAA-encrypted email attachments</option>
-                                <option value="deidentify_fhir">De-identify datasets via Safe Harbor rules using a secure FHIR API gateway (Correct!)</option>
-                                <option value="bulk_csv">Export bulk CSV summaries to a shared cloud storage bucket</option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Error message */}
-                        {sandboxError && (
-                          <div className="flex items-start space-x-2.5 p-3.5 bg-red-950/40 border border-red-500/20 text-red-300 rounded-xl text-xs">
-                            <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                            <span>{sandboxError}</span>
-                          </div>
-                        )}
-
-                        {/* Correct notification */}
-                        {sandboxSuccess && (
-                          <div className="flex items-start space-x-2.5 p-3.5 bg-brand-emerald/10 border border-brand-emerald/20 text-brand-emerald rounded-xl text-xs">
-                            <CheckCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                            <span>Governance alignment complete! All safety recommendations verify successfully.</span>
-                          </div>
-                        )}
-
-                        <div className="pt-4 flex justify-between">
-                          <button
-                            type="button"
-                            onClick={() => setFormStep(2)}
-                            className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
-                          >
-                            <span>Back</span>
-                          </button>
-                          
-                          {!sandboxSuccess ? (
-                            <button
-                              type="button"
-                              onClick={validateScenarios}
-                              className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs cursor-pointer"
-                            >
-                              <span>Verify Strategic Alignment ({sandboxAttempts} attempts)</span>
-                            </button>
-                          ) : (
-                            <button
-                              type="button"
-                              onClick={() => setFormStep(4)}
-                              className="inline-flex items-center space-x-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold px-5 py-3 rounded-xl hover:opacity-95 transition-opacity text-xs cursor-pointer"
-                            >
-                              <span>Proceed to Review</span>
-                              <ArrowRight className="w-3.5 h-3.5" />
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                    )}
+                    
 
                     {/* STEP 4: Review and Submit */}
-                    {formStep === 4 && (
+                    {formStep === 3 && (
                       <div className="space-y-5">
                         <h3 className="font-display font-extrabold text-lg text-white">Review Executive Application</h3>
                         
@@ -829,15 +682,7 @@ export default function JobClient() {
                             <p className="text-gray-300"><span className="text-gray-500">Executive CV:</span> {formData.resumeName}</p>
                           </div>
 
-                          <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-2">
-                            <p className="text-gray-500 uppercase text-[10px] tracking-wider mb-2 font-bold">Credentials & Experience</p>
-                            <p className="text-gray-300">
-                              <span className="text-gray-500">Clinical Degree:</span>{" "}
-                              <span className="uppercase">{formData.clinicalCredentials}</span>
-                            </p>
-                            <p className="text-gray-300"><span className="text-gray-500">Informatics experience:</span> {formData.leadershipYears} years</p>
-                            <p className="text-gray-300"><span className="text-gray-500">Clinical AI Oversight Validation:</span> {formData.aiComfort}</p>
-                          </div>
+                          
 
                           <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-1.5">
                             <p className="text-gray-500 uppercase text-[10px] tracking-wider mb-2 font-bold">Strategic Sandbox Verification</p>
@@ -851,7 +696,7 @@ export default function JobClient() {
                         <div className="pt-4 flex justify-between">
                           <button
                             type="button"
-                            onClick={() => setFormStep(3)}
+                            onClick={() => setFormStep(2)}
                             className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
                           >
                             <span>Back</span>

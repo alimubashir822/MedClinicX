@@ -30,15 +30,7 @@ export default function JobClient() {
   });
 
   // Support Sandbox State
-  const [triageSetup, setTriageSetup] = useState({
-    errorDiagnosis: "",
-    privacyAction: "",
-    escalationPath: ""
-  });
-  const [sandboxAttempts, setSandboxAttempts] = useState(0);
-  const [sandboxSuccess, setSandboxSuccess] = useState(false);
-  const [sandboxError, setSandboxError] = useState("");
-
+        
   // Submission States
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -80,37 +72,30 @@ export default function JobClient() {
     }
   };
 
-  const validateTriage = () => {
-    setSandboxAttempts(prev => prev + 1);
-    
-    // Correct choices:
-    // errorDiagnosis -> expired_token (Expired FHIR OAuth Access Token - 403 Forbidden)
-    // privacyAction -> match_verify (Deny auto-linking, create an verification task, require clinic staff database update)
-    // escalationPath -> engineer_escalate (Escalate to backend engineering / DevOps with logs and token details)
-    
-    const correctDiagnosis = triageSetup.errorDiagnosis === "expired_token";
-    const correctPrivacy = triageSetup.privacyAction === "match_verify";
-    const correctEscalation = triageSetup.escalationPath === "engineer_escalate";
-    
-    if (correctDiagnosis && correctPrivacy && correctEscalation) {
-      setSandboxSuccess(true);
-      setSandboxError("");
-    } else {
-      setSandboxSuccess(false);
-      let incorrectCount = 0;
-      if (!correctDiagnosis) incorrectCount++;
-      if (!correctPrivacy) incorrectCount++;
-      if (!correctEscalation) incorrectCount++;
-      
-      setSandboxError(
-        `Triage audit failed. ${incorrectCount}/3 steps resolved incorrectly. Hint: Analyze status codes and reasons in the logs; follow strict HIPAA verification routes for email discrepancies; and route unresolved API bugs directly to DevOps.`
-      );
-    }
-  };
-
+  
   const submitApplication = async () => {
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    try {
+      const res = await fetch("/api/careers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          portfolioUrl: formData.portfolioUrl,
+          resumeName: formData.resumeName,
+          position: "Technical Support Engineer",
+          extraFields: {
+            ...formData
+          }
+        }),
+      });
+      if (!res.ok) {
+        console.error("Failed to submit application");
+      }
+    } catch (err) {
+      console.error("Submit error:", err);
+    }
     setIsSubmitting(false);
     setSubmitSuccess(true);
   };
@@ -348,9 +333,9 @@ export default function JobClient() {
                       <span className={formStep === 1 ? "text-brand-cyan font-bold" : "text-gray-500"}>01. Profile</span>
                       <span className={formStep === 2 ? "text-brand-cyan font-bold" : "text-gray-500"}>02. Experience</span>
                       <span className={formStep === 3 ? "text-brand-cyan font-bold" : "text-gray-500"}>03. Triage Sandbox</span>
-                      <span className={formStep === 4 ? "text-brand-cyan font-bold" : "text-gray-500"}>04. Submit</span>
+                      
                     </div>
-                    <span className="text-gray-500">Step {formStep} of 4</span>
+                    <span className="text-gray-500">Step {formStep} of 3</span>
                   </div>
 
                   {submitSuccess ? (
@@ -373,9 +358,9 @@ export default function JobClient() {
                         onClick={() => {
                           setFormStep(1);
                           setSubmitSuccess(false);
-                          setSandboxSuccess(false);
-                          setSandboxAttempts(0);
-                          setTriageSetup({ errorDiagnosis: "", privacyAction: "", escalationPath: "" });
+                          
+                          
+                          
                           setFormData({
                             name: "",
                             email: "",
@@ -553,151 +538,10 @@ export default function JobClient() {
                       )}
 
                       {/* STEP 3: Triage Sandbox */}
-                      {formStep === 3 && (
-                        <div className="space-y-5">
-                          <div className="flex justify-between items-start">
-                            <div>
-                              <h3 className="font-display font-extrabold text-lg text-white">Clinical API Log Debugging & Ticket Triage Sandbox</h3>
-                              <p className="text-xs text-gray-400 mt-1">
-                                Review the API logs below to triage the sync error and configure appropriate escalation/resolution parameters.
-                              </p>
-                            </div>
-                            <span className="text-[9px] font-bold px-2 py-0.5 bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/20 rounded font-mono">
-                              Triage Challenge
-                            </span>
-                          </div>
-
-                          {/* API LOG FILE SIMULATION */}
-                          <div className="bg-brand-bg border border-brand-border rounded-xl p-4 font-mono text-[10px] text-gray-300 space-y-1">
-                            <p className="text-gray-500">// Simulated Server Output Traces //</p>
-                            <p><span className="text-gray-500">2026-06-25T11:04:12Z</span> [INFO] [AuthService] Inbound login request received. user_id = 94812</p>
-                            <p><span className="text-gray-500">2026-06-25T11:04:13Z</span> [INFO] [AuthService] JWT Token signature verified successfully.</p>
-                            <p className="text-red-400"><span className="text-gray-500">2026-06-25T11:04:14Z</span> [ERROR] [AuthService] EHR Patient Sync failed for user_id = 94812. Status Code: 403 Forbidden. Reason: Expired FHIR access credentials.</p>
-                            <p><span className="text-gray-500">2026-06-25T11:04:15Z</span> [INFO] [AuthService] Transaction aborted. Rollback completed.</p>
-                          </div>
-
-                          {/* SANDBOX CHALLENGE */}
-                          <div className="space-y-4 font-sans text-xs">
-                            
-                            {/* Parameter 1 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-cyan rounded-full shrink-0" />
-                                <span>Parameter 1: Error Diagnosis from Logs</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;Based on the error trace, identify the core root cause of this syncing ticket.&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={triageSetup.errorDiagnosis}
-                                  onChange={(e) => setTriageSetup(prev => ({ ...prev, errorDiagnosis: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Diagnosis --</option>
-                                  <option value="db_crash">Relational Database Connection Pool Out of Memory (500 Error)</option>
-                                  <option value="cors_error">Browser Cross-Origin Resource Sharing (CORS) security header block</option>
-                                  <option value="expired_token">Expired FHIR OAuth Access Token (403 Forbidden) (Correct!)</option>
-                                </select>
-                              </div>
-                            </div>
-
-                            {/* Parameter 2 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-indigo rounded-full shrink-0" />
-                                <span>Parameter 2: Patient Security & HIPAA Action</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;The patient portal account email does not match the EHR record email, but the clinic asks you to manually override it immediately. What compliance action do you take?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={triageSetup.privacyAction}
-                                  onChange={(e) => setTriageSetup(prev => ({ ...prev, privacyAction: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Action --</option>
-                                  <option value="match_verify">Deny auto-linking, flag the email mismatch, and instruct the clinic to verify and update the EHR email first (Correct!)</option>
-                                  <option value="force_override">Override database parameters immediately to bypass clinical blocks and sync the record</option>
-                                  <option value="share_creds">Generate a temp access bypass link and email it directly to the patient's portal address</option>
-                                </select>
-                              </div>
-                            </div>
-
-                            {/* Parameter 3 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-emerald rounded-full shrink-0" />
-                                <span>Parameter 3: Ticket Escalation Path</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;The API continues returning a 502 Bad Gateway even after updating credentials and access tokens. How do you route the ticket?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={triageSetup.escalationPath}
-                                  onChange={(e) => setTriageSetup(prev => ({ ...prev, escalationPath: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Escalation Path --</option>
-                                  <option value="engineer_escalate">Escalate the ticket to backend engineering / DevOps with logs and OAuth tokens (Correct!)</option>
-                                  <option value="close_ticket">Close the ticket and instruct the clinician to wait 24 hours for system refreshing</option>
-                                  <option value="reboot_router">Advise the patient to clear browser cookies and reboot their local internet router</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Error message */}
-                          {sandboxError && (
-                            <div className="flex items-start space-x-2.5 p-3.5 bg-red-950/40 border border-red-500/20 text-red-300 rounded-xl text-xs">
-                              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                              <span>{sandboxError}</span>
-                            </div>
-                          )}
-
-                          {/* Correct notification */}
-                          {sandboxSuccess && (
-                            <div className="flex items-start space-x-2.5 p-3.5 bg-brand-emerald/10 border border-brand-emerald/20 text-brand-emerald rounded-xl text-xs">
-                              <CheckCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                              <span>Triage rules verified! Root cause identified correctly, security protocols respected, and correct escalation mapped.</span>
-                            </div>
-                          )}
-
-                          <div className="pt-4 flex justify-between">
-                            <button
-                              type="button"
-                              onClick={() => setFormStep(2)}
-                              className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
-                            >
-                              <span>Back</span>
-                            </button>
-                            
-                            {!sandboxSuccess ? (
-                              <button
-                                type="button"
-                                onClick={validateTriage}
-                                className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs cursor-pointer"
-                              >
-                                <span>Audit Triage Resolution ({sandboxAttempts} attempts)</span>
-                              </button>
-                            ) : (
-                              <button
-                                type="button"
-                                onClick={() => setFormStep(4)}
-                                className="inline-flex items-center space-x-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold px-5 py-3 rounded-xl hover:opacity-95 transition-opacity text-xs cursor-pointer"
-                              >
-                                <span>Proceed to Review</span>
-                                <ArrowRight className="w-3.5 h-3.5" />
-                              </button>
-                            )}
-                          </div>
-                        </div>
-                      )}
+                      
 
                       {/* STEP 4: Review and Submit */}
-                      {formStep === 4 && (
+                      {formStep === 3 && (
                         <div className="space-y-5">
                           <h3 className="font-display font-extrabold text-lg text-white">Review & Submit Application</h3>
                           
@@ -722,19 +566,13 @@ export default function JobClient() {
                               <p className="text-gray-300"><span className="text-gray-500 font-sans">SQL Log Familiarity:</span> {formData.sqlFamiliar}</p>
                             </div>
 
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-1.5">
-                              <p className="text-gray-500 uppercase text-[10px] tracking-wider mb-2 font-bold font-sans">Sandbox Audit Validation</p>
-                              <p className="text-brand-emerald flex items-center space-x-1.5">
-                                <CheckCircle className="w-3.5 h-3.5" />
-                                <span>Expired token diagnosis, identity verification guidelines, and engineering escalation routes validated</span>
-                              </p>
-                            </div>
+                            
                           </div>
 
                           <div className="pt-4 flex justify-between">
                             <button
                               type="button"
-                              onClick={() => setFormStep(3)}
+                              onClick={() => setFormStep(2)}
                               className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
                             >
                               <span>Back</span>

@@ -30,16 +30,7 @@ export default function JobClient() {
   });
 
   // Clinical Coding Matcher State
-  const [kpiMappings, setKpiMappings] = useState({
-    readmission: "",
-    alos: "",
-    occupancy: "",
-    satisfaction: ""
-  });
-  const [sandboxAttempts, setSandboxAttempts] = useState(0);
-  const [sandboxSuccess, setSandboxSuccess] = useState(false);
-  const [sandboxError, setSandboxError] = useState("");
-
+        
   // Submission States
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -81,40 +72,30 @@ export default function JobClient() {
     }
   };
 
-  const validateKpiMappings = () => {
-    setSandboxAttempts(prev => prev + 1);
-    
-    // Correct mappings:
-    // readmission -> formulaA
-    // alos -> formulaB
-    // occupancy -> formulaC
-    // satisfaction -> formulaD
-    
-    const correctReadmit = kpiMappings.readmission === "formulaA";
-    const correctAlos = kpiMappings.alos === "formulaB";
-    const correctOccupancy = kpiMappings.occupancy === "formulaC";
-    const correctSatisfy = kpiMappings.satisfaction === "formulaD";
-    
-    if (correctReadmit && correctAlos && correctOccupancy && correctSatisfy) {
-      setSandboxSuccess(true);
-      setSandboxError("");
-    } else {
-      setSandboxSuccess(false);
-      let incorrectCount = 0;
-      if (!correctReadmit) incorrectCount++;
-      if (!correctAlos) incorrectCount++;
-      if (!correctOccupancy) incorrectCount++;
-      if (!correctSatisfy) incorrectCount++;
-      
-      setSandboxError(
-        `Mapping verification failed. ${incorrectCount}/4 formulas mapped incorrectly. Hint: Readmission Rate is based on patients returning within 30 days, and Bed Occupancy represents available bed usage.`
-      );
-    }
-  };
-
+  
   const submitApplication = async () => {
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    try {
+      const res = await fetch("/api/careers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          portfolioUrl: formData.portfolioUrl,
+          resumeName: formData.resumeName,
+          position: "Clinical Data Analyst",
+          extraFields: {
+            ...formData
+          }
+        }),
+      });
+      if (!res.ok) {
+        console.error("Failed to submit application");
+      }
+    } catch (err) {
+      console.error("Submit error:", err);
+    }
     setIsSubmitting(false);
     setSubmitSuccess(true);
   };
@@ -460,18 +441,18 @@ export default function JobClient() {
               {/* Progress bar */}
               <div className="mb-8">
                 <div className="flex justify-between text-xs text-gray-400 mb-2 font-mono">
-                  <span>STEP {formStep} OF 4</span>
+                  <span>Step {formStep} of 3</span>
                   <span>
                     {formStep === 1 && "Personal Information"}
                     {formStep === 2 && "Experience Questionnaire"}
-                    {formStep === 3 && "Clinical KPI Sandbox"}
-                    {formStep === 4 && "Review & Submit"}
+                    
+                    {formStep === 3 && "Review & Submit"}
                   </span>
                 </div>
                 <div className="w-full bg-slate-900 border border-brand-border h-2 rounded-full overflow-hidden">
                   <div
                     className="bg-gradient-to-r from-brand-cyan to-brand-indigo h-full transition-all duration-300"
-                    style={{ width: `${(formStep / 4) * 100}%` }}
+                    style={{ width: `${(formStep / 3) * 100}%` }}
                   />
                 </div>
               </div>
@@ -508,9 +489,9 @@ export default function JobClient() {
                       onClick={() => {
                         setFormStep(1);
                         setSubmitSuccess(false);
-                        setSandboxSuccess(false);
-                        setSandboxAttempts(0);
-                        setKpiMappings({ readmission: "", alos: "", occupancy: "", satisfaction: "" });
+                        
+                        
+                        
                         setFormData({
                           name: "",
                           email: "",
@@ -687,178 +668,10 @@ export default function JobClient() {
                     )}
 
                     {/* STEP 3: Clinical KPI Sandbox */}
-                    {formStep === 3 && (
-                      <div className="space-y-5">
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <h3 className="font-display font-extrabold text-lg text-white">Clinical KPI Matcher</h3>
-                            <p className="text-xs text-gray-400 mt-1">
-                              Match each standard hospital KPI metric to its correct formulation definition.
-                            </p>
-                          </div>
-                          <span className="text-[9px] font-bold px-2 py-0.5 bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/20 rounded font-mono">
-                            Analytics Matcher
-                          </span>
-                        </div>
-
-                        {/* MAPPING INTERFACE */}
-                        <div className="space-y-4 font-sans text-xs">
-                          {/* Row 1: Readmission Rate */}
-                          <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center bg-white/2 border border-white/5 p-3 rounded-xl">
-                            <div className="sm:col-span-5 font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                              <span className="w-2 h-2 bg-brand-cyan rounded-full" />
-                              <span>30-Day Readmission Rate</span>
-                            </div>
-                            <div className="sm:col-span-1 text-center text-gray-500 font-semibold">&rarr;</div>
-                            <div className="sm:col-span-6">
-                              <select
-                                value={kpiMappings.readmission}
-                                onChange={(e) => setKpiMappings(prev => ({ ...prev, readmission: e.target.value }))}
-                                className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                              >
-                                <option value="">-- Choose Formulation --</option>
-                                <option value="formulaA">(Readmitted Patients / Total Discharged Patients) * 100</option>
-                                <option value="formulaB">Total Inpatient Days / Total Discharges</option>
-                                <option value="formulaC">(Inpatient Days / Bed Days Available) * 100</option>
-                                <option value="formulaD">(Positive Survey Ratings / Total Survey Responses) * 100</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          {/* Row 2: ALOS */}
-                          <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center bg-white/2 border border-white/5 p-3 rounded-xl">
-                            <div className="sm:col-span-5 font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                              <span className="w-2 h-2 bg-brand-indigo rounded-full" />
-                              <span>Average Length of Stay (ALOS)</span>
-                            </div>
-                            <div className="sm:col-span-1 text-center text-gray-500 font-semibold">&rarr;</div>
-                            <div className="sm:col-span-6">
-                              <select
-                                value={kpiMappings.alos}
-                                onChange={(e) => setKpiMappings(prev => ({ ...prev, alos: e.target.value }))}
-                                className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                              >
-                                <option value="">-- Choose Formulation --</option>
-                                <option value="formulaA">(Readmitted Patients / Total Discharged Patients) * 100</option>
-                                <option value="formulaB">Total Inpatient Days / Total Discharges</option>
-                                <option value="formulaC">(Inpatient Days / Bed Days Available) * 100</option>
-                                <option value="formulaD">(Positive Survey Ratings / Total Survey Responses) * 100</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          {/* Row 3: Bed Occupancy */}
-                          <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center bg-white/2 border border-white/5 p-3 rounded-xl">
-                            <div className="sm:col-span-5 font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                              <span className="w-2 h-2 bg-brand-emerald rounded-full" />
-                              <span>Bed Occupancy Rate</span>
-                            </div>
-                            <div className="sm:col-span-1 text-center text-gray-500 font-semibold">&rarr;</div>
-                            <div className="sm:col-span-6">
-                              <select
-                                value={kpiMappings.occupancy}
-                                onChange={(e) => setKpiMappings(prev => ({ ...prev, occupancy: e.target.value }))}
-                                className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                              >
-                                <option value="">-- Choose Formulation --</option>
-                                <option value="formulaA">(Readmitted Patients / Total Discharged Patients) * 100</option>
-                                <option value="formulaB">Total Inpatient Days / Total Discharges</option>
-                                <option value="formulaC">(Inpatient Days / Bed Days Available) * 100</option>
-                                <option value="formulaD">(Positive Survey Ratings / Total Survey Responses) * 100</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          {/* Row 4: Patient Satisfaction */}
-                          <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center bg-white/2 border border-white/5 p-3 rounded-xl">
-                            <div className="sm:col-span-5 font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                              <span className="w-2 h-2 bg-amber-400 rounded-full" />
-                              <span>Patient Satisfaction Index</span>
-                            </div>
-                            <div className="sm:col-span-1 text-center text-gray-500 font-semibold">&rarr;</div>
-                            <div className="sm:col-span-6">
-                              <select
-                                value={kpiMappings.satisfaction}
-                                onChange={(e) => setKpiMappings(prev => ({ ...prev, satisfaction: e.target.value }))}
-                                className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                              >
-                                <option value="">-- Choose Formulation --</option>
-                                <option value="formulaA">(Readmitted Patients / Total Discharged Patients) * 100</option>
-                                <option value="formulaB">Total Inpatient Days / Total Discharges</option>
-                                <option value="formulaC">(Inpatient Days / Bed Days Available) * 100</option>
-                                <option value="formulaD">(Positive Survey Ratings / Total Survey Responses) * 100</option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Execute Button */}
-                        <div className="flex items-center gap-3">
-                          <button
-                            type="button"
-                            onClick={validateKpiMappings}
-                            className="bg-brand-indigo/25 hover:bg-brand-indigo/40 text-brand-indigo-light border border-brand-indigo/35 font-bold text-xs px-4 py-2.5 rounded-xl transition-all cursor-pointer"
-                          >
-                            Verify Formulation Map
-                          </button>
-                          {sandboxAttempts > 0 && (
-                            <span className="text-[11px] font-semibold font-mono text-gray-400">
-                              {sandboxAttempts} validation check{sandboxAttempts > 1 ? "s" : ""}
-                            </span>
-                          )}
-                        </div>
-
-                        {/* Output Sandbox console */}
-                        {sandboxAttempts > 0 && (
-                          <div className={`p-4 rounded-xl border font-mono text-xs ${
-                            sandboxSuccess 
-                              ? "bg-brand-emerald/5 border-brand-emerald/30 text-brand-emerald" 
-                              : "bg-rose-950/20 border-rose-500/30 text-rose-400"
-                          }`}>
-                            <div className="flex items-start space-x-2">
-                              {sandboxSuccess ? (
-                                <>
-                                  <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                                  <div className="space-y-1.5">
-                                    <p className="font-bold">✓ Success: All hospital KPI formulas verified!</p>
-                                    <p className="text-[10px] text-gray-400 leading-normal">
-                                      Readmission Rate mapped to Patients returning. ALOS mapped to Inpatient Days. Bed Occupancy mapped to Bed Days Available. Satisfaction mapped to Positive survey scores. Validation complete.
-                                    </p>
-                                  </div>
-                                </>
-                              ) : (
-                                <>
-                                  <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                                  <p className="leading-relaxed font-semibold">{sandboxError}</p>
-                                </>
-                              )}
-                            </div>
-                          </div>
-                        )}
-
-                        <div className="pt-4 flex justify-between">
-                          <button
-                            type="button"
-                            onClick={() => setFormStep(2)}
-                            className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
-                          >
-                            <span>Back</span>
-                          </button>
-                          <button
-                            type="button"
-                            disabled={!sandboxSuccess}
-                            onClick={() => setFormStep(4)}
-                            className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs disabled:opacity-30 cursor-pointer"
-                          >
-                            <span>Review Application</span>
-                            <ArrowRight className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                      </div>
-                    )}
+                    
 
                     {/* STEP 4: Review & Submit */}
-                    {formStep === 4 && (
+                    {formStep === 3 && (
                       <div className="space-y-6">
                         <h3 className="font-display font-extrabold text-lg text-white">Review &amp; Submit</h3>
                         
@@ -905,7 +718,7 @@ export default function JobClient() {
                         <div className="pt-4 flex justify-between">
                           <button
                             type="button"
-                            onClick={() => setFormStep(3)}
+                            onClick={() => setFormStep(2)}
                             className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
                           >
                             <span>Back</span>

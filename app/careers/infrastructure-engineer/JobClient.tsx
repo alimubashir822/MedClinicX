@@ -30,15 +30,7 @@ export default function JobClient() {
   });
 
   // Infrastructure Sandbox State
-  const [sandboxSetup, setSandboxSetup] = useState({
-    disasterRecovery: "",
-    autoScaling: "",
-    iacWorkflow: ""
-  });
-  const [sandboxAttempts, setSandboxAttempts] = useState(0);
-  const [sandboxSuccess, setSandboxSuccess] = useState(false);
-  const [sandboxError, setSandboxError] = useState("");
-
+        
   // Submission States
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -80,37 +72,30 @@ export default function JobClient() {
     }
   };
 
-  const validateSandbox = () => {
-    setSandboxAttempts(prev => prev + 1);
-    
-    // Correct choices:
-    // disasterRecovery -> multi_az_aurora
-    // autoScaling -> horizontal_pod_scaler
-    // iacWorkflow -> gitops_pipeline
-    
-    const correctDR = sandboxSetup.disasterRecovery === "multi_az_aurora";
-    const correctScale = sandboxSetup.autoScaling === "horizontal_pod_scaler";
-    const correctIaC = sandboxSetup.iacWorkflow === "gitops_pipeline";
-    
-    if (correctDR && correctScale && correctIaC) {
-      setSandboxSuccess(true);
-      setSandboxError("");
-    } else {
-      setSandboxSuccess(false);
-      let incorrectCount = 0;
-      if (!correctDR) incorrectCount++;
-      if (!correctScale) incorrectCount++;
-      if (!correctIaC) incorrectCount++;
-      
-      setSandboxError(
-        `Infrastructure audit failed. ${incorrectCount}/3 configurations are non-optimal. Hint: Scale EKS nodes and RDS database across multiple Availability Zones; use Kubernetes dynamic horizontal scaling (HPA) coupled with Cluster Autoscaling; and manage Terraform states in remote locked S3/DynamoDB backends using automated plan gating.`
-      );
-    }
-  };
-
+  
   const submitApplication = async () => {
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    try {
+      const res = await fetch("/api/careers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          portfolioUrl: formData.portfolioUrl,
+          resumeName: formData.resumeName,
+          position: "Infrastructure Engineer",
+          extraFields: {
+            ...formData
+          }
+        }),
+      });
+      if (!res.ok) {
+        console.error("Failed to submit application");
+      }
+    } catch (err) {
+      console.error("Submit error:", err);
+    }
     setIsSubmitting(false);
     setSubmitSuccess(true);
   };
@@ -374,10 +359,10 @@ export default function JobClient() {
                     <div className="flex space-x-4">
                       <span className={formStep === 1 ? "text-brand-cyan font-bold" : "text-gray-500"}>01. Profile</span>
                       <span className={formStep === 2 ? "text-brand-cyan font-bold" : "text-gray-500"}>02. Experience</span>
-                      <span className={formStep === 3 ? "text-brand-cyan font-bold" : "text-gray-500"}>03. Infrastructure Sandbox</span>
-                      <span className={formStep === 4 ? "text-brand-cyan font-bold" : "text-gray-500"}>04. Submit</span>
+                      <span className={formStep === 3 ? "text-brand-cyan font-bold" : "text-gray-500"}>03. Review & Submit Sandbox</span>
+                      
                     </div>
-                    <span className="text-gray-500">Step {formStep} of 4</span>
+                    <span className="text-gray-500">Step {formStep} of 3</span>
                   </div>
 
                   {submitSuccess ? (
@@ -400,9 +385,9 @@ export default function JobClient() {
                         onClick={() => {
                           setFormStep(1);
                           setSubmitSuccess(false);
-                          setSandboxSuccess(false);
-                          setSandboxAttempts(0);
-                          setSandboxSetup({ disasterRecovery: "", autoScaling: "", iacWorkflow: "" });
+                          
+                          
+                          
                           setFormData({
                             name: "",
                             email: "",
@@ -572,7 +557,7 @@ export default function JobClient() {
                               onClick={() => setFormStep(3)}
                               className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs cursor-pointer"
                             >
-                              <span>Proceed to Sandbox</span>
+                              <span>Review Application</span>
                               <ArrowRight className="w-3.5 h-3.5" />
                             </button>
                           </div>
@@ -580,142 +565,10 @@ export default function JobClient() {
                       )}
 
                       {/* STEP 3: Sandbox */}
-                      {formStep === 3 && (
-                        <div className="space-y-5">
-                          <div className="flex justify-between items-start">
-                            <div>
-                              <h3 className="font-display font-extrabold text-lg text-white">Healthcare Infrastructure Scaling Sandbox</h3>
-                              <p className="text-xs text-gray-400 mt-1">
-                                Secure multi-AZ databases, dynamic Kubernetes node-scaling rules, and GitOps IaC workflow checks.
-                              </p>
-                            </div>
-                            <span className="text-[9px] font-bold px-2 py-0.5 bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/20 rounded font-mono">
-                              Scale Design
-                            </span>
-                          </div>
-
-                          {/* SANDBOX CHALLENGE */}
-                          <div className="space-y-4 font-sans text-xs">
-                            
-                            {/* Scenario 1 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-cyan rounded-full shrink-0" />
-                                <span>Parameter 1: Disaster Recovery & Database Clustering</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;How should the production database and container clusters be scaled to guarantee high availability?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={sandboxSetup.disasterRecovery}
-                                  onChange={(e) => setSandboxSetup(prev => ({ ...prev, disasterRecovery: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose DR Topology --</option>
-                                  <option value="multi_az_aurora">Deploy RDS Aurora Multi-AZ with auto-failover, scaling EKS nodes across 3 Availability Zones (Correct!)</option>
-                                  <option value="single_az_snapshot">Deploy ECS container tasks and RDS database inside a single Availability Zone with nightly snapshots</option>
-                                  <option value="cross_region_manual">Run a single active instance, maintaining a manual replica in a separate region to boot in outage</option>
-                                </select>
-                              </div>
-                            </div>
-
-                            {/* Scenario 2 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-indigo rounded-full shrink-0" />
-                                <span>Parameter 2: Dynamic Auto-Scaling Metric Configurations</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;What configuration should trigger auto-scaling on patient portals during morning appointment booking peaks?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={sandboxSetup.autoScaling}
-                                  onChange={(e) => setSandboxSetup(prev => ({ ...prev, autoScaling: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Auto-Scaling Rule --</option>
-                                  <option value="horizontal_pod_scaler">Kubernetes HPA targeting 70% CPU/Memory usage triggers, autoscaling EC2 worker instances (Correct!)</option>
-                                  <option value="vertical_manual">Manually adjust container limits after clinician latency reports arise in the portals</option>
-                                  <option value="scale_on_error">Scale out new nodes only when portal latency HTTP 504 timeout rates exceed 5%</option>
-                                </select>
-                              </div>
-                            </div>
-
-                            {/* Scenario 3 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-emerald rounded-full shrink-0" />
-                                <span>Parameter 3: Version Control & Infrastructure as Code Gating</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;How should Terraform configs be audited and validated to prevent state file corruption in production?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={sandboxSetup.iacWorkflow}
-                                  onChange={(e) => setSandboxSetup(prev => ({ ...prev, iacWorkflow: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose IaC Workflow --</option>
-                                  <option value="gitops_pipeline">Remote S3 backends with DynamoDB state locks, running plan gating in a GitOps CI/CD pipeline (Correct!)</option>
-                                  <option value="local_apply">Allow developers to run local terraform applies to enable rapid troubleshooting updates</option>
-                                  <option value="bypass_state_lock">Disable state locking to avoid pipeline delays when executing parallel releases</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Error message */}
-                          {sandboxError && (
-                            <div className="flex items-start space-x-2.5 p-3.5 bg-red-950/40 border border-red-500/20 text-red-300 rounded-xl text-xs">
-                              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                              <span>{sandboxError}</span>
-                            </div>
-                          )}
-
-                          {/* Correct notification */}
-                          {sandboxSuccess && (
-                            <div className="flex items-start space-x-2.5 p-3.5 bg-brand-emerald/10 border border-brand-emerald/20 text-brand-emerald rounded-xl text-xs">
-                              <CheckCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                              <span>Infrastructure checks completed! Multi-AZ Aurora verified, horizontal pod autoscaling set, and remote GitOps state-locking approved.</span>
-                            </div>
-                          )}
-
-                          <div className="pt-4 flex justify-between">
-                            <button
-                              type="button"
-                              onClick={() => setFormStep(2)}
-                              className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
-                            >
-                              <span>Back</span>
-                            </button>
-                            
-                            {!sandboxSuccess ? (
-                              <button
-                                type="button"
-                                onClick={validateSandbox}
-                                className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs cursor-pointer"
-                              >
-                                <span>Audit Scaling Configuration ({sandboxAttempts} attempts)</span>
-                              </button>
-                            ) : (
-                              <button
-                                type="button"
-                                onClick={() => setFormStep(4)}
-                                className="inline-flex items-center space-x-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold px-5 py-3 rounded-xl hover:opacity-95 transition-opacity text-xs cursor-pointer"
-                              >
-                                <span>Proceed to Review</span>
-                                <ArrowRight className="w-3.5 h-3.5" />
-                              </button>
-                            )}
-                          </div>
-                        </div>
-                      )}
+                      
 
                       {/* STEP 4: Review and Submit */}
-                      {formStep === 4 && (
+                      {formStep === 3 && (
                         <div className="space-y-5">
                           <h3 className="font-display font-extrabold text-lg text-white">Review & Submit Application</h3>
                           
@@ -740,19 +593,13 @@ export default function JobClient() {
                               <p className="text-gray-300"><span className="text-gray-500 font-sans">Autoscaling Comfort:</span> {formData.hipaaFamiliar}</p>
                             </div>
 
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-1.5">
-                              <p className="text-gray-500 uppercase text-[10px] tracking-wider mb-2 font-bold font-sans">Sandbox Audit Validation</p>
-                              <p className="text-brand-emerald flex items-center space-x-1.5">
-                                <CheckCircle className="w-3.5 h-3.5" />
-                                <span>Multi-AZ failover, EKS pod/cluster autoscalers, and locked GitOps plan workflows approved</span>
-                              </p>
-                            </div>
+                            
                           </div>
 
                           <div className="pt-4 flex justify-between">
                             <button
                               type="button"
-                              onClick={() => setFormStep(3)}
+                              onClick={() => setFormStep(2)}
                               className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
                             >
                               <span>Back</span>

@@ -30,15 +30,7 @@ export default function JobClient() {
   });
 
   // Security Sandbox State
-  const [sandboxSetup, setSandboxSetup] = useState({
-    networkIngress: "",
-    secretsManagement: "",
-    containerSecurity: ""
-  });
-  const [sandboxAttempts, setSandboxAttempts] = useState(0);
-  const [sandboxSuccess, setSandboxSuccess] = useState(false);
-  const [sandboxError, setSandboxError] = useState("");
-
+        
   // Submission States
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -80,37 +72,30 @@ export default function JobClient() {
     }
   };
 
-  const validateSandbox = () => {
-    setSandboxAttempts(prev => prev + 1);
-    
-    // Correct choices:
-    // networkIngress -> waf_alb_block
-    // secretsManagement -> secrets_manager_kms
-    // containerSecurity -> trivy_scan_block
-    
-    const correctIngress = sandboxSetup.networkIngress === "waf_alb_block";
-    const correctSecrets = sandboxSetup.secretsManagement === "secrets_manager_kms";
-    const correctContainer = sandboxSetup.containerSecurity === "trivy_scan_block";
-    
-    if (correctIngress && correctSecrets && correctContainer) {
-      setSandboxSuccess(true);
-      setSandboxError("");
-    } else {
-      setSandboxSuccess(false);
-      let incorrectCount = 0;
-      if (!correctIngress) incorrectCount++;
-      if (!correctSecrets) incorrectCount++;
-      if (!correctContainer) incorrectCount++;
-      
-      setSandboxError(
-        `Cloud hardening validation failed. ${incorrectCount}/3 security settings contain compliance gaps. Hint: Force public traffic through a WAF/ALB filter block; leverage AWS Secrets Manager with customer KMS key rotation for database credentials; and trigger vulnerability checks (Trivy) in CI builds to fail if CRITICAL CVEs are discovered.`
-      );
-    }
-  };
-
+  
   const submitApplication = async () => {
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    try {
+      const res = await fetch("/api/careers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          portfolioUrl: formData.portfolioUrl,
+          resumeName: formData.resumeName,
+          position: "Cloud Security Engineer",
+          extraFields: {
+            ...formData
+          }
+        }),
+      });
+      if (!res.ok) {
+        console.error("Failed to submit application");
+      }
+    } catch (err) {
+      console.error("Submit error:", err);
+    }
     setIsSubmitting(false);
     setSubmitSuccess(true);
   };
@@ -374,10 +359,10 @@ export default function JobClient() {
                     <div className="flex space-x-4">
                       <span className={formStep === 1 ? "text-brand-cyan font-bold" : "text-gray-500"}>01. Profile</span>
                       <span className={formStep === 2 ? "text-brand-cyan font-bold" : "text-gray-500"}>02. Experience</span>
-                      <span className={formStep === 3 ? "text-brand-cyan font-bold" : "text-gray-500"}>03. Security Sandbox</span>
-                      <span className={formStep === 4 ? "text-brand-cyan font-bold" : "text-gray-500"}>04. Submit</span>
+                      <span className={formStep === 3 ? "text-brand-cyan font-bold" : "text-gray-500"}>03. Review & Submit Sandbox</span>
+                      
                     </div>
-                    <span className="text-gray-500">Step {formStep} of 4</span>
+                    <span className="text-gray-500">Step {formStep} of 3</span>
                   </div>
 
                   {submitSuccess ? (
@@ -400,9 +385,9 @@ export default function JobClient() {
                         onClick={() => {
                           setFormStep(1);
                           setSubmitSuccess(false);
-                          setSandboxSuccess(false);
-                          setSandboxAttempts(0);
-                          setSandboxSetup({ networkIngress: "", secretsManagement: "", containerSecurity: "" });
+                          
+                          
+                          
                           setFormData({
                             name: "",
                             email: "",
@@ -571,7 +556,7 @@ export default function JobClient() {
                               onClick={() => setFormStep(3)}
                               className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs cursor-pointer"
                             >
-                              <span>Proceed to Security Sandbox</span>
+                              <span>Review Application</span>
                               <ArrowRight className="w-3.5 h-3.5" />
                             </button>
                           </div>
@@ -579,142 +564,10 @@ export default function JobClient() {
                       )}
 
                       {/* STEP 3: Security Sandbox */}
-                      {formStep === 3 && (
-                        <div className="space-y-5">
-                          <div className="flex justify-between items-start">
-                            <div>
-                              <h3 className="font-display font-extrabold text-lg text-white">HIPAA Cloud Hardening & DevSecOps Sandbox</h3>
-                              <p className="text-xs text-gray-400 mt-1">
-                                Secure the VPC ingress boundaries, secrets storage keys, and CI/CD container dependencies.
-                              </p>
-                            </div>
-                            <span className="text-[9px] font-bold px-2 py-0.5 bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/20 rounded font-mono">
-                              Cloud Hardening
-                            </span>
-                          </div>
-
-                          {/* SANDBOX CHALLENGE */}
-                          <div className="space-y-4 font-sans text-xs">
-                            
-                            {/* Scenario 1 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-cyan rounded-full shrink-0" />
-                                <span>Parameter 1: VPC Public Ingress Security</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;How should public web traffic ingress to the clinical SaaS platform be configured at the VPC boundary?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={sandboxSetup.networkIngress}
-                                  onChange={(e) => setSandboxSetup(prev => ({ ...prev, networkIngress: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Ingress Policy --</option>
-                                  <option value="waf_alb_block">Enforce AWS WAF rate-limits on an ALB and restrict hosts via security group whitelists (Correct!)</option>
-                                  <option value="direct_igw">Route public internet traffic directly to ECS container hosts via an internet gateway</option>
-                                  <option value="open_security_group">Open port 80/443 on the database subnet security group to allow sync operations</option>
-                                </select>
-                              </div>
-                            </div>
-
-                            {/* Scenario 2 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-indigo rounded-full shrink-0" />
-                                <span>Parameter 2: Database Credentials Secrets Storage</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;Which secrets mapping method secures database login credentials used by API microservices?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={sandboxSetup.secretsManagement}
-                                  onChange={(e) => setSandboxSetup(prev => ({ ...prev, secretsManagement: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Storage Method --</option>
-                                  <option value="secrets_manager_kms">Store in Secrets Manager, encrypted via managed KMS key with auto-rotation every 30 days (Correct!)</option>
-                                  <option value="env_var_plain">Inject credentials as plaintext environment variables inside the ECS Task Definition file</option>
-                                  <option value="hardcoded_repo">Commit credentials directly to a private GitHub repository for direct reference</option>
-                                </select>
-                              </div>
-                            </div>
-
-                            {/* Scenario 3 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-emerald rounded-full shrink-0" />
-                                <span>Parameter 3: CI/CD Container Vulnerability Scans</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;How should Docker containers be scanned and validated before cluster deployments?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={sandboxSetup.containerSecurity}
-                                  onChange={(e) => setSandboxSetup(prev => ({ ...prev, containerSecurity: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Scanning Rule --</option>
-                                  <option value="trivy_scan_block">Trigger Trivy scans in the CI build step, failing build if CRITICAL CVEs are found (Correct!)</option>
-                                  <option value="periodic_audit">Deploy image immediately, scheduling security scans on containers once a month</option>
-                                  <option value="bypass_internal">Scan public-facing web components only, bypassing scans on internal microservices</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Error message */}
-                          {sandboxError && (
-                            <div className="flex items-start space-x-2.5 p-3.5 bg-red-950/40 border border-red-500/20 text-red-300 rounded-xl text-xs">
-                              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                              <span>{sandboxError}</span>
-                            </div>
-                          )}
-
-                          {/* Correct notification */}
-                          {sandboxSuccess && (
-                            <div className="flex items-start space-x-2.5 p-3.5 bg-brand-emerald/10 border border-brand-emerald/20 text-brand-emerald rounded-xl text-xs">
-                              <CheckCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                              <span>Hardening parameters verified! WAF/ALB rate limits configured, customer KMS rotation active, and Trivy build-gating scans enabled.</span>
-                            </div>
-                          )}
-
-                          <div className="pt-4 flex justify-between">
-                            <button
-                              type="button"
-                              onClick={() => setFormStep(2)}
-                              className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
-                            >
-                              <span>Back</span>
-                            </button>
-                            
-                            {!sandboxSuccess ? (
-                              <button
-                                type="button"
-                                onClick={validateSandbox}
-                                className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs cursor-pointer"
-                              >
-                                <span>Audit Cloud Hardening ({sandboxAttempts} attempts)</span>
-                              </button>
-                            ) : (
-                              <button
-                                type="button"
-                                onClick={() => setFormStep(4)}
-                                className="inline-flex items-center space-x-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold px-5 py-3 rounded-xl hover:opacity-95 transition-opacity text-xs cursor-pointer"
-                              >
-                                <span>Proceed to Review</span>
-                                <ArrowRight className="w-3.5 h-3.5" />
-                              </button>
-                            )}
-                          </div>
-                        </div>
-                      )}
+                      
 
                       {/* STEP 4: Review and Submit */}
-                      {formStep === 4 && (
+                      {formStep === 3 && (
                         <div className="space-y-5">
                           <h3 className="font-display font-extrabold text-lg text-white">Review & Submit Application</h3>
                           
@@ -739,19 +592,13 @@ export default function JobClient() {
                               <p className="text-gray-300"><span className="text-gray-500 font-sans">Terraform OPA Comfort:</span> {formData.hipaaFamiliar}</p>
                             </div>
 
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-1.5">
-                              <p className="text-gray-500 uppercase text-[10px] tracking-wider mb-2 font-bold font-sans">Sandbox Audit Validation</p>
-                              <p className="text-brand-emerald flex items-center space-x-1.5">
-                                <CheckCircle className="w-3.5 h-3.5" />
-                                <span>WAF/ALB ingress, customer KMS database secrets rotation, and Trivy CI build-gating scans approved</span>
-                              </p>
-                            </div>
+                            
                           </div>
 
                           <div className="pt-4 flex justify-between">
                             <button
                               type="button"
-                              onClick={() => setFormStep(3)}
+                              onClick={() => setFormStep(2)}
                               className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
                             >
                               <span>Back</span>

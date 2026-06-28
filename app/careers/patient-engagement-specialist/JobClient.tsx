@@ -31,15 +31,7 @@ export default function JobClient() {
   });
 
   // Campaign Sandbox State
-  const [scenarios, setScenarios] = useState({
-    cohortSelect: "",
-    channelSelect: "",
-    ctaSelect: ""
-  });
-  const [sandboxAttempts, setSandboxAttempts] = useState(0);
-  const [sandboxSuccess, setSandboxSuccess] = useState(false);
-  const [sandboxError, setSandboxError] = useState("");
-
+        
   // Submission States
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -81,37 +73,30 @@ export default function JobClient() {
     }
   };
 
-  const validateScenarios = () => {
-    setSandboxAttempts(prev => prev + 1);
-    
-    // Correct choices:
-    // cohortSelect -> wellness_overdue (Patients overdue for annual wellness exams)
-    // channelSelect -> portal_sms (Secure Portal Message with automated SMS fallback)
-    // ctaSelect -> direct_scheduling (Direct link to self-scheduling patient portal calendar)
-    
-    const correct1 = scenarios.cohortSelect === "wellness_overdue";
-    const correct2 = scenarios.channelSelect === "portal_sms";
-    const correct3 = scenarios.ctaSelect === "direct_scheduling";
-    
-    if (correct1 && correct2 && correct3) {
-      setSandboxSuccess(true);
-      setSandboxError("");
-    } else {
-      setSandboxSuccess(false);
-      let incorrectCount = 0;
-      if (!correct1) incorrectCount++;
-      if (!correct2) incorrectCount++;
-      if (!correct3) incorrectCount++;
-      
-      setSandboxError(
-        `Campaign configuration suboptimal. ${incorrectCount}/3 settings mapped incorrectly. Hint: Cohort targets patients needing wellness visits; highest conversion channel leverages secure portals + SMS reminders; CTA should direct patients to self-scheduling.`
-      );
-    }
-  };
-
+  
   const submitApplication = async () => {
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    try {
+      const res = await fetch("/api/careers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          portfolioUrl: formData.portfolioUrl,
+          resumeName: formData.resumeName,
+          position: "Patient Engagement Specialist",
+          extraFields: {
+            ...formData
+          }
+        }),
+      });
+      if (!res.ok) {
+        console.error("Failed to submit application");
+      }
+    } catch (err) {
+      console.error("Submit error:", err);
+    }
     setIsSubmitting(false);
     setSubmitSuccess(true);
   };
@@ -453,18 +438,18 @@ export default function JobClient() {
               {/* Progress bar */}
               <div className="mb-8">
                 <div className="flex justify-between text-xs text-gray-400 mb-2 font-mono">
-                  <span>STEP {formStep} OF 4</span>
+                  <span>Step {formStep} of 3</span>
                   <span>
                     {formStep === 1 && "Personal Information"}
                     {formStep === 2 && "Patient Care Background"}
-                    {formStep === 3 && "Campaign Design Sandbox"}
-                    {formStep === 4 && "Review & Submit"}
+                    
+                    {formStep === 3 && "Review & Submit"}
                   </span>
                 </div>
                 <div className="w-full bg-slate-900 border border-brand-border h-2 rounded-full overflow-hidden">
                   <div
                     className="bg-gradient-to-r from-brand-cyan to-brand-indigo h-full transition-all duration-300"
-                    style={{ width: `${(formStep / 4) * 100}%` }}
+                    style={{ width: `${(formStep / 3) * 100}%` }}
                   />
                 </div>
               </div>
@@ -501,9 +486,9 @@ export default function JobClient() {
                       onClick={() => {
                         setFormStep(1);
                         setSubmitSuccess(false);
-                        setSandboxSuccess(false);
-                        setSandboxAttempts(0);
-                        setScenarios({ cohortSelect: "", channelSelect: "", ctaSelect: "" });
+                        
+                        
+                        
                         setFormData({
                           name: "",
                           email: "",
@@ -680,142 +665,10 @@ export default function JobClient() {
                     )}
 
                     {/* STEP 3: Campaign Sandbox */}
-                    {formStep === 3 && (
-                      <div className="space-y-5">
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <h3 className="font-display font-extrabold text-lg text-white">Outreach Campaign Design Sandbox</h3>
-                            <p className="text-xs text-gray-400 mt-1">
-                              Configure an automated clinical outreach sequence targeting patient preventative care scheduling.
-                            </p>
-                          </div>
-                          <span className="text-[9px] font-bold px-2 py-0.5 bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/20 rounded font-mono">
-                            Outreach Challenge
-                          </span>
-                        </div>
-
-                        {/* MAPPING INTERFACE */}
-                        <div className="space-y-4 font-sans text-xs">
-                          
-                          {/* Step 1 */}
-                          <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                            <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                              <span className="w-2 h-2 bg-brand-cyan rounded-full shrink-0" />
-                              <span>Parameter 1: Target Patient Cohort Selection</span>
-                            </div>
-                            <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                              &quot;Choose the clinical cohort group representing patients needing annual wellness examinations.&quot;
-                            </p>
-                            <div>
-                              <select
-                                value={scenarios.cohortSelect}
-                                onChange={(e) => setScenarios(prev => ({ ...prev, cohortSelect: e.target.value }))}
-                                className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                              >
-                                <option value="">-- Choose Target Cohort --</option>
-                                <option value="all_active">All active patients regardless of condition or history</option>
-                                <option value="wellness_overdue">Patients overdue for annual wellness exams (Correct!)</option>
-                                <option value="canceled_visits">Patients who canceled their last appointment</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          {/* Step 2 */}
-                          <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                            <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                              <span className="w-2 h-2 bg-brand-indigo rounded-full shrink-0" />
-                              <span>Parameter 2: Outreach Channel Selection</span>
-                            </div>
-                            <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                              &quot;Select the communication flow that balances high patient conversion rate with modern digital preferences.&quot;
-                            </p>
-                            <div>
-                              <select
-                                value={scenarios.channelSelect}
-                                onChange={(e) => setScenarios(prev => ({ ...prev, channelSelect: e.target.value }))}
-                                className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                              >
-                                <option value="">-- Choose Channel --</option>
-                                <option value="portal_sms">Secure Portal Message with automated SMS fallback (Correct!)</option>
-                                <option value="cold_call">Cold-call by front desk during morning hours</option>
-                                <option value="direct_mail">Direct mail flyer to patient home address</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          {/* Step 3 */}
-                          <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                            <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                              <span className="w-2 h-2 bg-brand-emerald rounded-full shrink-0" />
-                              <span>Parameter 3: Primary Campaign Call-to-Action (CTA)</span>
-                            </div>
-                            <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                              &quot;Specify the destination or action patients should perform to minimize clinic friction.&quot;
-                            </p>
-                            <div>
-                              <select
-                                value={scenarios.ctaSelect}
-                                onChange={(e) => setScenarios(prev => ({ ...prev, ctaSelect: e.target.value }))}
-                                className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                              >
-                                <option value="">-- Choose CTA --</option>
-                                <option value="phone_call">Phone number link to call the clinic main intake line</option>
-                                <option value="direct_scheduling">Direct link to self-scheduling patient portal calendar (Correct!)</option>
-                                <option value="educational_link">Link to educational article about general preventative health</option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Error message */}
-                        {sandboxError && (
-                          <div className="flex items-start space-x-2.5 p-3.5 bg-red-950/40 border border-red-500/20 text-red-300 rounded-xl text-xs">
-                            <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                            <span>{sandboxError}</span>
-                          </div>
-                        )}
-
-                        {/* Correct notification */}
-                        {sandboxSuccess && (
-                          <div className="flex items-start space-x-2.5 p-3.5 bg-brand-emerald/10 border border-brand-emerald/20 text-brand-emerald rounded-xl text-xs">
-                            <CheckCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                            <span>Campaign verified! All outreach parameters align with high-conversion defaults.</span>
-                          </div>
-                        )}
-
-                        <div className="pt-4 flex justify-between">
-                          <button
-                            type="button"
-                            onClick={() => setFormStep(2)}
-                            className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
-                          >
-                            <span>Back</span>
-                          </button>
-                          
-                          {!sandboxSuccess ? (
-                            <button
-                              type="button"
-                              onClick={validateScenarios}
-                              className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs cursor-pointer"
-                            >
-                              <span>Test Outreach Configuration ({sandboxAttempts} attempts)</span>
-                            </button>
-                          ) : (
-                            <button
-                              type="button"
-                              onClick={() => setFormStep(4)}
-                              className="inline-flex items-center space-x-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold px-5 py-3 rounded-xl hover:opacity-95 transition-opacity text-xs cursor-pointer"
-                            >
-                              <span>Proceed to Review</span>
-                              <ArrowRight className="w-3.5 h-3.5" />
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                    )}
+                    
 
                     {/* STEP 4: Review and Submit */}
-                    {formStep === 4 && (
+                    {formStep === 3 && (
                       <div className="space-y-5">
                         <h3 className="font-display font-extrabold text-lg text-white">Review & Submit Application</h3>
                         
@@ -840,19 +693,13 @@ export default function JobClient() {
                             <p className="text-gray-300"><span className="text-gray-500">Advisory comfort:</span> {formData.hipaaFamiliar}</p>
                           </div>
 
-                          <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-1.5">
-                            <p className="text-gray-500 uppercase text-[10px] tracking-wider mb-2 font-bold">Outreach Sandbox Validation</p>
-                            <p className="text-brand-emerald flex items-center space-x-1.5">
-                              <CheckCircle className="w-3.5 h-3.5" />
-                              <span>Preventative care outreach campaign target parameters validated successfully</span>
-                            </p>
-                          </div>
+                          
                         </div>
 
                         <div className="pt-4 flex justify-between">
                           <button
                             type="button"
-                            onClick={() => setFormStep(3)}
+                            onClick={() => setFormStep(2)}
                             className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
                           >
                             <span>Back</span>

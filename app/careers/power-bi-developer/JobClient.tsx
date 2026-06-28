@@ -30,15 +30,7 @@ export default function JobClient() {
   });
 
   // BI Sandbox State
-  const [sandboxSetup, setSandboxSetup] = useState({
-    daxMetric: "",
-    relationship: "",
-    rlsRule: ""
-  });
-  const [sandboxAttempts, setSandboxAttempts] = useState(0);
-  const [sandboxSuccess, setSandboxSuccess] = useState(false);
-  const [sandboxError, setSandboxError] = useState("");
-
+        
   // Submission States
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -80,37 +72,30 @@ export default function JobClient() {
     }
   };
 
-  const validateSandbox = () => {
-    setSandboxAttempts(prev => prev + 1);
-    
-    // Correct choices:
-    // daxMetric -> totalytd_distinct (TOTALYTD(DISTINCTCOUNT(Visits[PatientID]), 'Calendar'[Date]))
-    // relationship -> one_to_many (One-to-Many (1:*) relationship from Calendar[Date] to Visits[VisitDate])
-    // rlsRule -> lookupvalue_upn ([DepartmentID] = LOOKUPVALUE(Staff[DepartmentID], Staff[Email], USERPRINCIPALNAME()))
-    
-    const correctDax = sandboxSetup.daxMetric === "totalytd_distinct";
-    const correctRelation = sandboxSetup.relationship === "one_to_many";
-    const correctRls = sandboxSetup.rlsRule === "lookupvalue_upn";
-    
-    if (correctDax && correctRelation && correctRls) {
-      setSandboxSuccess(true);
-      setSandboxError("");
-    } else {
-      setSandboxSuccess(false);
-      let incorrectCount = 0;
-      if (!correctDax) incorrectCount++;
-      if (!correctRelation) incorrectCount++;
-      if (!correctRls) incorrectCount++;
-      
-      setSandboxError(
-        `Sandbox validation failed. ${incorrectCount}/3 model configurations contain errors. Hint: Ensure you count unique patient IDs rather than counting total encounter rows; build a standard one-to-many relationship from the Calendar date dimension; and configure dynamic RLS by mapping clinician emails via USERPRINCIPALNAME.`
-      );
-    }
-  };
-
+  
   const submitApplication = async () => {
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    try {
+      const res = await fetch("/api/careers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          portfolioUrl: formData.portfolioUrl,
+          resumeName: formData.resumeName,
+          position: "Power BI Developer",
+          extraFields: {
+            ...formData
+          }
+        }),
+      });
+      if (!res.ok) {
+        console.error("Failed to submit application");
+      }
+    } catch (err) {
+      console.error("Submit error:", err);
+    }
     setIsSubmitting(false);
     setSubmitSuccess(true);
   };
@@ -375,9 +360,9 @@ export default function JobClient() {
                       <span className={formStep === 1 ? "text-brand-cyan font-bold" : "text-gray-500"}>01. Profile</span>
                       <span className={formStep === 2 ? "text-brand-cyan font-bold" : "text-gray-500"}>02. Experience</span>
                       <span className={formStep === 3 ? "text-brand-cyan font-bold" : "text-gray-500"}>03. BI Sandbox</span>
-                      <span className={formStep === 4 ? "text-brand-cyan font-bold" : "text-gray-500"}>04. Submit</span>
+                      
                     </div>
-                    <span className="text-gray-500">Step {formStep} of 4</span>
+                    <span className="text-gray-500">Step {formStep} of 3</span>
                   </div>
 
                   {submitSuccess ? (
@@ -400,9 +385,9 @@ export default function JobClient() {
                         onClick={() => {
                           setFormStep(1);
                           setSubmitSuccess(false);
-                          setSandboxSuccess(false);
-                          setSandboxAttempts(0);
-                          setSandboxSetup({ daxMetric: "", relationship: "", rlsRule: "" });
+                          
+                          
+                          
                           setFormData({
                             name: "",
                             email: "",
@@ -580,142 +565,10 @@ export default function JobClient() {
                       )}
 
                       {/* STEP 3: BI Sandbox */}
-                      {formStep === 3 && (
-                        <div className="space-y-5">
-                          <div className="flex justify-between items-start">
-                            <div>
-                              <h3 className="font-display font-extrabold text-lg text-white">Power BI Data Modeling & DAX Sandbox</h3>
-                              <p className="text-xs text-gray-400 mt-1">
-                                Configure the data schema properties and RLS security policies for a patient encounters database.
-                              </p>
-                            </div>
-                            <span className="text-[9px] font-bold px-2 py-0.5 bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/20 rounded font-mono">
-                              Modeling Quiz
-                            </span>
-                          </div>
-
-                          {/* SANDBOX CHALLENGE */}
-                          <div className="space-y-4 font-sans text-xs">
-                            
-                            {/* Scenario 1 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-cyan rounded-full shrink-0" />
-                                <span>Parameter 1: DAX YTD Patient Metric Formula</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;Which DAX measure formula calculates Year-to-Date (YTD) unique patients based on the Visits table and the Calendar dimension?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={sandboxSetup.daxMetric}
-                                  onChange={(e) => setSandboxSetup(prev => ({ ...prev, daxMetric: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Formula --</option>
-                                  <option value="totalytd_distinct">TOTALYTD(DISTINCTCOUNT(Visits[PatientID]), &apos;Calendar&apos;[Date]) (Correct!)</option>
-                                  <option value="totalytd_count">TOTALYTD(COUNT(Visits[PatientID]), &apos;Calendar&apos;[Date])</option>
-                                  <option value="sum_ytd">CALCULATE(SUM(Visits[PatientID]), DATESYTD(&apos;Calendar&apos;[Date]))</option>
-                                </select>
-                              </div>
-                            </div>
-
-                            {/* Scenario 2 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-indigo rounded-full shrink-0" />
-                                <span>Parameter 2: Star-Schema Relationship Configuration</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;What data relationship topology is recommended between Calendar[Date] and Visits[VisitDate]?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={sandboxSetup.relationship}
-                                  onChange={(e) => setSandboxSetup(prev => ({ ...prev, relationship: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose Relationship --</option>
-                                  <option value="one_to_many">One-to-Many (1:*) relationship from Calendar[Date] to Visits[VisitDate] (Correct!)</option>
-                                  <option value="many_to_many">Many-to-Many (*:*) relationship with bi-directional cross filtering active</option>
-                                  <option value="one_to_one">One-to-One (1:1) relationship with single-direction filtering active</option>
-                                </select>
-                              </div>
-                            </div>
-
-                            {/* Scenario 3 */}
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-3">
-                              <div className="font-mono text-white text-xs font-semibold flex items-center space-x-2">
-                                <span className="w-2 h-2 bg-brand-emerald rounded-full shrink-0" />
-                                <span>Parameter 3: Dynamic RLS Policy for HIPAA Containment</span>
-                              </div>
-                              <p className="text-gray-400 italic text-[11px] leading-relaxed">
-                                &quot;Which DAX dynamic row-level security (RLS) formula restricts clinicians to their specific authorized departments?&quot;
-                              </p>
-                              <div>
-                                <select
-                                  value={sandboxSetup.rlsRule}
-                                  onChange={(e) => setSandboxSetup(prev => ({ ...prev, rlsRule: e.target.value }))}
-                                  className="w-full bg-brand-bg border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan"
-                                >
-                                  <option value="">-- Choose RLS Rule --</option>
-                                  <option value="lookupvalue_upn">[DepartmentID] = LOOKUPVALUE(Staff[DepartmentID], Staff[Email], USERPRINCIPALNAME()) (Correct!)</option>
-                                  <option value="static_neuro">[DepartmentID] = &quot;Neurology&quot;</option>
-                                  <option value="allow_all">[DepartmentID] &lt;&gt; NULL</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Error message */}
-                          {sandboxError && (
-                            <div className="flex items-start space-x-2.5 p-3.5 bg-red-950/40 border border-red-500/20 text-red-300 rounded-xl text-xs">
-                              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                              <span>{sandboxError}</span>
-                            </div>
-                          )}
-
-                          {/* Correct notification */}
-                          {sandboxSuccess && (
-                            <div className="flex items-start space-x-2.5 p-3.5 bg-brand-emerald/10 border border-brand-emerald/20 text-brand-emerald rounded-xl text-xs">
-                              <CheckCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                              <span>Modeling checks complete! DAX TOTALYTD DISTINCTCOUNT verified, One-to-Many Calendar relation set, and dynamic dynamic UPN-LOOKUPVALUE RLS policy approved.</span>
-                            </div>
-                          )}
-
-                          <div className="pt-4 flex justify-between">
-                            <button
-                              type="button"
-                              onClick={() => setFormStep(2)}
-                              className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
-                            >
-                              <span>Back</span>
-                            </button>
-                            
-                            {!sandboxSuccess ? (
-                              <button
-                                type="button"
-                                onClick={validateSandbox}
-                                className="inline-flex items-center space-x-2 bg-brand-cyan text-brand-bg font-bold px-5 py-3 rounded-xl hover:opacity-90 transition-opacity text-xs cursor-pointer"
-                              >
-                                <span>Audit Modeling Setup ({sandboxAttempts} attempts)</span>
-                              </button>
-                            ) : (
-                              <button
-                                type="button"
-                                onClick={() => setFormStep(4)}
-                                className="inline-flex items-center space-x-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold px-5 py-3 rounded-xl hover:opacity-95 transition-opacity text-xs cursor-pointer"
-                              >
-                                <span>Proceed to Review</span>
-                                <ArrowRight className="w-3.5 h-3.5" />
-                              </button>
-                            )}
-                          </div>
-                        </div>
-                      )}
+                      
 
                       {/* STEP 4: Review and Submit */}
-                      {formStep === 4 && (
+                      {formStep === 3 && (
                         <div className="space-y-5">
                           <h3 className="font-display font-extrabold text-lg text-white">Review & Submit Application</h3>
                           
@@ -740,19 +593,13 @@ export default function JobClient() {
                               <p className="text-gray-300"><span className="text-gray-500 font-sans">HIPAA Dynamic RLS Comfort:</span> {formData.hipaaFamiliar}</p>
                             </div>
 
-                            <div className="bg-white/2 border border-white/5 p-4 rounded-xl space-y-1.5">
-                              <p className="text-gray-500 uppercase text-[10px] tracking-wider mb-2 font-bold font-sans">Sandbox Audit Validation</p>
-                              <p className="text-brand-emerald flex items-center space-x-1.5">
-                                <CheckCircle className="w-3.5 h-3.5" />
-                                <span>DAX YTD Patients, 1:* Star Schema, and dynamic dynamic UPN-LOOKUPVALUE RLS approved</span>
-                              </p>
-                            </div>
+                            
                           </div>
 
                           <div className="pt-4 flex justify-between">
                             <button
                               type="button"
-                              onClick={() => setFormStep(3)}
+                              onClick={() => setFormStep(2)}
                               className="inline-flex items-center space-x-2 border border-brand-border text-gray-300 hover:text-white font-semibold px-5 py-3 rounded-xl transition-colors text-xs cursor-pointer"
                             >
                               <span>Back</span>
