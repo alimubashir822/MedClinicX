@@ -873,6 +873,39 @@ export default function SeoServicesClient() {
         </div>
       </section>
 
+      {/* 11.5. FINAL CTA SECTION */}
+      <section id="cta" className="max-w-7xl mx-auto px-6 py-12 relative z-10 scroll-mt-20">
+        <div className="relative rounded-3xl overflow-hidden border border-brand-cyan/20">
+          <div className="absolute inset-0 bg-gradient-to-br from-[#071828] via-[#0a1f30] to-[#0d1a2e]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(6,182,212,0.12),transparent_60%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(99,102,241,0.10),transparent_60%)]" />
+          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-cyan/40 to-transparent" />
+          <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.1) 1px,transparent 1px)", backgroundSize: "48px 48px" }} />
+
+          <div className="relative p-10 sm:p-16 text-center">
+            <div className="inline-flex items-center gap-2 bg-brand-cyan/15 rounded-full px-3 py-1 mb-6">
+              <Sparkles className="w-3.5 h-3.5 text-brand-cyan animate-pulse" />
+              <span className="text-[10px] font-bold text-brand-cyan uppercase tracking-wider">Ready to Build?</span>
+            </div>
+            <h2 className="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl text-white tracking-tight leading-tight mb-4 max-w-3xl mx-auto">
+              Ready To Build Your Healthcare Digital Experience?
+            </h2>
+            <p className="text-base text-gray-400 leading-relaxed mb-8 max-w-xl mx-auto">
+              Book a discovery call with our digital health engineering specialists to audit your current platform, calculate ROI, and plan your full software rollout — at no cost.
+            </p>
+
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
+              <a href="#consultation" className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold text-sm px-8 py-4 rounded-xl shadow-lg shadow-brand-cyan/20 hover:scale-[1.01] active:scale-[0.99] transition-all cursor-pointer">
+                Schedule a Discovery Call <ArrowRight className="w-4 h-4" />
+              </a>
+              <Link href="/services" className="inline-flex items-center justify-center glass-panel border border-brand-border/60 hover:border-brand-cyan/25 text-sm font-semibold text-gray-300 hover:text-white px-8 py-4 rounded-xl transition-all">
+                View All Services
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* 12. CONSULTATION / BOOKING FORM SECTION */}
       <section id="consultation" className="max-w-3xl mx-auto px-6 py-20 md:py-28 border-t border-brand-border/40 relative z-10">
         <div className="glass-panel rounded-3xl p-6 md:p-10 border border-brand-border relative overflow-hidden">
