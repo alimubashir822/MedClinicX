@@ -3600,7 +3600,7 @@ export const blogPosts: Record<string, BlogPost> = {
   },
   "post-22": {
   "id": "post-22",
-  "title": "How to Optimize the Patient Journey: A Complete Guide for Modern Healthcare Organizations",
+  "title": "How to Optimize the Patient Journey",
   "category": "Patient Experience",
   "excerpt": "Learn patient journey optimization strategies to improve healthcare experience, increase patient engagement, and grow your clinic with digital solutions.",
   "summary": "Learn patient journey optimization strategies to improve healthcare experience, increase patient engagement, and grow your clinic with digital solutions.",
@@ -4709,7 +4709,7 @@ export const blogPosts: Record<string, BlogPost> = {
 },
   "post-23": {
   "id": "post-23",
-  "title": "Healthcare UX Design Best Practices: How Modern Healthcare Organizations Improve Patient Experience and Digital Performance",
+  "title": "Healthcare UX Design Best Practices",
   "category": "Patient Experience",
   "excerpt": "Explore healthcare UX design best practices to improve patient experience, boost engagement, and drive healthcare growth through better digital systems.",
   "summary": "Explore healthcare UX design best practices to improve patient experience, boost engagement, and drive healthcare growth through better digital systems.",
@@ -5731,7 +5731,7 @@ export const blogPosts: Record<string, BlogPost> = {
 },
   "post-24": {
   "id": "post-24",
-  "title": "Why Healthcare UX Matters: Improving Patient Experience, Engagement, and Digital Healthcare Growth",
+  "title": "Why Healthcare UX Design Matters",
   "category": "Patient Experience",
   "excerpt": "Discover why healthcare user experience matters for patient engagement, healthcare growth, and digital transformation in modern clinics and hospitals.",
   "summary": "Discover why healthcare user experience matters for patient engagement, healthcare growth, and digital transformation in modern clinics and hospitals.",
@@ -6683,7 +6683,7 @@ export const blogPosts: Record<string, BlogPost> = {
 },
   "post-19": {
   "id": "post-19",
-  "title": "Healthcare Customer Experience: How Modern Healthcare Organizations Improve Patient Satisfaction and Growth",
+  "title": "Healthcare Customer Experience Guide",
   "category": "Patient Experience",
   "excerpt": "Improve healthcare customer experience with digital tools, patient engagement strategies, and healthcare technology to boost satisfaction and growth.",
   "summary": "Improve healthcare customer experience with digital tools, patient engagement strategies, and healthcare technology to boost satisfaction and growth.",
@@ -7504,7 +7504,7 @@ export const blogPosts: Record<string, BlogPost> = {
 },
   "post-20": {
   "id": "post-20",
-  "title": "Healthcare Customer Journey Explained: How Modern Healthcare Organizations Improve Patient Experience and Growth",
+  "title": "Healthcare Customer Journey Guide",
   "category": "Patient Experience",
   "excerpt": "Understand the healthcare customer journey and learn how clinics improve patient experience, engagement, and growth using digital healthcare solutions.",
   "summary": "Understand the healthcare customer journey and learn how clinics improve patient experience, engagement, and growth using digital healthcare solutions.",
@@ -8605,7 +8605,7 @@ export const blogPosts: Record<string, BlogPost> = {
 },
   "post-21": {
   "id": "post-21",
-  "title": "Patient Journey Mapping in Healthcare: How Modern Healthcare Organizations Improve Experience, Trust, and Growth",
+  "title": "Patient Journey Mapping in Healthcare",
   "category": "Patient Experience",
   "excerpt": "Improve patient journey healthcare strategies with mapping techniques, digital tools, and healthcare solutions to enhance experience and clinic growth.",
   "summary": "Improve patient journey healthcare strategies with mapping techniques, digital tools, and healthcare solutions to enhance experience and clinic growth.",
@@ -9680,7 +9680,7 @@ export const blogPosts: Record<string, BlogPost> = {
 },
   "post-26": {
   "id": "post-26",
-  "title": "Healthcare Workflow Automation Benefits: How Modern Healthcare Organizations Improve Efficiency, Patient Experience, and Growth",
+  "title": "Healthcare Workflow Automation Benefits",
   "category": "Medical Technology",
   "excerpt": "Explore healthcare workflow automation benefits to improve efficiency, reduce costs, and enhance patient experience with modern healthcare solutions.",
   "summary": "Explore healthcare workflow automation benefits to improve efficiency, reduce costs, and enhance patient experience with modern healthcare solutions.",
@@ -10510,7 +10510,7 @@ export const blogPosts: Record<string, BlogPost> = {
 },
   "post-27": {
   "id": "post-27",
-  "title": "Improving Healthcare Operational Efficiency: How Modern Healthcare Systems Reduce Costs, Improve Care, and Scale Growth",
+  "title": "Improving Healthcare Operational Efficiency",
   "category": "Clinic Growth",
   "excerpt": "Improve healthcare operational efficiency with automation, digital tools, and workflow optimization to reduce costs and enhance patient care outcomes.",
   "summary": "Improve healthcare operational efficiency with automation, digital tools, and workflow optimization to reduce costs and enhance patient care outcomes.",
@@ -11291,7 +11291,7 @@ export const blogPosts: Record<string, BlogPost> = {
 },
   "post-28": {
   "id": "post-28",
-  "title": "How Automation Improves Clinic Operations: Building a Scalable Healthcare Automation Platform for Modern Practices",
+  "title": "How Automation Improves Clinic Operations",
   "category": "Clinic Growth",
   "excerpt": "Discover how a healthcare automation platform improves clinic operations, reduces costs, and enhances patient experience with modern digital workflows.",
   "summary": "Discover how a healthcare automation platform improves clinic operations, reduces costs, and enhances patient experience with modern digital workflows.",
@@ -12193,7 +12193,7 @@ export const blogPosts: Record<string, BlogPost> = {
 },
   "post-29": {
   "id": "post-29",
-  "title": "Healthcare App Development Cost Guide: Factors, Pricing Models, and Budget Planning for Healthcare Organizations",
+  "title": "Healthcare App Development Cost Guide",
   "category": "Medical Technology",
   "excerpt": "Understand healthcare app development cost, key pricing factors, and budgeting strategies for building scalable healthcare apps and digital platforms.",
   "summary": "Understand healthcare app development cost, key pricing factors, and budgeting strategies for building scalable healthcare apps and digital platforms.",
@@ -13117,7 +13117,7 @@ export const blogPosts: Record<string, BlogPost> = {
 },
   "post-30": {
   "id": "post-30",
-  "title": "Best Healthcare App Ideas for Startups: Innovative Digital Health Solutions to Build Scalable Healthcare Businesses",
+  "title": "Best Healthcare App Ideas for Startups",
   "category": "Clinic Growth",
   "excerpt": "Explore the best healthcare app ideas for startups to build scalable digital health solutions, improve patient care, and drive healthcare innovation.",
   "summary": "Explore the best healthcare app ideas for startups to build scalable digital health solutions, improve patient care, and drive healthcare innovation.",
@@ -14071,7 +14071,7 @@ export const blogPosts: Record<string, BlogPost> = {
 },
   "post-31": {
   "id": "post-31",
-  "title": "Healthcare Mobile App Features Guide: Essential Features for Modern Digital Healthcare Solutions",
+  "title": "Healthcare Mobile App Features Guide",
   "category": "Medical Technology",
   "excerpt": "Explore essential healthcare mobile application features that improve patient care, streamline workflows, and drive digital healthcare transformation.",
   "summary": "Explore essential healthcare mobile application features that improve patient care, streamline workflows, and drive digital healthcare transformation.",
@@ -15003,7 +15003,7 @@ export const blogPosts: Record<string, BlogPost> = {
 },
   "post-32": {
   "id": "post-32",
-  "title": "Patient Portal Features Every Clinic Needs: Essential Tools for Better Patient Engagement and Digital Care",
+  "title": "Patient Portal Features Every Clinic Needs",
   "category": "Patient Experience",
   "excerpt": "Discover essential patient portal features every clinic needs to improve engagement, streamline care, and enhance digital healthcare experiences.",
   "summary": "Discover essential patient portal features every clinic needs to improve engagement, streamline care, and enhance digital healthcare experiences.",
@@ -15924,7 +15924,7 @@ export const blogPosts: Record<string, BlogPost> = {
 },
   "post-33": {
   "id": "post-33",
-  "title": "Benefits of Patient Portals in Healthcare: How Digital Access Improves Care, Efficiency, and Patient Engagement",
+  "title": "Benefits of Patient Portals in Healthcare",
   "category": "Patient Experience",
   "excerpt": "Discover key patient portal benefits in healthcare, including improved engagement, efficiency, and care delivery for modern digital health systems.",
   "summary": "Discover key patient portal benefits in healthcare, including improved engagement, efficiency, and care delivery for modern digital health systems.",
@@ -16853,7 +16853,7 @@ export const blogPosts: Record<string, BlogPost> = {
 },
   "post-34": {
   "id": "post-34",
-  "title": "Why Healthcare Organizations Need a Patient Feedback System to Improve Care Quality & Growth",
+  "title": "Why Clinics Need Patient Feedback Systems",
   "category": "Clinic Growth",
   "excerpt": "Discover why a patient feedback system is essential for healthcare organizations to improve care quality, patient satisfaction, and operational performance.",
   "summary": "Discover why a patient feedback system is essential for healthcare organizations to improve care quality, patient satisfaction, and operational performance.",
@@ -17627,7 +17627,7 @@ export const blogPosts: Record<string, BlogPost> = {
 },
   "post-35": {
   "id": "post-35",
-  "title": "Improving Doctor-Patient Communication: How Modern Software Enhances Care Quality and Engagement",
+  "title": "Improving Doctor-Patient Communication",
   "category": "Patient Experience",
   "excerpt": "Discover how doctor patient communication software improves care quality, patient trust, and clinic efficiency through secure digital healthcare communication tools.",
   "summary": "Discover how doctor patient communication software improves care quality, patient trust, and clinic efficiency through secure digital healthcare communication tools.",
@@ -18351,7 +18351,7 @@ export const blogPosts: Record<string, BlogPost> = {
 },
   "post-36": {
   "id": "post-36",
-  "title": "Digital Front Door Strategy in Healthcare: How Modern Providers Improve Access, Experience, and Patient Growth",
+  "title": "Digital Front Door Strategy in Healthcare",
   "category": "Clinic Growth",
   "excerpt": "Explore the digital front door healthcare strategy and how it improves patient access, engagement, and growth for modern healthcare organizations.",
   "summary": "Explore the digital front door healthcare strategy and how it improves patient access, engagement, and growth for modern healthcare organizations.",
@@ -19262,7 +19262,7 @@ export const blogPosts: Record<string, BlogPost> = {
 },
   "post-37": {
   "id": "post-37",
-  "title": "Healthcare Onboarding Software: Improving Patient Onboarding Experience in Modern Clinics",
+  "title": "Healthcare Patient Onboarding Software",
   "category": "Clinic Growth",
   "excerpt": "Improve patient onboarding experience with healthcare onboarding software. Streamline intake, reduce wait times, and enhance clinic efficiency with digital workflows.",
   "summary": "Improve patient onboarding experience with healthcare onboarding software. Streamline intake, reduce wait times, and enhance clinic efficiency with digital workflows.",
@@ -19988,7 +19988,7 @@ export const blogPosts: Record<string, BlogPost> = {
 },
   "post-38": {
   "id": "post-38",
-  "title": "Healthcare Cybersecurity Software: Best Practices for Secure Medical Systems",
+  "title": "Healthcare Cybersecurity Best Practices",
   "category": "Medical Technology",
   "excerpt": "Protect patient data with healthcare cybersecurity software best practices. Strengthen compliance, security, and trust in modern healthcare systems.",
   "summary": "Protect patient data with healthcare cybersecurity software best practices. Strengthen compliance, security, and trust in modern healthcare systems.",
@@ -20851,7 +20851,7 @@ export const blogPosts: Record<string, BlogPost> = {
 },
   "post-39": {
   "id": "post-39",
-  "title": "Healthcare Technology Consulting: When Healthcare Organizations Need Expert Guidance",
+  "title": "Healthcare Technology Consulting Guide",
   "category": "Clinic Growth",
   "excerpt": "Learn when healthcare organizations need healthcare technology consulting to improve systems, reduce inefficiencies, and drive digital transformation success.",
   "summary": "Learn when healthcare organizations need healthcare technology consulting to improve systems, reduce inefficiencies, and drive digital transformation success.",
