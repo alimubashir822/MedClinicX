@@ -216,7 +216,7 @@ export default function DemoPage() {
               {
                 icon: <Shield className="w-5 h-5 text-emerald-400" />,
                 iconBg: "bg-emerald-500/10 border-emerald-500/20",
-                title: "Row-Level Database Security",
+                title: "Product Demonstrations | Med Clinic X",
                 desc: "Isolated schemas structured so clinic tenants cannot read cross-tenant charts.",
                 badge: "Isolated Schema",
                 badgeColor: "text-emerald-400 bg-emerald-500/10 border-emerald-500/20",

@@ -51,7 +51,7 @@ const stats = [
 ];
 
 const coreFeatures: Feature[] = [
-  { icon: <Brain className="w-5 h-5" />, title: "AI Clinical Copilot", desc: "Allows clinicians to execute natural language queries across EHR databases and generate automated patient summaries.", badge: "Flagship" },
+  { icon: <Brain className="w-5 h-5" />, title: "MediSync AI Data Platform | Med Clinic X", desc: "Allows clinicians to execute natural language queries across EHR databases and generate automated patient summaries.", badge: "Flagship" },
   { icon: <Network className="w-5 h-5" />, title: "HL7 & FHIR Gateway", desc: "Translates and synchronizes data natively with Epic, Cerner, eClinicalWorks, and Athenahealth databases.", badge: "Standard" },
   { icon: <Sparkles className="w-5 h-5" />, title: "Smart Normalization Engine", desc: "Auto-maps raw incoming data payloads into standardized FHIR resources without manual mapping rules.", badge: "Smart" },
   { icon: <Activity className="w-5 h-5" />, title: "Real-time Sync Monitor", desc: "Displays transaction volumes, active pipelines, and logs sync failures with immediate rollback protocols.", badge: "Smart" },

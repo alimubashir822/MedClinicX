@@ -54,7 +54,7 @@ interface IntakeData {
  ======================================================= */
 
 const coreFeatures: Feature[] = [
-  { icon: <Brain className="w-5 h-5" />, title: "AI Pre-Visit Interview", desc: "Replaces traditional static forms with a natural conversational flow, asking clinical screening questions.", badge: "Flagship" },
+  { icon: <Brain className="w-5 h-5" />, title: "IntakeFlow Patient Onboarding | Med Clinic X", desc: "Replaces traditional static forms with a natural conversational flow, asking clinical screening questions.", badge: "Flagship" },
   { icon: <FileText className="w-5 h-5" />, title: "AI Patient Summary", desc: "Auto-generates concise, doctor-friendly briefings on patient complaints, histories, and clinical alerts.", badge: "Smart" },
   { icon: <TrendingUp className="w-5 h-5" />, title: "Appt Readiness Score", desc: "Scores intake completion ratios dynamically, highlighting checklist blockages before patients arrive.", badge: "New" },
   { icon: <AlertTriangle className="w-5 h-5" />, title: "AI Missing Info Detector", desc: "Scans uploaded intakes, identifies incomplete answers, and triggers SMS reminders for missing cards.", badge: "Smart" },

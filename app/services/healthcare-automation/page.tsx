@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import HealthcareAutomationClient from "./HealthcareAutomationClient";
 
 export const metadata: Metadata = {
-  title: "Healthcare Automation | Practice Recall & Autopilot Scheduling | Med Clinic X",
+  title: "Healthcare Automation | Med Clinic X",
   description: "Med Clinic X builds custom practice automation engines that analyze patient no-show risks, send automated reminders, and fill canceled appointment slots dynamically. HIPAA-compliant scheduling automation.",
   keywords: "healthcare automation, patient recall scheduling, no-show prediction model, automated appointment reminders, sms patient recalls, practice management automation, waitlist auto-refill",
   alternates: {

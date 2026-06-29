@@ -23,7 +23,7 @@ interface FAQ { q: string; a: string; }
 ======================================================= */
 
 const coreFeatures: Feature[] = [
-  { icon: <Brain className="w-5 h-5" />, title: "AI Dental Companion", desc: "A conversational AI assistant that understands your full dental history. Explains procedures, guides aftercare, and preps questions in plain language.", badge: "Flagship" },
+  { icon: <Brain className="w-5 h-5" />, title: "Smart Dental Patient Portal | Med Clinic X", desc: "A conversational AI assistant that understands your full dental history. Explains procedures, guides aftercare, and preps questions in plain language.", badge: "Flagship" },
   { icon: <ClipboardList className="w-5 h-5" />, title: "Visual Treatment Tracker", desc: "\"Your Dental Journey\" - step-by-step progress tracking from initial consultation to surgery, implant placement, and crown restoration.", badge: "Unique" },
   { icon: <Calendar className="w-5 h-5" />, title: "Smart Appointment Booking", desc: "Select procedure, dentist, and time slot. Pre-populates dental history and generates a clinician brief automatically before checkup.", badge: "Smart" },
   { icon: <ScanLine className="w-5 h-5" />, title: "Dental Records Vault", desc: "Upload and view panoramic X-rays, 3D CBCT scans, clinical photos, and notes. Secured with role-scoped access control.", badge: "Secure" },

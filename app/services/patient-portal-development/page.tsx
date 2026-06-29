@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import PatientPortalClient from "./PatientPortalClient";
 
 export const metadata: Metadata = {
-  title: "Patient Portal Development | HIPAA Compliant Dashboards | Med Clinic X",
+  title: "Patient Portal Development | Med Clinic X",
   description: "Med Clinic X builds custom patient portals offering secure messaging, DICOM medical imaging storage (X-rays, CBCT scans), Stripe installment billing, and Epic/Cerner FHIR sync integrations. HIPAA-compliant patient dashboard development.",
   keywords: "patient portal development, custom patient portals, medical records sync, secure clinical chat, stripe medical billing, patient dashboard software, FHIR integration, DICOM viewer integration",
   alternates: {

@@ -94,7 +94,7 @@ const patientRights = [
 ];
 
 const breachProtocol = [
-  { step: "01", title: "Detection", desc: "Our automated monitoring systems detect anomalies and potential breaches 24/7, triggering immediate alerts to our security team." },
+  { step: "01", title: "HIPAA Compliance | Med Clinic X", desc: "Our automated monitoring systems detect anomalies and potential breaches 24/7, triggering immediate alerts to our security team." },
   { step: "02", title: "Containment", desc: "Within hours of detection, we contain the incident, preserve evidence, and prevent further unauthorized access." },
   { step: "03", title: "Assessment", desc: "We assess the nature of the breach, which PHI was affected, and who was impacted — within 48 hours of discovery." },
   { step: "04", title: "Notification", desc: "Affected individuals are notified within 60 days. HHS is notified per HIPAA requirements. If 500+ patients are affected, media notification is provided." },

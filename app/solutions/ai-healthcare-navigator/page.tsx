@@ -43,7 +43,7 @@ interface DoctorProfile {
  ======================================================= */
 
 const coreFeatures: Feature[] = [
-  { icon: <Brain className="w-5 h-5" />, title: "Conversational Intake", desc: "An intelligent medical interview agent that converses with patients naturally, asking relevant follow-up questions.", badge: "Flagship" },
+  { icon: <Brain className="w-5 h-5" />, title: "AI Healthcare Navigator | Med Clinic X", desc: "An intelligent medical interview agent that converses with patients naturally, asking relevant follow-up questions.", badge: "Flagship" },
   { icon: <Stethoscope className="w-5 h-5" />, title: "Department Triage Engine", desc: "Maps symptom descriptions directly to the most appropriate clinical specialty (e.g. Neurology, Orthopedics) instead of diagnostic guesses.", badge: "Smart" },
   { icon: <FileText className="w-5 h-5" />, title: "AI Doctor Brief Creator", desc: "Compiles patient answers, timeline, and concerns into a structured brief for doctors, automatically generated before the visit.", badge: "Unique" },
   { icon: <Users className="w-5 h-5" />, title: "Smart Provider Matching", desc: "Filters matching specialists based on the triage category, doctor availability, location, accepted insurance, and languages.", badge: "Premium" },

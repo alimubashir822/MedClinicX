@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import HealthcareSeoClient from "./HealthcareSeoClient";
 
 export const metadata: Metadata = {
-  title: "Healthcare SEO & Growth | Medical Local Search Domination | Med Clinic X",
+  title: "Healthcare SEO & Growth | Med Clinic X",
   description: "Med Clinic X builds custom patient lead capture funnels and local search engine visibility roadmaps. Optimizations include local clinic Google Maps packs, structured JSON-LD physician schemas, and automated patient reviews.",
   keywords: "healthcare seo, medical local search, google maps pack clinic, local clinic schema markup, reviews loops automation, lead capture funnels, healthcare practice growth, patient acquisition funnel",
   alternates: {

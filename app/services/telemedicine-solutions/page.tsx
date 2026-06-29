@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import TelemedicineClient from "./TelemedicineClient";
 
 export const metadata: Metadata = {
-  title: "Telemedicine Solutions | Secure Video & Telehealth Gateways | Med Clinic X",
+  title: "Telemedicine Solutions | Med Clinic X",
   description: "Med Clinic X builds low-latency WebRTC telemedicine solutions with end-to-end video encryption, Bluetooth vitals telemetry sync, and pharmacy e-prescribing networks. HIPAA-compliant telehealth portals.",
   keywords: "telemedicine solutions, custom telehealth platforms, WebRTC video consultation, vitals telemetry gateway, Bluetooth vitals monitor, e-prescribing integration, remote patient monitoring",
   alternates: {

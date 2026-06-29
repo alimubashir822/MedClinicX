@@ -23,7 +23,7 @@ interface FAQ { q: string; a: string; }
 ======================================================= */
 
 const coreFeatures: Feature[] = [
-  { icon: <Brain className="w-5 h-5" />, title: "AI Health Companion", desc: "A conversational AI that knows your complete health journey - answers questions, explains reports, and prepares you for every doctor visit.", badge: "Flagship" },
+  { icon: <Brain className="w-5 h-5" />, title: "AI Patient Portal | Med Clinic X", desc: "A conversational AI that knows your complete health journey - answers questions, explains reports, and prepares you for every doctor visit.", badge: "Flagship" },
   { icon: <HeartPulse className="w-5 h-5" />, title: "Visual Health Timeline", desc: "\"Your Health Story\" - a beautiful visual timeline of every condition, medication change, lab result, and visit, narrated by AI in plain language.", badge: "Unique" },
   { icon: <Calendar className="w-5 h-5" />, title: "Smart Appointment Booking", desc: "Select department, doctor, date, and time in seconds. AI pre-fills your history and generates a doctor brief automatically before each visit.", badge: "Smart" },
   { icon: <FileText className="w-5 h-5" />, title: "AI Document Understanding", desc: "Upload any medical PDF - blood test, MRI, prescription. AI reads it, highlights abnormal values, and explains every term in simple words." },

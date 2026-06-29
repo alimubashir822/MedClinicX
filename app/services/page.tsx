@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import ServicesClient from "./ServicesClient";
 
 export const metadata: Metadata = {
-  title: "Healthcare Digital Services — AI, Patient Portals, Websites & Telemedicine",
+  title: "AI, Patient Portals & Web Services | Med Clinic X",
   description:
     "Explore Med Clinic X's full suite of healthcare digital services: AI healthcare solutions, patient portal development, clinic websites, telemedicine platforms, healthcare automation, mobile apps, and SEO growth strategies.",
   keywords: [

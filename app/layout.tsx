@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   applicationName: "Med Clinic X",
   title: {
     default: "Med Clinic X — AI-Powered Healthcare Digital Solutions",
-    template: "%s | Med Clinic X",
+    template: "%s",
   },
   description:
     "Transform your healthcare business with next-generation AI agents, advanced patient portals, doctor workflows, and clinic automation. HIPAA-compliant. Built for doctors, clinics & hospitals.",

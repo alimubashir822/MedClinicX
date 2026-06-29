@@ -7,7 +7,7 @@ import { Shield, Lock, Eye, Database, FileText, Mail, Clock } from "lucide-react
 const sections = [
   {
     id: "overview",
-    title: "Overview",
+    title: "Privacy Policy | Med Clinic X",
     content: `Med Clinic X, Inc. ("Med Clinic X," "we," "our," or "us") is committed to protecting the privacy and security of your personal and health information. This Privacy Policy explains how we collect, use, disclose, and safeguard information when you use our AI-powered patient portal platform and related services (collectively, the "Platform").
 
 By accessing or using the Platform, you agree to the collection and use of information in accordance with this Privacy Policy. If you do not agree, please do not use our Platform.`,

@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import ContactClient from "./ContactClient";
 
 export const metadata: Metadata = {
-  title: "Contact Med Clinic X — Book a Healthcare AI Consultation",
+  title: "Contact Us | Med Clinic X",
   description:
     "Get in touch with Med Clinic X to book a free discovery call, request a platform demo, or discuss enterprise healthcare software solutions. We respond within 4 business hours.",
   keywords: [

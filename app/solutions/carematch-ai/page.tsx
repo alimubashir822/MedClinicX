@@ -43,7 +43,7 @@ interface DoctorProfile {
  ======================================================= */
 
 const coreFeatures: Feature[] = [
-  { icon: <Brain className="w-5 h-5" />, title: "AI Healthcare Matchmaker", desc: "An intelligent chatbot assistant that understands patient symptoms and coordinates compatibility matching.", badge: "Flagship" },
+  { icon: <Brain className="w-5 h-5" />, title: "CareMatch AI Doctor Booking | Med Clinic X", desc: "An intelligent chatbot assistant that understands patient symptoms and coordinates compatibility matching.", badge: "Flagship" },
   { icon: <Activity className="w-5 h-5" />, title: "Doctor Compatibility Score", desc: "Calculates compatibility matches based on insurance, location, language preferences, and clinical needs.", badge: "Smart" },
   { icon: <FileText className="w-5 h-5" />, title: "AI Patient Intake System", desc: "Conducts pre-booking intake dialogues to compile comprehensive clinical briefs for providers.", badge: "Unique" },
   { icon: <Clock className="w-5 h-5" />, title: "Smart Waitlist System", desc: "Automatically alerts waitlisted patients via SMS when calendar slots open up due to cancellation.", badge: "Premium" },

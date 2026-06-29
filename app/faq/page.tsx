@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import FAQClient from "./FAQClient";
 
 export const metadata: Metadata = {
-  title: "FAQ — Frequently Asked Questions About Med Clinic X",
+  title: "FAQ & Support | Med Clinic X",
   description:
     "Find answers to common questions about the Med Clinic X AI healthcare platform — covering AI features, HIPAA compliance, EHR integrations, pricing, and implementation timelines for clinics and hospitals.",
   keywords: [

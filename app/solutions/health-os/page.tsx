@@ -48,7 +48,7 @@ interface PatientIntelligence {
  ======================================================= */
 
 const coreFeatures: Feature[] = [
-  { icon: <Brain className="w-5 h-5" />, title: "AI Lead Qualification", desc: "Front-desk AI interviews website visitors, gathers medical concerns, and scores conversion probability.", badge: "Flagship" },
+  { icon: <Brain className="w-5 h-5" />, title: "Specialty Clinic Growth CRM | Med Clinic X", desc: "Front-desk AI interviews website visitors, gathers medical concerns, and scores conversion probability.", badge: "Flagship" },
   { icon: <TrendingUp className="w-5 h-5" />, title: "Treatment Conversion Assistant", desc: "Translates complex treatment plans into patient-friendly benefit sheets, preparation FAQs, and financial options.", badge: "Smart" },
   { icon: <Stethoscope className="w-5 h-5" />, title: "Specialty Journeys", desc: "Tailors treatment workflow pipelines specifically for IVF cycle tracking, dental implants, skin sessions, or eye surgery.", badge: "Unique" },
   { icon: <Users className="w-5 h-5" />, title: "Patient Experience Score", desc: "Calculates real-time engagement and drop-off risks based on document uploads, messaging rate, and missed slots.", badge: "New" },

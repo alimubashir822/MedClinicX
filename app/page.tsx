@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import HomeClient from "./HomeClient";
 
 export const metadata: Metadata = {
-  title: "Med Clinic X — AI-Powered Healthcare Digital Solutions for Clinics & Hospitals",
+  title: "Med Clinic X — AI-Powered Healthcare Solutions",
   description:
     "Med Clinic X builds AI-powered patient portals, automated medical receptionists, telemedicine platforms, and HIPAA-compliant clinic websites. Trusted by doctors, clinics, and hospitals across the USA.",
   keywords: [

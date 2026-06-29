@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import AiHealthcareClient from "./AiHealthcareClient";
 
 export const metadata: Metadata = {
-  title: "AI Healthcare Solutions | Clinical LLMs & AI Medical Receptionists | Med Clinic X",
+  title: "AI Healthcare Solutions | Med Clinic X",
   description: "Med Clinic X provides clinical LLM integrations, conversational AI medical receptionists, symptom triage workflows, and automated doctor briefings. Secure, HIPAA-compliant AI solutions for clinics and hospitals.",
   keywords: "ai healthcare solutions, clinical LLM, AI medical receptionist, medical voice ai, healthcare symptom triage, pre-appointment patient briefs, medical NLP models, healthcare automation",
   alternates: {

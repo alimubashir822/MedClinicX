@@ -22,7 +22,7 @@ interface FAQ { q: string; a: string; }
  ======================================================= */
 
 const coreFeatures: Feature[] = [
-  { icon: <Brain className="w-5 h-5" />, title: "AI Health Concierge", desc: "A smart patient onboarding system that triages symptoms, matches patients with the correct specialty, and auto-schedules appointments.", badge: "Flagship" },
+  { icon: <Brain className="w-5 h-5" />, title: "Virtual Clinic OS | Med Clinic X", desc: "A smart patient onboarding system that triages symptoms, matches patients with the correct specialty, and auto-schedules appointments.", badge: "Flagship" },
   { icon: <FileText className="w-5 h-5" />, title: "AI Pre-Consultation Summary", desc: "Collects intake information automatically and builds a comprehensive clinical brief for doctors before the call starts.", badge: "Unique" },
   { icon: <Activity className="w-5 h-5" />, title: "AI SOAP Copilot", desc: "Listens to the consultation conversation in real-time, instantly drafting clinical SOAP notes, summaries, and follow-up steps.", badge: "New" },
   { icon: <Video className="w-5 h-5" />, title: "HD Telemedicine Workspace", desc: "HIPAA-compliant, high-definition video consults with integrated file sharing, patient records drawer, and real-time chat." },

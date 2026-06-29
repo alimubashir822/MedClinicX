@@ -7,7 +7,7 @@ import { FileText, Scale, Mail, Clock, AlertCircle } from "lucide-react";
 const sections = [
   {
     id: "agreement",
-    title: "Agreement to Terms",
+    title: "Terms of Service | Med Clinic X",
     content: `These Terms of Service ("Terms") constitute a legally binding agreement between you ("User," "you," or "your") and Med Clinic X, Inc. ("Med Clinic X," "we," "our," or "us") governing your use of the Med Clinic X platform, including the patient portal, AI features, appointment tools, document vault, and all related services (collectively, the "Platform").
 
 By creating an account, accessing, or using the Platform, you confirm that you have read, understood, and agree to be bound by these Terms and our Privacy Policy. If you are using the Platform on behalf of a healthcare organization, you represent that you have authority to bind that organization to these Terms.

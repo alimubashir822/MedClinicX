@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import HealthcareSaasClient from "./HealthcareSaasClient";
 
 export const metadata: Metadata = {
-  title: "Healthcare SaaS Development | Multi-Tenant Medical Platforms | Med Clinic X",
+  title: "Healthcare SaaS Development | Med Clinic X",
   description: "Med Clinic X provides custom healthcare SaaS development services including multi-tenant web applications, EHR wrappers, clinical analytics portals, and database wrapper software conforming to ISO 27001 data safeguards. HIPAA-compliant B2B SaaS platforms.",
   keywords: "healthcare saas development services, medical saas, multi-tenant clinical software, EHR wrapper development, HIPAA compliant saas, healthcare software development, cloud medical portals, hospital saas software",
   alternates: {

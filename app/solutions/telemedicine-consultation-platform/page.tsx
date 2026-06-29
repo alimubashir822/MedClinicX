@@ -21,7 +21,7 @@ interface FAQ { q: string; a: string; }
 ======================================================= */
 
 const coreFeatures: Feature[] = [
-  { icon: <Video className="w-5 h-5" />, title: "Secure Video Engine", desc: "Low-latency WebRTC video streams supporting inline charting, screen sharing, and live vitals telemetry tracking.", badge: "Flagship" },
+  { icon: <Video className="w-5 h-5" />, title: "Telemedicine Video Engine | Med Clinic X", desc: "Low-latency WebRTC video streams supporting inline charting, screen sharing, and live vitals telemetry tracking.", badge: "Flagship" },
   { icon: <Brain className="w-5 h-5" />, title: "AI Pre-Consult Brief", desc: "Interactive AI pre-interviews patients before calls, delivering structured symptom briefs straight to the physician's screen.", badge: "Unique" },
   { icon: <FileText className="w-5 h-5" />, title: "Digital Prescription Builder", desc: "Enables doctors to select medications, define dosage, and generate cryptographically signed PDF prescriptions directly from calls.", badge: "Smart" },
   { icon: <Calendar className="w-5 h-5" />, title: "Smart Scheduling Engine", desc: "Select departments or doctors, view real-time availability, book appointment slots, and pay securely via integrated Stripe." },

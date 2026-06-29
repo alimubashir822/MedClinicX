@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import HealthcareWebsitesClient from "./HealthcareWebsitesClient";
 
 export const metadata: Metadata = {
-  title: "Healthcare Website Design & Development Company for Doctors, Clinics & Hospitals | Med Clinic X",
+  title: "Healthcare Website Design | Med Clinic X",
   description: "Med Clinic X provides healthcare website design, medical website development, patient portal development, and AI healthcare solutions for doctors, clinics, hospitals, and healthcare organizations across the USA. Build a secure, patient-focused digital experience that helps your practice grow.",
   keywords: "healthcare website design company, healthcare web design services, medical website design, medical website development, website design for doctors, healthcare website development, patient portal development, healthcare website redesign, HIPAA compliance, EHR integrations",
   alternates: {

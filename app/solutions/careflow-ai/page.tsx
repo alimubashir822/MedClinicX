@@ -30,7 +30,7 @@ interface CampaignTemplate {
  ======================================================= */
 
 const coreFeatures: Feature[] = [
-  { icon: <Zap className="w-5 h-5" />, title: "AI Front Desk Receptionist", desc: "An intelligent chatbot widget that greets visitors, explains procedures, pre-qualifies budgets, and books appointments.", badge: "Flagship" },
+  { icon: <Zap className="w-5 h-5" />, title: "CareFlow AI Practice CRM | Med Clinic X", desc: "An intelligent chatbot widget that greets visitors, explains procedures, pre-qualifies budgets, and books appointments.", badge: "Flagship" },
   { icon: <Activity className="w-5 h-5" />, title: "Lead Qualification Engine", desc: "Scores incoming clinic inquiries based on patient intent, treatment urgency, and estimated treatment value.", badge: "Smart" },
   { icon: <TrendingUp className="w-5 h-5" />, title: "Healthcare Pipeline CRM", desc: "A medical-specific opportunity tracker mapping patients from first contact to treatment confirmation.", badge: "Unique" },
   { icon: <Bell className="w-5 h-5" />, title: "AI Follow-Up Campaigns", desc: "Automates SMS and email outreach schedules to recover inactive leads who drop off before scheduling consultations.", badge: "Premium" },

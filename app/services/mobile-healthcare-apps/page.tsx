@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import MobileHealthcareClient from "./MobileHealthcareClient";
 
 export const metadata: Metadata = {
-  title: "Mobile Healthcare Apps | Responsive PWAs & Native Builds | Med Clinic X",
+  title: "Mobile Healthcare Apps | Med Clinic X",
   description: "Med Clinic X develops responsive Progressive Web Apps (PWAs) and native iOS/Android patient portals. Features include FaceID biometric login, offline records cache syncing, and Bluetooth vital sensor integrations.",
   keywords: "mobile healthcare apps, custom health apps, PWA medical portal, native iOS health app, android medical application, offline records cache, FaceID medical login, remote patient monitoring app",
   alternates: {

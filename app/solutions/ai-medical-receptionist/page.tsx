@@ -23,7 +23,7 @@ interface FAQ { q: string; a: string; }
 ======================================================= */
 
 const coreFeatures: Feature[] = [
-  { icon: <Brain className="w-5 h-5" />, title: "AI Patient Qualification", desc: "Before booking, the AI qualifies leads by capturing their name, contact, insurance details, and clinical concerns.", badge: "Flagship" },
+  { icon: <Brain className="w-5 h-5" />, title: "AI Medical Receptionist | Med Clinic X", desc: "Before booking, the AI qualifies leads by capturing their name, contact, insurance details, and clinical concerns.", badge: "Flagship" },
   { icon: <Phone className="w-5 h-5" />, title: "AI Voice Receptionist", desc: "A natural telephone voice agent that answers clinic calls, schedules procedures, answers FAQs, and routes complex calls.", badge: "Premium" },
   { icon: <Calendar className="w-5 h-5" />, title: "Smart Appointment Booking", desc: "Interactive slot selection synced with provider rosters, location availability, treatment duration, and buffer rules.", badge: "Smart" },
   { icon: <LayoutDashboard className="w-5 h-5" />, title: "Command Center Dashboard", desc: "Track conversation volumes, bookings, leads, call logs, and performance metrics from one unified workspace.", badge: "Centralized" },
