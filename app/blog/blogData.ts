@@ -41,7 +41,7 @@ export interface BlogPost {
 export const blogPosts: Record<string, BlogPost> = {
   "post-7": {
     id: "post-7",
-    title: "SEO for Doctors: Proven Strategies to Get More Patients and Grow Your Healthcare Practice",
+    title: "SEO for Doctors: Strategies to Grow Your Practice",
     category: "Clinic Growth",
     excerpt: "Learn how SEO for doctors helps healthcare practices attract more patients, improve online visibility, and grow with modern healthcare marketing strategies.",
     summary: "Learn how search engine optimization helps doctors and medical clinics stand out online, rank high for local searches, build trust with potential patients, and use modern healthcare technologies to increase appointment booking rates.",
@@ -418,7 +418,7 @@ export const blogPosts: Record<string, BlogPost> = {
   },
   "post-8": {
     id: "post-8",
-    title: "Healthcare SEO Guide for Medical Clinics: How to Attract More Patients Online",
+    title: "Healthcare SEO Guide for Medical Clinics",
     category: "Clinic Growth",
     excerpt: "Learn how healthcare SEO helps medical clinics improve online visibility, attract more patients, and grow with modern digital marketing strategies.",
     summary: "Medical clinics searching for SEO solutions want to understand how to get more patients from Google, improve online visibility, and use modern digital marketing strategies for healthcare growth.",
@@ -672,7 +672,7 @@ export const blogPosts: Record<string, BlogPost> = {
   },
   "post-9": {
     id: "post-9",
-    title: "Medical SEO Services: How Healthcare SEO Helps Clinics Attract More Patients and Grow",
+    title: "Medical SEO Services: Grow Your Clinic Online",
     category: "Clinic Growth",
     excerpt: "Discover how medical SEO services help clinics improve online visibility, attract more patients, and grow with effective healthcare SEO strategies.",
     summary: "Clinics need a healthcare-focused SEO strategy that combines medical content optimization, healthcare website development, local SEO, patient-focused user experience, reputation management, and technology solutions to attract, educate, and convert patients.",
@@ -1010,7 +1010,7 @@ export const blogPosts: Record<string, BlogPost> = {
   },
   "post-10": {
     id: "post-10",
-    title: "Healthcare Reputation Management: How Clinics Build Patient Trust and Grow Online",
+    title: "Healthcare Reputation Management Guide",
     category: "Clinic Growth",
     excerpt: "Learn how healthcare reputation management helps clinics build patient trust, improve online visibility, and grow with modern healthcare marketing strategies.",
     summary: "Healthcare reputation management helps medical organizations monitor, improve, and maintain their online reputation while creating better patient experiences and building trust throughout the patient journey.",
@@ -1283,7 +1283,7 @@ export const blogPosts: Record<string, BlogPost> = {
   },
   "post-11": {
     id: "post-11",
-    title: "Healthcare Digital Marketing Strategies: How Healthcare Organizations Attract More Patients Online",
+    title: "Healthcare Digital Marketing Strategies",
     category: "Clinic Growth",
     excerpt: "Explore healthcare digital marketing strategies that help clinics improve visibility, attract patients, and grow with modern healthcare technology solutions.",
     summary: "Modern healthcare digital marketing combines search engine optimization, content marketing, local visibility, online reviews, social media, and technology-driven patient experiences to attract and convert patients.",
@@ -1584,7 +1584,7 @@ export const blogPosts: Record<string, BlogPost> = {
   },
   "post-12": {
     id: "post-12",
-    title: "Healthcare Lead Generation Strategies: How Clinics Attract and Convert More Patients Online",
+    title: "Healthcare Lead Generation Strategies",
     category: "Clinic Growth",
     excerpt: "Discover proven healthcare lead generation strategies that help clinics attract patients, improve conversions, and grow using modern digital healthcare solutions.",
     summary: "A complete patient lead generation system matches high-intent SEO traffic with a conversion-optimized website, automated communication, patient portals, and robust trust-building elements.",
@@ -1879,7 +1879,7 @@ export const blogPosts: Record<string, BlogPost> = {
   },
   "post-13": {
     id: "post-13",
-    title: "Medical Lead Generation Strategies: How Doctors Attract and Convert More Patients Online",
+    title: "Medical Lead Generation Strategies",
     category: "Clinic Growth",
     excerpt: "Learn proven medical lead generation strategies doctors can use to attract patients, improve conversions, and grow with healthcare digital solutions.",
     summary: "A predictable patient acquisition system for physicians leverages localized search visibility, credentials, patient success stories, and streamlined scheduling technology.",
@@ -2201,7 +2201,7 @@ export const blogPosts: Record<string, BlogPost> = {
   },
   "post-14": {
     id: "post-14",
-    title: "Medical Practice Growth Guide: Proven Strategies to Scale Patient Acquisition and Revenue in Healthcare",
+    title: "Medical Practice Growth Guide",
     category: "Clinic Growth",
     excerpt: "Learn how medical practice growth works using healthcare SEO, automation, and digital systems to attract patients and scale efficiently.",
     summary: "Medical practice growth is engineered through technology. Today, clinics must build predictable, scaleable systems using SEO, automation, and tech-driven patient experience layouts.",
@@ -2491,7 +2491,7 @@ export const blogPosts: Record<string, BlogPost> = {
   },
   "post-15": {
     id: "post-15",
-    title: "Ways Technology Improves Patient Experience in Modern Healthcare Systems",
+    title: "How Tech Improves Patient Experience",
     category: "Patient Experience",
     excerpt: "Discover how technology helps improve patient experience in healthcare through automation, digital tools, and better care delivery systems.",
     summary: "Patient experience is a core clinical metric. Modern technology simplifies booking, access to records, and care continuity to exceed modern customer expectations.",
@@ -2764,7 +2764,7 @@ export const blogPosts: Record<string, BlogPost> = {
   },
   "post-16": {
     id: "post-16",
-    title: "How Clinics Improve Patient Satisfaction Using Modern Healthcare Strategies",
+    title: "Improving Patient Satisfaction in Clinics",
     category: "Patient Experience",
     excerpt: "Learn how to improve patient satisfaction healthcare outcomes using digital tools, automation, and patient-centered care strategies for modern clinics.",
     summary: "Improving patient satisfaction directly influences practice revenue, online reviews, and retention. Modern clinics achieve this by automating appointments, communications, and check-ins.",
@@ -3043,7 +3043,7 @@ export const blogPosts: Record<string, BlogPost> = {
   },
   "post-17": {
     id: "post-17",
-    title: "Patient Engagement Technology Guide: How Healthcare Organizations Improve Care and Retention",
+    title: "Patient Engagement Technology Guide",
     category: "Patient Experience",
     excerpt: "Explore patient engagement technology strategies that help healthcare providers improve communication, retention, and patient satisfaction using modern digital tools.",
     summary: "Keeping patients informed and actively involved throughout their care journey is simplified by portals, apps, virtual consultations, and compliant automation.",
@@ -3312,7 +3312,7 @@ export const blogPosts: Record<string, BlogPost> = {
   },
   "post-18": {
     id: "post-18",
-    title: "Patient Relationship Management Explained: How Healthcare Organizations Build Long-Term Patient Trust",
+    title: "Patient Relationship Management Guide",
     category: "Patient Experience",
     excerpt: "Learn how patient relationship management improves healthcare engagement, retention, and satisfaction using modern digital tools and healthcare CRM systems.",
     summary: "Transitioning from one-time patient visits to lifelong healthcare relationships is enabled by secure CRM software, automated lifecycles, and data-driven insights.",
