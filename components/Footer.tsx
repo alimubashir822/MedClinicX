@@ -237,7 +237,7 @@ export default function Footer() {
                 Read our Healthcare AI Blog &rarr;
               </Link>
               <Link href="/guide" className="text-xs text-brand-cyan hover:underline font-semibold">
-                Explore our Practice Growth Guides &rarr;
+                Explore our Growth Guides &rarr;
               </Link>
             </div>
           </div>
