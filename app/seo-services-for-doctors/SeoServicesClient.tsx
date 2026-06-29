@@ -354,7 +354,7 @@ export default function SeoServicesClient() {
           <div className="lg:col-span-5">
             <div className="glass-panel border border-brand-border rounded-3xl p-4 shadow-2xl bg-[#040D18]/40 relative overflow-hidden">
               <Image
-                src="/services-img/Google Ads for Doctors + SEO Growth Strategy.png"
+                src="/services-img/Google%20Ads%20for%20Doctors%20+%20SEO%20Growth%20Strategy.jpg"
                 alt="Google Ads for Doctors & SEO Growth Strategy"
                 width={800}
                 height={500}
