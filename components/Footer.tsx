@@ -245,6 +245,7 @@ export default function Footer() {
             &copy; {currentYear} Med Clinic X Inc. All rights reserved. Built for future healthcare systems.
           </div>
           <div className="flex space-x-6">
+            <Link href="/html-sitemap" className="hover:text-gray-400 transition-colors">Sitemap</Link>
             <Link href="/careers" className="hover:text-gray-400 transition-colors">Careers</Link>
             <Link href="/faq" className="hover:text-gray-400 transition-colors">FAQ</Link>
             <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy Policy</Link>

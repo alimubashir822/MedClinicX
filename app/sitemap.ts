@@ -45,7 +45,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
 
-    // ─── Legal Pages ──────────────────────────────────────
+    // ─── Legal & Nav Pages ────────────────────────────────
+    {
+      url: `${BASE_URL}/html-sitemap`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.5,
+    },
     {
       url: `${BASE_URL}/hipaa`,
       lastModified: now,
