@@ -376,17 +376,17 @@ export default function JobClient() {
                       animate={{ opacity: 1, scale: 1 }}
                       className="text-center py-12 space-y-6"
                     >
-                      <div className="w-16 h-16 bg-brand-emerald/10 border border-brand-emerald/20 text-brand-emerald rounded-full flex items-center justify-center mx-auto shadow-lg shadow-brand-emerald/5">
-                        <CheckCircle className="w-8 h-8" />
-                      </div>
-                      <div className="space-y-2">
-                        <h3 className="font-display font-extrabold text-2xl text-white">Application Pre-screen Completed!</h3>
-                        <p className="text-sm text-gray-400 max-w-md mx-auto leading-relaxed">
-                          Your firmware configuration score is logged. We verified your preemptive RTOS prioritizations, secure MQTT telemetry streams, and hardware Secure Boot update gates.
-                        </p>
-                      </div>
+                    <div className="w-16 h-16 bg-brand-emerald/10 border border-brand-emerald/20 text-brand-emerald rounded-full flex items-center justify-center mx-auto mb-4">
+                      <CheckCircle className="w-8 h-8" />
+                    </div>
+                    <div className="space-y-2">
+                      <h3 className="font-display font-extrabold text-2xl text-white">Application Submitted!</h3>
+                      <p className="text-gray-400 text-sm max-w-md mx-auto leading-relaxed">
+                        Thanks for applying, <strong className="text-white">{formData.name}</strong>. Our team will review your application and be in touch soon.
+                      </p>
+                    </div>
 
-                      <button
+                    <button
                         onClick={() => {
                           setFormStep(1);
                           setSubmitSuccess(false);

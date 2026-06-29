@@ -470,23 +470,14 @@ export default function JobClient() {
                     animate={{ opacity: 1, scale: 1 }}
                     className="text-center py-10 space-y-6"
                   >
-                    <div className="w-16 h-16 bg-brand-emerald/10 border border-brand-emerald/30 text-brand-emerald rounded-full flex items-center justify-center mx-auto shadow-lg shadow-brand-emerald/10">
-                      <Check className="w-8 h-8" />
+                    <div className="w-16 h-16 bg-brand-emerald/10 border border-brand-emerald/20 text-brand-emerald rounded-full flex items-center justify-center mx-auto mb-4">
+                      <CheckCircle className="w-8 h-8" />
                     </div>
-                    
                     <div className="space-y-2">
-                      <h3 className="font-display font-extrabold text-2xl text-white">Application Triaged!</h3>
-                      <p className="text-gray-400 text-sm leading-relaxed max-w-md mx-auto">
-                        Thank you for applying, <strong className="text-white">{formData.name}</strong>. Your profile has passed our clinical informatics screening test. The product integration recruitment team will reach out shortly.
+                      <h3 className="font-display font-extrabold text-2xl text-white">Application Submitted!</h3>
+                      <p className="text-gray-400 text-sm max-w-md mx-auto leading-relaxed">
+                        Thanks for applying, <strong className="text-white">{formData.name}</strong>. Our team will review your application and be in touch soon.
                       </p>
-                    </div>
-
-                    <div className="bg-slate-900/60 p-4 rounded-xl border border-brand-border max-w-sm mx-auto text-left space-y-2 font-mono text-xs">
-                      <p className="text-brand-cyan font-bold uppercase text-[10px] tracking-wider mb-2">Automated Match Summary</p>
-                      <p className="text-gray-400">Role: <span className="text-white">Clinical Informatics Specialist</span></p>
-                      <p className="text-gray-400">Interoperability Score: <span className="text-brand-emerald">4/4 Mappings Correct</span></p>
-                      <p className="text-gray-400">EHR Platform fit: <span className="text-brand-cyan">Experienced</span></p>
-                      <p className="text-gray-400">Status: <span className="text-brand-emerald animate-pulse">Under Review by Clinical Lead</span></p>
                     </div>
 
                     <button

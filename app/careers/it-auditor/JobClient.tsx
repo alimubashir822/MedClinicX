@@ -124,9 +124,17 @@ export default function JobClient() {
                   <div className="flex items-center justify-between mb-8 border-b border-brand-border pb-4 font-mono text-[10px]"><div className="flex space-x-4"><span className={formStep===1?'text-brand-cyan font-bold':'text-gray-500'}>01. Profile</span><span className={formStep===2?'text-brand-cyan font-bold':'text-gray-500'}>02. Experience</span><span className={formStep===3?'text-brand-cyan font-bold':'text-gray-500'}>03. Audit Sandbox</span></div><span className="text-gray-500">Step {formStep} of 3</span></div>
                   {submitSuccess ? (
                     <motion.div initial={{opacity:0,scale:0.95}} animate={{opacity:1,scale:1}} className="text-center py-12 space-y-6">
-                      <div className="w-16 h-16 bg-brand-emerald/10 border border-brand-emerald/20 text-brand-emerald rounded-full flex items-center justify-center mx-auto"><CheckCircle className="w-8 h-8" /></div>
-                      <div className="space-y-2"><h3 className="font-display font-extrabold text-2xl text-white">Audit Pre-screen Completed!</h3><p className="text-sm text-gray-400 max-w-md mx-auto leading-relaxed">Your IT audit compliance score is logged. We verified your quarterly RBAC access review methodology, AES-256 KMS encryption controls, and compliance gap remediation documentation approach.</p></div>
-                      <button onClick={resetForm} className="inline-flex items-center space-x-2 text-xs font-bold text-brand-cyan hover:underline cursor-pointer"><span>Reset and restart mock screening</span><ArrowRight className="w-3.5 h-3.5" /></button>
+                    <div className="w-16 h-16 bg-brand-emerald/10 border border-brand-emerald/20 text-brand-emerald rounded-full flex items-center justify-center mx-auto mb-4">
+                      <CheckCircle className="w-8 h-8" />
+                    </div>
+                    <div className="space-y-2">
+                      <h3 className="font-display font-extrabold text-2xl text-white">Application Submitted!</h3>
+                      <p className="text-gray-400 text-sm max-w-md mx-auto leading-relaxed">
+                        Thanks for applying, <strong className="text-white">{formData.name}</strong>. Our team will review your application and be in touch soon.
+                      </p>
+                    </div>
+
+                    <button onClick={resetForm} className="inline-flex items-center space-x-2 text-xs font-bold text-brand-cyan hover:underline cursor-pointer"><span>Reset and restart mock screening</span><ArrowRight className="w-3.5 h-3.5" /></button>
                     </motion.div>
                   ) : (
                     <>
