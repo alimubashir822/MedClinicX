@@ -119,7 +119,7 @@ export default function SeoServicesClient() {
       <div className="absolute bottom-10 left-1/4 w-[600px] h-[600px] bg-brand-indigo/5 rounded-full blur-[140px] -z-10 pointer-events-none" />
 
       {/* 1. HERO SECTION */}
-      <section className="relative pt-16 pb-16 md:py-28 max-w-4xl mx-auto px-6 text-center space-y-6">
+      <section className="relative pt-16 pb-16 md:py-28 max-w-7xl mx-auto px-6 text-center space-y-6">
         <div className="inline-flex items-center space-x-2 bg-brand-cyan/10 border border-brand-cyan/20 rounded-full px-4.5 py-1.5 mb-2 mx-auto">
           <Sparkles className="w-4.5 h-4.5 text-brand-cyan animate-pulse" />
           <span className="text-xs font-semibold tracking-wide text-brand-cyan uppercase">Healthcare SEO Agency</span>
@@ -127,10 +127,10 @@ export default function SeoServicesClient() {
         <h1 className="font-display font-extrabold text-4xl sm:text-6xl md:text-7xl text-white tracking-tight leading-none">
           Grow Your Practice With <span className="text-gradient-cyan-indigo">SEO Services</span> for Doctors
         </h1>
-        <p className="mt-6 text-base sm:text-xl text-gray-400 leading-relaxed max-w-3xl mx-auto">
+        <p className="mt-6 text-base text-gray-400 leading-relaxed max-w-4xl mx-auto">
           Patients are searching online before choosing a healthcare provider. Whether they are looking for a specialist, primary care physician, dentist, or medical clinic, your online visibility plays a major role in whether they discover your practice or choose a competitor.
         </p>
-        <p className="text-sm md:text-base text-gray-400 leading-relaxed max-w-3xl mx-auto">
+        <p className="text-base text-gray-400 leading-relaxed max-w-4xl mx-auto">
           At Med Clinic X, we provide specialized <strong>SEO services for doctors</strong> designed specifically for healthcare professionals who want to improve search rankings, attract qualified patients, and build a stronger digital presence.
         </p>
         <div className="pt-4 flex flex-col sm:flex-row justify-center items-center gap-4">
