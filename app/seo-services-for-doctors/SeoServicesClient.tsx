@@ -20,14 +20,18 @@ import {
   FileText,
   MousePointerClick,
   Sparkles,
-  Award
+  Award,
+  BookOpen,
+  HelpCircle,
+  AlertTriangle,
+  HeartPulse
 } from "lucide-react";
 
-// Mock Data for Listings
+// Mock Data for Google Business Profile
 const listingsMock = [
-  { rank: "1", name: "Your Clinic — Local Specialist", rating: "4.9 ★ (188 reviews)", status: "Top Listing", color: "border-brand-cyan/40 bg-brand-cyan/5 text-brand-cyan" },
-  { rank: "2", name: "Competitor Practice A", rating: "4.1 ★ (32 reviews)", status: "Organic Match", color: "border-brand-border/40 text-gray-400" },
-  { rank: "3", name: "Competitor Practice B", rating: "3.8 ★ (15 reviews)", status: "Organic Match", color: "border-brand-border/40 text-gray-500" },
+  { rank: "1", name: "Your Medical Practice — Top Rated", rating: "4.9 ★ (192 reviews)", status: "Rank #1 Maps", color: "border-brand-cyan/40 bg-brand-cyan/5 text-brand-cyan" },
+  { rank: "2", name: "Local Competitor Practice A", rating: "4.2 ★ (38 reviews)", status: "Organic Match", color: "border-brand-border/40 text-gray-400" },
+  { rank: "3", name: "Local Competitor Practice B", rating: "3.9 ★ (12 reviews)", status: "Organic Match", color: "border-brand-border/40 text-gray-500" },
 ];
 
 export default function SeoServicesClient() {
@@ -51,7 +55,7 @@ export default function SeoServicesClient() {
           clinic: form.clinicName,
           phone: "Not Provided",
           type: "Partnership Inquiry",
-          message: `Inquiry from Doctor SEO Landing Page: ${form.msg}`,
+          message: `Inquiry from Complete Doctor SEO Page: ${form.msg}`,
         }),
       });
 
@@ -83,31 +87,31 @@ export default function SeoServicesClient() {
     },
     {
       q: "How long does SEO take for doctors?",
-      a: "SEO results depend on factors such as website condition, local competition, target locations, content quality, and current rankings. Many practices begin seeing improvements after consistent optimization and content growth, usually within 3 to 6 months."
+      a: "SEO results depend on factors such as website condition, competition, location, content quality, and current rankings. Many practices begin seeing improvements after consistent optimization and content growth."
     },
     {
       q: "What makes healthcare SEO different from regular SEO?",
-      a: "Healthcare SEO requires more focus on E-E-A-T principles (Experience, Expertise, Authoritativeness, and Trust), medical accuracy, patient confidentiality guidelines, and local search signals. A specialized approach helps create content and strategies suitable for healthcare audiences."
+      a: "Healthcare SEO requires more focus on trust, accuracy, medical expertise, patient experience, and local healthcare searches. A specialized approach helps create content and strategies suitable for healthcare audiences."
     },
     {
       q: "Do you provide local SEO for doctors?",
-      a: "Yes. Our local SEO services help doctors improve visibility in location-based searches through Google Business Profile optimization, localized patient content, directory citations, and targeted geographic search terms."
+      a: "Yes. Our local SEO services help doctors improve visibility in location-based searches through Google Business Profile optimization, local content, healthcare directories, and location targeting."
     },
     {
       q: "How can SEO help doctors get more patients?",
-      a: "SEO helps connect your practice with people actively searching for healthcare services. By improving rankings and visibility, your website can attract more qualified visitors who are ready to book appointments."
+      a: "SEO helps connect your practice with people actively searching for healthcare services. By improving rankings and visibility, your website can attract more qualified visitors who may become patients."
     },
     {
       q: "What keywords do doctors target with SEO?",
-      a: "Healthcare keywords vary by specialty and location. Examples include 'Doctor near me', 'Best doctor in [city]', 'Medical specialist', 'Healthcare services', and specific treatment-related search queries."
+      a: "Healthcare keywords vary by specialty and location. Examples include 'Doctor near me', 'Best doctor in [city]', 'Medical specialist', 'Healthcare services', and treatment-related searches."
     },
     {
       q: "Can SEO replace Google Ads for doctors?",
-      a: "SEO and Google Ads serve different purposes. Google Ads provide immediate visibility, while SEO builds long-term organic growth. Many successful healthcare practices use both strategies together to maximize search presence."
+      a: "SEO and Google Ads serve different purposes. Google Ads can provide immediate visibility, while SEO builds long-term organic growth. Many successful healthcare practices use both strategies together."
     },
     {
       q: "How do I choose the best SEO company for doctors?",
-      a: "Look for an SEO partner that understands healthcare regulations, patient search behavior, local search patterns, E-E-A-T content quality, and conversion optimization. A healthcare-focused SEO agency like Med Clinic X can create more relevant strategies."
+      a: "Look for an SEO partner that understands healthcare marketing, patient search behavior, local SEO, content quality, and conversion optimization. A healthcare-focused SEO company can create more relevant strategies."
     }
   ];
 
@@ -117,32 +121,34 @@ export default function SeoServicesClient() {
       <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-brand-cyan/5 rounded-full blur-[140px] -z-10 pointer-events-none" />
       <div className="absolute bottom-10 left-1/4 w-[600px] h-[600px] bg-brand-indigo/5 rounded-full blur-[140px] -z-10 pointer-events-none" />
 
-      {/* 1. Hero Section */}
-      <section className="relative pt-20 pb-16 md:py-24 max-w-7xl mx-auto px-6">
+      {/* 1. HERO SECTION */}
+      <section className="relative pt-16 pb-16 md:py-24 max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-7 space-y-6">
             <div className="inline-flex items-center space-x-2 bg-brand-cyan/15 rounded-full px-3.5 py-1 border border-brand-cyan/20">
               <Sparkles className="w-3.5 h-3.5 text-brand-cyan" />
-              <span className="text-[10px] font-bold text-brand-cyan uppercase tracking-wider">SEO for Doctors</span>
+              <span className="text-[10px] font-bold text-brand-cyan uppercase tracking-wider">Healthcare SEO Agency</span>
             </div>
             <h1 className="font-display font-extrabold text-4xl sm:text-5xl lg:text-6xl text-white tracking-tight leading-tight">
-              Grow Your Medical Practice With <span className="text-gradient-cyan-indigo">Professional SEO</span> Services
+              Grow Your Medical Practice With <span className="text-gradient-cyan-indigo">Professional SEO</span> Services for Doctors
             </h1>
             <p className="text-gray-400 text-sm sm:text-base leading-relaxed max-w-xl">
-              Patients are searching online before choosing a healthcare provider. We provide specialized, HIPAA-aligned SEO strategies designed specifically to improve search rankings, attract qualified patients, and build a trusted digital presence.
+              Patients are searching online before choosing a healthcare provider. Whether they are looking for a specialist, primary care physician, dentist, or medical clinic, your online visibility plays a major role in whether they discover your practice or choose a competitor.
             </p>
-            <div className="pt-4 flex flex-wrap gap-4">
+            <p className="text-gray-400 text-xs sm:text-sm leading-relaxed max-w-xl font-normal">
+              At Med Clinic X, we provide specialized <strong>SEO services for doctors</strong> designed specifically for healthcare professionals who want to improve search rankings, attract qualified patients, and build a stronger digital presence.
+            </p>
+            <div className="pt-2 flex flex-wrap gap-4">
               <a href="#consultation" className="inline-flex items-center space-x-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold px-6 py-3.5 rounded-xl hover:opacity-95 transition-opacity text-xs cursor-pointer">
-                <span>Request Free SEO Audit</span>
+                <span>Book Free SEO Consultation</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </a>
-              <a href="#features" className="inline-flex items-center border border-brand-border text-gray-300 hover:text-white font-semibold px-6 py-3.5 rounded-xl transition-colors text-xs">
-                Learn More
+              <a href="#packages" className="inline-flex items-center border border-brand-border text-gray-300 hover:text-white font-semibold px-6 py-3.5 rounded-xl transition-colors text-xs">
+                View Packages
               </a>
             </div>
           </div>
 
-          {/* Image Placeholder right side */}
           <div className="lg:col-span-5">
             <div className="glass-panel border border-brand-border rounded-3xl p-6 relative overflow-hidden shadow-2xl bg-[#040D18]/40">
               <div className="absolute inset-0 bg-gradient-to-tr from-brand-cyan/5 to-brand-indigo/5 pointer-events-none" />
@@ -151,12 +157,12 @@ export default function SeoServicesClient() {
                 <span className="w-2.5 h-2.5 rounded-full bg-brand-cyan animate-pulse" />
               </div>
               
-              <div className="h-60 rounded-2xl bg-brand-bg/50 border border-brand-border border-dashed flex flex-col items-center justify-center text-center p-6 space-y-3">
+              <div className="h-64 rounded-2xl bg-brand-bg/50 border border-brand-border border-dashed flex flex-col items-center justify-center text-center p-6 space-y-3">
                 <Search className="w-12 h-12 text-brand-cyan" />
                 <div>
-                  <p className="text-xs font-bold text-white uppercase tracking-wider">Search Performance Dashboard Mockup</p>
+                  <p className="text-xs font-bold text-white uppercase tracking-wider">SEO Traffic Acquisition Dashboard</p>
                   <p className="text-[10px] text-gray-500 max-w-[240px] mx-auto mt-1 leading-relaxed">
-                    Visual graphic showing search engine rank tracking, index status, and organic search impressions.
+                    Graphic detailing search queries, position mapping, click rates, and patient volume trends.
                   </p>
                 </div>
               </div>
@@ -165,96 +171,478 @@ export default function SeoServicesClient() {
         </div>
       </section>
 
-      {/* 2. Importance Section */}
-      <section id="features" className="max-w-7xl mx-auto px-6 py-16 border-t border-brand-border/40">
+      {/* Intro Context Paragraphs */}
+      <section className="max-w-7xl mx-auto px-6 py-8 border-t border-brand-border/40">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm text-gray-400 leading-relaxed font-normal">
+          <p>
+            Unlike traditional SEO approaches, healthcare SEO requires a deeper understanding of patient search behavior, medical content standards, local visibility, trust signals, and healthcare industry requirements. Our <strong>SEO strategy for doctors</strong> focuses on helping medical professionals appear where patients are actively searching — from Google search results and local maps to healthcare-related queries.
+          </p>
+          <p>
+            Whether you are a solo physician, specialist, clinic owner, or growing healthcare organization, our healthcare-focused SEO solutions help transform online searches into real patient opportunities. We customize our approach around your specialties and targets.
+          </p>
+        </div>
+      </section>
+
+      {/* 2. WHY SEO IS IMPORTANT SECTION */}
+      <section className="max-w-7xl mx-auto px-6 py-16 border-t border-brand-border/40">
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
           <h2 className="font-display font-extrabold text-3xl text-white">
             Why SEO for Doctors Is Important in Today’s Healthcare Industry
           </h2>
           <p className="text-gray-400 text-sm leading-relaxed">
-            Modern patients no longer rely only on referrals or traditional advertising when choosing a doctor. They use search engines as their first step to locate nearby providers and treatments.
+            Modern patients no longer rely only on referrals or traditional advertising when choosing a doctor.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div className="glass-panel p-6 rounded-2xl border border-brand-border space-y-4">
-            <div className="w-10 h-10 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan">
-              <Search className="w-5 h-5" />
-            </div>
-            <h3 className="font-bold text-white text-base">Increase Visibility on Google</h3>
-            <p className="text-xs text-gray-400 leading-relaxed font-normal">
-              Appear prominently in search results when potential patients look for general practices, specialist clinics, and specific medical treatments.
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="lg:col-span-6 space-y-6">
+            <h3 className="font-bold text-white text-lg">What Patients Search For Online:</h3>
+            <ul className="space-y-3.5">
+              {[
+                "Best doctors near me",
+                "Specialists in their area",
+                "Treatment options & clinical procedures",
+                "Medical conditions & symptom checkers",
+                "Reviews and healthcare providers ratings",
+                "Appointment availability and clinics opening hours"
+              ].map((item, idx) => (
+                <li key={idx} className="flex items-center space-x-3 text-xs sm:text-sm text-gray-300">
+                  <span className="w-1.5 h-1.5 rounded-full bg-brand-cyan" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+            <p className="text-xs text-gray-500 leading-relaxed font-normal">
+              If your practice does not appear prominently in search results, potential patients may never find your services.
             </p>
           </div>
 
+          <div className="lg:col-span-6 space-y-6">
+            <h3 className="font-bold text-white text-lg">How Effective SEO Helps Your Medical Practice:</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {[
+                { title: "Increase visibility on Google", desc: "Rank higher for both local searches and medical terms." },
+                { title: "Reach targeted patients", desc: "Connect with patients actively searching for your services." },
+                { title: "Build credibility and trust", desc: "Highlight expertise, quality reviews, and E-E-A-T standards." },
+                { title: "Consistent organic traffic", desc: "Attract patient inquiries month-over-month sustainably." },
+                { title: "Reduce dependency on ads", desc: "Lower overall acquisition costs with natural rankings." },
+                { title: "Improve appointment inquiries", desc: "Drive high-conversion visitor paths directly to your portal." }
+              ].map((item, idx) => (
+                <div key={idx} className="bg-white/2 border border-brand-border p-4 rounded-xl space-y-1">
+                  <p className="text-xs font-bold text-white">{item.title}</p>
+                  <p className="text-[10px] text-gray-500 leading-relaxed font-normal">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. OUR SEO SERVICES FOR DOCTORS */}
+      <section className="max-w-7xl mx-auto px-6 py-16 border-t border-brand-border/40">
+        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+          <h2 className="font-display font-extrabold text-3xl text-white">
+            Our SEO Services for Doctors
+          </h2>
+          <p className="text-gray-400 text-sm leading-relaxed">
+            At Med Clinic X, we provide complete <strong>SEO services for doctor</strong> websites and healthcare businesses. Our approach combines technical optimization, healthcare content strategy, local search optimization, and conversion-focused improvements.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+          {/* Service 1 */}
+          <div className="glass-panel p-6 rounded-2xl border border-brand-border space-y-4">
+            <div className="w-10 h-10 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan">
+              <Compass className="w-5 h-5" />
+            </div>
+            <h3 className="font-bold text-white text-lg">Healthcare Website SEO Optimization</h3>
+            <p className="text-xs text-gray-400 leading-relaxed font-normal">
+              Your website is the foundation of your online presence. We optimize your healthcare website to improve search engine visibility, website performance, user experience, mobile layouts, and patient conversion rates. Our SEO specialists analyze your website structure, technical health, content quality, and ranking opportunities to create a customized optimization plan.
+            </p>
+          </div>
+
+          {/* Service 2 */}
           <div className="glass-panel p-6 rounded-2xl border border-brand-border space-y-4">
             <div className="w-10 h-10 rounded-xl bg-brand-indigo/10 border border-brand-indigo/20 flex items-center justify-center text-brand-indigo">
               <MapPin className="w-5 h-5" />
             </div>
-            <h3 className="font-bold text-white text-base">Reach Patients Near You</h3>
+            <h3 className="font-bold text-white text-lg">Local SEO for Doctors: Get Found by Patients Near You</h3>
             <p className="text-xs text-gray-400 leading-relaxed font-normal">
-              Local map packs and location-based keywords position your practice directly in front of patient intent in your city or surrounding areas.
+              Most healthcare searches have local intent. Patients usually search for doctors within their city or nearby locations. Our <strong>local SEO for doctors</strong> services help improve your visibility in local searches and Google Maps results.
+            </p>
+          </div>
+        </div>
+
+        {/* Local SEO Details Subgrid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start pt-8 border-t border-brand-border/40">
+          <div className="space-y-4">
+            <h4 className="font-bold text-white text-base">Google Business Profile Optimization</h4>
+            <p className="text-xs text-gray-400 leading-relaxed font-normal">
+              Your Google Business Profile is one of the most important assets for attracting local patients. We improve business information accuracy, healthcare categories, service descriptions, location signals, patient reviews strategy, photos, and updates.
+            </p>
+            <div className="bg-slate-900/60 p-4 rounded-xl border border-brand-border max-w-md space-y-2.5 font-mono text-[11px]">
+              <p className="text-brand-cyan font-bold uppercase text-[9px] tracking-wider mb-1">Local Maps Mockup Preview</p>
+              {listingsMock.map((l, i) => (
+                <div key={i} className={`border rounded-lg p-2.5 flex items-start justify-between ${l.color}`}>
+                  <div>
+                    <p className="font-bold">{l.rank}. {l.name}</p>
+                    <p className="text-[10px] text-gray-500 mt-0.5">{l.rating}</p>
+                  </div>
+                  <span className="text-[8px] font-bold uppercase px-1.5 py-0.5 bg-brand-border rounded text-gray-400">{l.status}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <h4 className="font-bold text-white text-base">Local Search Optimization & Citation Sync</h4>
+            <p className="text-xs text-gray-400 leading-relaxed font-normal">
+              Our local SEO strategy focuses on improving your visibility across location-based searches. We optimize local keywords, location landing pages, healthcare directories, local citations, NAP consistency, and patient-focused content to compete in your target service areas.
+            </p>
+            <div className="glass-panel border border-brand-border rounded-2xl p-6 relative overflow-hidden bg-[#040D18]/40 max-w-md">
+              <div className="flex items-center justify-between mb-3 border-b border-brand-border pb-2 text-[10px] text-gray-500 font-mono">
+                <span>Image Placeholder</span>
+                <span className="text-brand-cyan">Citation Map</span>
+              </div>
+              <div className="h-32 rounded-xl bg-brand-bg/50 border border-brand-border border-dashed flex flex-col items-center justify-center text-center p-4">
+                <MapPin className="w-8 h-8 text-brand-cyan mb-2" />
+                <p className="text-[10px] font-bold text-white uppercase tracking-wider">Citation & Map Directories Visual</p>
+                <p className="text-[9px] text-gray-500 mt-1 leading-relaxed">Visual graphic showing Yelp, WebMD, Healthgrades directory mapping.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. SEO STRATEGY FOR DOCTORS */}
+      <section className="max-w-7xl mx-auto px-6 py-16 border-t border-brand-border/40">
+        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+          <h2 className="font-display font-extrabold text-3xl text-white">
+            SEO Strategy for Doctors That Drives Patient Growth
+          </h2>
+          <p className="text-gray-400 text-sm leading-relaxed">
+            Every medical practice is different. A dermatologist, cardiologist, dentist, and general physician all have different patient search patterns.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="glass-panel p-6 rounded-2xl border border-brand-border space-y-3">
+            <span className="text-xs font-mono font-bold text-brand-cyan bg-brand-cyan/15 rounded px-2 py-0.5">Strategy 01</span>
+            <h4 className="font-bold text-white text-base">Keyword Research Based on Patient Intent</h4>
+            <p className="text-xs text-gray-400 leading-relaxed font-normal">
+              We identify keywords patients actually use when searching for healthcare services. We focus on high-value terms like <em>&quot;Doctor near me&quot;</em>, <em>&quot;Best cardiologist in [city]&quot;</em>, and treatment-related searches that bring qualified traffic.
             </p>
           </div>
 
-          <div className="glass-panel p-6 rounded-2xl border border-brand-border space-y-4">
-            <div className="w-10 h-10 rounded-xl bg-brand-emerald/10 border border-brand-emerald/20 flex items-center justify-center text-brand-emerald">
-              <CheckCircle2 className="w-5 h-5" />
-            </div>
-            <h3 className="font-bold text-white text-base">Build Credibility and Trust</h3>
+          <div className="glass-panel p-6 rounded-2xl border border-brand-border space-y-3">
+            <span className="text-xs font-mono font-bold text-brand-indigo bg-brand-indigo/15 rounded px-2 py-0.5">Strategy 02</span>
+            <h4 className="font-bold text-white text-base">Healthcare Content Marketing</h4>
             <p className="text-xs text-gray-400 leading-relaxed font-normal">
-              E-E-A-T focused medical content educational articles answer patient questions, establishing your practice as an authority.
+              High-quality medical content builds trust with both patients and search engines. We create content strategies around medical conditions, treatments, and FAQs, satisfying Google's E-E-A-T quality guidelines.
+            </p>
+          </div>
+
+          <div className="glass-panel p-6 rounded-2xl border border-brand-border space-y-3">
+            <span className="text-xs font-mono font-bold text-brand-emerald bg-brand-emerald/15 rounded px-2 py-0.5">Strategy 03</span>
+            <h4 className="font-bold text-white text-base">Technical SEO for Healthcare Sites</h4>
+            <p className="text-xs text-gray-400 leading-relaxed font-normal">
+              A technically optimized website helps search engines understand your services. We improve website speeds, mobile layout usability, medical schema markups, crawl budgets, and security configurations.
             </p>
           </div>
         </div>
       </section>
 
-      {/* 3. Our Services Section */}
+      {/* 5. GOOGLE ADS + SEO OUTLINE */}
       <section className="max-w-7xl mx-auto px-6 py-16 border-t border-brand-border/40">
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <h2 className="font-display font-extrabold text-3xl text-white">
-            Our SEO Services for Doctors & Healthcare Websites
-          </h2>
-          <p className="text-gray-400 text-sm leading-relaxed">
-            Our approach combines technical website optimization, patient-focused content strategy, local search directory mappings, and custom search campaigns.
-          </p>
-        </div>
-
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="lg:col-span-7 space-y-6">
+            <h3 className="font-display font-bold text-2xl text-white">
+              Google Ads for Doctors + SEO Growth Strategy
+            </h3>
+            <p className="text-sm text-gray-400 leading-relaxed font-normal">
+              Many doctors use paid advertising to generate immediate leads, but combining Google Ads with SEO creates stronger long-term growth. Our <strong>Google Ads for doctors SEO outline</strong> approach helps healthcare providers create a balanced digital marketing strategy.
+            </p>
+            <p className="text-xs text-gray-400 leading-relaxed font-normal">
+              SEO builds sustainable organic visibility, while Google Ads helps capture immediate patient demand. We help optimize search campaigns, healthcare keywords, landing pages, conversion tracking, and patient-focused messaging.
+            </p>
+            <div className="bg-white/2 border border-brand-border rounded-xl p-5 space-y-3">
+              <p className="text-xs font-bold text-white">Why Choose Med Clinic X as Your SEO Agency for Doctors?</p>
+              <p className="text-[11px] text-gray-400 leading-relaxed font-normal">
+                Choosing the right SEO partner matters because healthcare marketing requires industry-specific knowledge. Med Clinic X works as a specialized SEO agency for doctors, helping medical professionals improve their online presence through customized strategies focused on patient acquisition, search visibility, and conversion improvements.
+              </p>
+            </div>
+          </div>
+
           <div className="lg:col-span-5">
             <div className="glass-panel border border-brand-border rounded-3xl p-6 relative overflow-hidden shadow-2xl bg-[#040D18]/40">
               <div className="absolute inset-0 bg-gradient-to-tr from-brand-cyan/5 to-brand-indigo/5 pointer-events-none" />
               <div className="flex items-center justify-between mb-4 border-b border-brand-border pb-3">
                 <span className="text-[10px] font-mono text-gray-500 font-bold uppercase tracking-wider">Image Placeholder</span>
-                <span className="w-2.5 h-2.5 rounded-full bg-brand-indigo animate-pulse" />
+                <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse" />
               </div>
               
               <div className="h-60 rounded-2xl bg-brand-bg/50 border border-brand-border border-dashed flex flex-col items-center justify-center text-center p-6 space-y-3">
-                <MapPin className="w-12 h-12 text-brand-indigo" />
+                <TrendingUp className="w-12 h-12 text-amber-400" />
                 <div>
-                  <p className="text-xs font-bold text-white uppercase tracking-wider">Local SEO Google Business Mockup</p>
+                  <p className="text-xs font-bold text-white uppercase tracking-wider">SEM Campaign & Ad Metrics Mockup</p>
                   <p className="text-[10px] text-gray-500 max-w-[240px] mx-auto mt-1 leading-relaxed">
-                    Visual display showing location citations mapping, Google maps ranking results, and local reviews.
+                    Graphic illustrating patient acquisition pathways from Google PPC and organic search.
                   </p>
                 </div>
               </div>
             </div>
           </div>
+        </div>
+      </section>
 
-          <div className="lg:col-span-7 space-y-6">
-            <div className="space-y-4">
-              <h3 className="font-display font-bold text-2xl text-white">Local SEO for Doctors: Get Found by Patients Near You</h3>
-              <p className="text-sm text-gray-400 leading-relaxed font-normal">
-                Most healthcare searches have local intent. Our local SEO strategies optimize your Google Business Profile and local keywords to make sure you appear for local search queries.
-              </p>
+      {/* 6. BEST SEO COMPANY FOR DOCTORS - THE HEALTHCARE SEO PROCESS */}
+      <section className="max-w-7xl mx-auto px-6 py-16 border-t border-brand-border/40">
+        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+          <h2 className="font-display font-extrabold text-3xl text-white">
+            Best SEO Company for Doctors: Our Healthcare SEO Process
+          </h2>
+          <p className="text-gray-400 text-sm leading-relaxed">
+            Patients are not simply buying a product — they are making important decisions about their health. That means your online presence must communicate trust, expertise, credibility, and professionalism. Our structured SEO process makes this possible.
+          </p>
+        </div>
+
+        <div className="space-y-12">
+          {/* Step 1 */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start pb-8 border-b border-brand-border/40">
+            <div className="lg:col-span-3 space-y-2">
+              <span className="text-[10px] font-mono font-bold text-brand-cyan bg-brand-cyan/15 rounded px-2.5 py-0.5">Phase 01</span>
+              <h3 className="font-display font-bold text-lg text-white">Healthcare SEO Audit</h3>
             </div>
+            <div className="lg:col-span-9 text-xs sm:text-sm text-gray-400 leading-relaxed font-normal">
+              Before implementing changes, we analyze your current online presence. Our SEO audit evaluates website performance, technical issues, keyword opportunities, competitor rankings, content quality, local search visibility, and patient conversion opportunities. This helps identify areas where your practice can improve and where competitors are gaining visibility.
+            </div>
+          </div>
 
-            <div className="space-y-4 pt-4 border-t border-brand-border/40">
-              <h4 className="text-sm font-bold text-white uppercase tracking-wider">Google Business Profile Optimization</h4>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-gray-400">
-                {["Category & Services Mappings", "Business Profile Integrity", "Patient Reviews Strategy", "Structured Location Schema", "NAP Consistency Audit", "Photos & Local Posting Setup"].map((item, idx) => (
+          {/* Step 2 */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start pb-8 border-b border-brand-border/40">
+            <div className="lg:col-span-3 space-y-2">
+              <span className="text-[10px] font-mono font-bold text-brand-indigo bg-brand-indigo/15 rounded px-2.5 py-0.5">Phase 02</span>
+              <h3 className="font-display font-bold text-lg text-white">Doctor SEO Keyword Research</h3>
+            </div>
+            <div className="lg:col-span-9 text-xs sm:text-sm text-gray-400 leading-relaxed font-normal">
+              Effective SEO starts with understanding what patients search for. Our keyword research process identifies high-value search terms related to your medical services (e.g. <em>&quot;SEO for doctor&quot;</em>, <em>&quot;SEO services for doctors&quot;</em>, <em>&quot;Doctor specialist near me&quot;</em>). We analyze search intent, competition levels, and location-based queries to align with real patient needs.
+            </div>
+          </div>
+
+          {/* Step 3 */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start pb-8 border-b border-brand-border/40">
+            <div className="lg:col-span-3 space-y-2">
+              <span className="text-[10px] font-mono font-bold text-brand-emerald bg-brand-emerald/15 rounded px-2.5 py-0.5">Phase 03</span>
+              <h3 className="font-display font-bold text-lg text-white">Website Optimization</h3>
+            </div>
+            <div className="lg:col-span-9 space-y-4">
+              <p className="text-xs sm:text-sm text-gray-400 leading-relaxed font-normal">
+                Your website should not only rank on Google — it should convert visitors into patients. We optimize important website areas:
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+                <div className="bg-white/2 p-4 rounded-xl border border-brand-border">
+                  <p className="font-bold text-white mb-1">Homepage Optimization</p>
+                  <p className="text-[10px] text-gray-500 leading-relaxed font-normal">We improve messaging clarity, service positioning, patient trust signals, and clear calls-to-action.</p>
+                </div>
+                <div className="bg-white/2 p-4 rounded-xl border border-brand-border">
+                  <p className="font-bold text-white mb-1">Service Pages</p>
+                  <p className="text-[10px] text-gray-500 leading-relaxed font-normal">Dedicated optimization of medical service explanations, healthcare keywords, patient benefits, and structured data layout.</p>
+                </div>
+                <div className="bg-white/2 p-4 rounded-xl border border-brand-border">
+                  <p className="font-bold text-white mb-1">Appointment Conversion</p>
+                  <p className="text-[10px] text-gray-500 leading-relaxed font-normal">Optimizing appointment booking forms, practice contact sections, click-to-call phone numbers, and overall user experience.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Step 4 */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start pb-8 border-b border-brand-border/40">
+            <div className="lg:col-span-3 space-y-2">
+              <span className="text-[10px] font-mono font-bold text-amber-400 bg-amber-400/15 rounded px-2.5 py-0.5">Phase 04</span>
+              <h3 className="font-display font-bold text-lg text-white">Doctor SEO Content Strategy</h3>
+            </div>
+            <div className="lg:col-span-9 space-y-4">
+              <p className="text-xs sm:text-sm text-gray-400 leading-relaxed font-normal">
+                Healthcare content plays a major role in building online authority and answering patient queries:
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+                <div className="bg-white/2 p-4 rounded-xl border border-brand-border">
+                  <p className="font-bold text-white mb-1">Medical Education Content</p>
+                  <p className="text-[10px] text-gray-500 leading-relaxed font-normal">Symptoms guides, treatment explanations, preventive health updates, and FAQ lists.</p>
+                </div>
+                <div className="bg-white/2 p-4 rounded-xl border border-brand-border">
+                  <p className="font-bold text-white mb-1">Specialty-Based Content</p>
+                  <p className="text-[10px] text-gray-500 leading-relaxed font-normal">Detailed service descriptions for cardiology, dermatology, dental, orthopedics, etc.</p>
+                </div>
+                <div className="bg-white/2 p-4 rounded-xl border border-brand-border">
+                  <p className="font-bold text-white mb-1">Local Healthcare Content</p>
+                  <p className="text-[10px] text-gray-500 leading-relaxed font-normal">Guides targeting 'best doctor in [location]' and specific city healthcare solutions.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Step 5 */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start pb-8 border-b border-brand-border/40">
+            <div className="lg:col-span-3 space-y-2">
+              <span className="text-[10px] font-mono font-bold text-rose-400 bg-rose-400/15 rounded px-2.5 py-0.5">Phase 05</span>
+              <h3 className="font-display font-bold text-lg text-white">Local SEO Services & GBP</h3>
+            </div>
+            <div className="lg:col-span-9 text-xs sm:text-sm text-gray-400 leading-relaxed font-normal">
+              For most healthcare providers, local visibility is critical. Patients usually search for nearby healthcare providers before booking an appointment. We optimize Google Maps rankings by improving business profile details, service areas, patient reviews, and clinic directory alignments across relevant healthcare directories.
+            </div>
+          </div>
+
+          {/* Step 6 */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start pb-8 border-b border-brand-border/40">
+            <div className="lg:col-span-3 space-y-2">
+              <span className="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-400/15 rounded px-2.5 py-0.5">Phase 06</span>
+              <h3 className="font-display font-bold text-lg text-white">Building Patient Trust</h3>
+            </div>
+            <div className="lg:col-span-9 space-y-4">
+              <p className="text-xs sm:text-sm text-gray-400 leading-relaxed font-normal">
+                Healthcare decisions depend heavily on trust. Search engines also evaluate trust signals when ranking healthcare websites. Our SEO approach focuses on improving E-E-A-T:
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+                <div className="bg-white/2 p-4 rounded-xl border border-brand-border">
+                  <p className="font-bold text-white mb-1">Expertise</p>
+                  <p className="text-[10px] text-gray-500 leading-relaxed font-normal">Showcasing doctor qualifications, medical experience, and professional background profiles.</p>
+                </div>
+                <div className="bg-white/2 p-4 rounded-xl border border-brand-border">
+                  <p className="font-bold text-white mb-1">Authority</p>
+                  <p className="text-[10px] text-gray-500 leading-relaxed font-normal">Improving medical content quality, online mentions, and digital healthcare presence.</p>
+                </div>
+                <div className="bg-white/2 p-4 rounded-xl border border-brand-border">
+                  <p className="font-bold text-white mb-1">Trust</p>
+                  <p className="text-[10px] text-gray-500 leading-relaxed font-normal">Providing accurate information, transparent pricing details, and positive patient review loops.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Step 7 */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start pb-8">
+            <div className="lg:col-span-3 space-y-2">
+              <span className="text-[10px] font-mono font-bold text-violet-400 bg-violet-400/15 rounded px-2.5 py-0.5">Phase 07</span>
+              <h3 className="font-display font-bold text-lg text-white">Technical Optimization</h3>
+            </div>
+            <div className="lg:col-span-9 space-y-4">
+              <p className="text-xs sm:text-sm text-gray-400 leading-relaxed font-normal">
+                Technical SEO ensures search engines can properly crawl, understand, and index your website:
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+                <div className="bg-white/2 p-4 rounded-xl border border-brand-border">
+                  <p className="font-bold text-white mb-1">Website Speed Optimization</p>
+                  <p className="text-[10px] text-gray-500 leading-relaxed font-normal">Eliminate slow load times and resolve Core Web Vitals to keep patients engaged on page.</p>
+                </div>
+                <div className="bg-white/2 p-4 rounded-xl border border-brand-border">
+                  <p className="font-bold text-white mb-1">Mobile SEO</p>
+                  <p className="text-[10px] text-gray-500 leading-relaxed font-normal">Optimize layouts and navigation pathways for potential patients searching on smartphones.</p>
+                </div>
+                <div className="bg-white/2 p-4 rounded-xl border border-brand-border">
+                  <p className="font-bold text-white mb-1">Healthcare Schema</p>
+                  <p className="text-[10px] text-gray-500 leading-relaxed font-normal">Implement JSON-LD structures to define doctors, medical services, locations, and reviews.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Competitive SEO block */}
+      <section className="max-w-7xl mx-auto px-6 py-12 border-t border-brand-border/40">
+        <div className="glass-panel p-6 sm:p-8 rounded-2xl border border-brand-border grid grid-cols-1 md:grid-cols-2 gap-8 items-center bg-[#040D18]/25">
+          <div className="space-y-4">
+            <h3 className="font-display font-bold text-xl sm:text-2xl text-white">Competitive SEO Strategy for Medical Practices</h3>
+            <p className="text-xs sm:text-sm text-gray-400 leading-relaxed font-normal">
+              Healthcare is highly competitive, with many doctors targeting the same local patient groups. Our competitive SEO research analyzes competitor ranking strategies, content gaps, keyword opportunities, and citation gaps to formulate plans that help your practice compete effectively.
+            </p>
+            <p className="text-xs text-gray-500 leading-relaxed font-normal">
+              Working with a generalist provider can fall short. A specialized <strong>SEO agency for doctors</strong> understands patient search intent, medical terminology, and professional content standards.
+            </p>
+          </div>
+          <div className="space-y-4">
+            <h3 className="font-display font-bold text-lg text-white">Benefits of Professional SEO for Doctors:</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-gray-400">
+              <div className="flex items-center space-x-2"><CheckCircle2 className="w-4 h-4 text-brand-cyan shrink-0" /><span>More Patient Discoverability</span></div>
+              <div className="flex items-center space-x-2"><CheckCircle2 className="w-4 h-4 text-brand-cyan shrink-0" /><span>Higher Search Rankings</span></div>
+              <div className="flex items-center space-x-2"><CheckCircle2 className="w-4 h-4 text-brand-cyan shrink-0" /><span>Consistent Organic Traffic</span></div>
+              <div className="flex items-center space-x-2"><CheckCircle2 className="w-4 h-4 text-brand-cyan shrink-0" /><span>Better Patient Engagement</span></div>
+              <div className="flex items-center space-x-2"><CheckCircle2 className="w-4 h-4 text-brand-cyan shrink-0" /><span>Sustainable Long-Term Growth</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 7. HEALTHCARE SEO PACKAGES */}
+      <section id="packages" className="max-w-7xl mx-auto px-6 py-16 border-t border-brand-border/40">
+        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+          <h2 className="font-display font-extrabold text-3xl text-white">
+            Healthcare SEO Packages Designed for Doctors
+          </h2>
+          <p className="text-gray-400 text-sm leading-relaxed">
+            Every medical practice has different goals, competition levels, and patient acquisition needs. A small private clinic may need stronger local maps search visibility, while a multi-location healthcare organization requires a complete SEO growth system.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Package 1 */}
+          <div className="glass-panel p-6 rounded-2xl border border-brand-border flex flex-col justify-between">
+            <div className="space-y-4">
+              <div className="inline-flex items-center space-x-2 bg-brand-cyan/15 rounded-full px-3 py-0.5 border border-brand-cyan/20">
+                <span className="text-[10px] font-bold text-brand-cyan uppercase tracking-wider">Local Focus</span>
+              </div>
+              <h3 className="font-display font-bold text-xl text-white">Local SEO Growth</h3>
+              <p className="text-xs text-gray-400 leading-relaxed font-normal">
+                Designed for doctors who want to attract more patients from their surrounding areas and local maps pack.
+              </p>
+              <ul className="space-y-2 text-xs text-gray-400 pt-2 border-t border-brand-border/30">
+                {["Google Business Profile optimization", "Local keyword targeting", "Location-based landing pages", "Healthcare directory optimization", "Patient review growth strategies", "Local citation audits"].map((item, idx) => (
                   <li key={idx} className="flex items-center space-x-2">
-                    <CheckCircle2 className="w-4 h-4 text-brand-cyan shrink-0" />
+                    <CheckCircle2 className="w-3.5 h-3.5 text-brand-cyan shrink-0" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* Package 2 */}
+          <div className="glass-panel p-6 rounded-2xl border border-brand-border flex flex-col justify-between">
+            <div className="space-y-4">
+              <div className="inline-flex items-center space-x-2 bg-brand-indigo/15 rounded-full px-3 py-0.5 border border-brand-indigo/20">
+                <span className="text-[10px] font-bold text-brand-indigo uppercase tracking-wider">Technical & On-Page</span>
+              </div>
+              <h3 className="font-display font-bold text-xl text-white">Healthcare Website SEO</h3>
+              <p className="text-xs text-gray-400 leading-relaxed font-normal">
+                Your website should act as a patient acquisition platform, not just an online brochure.
+              </p>
+              <ul className="space-y-2 text-xs text-gray-400 pt-2 border-t border-brand-border/30">
+                {["SEO-friendly website structures", "Healthcare keyword optimization", "Service page content improvements", "On-page content optimization", "Internal link structure setups", "Technical site speed improvements"].map((item, idx) => (
+                  <li key={idx} className="flex items-center space-x-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-brand-indigo shrink-0" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* Package 3 */}
+          <div className="glass-panel p-6 rounded-2xl border border-brand-border flex flex-col justify-between">
+            <div className="space-y-4">
+              <div className="inline-flex items-center space-x-2 bg-brand-emerald/15 rounded-full px-3 py-0.5 border border-brand-emerald/20">
+                <span className="text-[10px] font-bold text-brand-emerald uppercase tracking-wider">Advanced Strategy</span>
+              </div>
+              <h3 className="font-display font-bold text-xl text-white">Advanced SEO for Doctors</h3>
+              <p className="text-xs text-gray-400 leading-relaxed font-normal">
+                For competitive healthcare markets where you need to stand out from other local providers.
+              </p>
+              <ul className="space-y-2 text-xs text-gray-400 pt-2 border-t border-brand-border/30">
+                {["Competitor market analysis", "Keyword gap audits", "Structured content blueprints", "Domain authority building", "Patient conversion optimization", "Ongoing performance dashboards"].map((item, idx) => (
+                  <li key={idx} className="flex items-center space-x-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-brand-emerald shrink-0" />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -264,100 +652,214 @@ export default function SeoServicesClient() {
         </div>
       </section>
 
-      {/* 4. Steps & Process */}
+      {/* 8. TURNING SEARCH TRAFFIC INTO PATIENT APPOINTMENTS */}
       <section className="max-w-7xl mx-auto px-6 py-16 border-t border-brand-border/40">
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
           <h2 className="font-display font-extrabold text-3xl text-white">
-            Our Healthcare SEO Process for Doctors
+            Turning Search Traffic Into Patient Appointments
           </h2>
           <p className="text-gray-400 text-sm leading-relaxed">
-            Finding the right SEO partner can directly impact your medical practice growth. We create a structured, data-driven framework.
+            Ranking on Google is only one part of healthcare SEO. The real goal is connecting with patients who are ready to take action.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div className="glass-panel p-6 rounded-2xl border border-brand-border space-y-3">
-            <span className="text-xs font-mono font-bold text-brand-cyan bg-brand-cyan/15 rounded px-2.5 py-0.5">Step 01</span>
-            <h4 className="font-bold text-white text-base pt-2">Healthcare SEO Audit</h4>
-            <p className="text-xs text-gray-400 leading-relaxed font-normal">
-              Comprehensive analysis of technical speed, indexing status, keyword opportunities, competitor profile, and site architecture gaps.
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="bg-white/2 border border-brand-border p-6 rounded-2xl space-y-3">
+            <span className="text-[10px] font-mono font-bold text-brand-cyan bg-brand-cyan/15 rounded px-2.5 py-0.5">Stage 01</span>
+            <h4 className="font-bold text-white text-base">Awareness Stage</h4>
+            <p className="text-[11px] text-gray-400 leading-relaxed font-normal">
+              Patients search for symptoms, conditions, and treatments. We publish educational medical articles that position your practice early in their search journey.
             </p>
           </div>
 
-          <div className="glass-panel p-6 rounded-2xl border border-brand-border space-y-3">
-            <span className="text-xs font-mono font-bold text-brand-indigo bg-brand-indigo/15 rounded px-2.5 py-0.5">Step 02</span>
-            <h4 className="font-bold text-white text-base pt-2">Keyword Intent Research</h4>
-            <p className="text-xs text-gray-400 leading-relaxed font-normal">
-              Identify search queries patients use when seeking specialty consultations, medical advice, local clinics, and treatment options.
+          <div className="bg-white/2 border border-brand-border p-6 rounded-2xl space-y-3">
+            <span className="text-[10px] font-mono font-bold text-brand-indigo bg-brand-indigo/15 rounded px-2.5 py-0.5">Stage 02</span>
+            <h4 className="font-bold text-white text-base">Consideration Stage</h4>
+            <p className="text-[11px] text-gray-400 leading-relaxed font-normal">
+              Patients compare doctors and clinics. We optimize your website content to communicate credentials, clinical focus, and patient benefits clearly.
             </p>
           </div>
 
-          <div className="glass-panel p-6 rounded-2xl border border-brand-border space-y-3">
-            <span className="text-xs font-mono font-bold text-brand-emerald bg-brand-emerald/15 rounded px-2.5 py-0.5">Step 03</span>
-            <h4 className="font-bold text-white text-base pt-2">Website & Form Optimization</h4>
-            <p className="text-xs text-gray-400 leading-relaxed font-normal">
-              Improve page speeds, mobile responsiveness, structural layouts, and appointment booking conversion pathways.
+          <div className="bg-white/2 border border-brand-border p-6 rounded-2xl space-y-3">
+            <span className="text-[10px] font-mono font-bold text-brand-emerald bg-brand-emerald/15 rounded px-2.5 py-0.5">Stage 03</span>
+            <h4 className="font-bold text-white text-base">Decision Stage</h4>
+            <p className="text-[11px] text-gray-400 leading-relaxed font-normal">
+              Patients are ready to book. We optimize appointment booking pages, contact info layouts, and user conversion paths to turn clicks into real consultations.
             </p>
           </div>
         </div>
       </section>
 
-      {/* 5. Google Ads + SEO Outline */}
+      {/* 9. ADVANCED HEALTHCARE SEO SOLUTIONS FOR DOCTORS LOOKING TO GROW ONLINE */}
       <section className="max-w-7xl mx-auto px-6 py-16 border-t border-brand-border/40">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div className="space-y-6">
-            <h3 className="font-display font-bold text-2xl text-white">
-              Google Ads for Doctors + SEO Growth Strategy
-            </h3>
-            <p className="text-sm text-gray-400 leading-relaxed font-normal">
-              SEO builds sustainable, long-term organic visibility, while Google Ads captures immediate high-intent patient queries in your area. Together, they form a robust search strategy that drives balanced growth.
+        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+          <h2 className="font-display font-extrabold text-3xl text-white">
+            Advanced Healthcare SEO Solutions for Doctors
+          </h2>
+          <p className="text-gray-400 text-sm leading-relaxed">
+            The healthcare industry is increasingly competitive. Modern practices need to explain their services, display authority, and provide a professional digital experience.
+          </p>
+        </div>
+
+        {/* Sub-sections Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start mb-12">
+          <div className="space-y-4">
+            <h3 className="font-bold text-white text-lg">Comprehensive SEO Services for Doctor Websites</h3>
+            <p className="text-xs text-gray-400 leading-relaxed font-normal">
+              Our advanced solutions combine search engine optimization (visibility), local search optimization (proximity searches), healthcare content marketing (education), conversion optimization (appointment booking actions), and technical SEO audits (crawling).
             </p>
-            <div className="space-y-4 pt-4 border-t border-brand-border/40">
-              <div className="flex items-start space-x-3">
-                <CheckCircle2 className="w-5 h-5 text-brand-cyan shrink-0 mt-0.5" />
-                <div>
-                  <p className="text-xs font-bold text-white">Google Ads Optimization</p>
-                  <p className="text-[11px] text-gray-400 mt-0.5">Landing page conversion triggers, call tracking integration, and structured bidding configurations.</p>
-                </div>
-              </div>
-              <div className="flex items-start space-x-3">
-                <CheckCircle2 className="w-5 h-5 text-brand-indigo shrink-0 mt-0.5" />
-                <div>
-                  <p className="text-xs font-bold text-white">SEO Growth Foundation</p>
-                  <p className="text-[11px] text-gray-400 mt-0.5">Build durable organic rankings, high E-E-A-T content, and local maps dominance to reduce ad spend over time.</p>
-                </div>
-              </div>
-            </div>
+            <p className="text-xs text-gray-500 leading-relaxed font-normal">
+              Many healthcare providers have excellent medical expertise but struggle to reach new patients online due to low Google rankings, weak local presence, limited content, or poor website conversion rates.
+            </p>
           </div>
 
-          {/* Image Placeholder right side */}
-          <div>
-            <div className="glass-panel border border-brand-border rounded-3xl p-6 relative overflow-hidden shadow-2xl bg-[#040D18]/40">
-              <div className="absolute inset-0 bg-gradient-to-tr from-brand-cyan/5 to-brand-indigo/5 pointer-events-none" />
-              <div className="flex items-center justify-between mb-4 border-b border-brand-border pb-3">
-                <span className="text-[10px] font-mono text-gray-500 font-bold uppercase tracking-wider">Image Placeholder</span>
-                <span className="w-2.5 h-2.5 rounded-full bg-brand-emerald animate-pulse" />
-              </div>
-              
-              <div className="h-60 rounded-2xl bg-brand-bg/50 border border-brand-border border-dashed flex flex-col items-center justify-center text-center p-6 space-y-3">
-                <TrendingUp className="w-12 h-12 text-brand-emerald" />
-                <div>
-                  <p className="text-xs font-bold text-white uppercase tracking-wider">SEO + SEM Traffic Performance Chart</p>
-                  <p className="text-[10px] text-gray-500 max-w-[240px] mx-auto mt-1 leading-relaxed">
-                    Graphic illustrating combined growth trends from organic search rankings and optimized Google Ads.
-                  </p>
-                </div>
-              </div>
+          <div className="space-y-4">
+            <h3 className="font-bold text-white text-lg">Doctor SEO Keyword & Content Strategy</h3>
+            <p className="text-xs text-gray-400 leading-relaxed font-normal">
+              Keyword selection plays an important role in healthcare SEO success. We target service-based keywords (<em>&quot;healthcare SEO services&quot;</em>), location-based keywords (<em>&quot;medical clinic in [location]&quot;</em>), and problem-based queries (<em>&quot;treatment options&quot;</em>).
+            </p>
+            <p className="text-xs text-gray-500 leading-relaxed font-normal">
+              High-quality medical content (symptoms guides, service pages, and clinic FAQs) supports search engine visibility and helps patients make informed healthcare decisions.
+            </p>
+          </div>
+        </div>
+
+        {/* Provider Types Subgrid */}
+        <div className="border-t border-brand-border/40 pt-12 space-y-6">
+          <h3 className="font-display font-bold text-xl text-white text-center">SEO Optimization for Different Types of Providers</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-xs">
+            <div className="glass-panel p-5 rounded-xl border border-brand-border space-y-2">
+              <p className="font-bold text-white">SEO for Physicians</p>
+              <p className="text-[10px] text-gray-400 leading-relaxed font-normal">Helping doctors improve visibility for their specialties and attract relevant patients.</p>
+            </div>
+            <div className="glass-panel p-5 rounded-xl border border-brand-border space-y-2">
+              <p className="font-bold text-white">SEO for Specialists</p>
+              <p className="text-[10px] text-gray-400 leading-relaxed font-normal">Targeting treatment-focused searches and reaching patients with specific medical needs.</p>
+            </div>
+            <div className="glass-panel p-5 rounded-xl border border-brand-border space-y-2">
+              <p className="font-bold text-white">SEO for Medical Clinics</p>
+              <p className="text-[10px] text-gray-400 leading-relaxed font-normal">Improving maps presence, local search rankings, and overall clinic appointment requests.</p>
+            </div>
+            <div className="glass-panel p-5 rounded-xl border border-brand-border space-y-2">
+              <p className="font-bold text-white">SEO for Healthcare Startups</p>
+              <p className="text-[10px] text-gray-400 leading-relaxed font-normal">Building digital authority and search visibility for new healthcare software and platforms.</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 6. FAQ Section */}
+      {/* Patient Focused Website Navigation Block */}
+      <section className="max-w-7xl mx-auto px-6 py-12 border-t border-brand-border/40">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          {/* Image Placeholder Left */}
+          <div>
+            <div className="glass-panel border border-brand-border rounded-3xl p-6 relative overflow-hidden shadow-2xl bg-[#040D18]/40 max-w-md mx-auto">
+              <div className="flex items-center justify-between mb-4 border-b border-brand-border pb-3">
+                <span className="text-[10px] font-mono text-gray-500 font-bold uppercase tracking-wider font-normal">Image Placeholder</span>
+                <span className="text-brand-cyan">Website UX</span>
+              </div>
+              <div className="h-44 rounded-xl bg-brand-bg/50 border border-brand-border border-dashed flex flex-col items-center justify-center text-center p-4">
+                <MousePointerClick className="w-8 h-8 text-brand-cyan mb-2" />
+                <p className="text-[10px] font-bold text-white uppercase tracking-wider">Patient Conversion Pathways</p>
+                <p className="text-[9px] text-gray-500 mt-1 leading-relaxed">Visual graphic showing easy website navigation, trust credentials, and booking actions.</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <h3 className="font-display font-bold text-2xl text-white">Patient-Focused Website & Metrics Tracking</h3>
+            <p className="text-xs sm:text-sm text-gray-400 leading-relaxed font-normal">
+              SEO success depends on more than rankings. A healthcare website should provide a smooth patient experience, including clear website navigation (services, contact details) and trust elements (testimonials, credentials). We track organic traffic growth, ranking improvements, and patient engagement actions to measure success.
+            </p>
+            <p className="text-xs text-gray-500 leading-relaxed font-normal">
+              As your website gains more quality content, stronger authority, and better technical performance, your practice can continue growing its online presence.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* 10. COMPETE IN A DIGITAL FIRST WORLD */}
+      <section className="max-w-7xl mx-auto px-6 py-16 border-t border-brand-border/40">
+        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+          <h2 className="font-display font-extrabold text-3xl text-white">
+            How Healthcare SEO Helps Doctors Compete in a Digital-First World
+          </h2>
+          <p className="text-gray-400 text-sm leading-relaxed">
+            The way patients find healthcare providers has changed significantly. Before booking an appointment, people search online to compare doctors, reviews, treatments, and evaluate credibility.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-12">
+          <div className="lg:col-span-5 space-y-4">
+            <h3 className="font-bold text-white text-lg">The Role of SEO in Patient Acquisition</h3>
+            <p className="text-xs text-gray-400 leading-relaxed font-normal">
+              Traditional healthcare marketing methods depend on referrals or advertisements. While these can still be valuable, SEO creates a consistent digital channel where patients can discover your services naturally when they research health information, compare providers, and search for specific clinics.
+            </p>
+            <p className="text-xs text-gray-500 leading-relaxed font-normal">
+              Our optimization process focuses on content quality, website experience (speed and usability), and digital authority signals.
+            </p>
+          </div>
+
+          <div className="lg:col-span-7 space-y-4">
+            <h3 className="font-bold text-white text-lg">Common SEO Challenges Doctors Face:</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+              <div className="bg-white/2 p-4 rounded-xl border border-brand-border">
+                <p className="font-bold text-white mb-1">Low Google Rankings</p>
+                <p className="text-[10px] text-gray-500 leading-relaxed font-normal">Your website may not appear when patients search for services. We identify ranking barriers and improve website optimization.</p>
+              </div>
+              <div className="bg-white/2 p-4 rounded-xl border border-brand-border">
+                <p className="font-bold text-white mb-1">Weak Local Presence</p>
+                <p className="text-[10px] text-gray-500 leading-relaxed font-normal">A doctor may have a website but still miss local maps search queries. Our local SEO for doctors strategy improves map visibility.</p>
+              </div>
+              <div className="bg-white/2 p-4 rounded-xl border border-brand-border">
+                <p className="font-bold text-white mb-1">Lack of Healthcare Content</p>
+                <p className="text-[10px] text-gray-500 leading-relaxed font-normal">Without helpful content, search engines have fewer signals to understand your medical expertise. We create solid content plans.</p>
+              </div>
+              <div className="bg-white/2 p-4 rounded-xl border border-brand-border">
+                <p className="font-bold text-white mb-1">Poor Website Conversion</p>
+                <p className="text-[10px] text-gray-500 leading-relaxed font-normal">Getting traffic isn't enough. We guide patients toward calling your clinic, booking appointments, and contacting your team.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* SEO Roadmap */}
+        <div className="border-t border-brand-border/40 pt-12 space-y-8">
+          <div className="text-center max-w-2xl mx-auto space-y-2">
+            <h3 className="font-display font-bold text-xl text-white">How Med Clinic X Builds an SEO Roadmap for Doctors</h3>
+            <p className="text-xs text-gray-400 leading-relaxed">Our process focuses on sustainable, organic growth built through structured planning.</p>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-4 gap-6 text-xs">
+            <div className="glass-panel p-5 rounded-xl border border-brand-border space-y-1.5">
+              <p className="font-mono font-bold text-brand-cyan text-[10px] uppercase">Phase 1</p>
+              <p className="font-bold text-white">Research Phase</p>
+              <p className="text-[10px] text-gray-500 leading-relaxed font-normal">Analyze current rankings, competitors, local patient search behavior, and market opportunities.</p>
+            </div>
+            <div className="glass-panel p-5 rounded-xl border border-brand-border space-y-1.5">
+              <p className="font-mono font-bold text-brand-indigo text-[10px] uppercase">Phase 2</p>
+              <p className="font-bold text-white">Strategy Phase</p>
+              <p className="text-[10px] text-gray-500 leading-relaxed font-normal">Create keyword plans, content roadmaps, technical improvement lists, and Google Maps setups.</p>
+            </div>
+            <div className="glass-panel p-5 rounded-xl border border-brand-border space-y-1.5">
+              <p className="font-mono font-bold text-brand-emerald text-[10px] uppercase">Phase 3</p>
+              <p className="font-bold text-white">Implementation Phase</p>
+              <p className="text-[10px] text-gray-500 leading-relaxed font-normal">Optimize website pages, content structures, technical indexing errors, and local GBP listings.</p>
+            </div>
+            <div className="glass-panel p-5 rounded-xl border border-brand-border space-y-1.5">
+              <p className="font-mono font-bold text-amber-400 text-[10px] uppercase">Phase 4</p>
+              <p className="font-bold text-white">Growth Phase</p>
+              <p className="text-[10px] text-gray-500 leading-relaxed font-normal">Monitor rank increases, organic traffic patterns, and patient conversion opportunities.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 11. FAQ SECTION */}
       <section className="max-w-4xl mx-auto px-6 py-16 border-t border-brand-border/40">
         <div className="text-center mb-16 space-y-4">
           <h2 className="font-display font-extrabold text-3xl text-white">
-            Frequently Asked Questions
+            Frequently Asked Questions About SEO for Doctors
           </h2>
           <p className="text-gray-400 text-sm">
             Answers to common questions about our SEO services for medical clinics and practices.
@@ -397,17 +899,17 @@ export default function SeoServicesClient() {
         </div>
       </section>
 
-      {/* 7. Consultation Form Section */}
+      {/* 12. CONSULTATION / BOOKING FORM SECTION */}
       <section id="consultation" className="max-w-3xl mx-auto px-6 py-16 border-t border-brand-border/40">
         <div className="glass-panel rounded-3xl p-6 md:p-10 border border-brand-border relative overflow-hidden">
           <div className="absolute top-0 right-0 w-32 h-32 bg-brand-cyan/5 rounded-full blur-2xl pointer-events-none" />
           
           <div className="text-center mb-8 space-y-3">
             <h2 className="font-display font-extrabold text-2xl sm:text-3xl text-white">
-              Start Building Your SEO Strategy Today
+              Start Building Your Healthcare SEO Growth Strategy Today
             </h2>
             <p className="text-xs text-gray-400 leading-relaxed max-w-md mx-auto">
-              Improve your online visibility, reach more local patients, and grow your medical practice with a professional healthcare SEO audit.
+              Improve your online visibility, reach more patients, and grow your medical practice with a professional SEO approach. Contact Med Clinic X to discuss your goals.
             </p>
           </div>
 
