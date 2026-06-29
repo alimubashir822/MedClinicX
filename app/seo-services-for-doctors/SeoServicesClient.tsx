@@ -259,7 +259,7 @@ export default function SeoServicesClient() {
             </p>
             <div className="glass-panel overflow-hidden rounded-2xl border border-brand-border max-w-md shadow-lg relative bg-[#040D18]/40">
               <Image
-                src="/services-img/Google Business Profile Optimization.jpg"
+                src="/services-img/google-business-profile-optimization.jpg"
                 alt="Google Business Profile Optimization"
                 width={600}
                 height={380}
@@ -275,7 +275,7 @@ export default function SeoServicesClient() {
             </p>
             <div className="glass-panel overflow-hidden rounded-2xl border border-brand-border max-w-md shadow-lg relative bg-[#040D18]/40">
               <Image
-                src="/services-img/Local Search Optimization & Citation Sync.jpg"
+                src="/services-img/local-search-optimization-citation-sync.jpg"
                 alt="Local Search Optimization & Citation Sync"
                 width={600}
                 height={380}
@@ -354,7 +354,7 @@ export default function SeoServicesClient() {
           <div className="lg:col-span-5">
             <div className="glass-panel border border-brand-border rounded-3xl p-4 shadow-2xl bg-[#040D18]/40 relative overflow-hidden">
               <Image
-                src="/services-img/Google%20Ads%20for%20Doctors%20+%20SEO%20Growth%20Strategy.jpg"
+                src="/services-img/google-ads-for-doctors-seo-growth-strategy.jpg"
                 alt="Google Ads for Doctors & SEO Growth Strategy"
                 width={800}
                 height={500}
@@ -731,7 +731,7 @@ export default function SeoServicesClient() {
           <div>
             <div className="glass-panel border border-brand-border rounded-3xl p-4 shadow-2xl bg-[#040D18]/40 max-w-md mx-auto relative overflow-hidden">
               <Image
-                src="/services-img/Patient-Focused Website & Metrics Tracking.jpg"
+                src="/services-img/patient-focused-website-metrics-tracking.jpg"
                 alt="Patient-Focused Website & Metrics Tracking"
                 width={600}
                 height={380}
