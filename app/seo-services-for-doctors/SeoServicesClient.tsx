@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search,
@@ -23,7 +24,7 @@ import {
   Award
 } from "lucide-react";
 
-// Mock Data for Google Business Profile
+// Mock Data for Listings
 const listingsMock = [
   { rank: "1", name: "Your Medical Practice — Top Rated", rating: "4.9 ★ (192 reviews)", status: "Rank #1 Maps", color: "border-brand-cyan/40 bg-brand-cyan/5 text-brand-cyan" },
   { rank: "2", name: "Local Competitor Practice A", rating: "4.2 ★ (38 reviews)", status: "Organic Match", color: "border-brand-border/40 text-gray-400" },
@@ -275,40 +276,35 @@ export default function SeoServicesClient() {
 
         {/* Local SEO Details Subgrid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start pt-8 border-t border-brand-border/40">
-          <div className="space-y-4">
+          <div className="space-y-4 w-full">
             <h4 className="font-display font-bold text-lg text-white">Google Business Profile Optimization</h4>
             <p className="text-sm md:text-base text-gray-400 leading-relaxed">
               Your Google Business Profile is one of the most important assets for attracting local patients. We improve business information accuracy, healthcare categories, service descriptions, location signals, patient reviews strategy, photos, and updates.
             </p>
-            <div className="bg-slate-900/60 p-4 rounded-xl border border-brand-border max-w-md space-y-2.5 font-mono text-[11px]">
-              <p className="text-brand-cyan font-bold uppercase text-[9px] tracking-wider mb-1">Local Maps Mockup Preview</p>
-              {listingsMock.map((l, i) => (
-                <div key={i} className={`border rounded-lg p-2.5 flex items-start justify-between ${l.color}`}>
-                  <div>
-                    <p className="font-bold">{l.rank}. {l.name}</p>
-                    <p className="text-sm md:text-base text-gray-400 leading-relaxed mt-0.5">{l.rating}</p>
-                  </div>
-                  <span className="text-[8px] font-bold uppercase px-1.5 py-0.5 bg-brand-border rounded text-gray-400">{l.status}</span>
-                </div>
-              ))}
+            <div className="glass-panel overflow-hidden rounded-2xl border border-brand-border max-w-md shadow-lg relative bg-[#040D18]/40">
+              <Image
+                src="/services-img/Google Business Profile Optimization.jpg"
+                alt="Google Business Profile Optimization"
+                width={600}
+                height={380}
+                className="w-full h-auto object-cover rounded-2xl"
+              />
             </div>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-4 w-full">
             <h4 className="font-display font-bold text-lg text-white">Local Search Optimization & Citation Sync</h4>
             <p className="text-sm md:text-base text-gray-400 leading-relaxed">
               Our local SEO strategy focuses on improving your visibility across location-based searches. We optimize local keywords, location landing pages, healthcare directories, local citations, NAP consistency, and patient-focused content to compete in your target service areas.
             </p>
-            <div className="glass-panel border border-brand-border rounded-2xl p-6 relative overflow-hidden bg-[#040D18]/40 max-w-md">
-              <div className="flex items-center justify-between mb-3 border-b border-brand-border pb-2 text-[10px] text-gray-500 font-mono">
-                <span>Image Placeholder</span>
-                <span className="text-brand-cyan">Citation Map</span>
-              </div>
-              <div className="h-32 rounded-xl bg-brand-bg/50 border border-brand-border border-dashed flex flex-col items-center justify-center text-center p-4">
-                <MapPin className="w-8 h-8 text-brand-cyan mb-2" />
-                <p className="text-[10px] font-bold text-white uppercase tracking-wider">Citation & Map Directories Visual</p>
-                <p className="text-sm md:text-base text-gray-400 leading-relaxed mt-1">Visual graphic showing Yelp, WebMD, Healthgrades directory mapping.</p>
-              </div>
+            <div className="glass-panel overflow-hidden rounded-2xl border border-brand-border max-w-md shadow-lg relative bg-[#040D18]/40">
+              <Image
+                src="/services-img/Local Search Optimization & Citation Sync.jpg"
+                alt="Local Search Optimization & Citation Sync"
+                width={600}
+                height={380}
+                className="w-full h-auto object-cover rounded-2xl"
+              />
             </div>
           </div>
         </div>
@@ -380,22 +376,14 @@ export default function SeoServicesClient() {
           </div>
 
           <div className="lg:col-span-5">
-            <div className="glass-panel border border-brand-border rounded-3xl p-6 relative overflow-hidden shadow-2xl bg-[#040D18]/40">
-              <div className="absolute inset-0 bg-gradient-to-tr from-brand-cyan/5 to-brand-indigo/5 pointer-events-none" />
-              <div className="flex items-center justify-between mb-4 border-b border-brand-border pb-3">
-                <span className="text-[10px] font-mono text-gray-500 font-bold uppercase tracking-wider">Image Placeholder</span>
-                <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse" />
-              </div>
-              
-              <div className="h-60 rounded-2xl bg-brand-bg/50 border border-brand-border border-dashed flex flex-col items-center justify-center text-center p-6 space-y-3">
-                <TrendingUp className="w-12 h-12 text-amber-400" />
-                <div>
-                  <p className="text-xs font-bold text-white uppercase tracking-wider">SEM Campaign & Ad Metrics Mockup</p>
-                  <p className="text-sm md:text-base text-gray-400 max-w-[240px] mx-auto mt-1 leading-relaxed">
-                    Graphic illustrating patient acquisition pathways from Google PPC and organic search.
-                  </p>
-                </div>
-              </div>
+            <div className="glass-panel border border-brand-border rounded-3xl p-4 shadow-2xl bg-[#040D18]/40 relative overflow-hidden">
+              <Image
+                src="/services-img/Google Ads for Doctors + SEO Growth Strategy.png"
+                alt="Google Ads for Doctors & SEO Growth Strategy"
+                width={800}
+                height={500}
+                className="w-full h-auto object-cover rounded-2xl border border-brand-border/40"
+              />
             </div>
           </div>
         </div>
@@ -765,16 +753,14 @@ export default function SeoServicesClient() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
           {/* Image Placeholder Left */}
           <div>
-            <div className="glass-panel border border-brand-border rounded-3xl p-6 relative overflow-hidden shadow-2xl bg-[#040D18]/40 max-w-md mx-auto">
-              <div className="flex items-center justify-between mb-4 border-b border-brand-border pb-3">
-                <span className="text-[10px] font-mono text-gray-500 font-bold uppercase tracking-wider font-normal">Image Placeholder</span>
-                <span className="text-brand-cyan">Website UX</span>
-              </div>
-              <div className="h-44 rounded-xl bg-brand-bg/50 border border-brand-border border-dashed flex flex-col items-center justify-center text-center p-4">
-                <MousePointerClick className="w-8 h-8 text-brand-cyan mb-2" />
-                <p className="text-[10px] font-bold text-white uppercase tracking-wider">Patient Conversion Pathways</p>
-                <p className="text-sm md:text-base text-gray-400 leading-relaxed mt-1">Visual graphic showing easy website navigation, trust credentials, and booking actions.</p>
-              </div>
+            <div className="glass-panel border border-brand-border rounded-3xl p-4 shadow-2xl bg-[#040D18]/40 max-w-md mx-auto relative overflow-hidden">
+              <Image
+                src="/services-img/Patient-Focused Website & Metrics Tracking.jpg"
+                alt="Patient-Focused Website & Metrics Tracking"
+                width={600}
+                height={380}
+                className="w-full h-auto object-cover rounded-2xl border border-brand-border/40"
+              />
             </div>
           </div>
 
@@ -844,22 +830,22 @@ export default function SeoServicesClient() {
           
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-6 text-xs">
             <div className="glass-panel p-5 rounded-xl border border-brand-border space-y-1.5">
-              <p className="font-mono font-bold text-brand-cyan text-[10px] uppercase font-normal">Phase 1</p>
+              <p className="font-mono font-bold text-brand-cyan text-[10px] uppercase font-normal font-sans">Phase 1</p>
               <p className="font-display font-bold text-base text-white">Research Phase</p>
               <p className="text-sm md:text-base text-gray-400 leading-relaxed">Analyze current rankings, competitors, local patient search behavior, and market opportunities.</p>
             </div>
             <div className="glass-panel p-5 rounded-xl border border-brand-border space-y-1.5">
-              <p className="font-mono font-bold text-brand-indigo text-[10px] uppercase font-normal">Phase 2</p>
+              <p className="font-mono font-bold text-brand-indigo text-[10px] uppercase font-normal font-sans">Phase 2</p>
               <p className="font-display font-bold text-base text-white">Strategy Phase</p>
               <p className="text-sm md:text-base text-gray-400 leading-relaxed">Create keyword plans, content roadmaps, technical improvement lists, and Google Maps setups.</p>
             </div>
             <div className="glass-panel p-5 rounded-xl border border-brand-border space-y-1.5">
-              <p className="font-mono font-bold text-brand-emerald text-[10px] uppercase font-normal">Phase 3</p>
+              <p className="font-mono font-bold text-brand-emerald text-[10px] uppercase font-normal font-sans">Phase 3</p>
               <p className="font-display font-bold text-base text-white">Implementation Phase</p>
               <p className="text-sm md:text-base text-gray-400 leading-relaxed">Optimize website pages, content structures, technical indexing errors, and local GBP listings.</p>
             </div>
             <div className="glass-panel p-5 rounded-xl border border-brand-border space-y-1.5">
-              <p className="font-mono font-bold text-amber-400 text-[10px] uppercase font-normal">Phase 4</p>
+              <p className="font-mono font-bold text-amber-400 text-[10px] uppercase font-normal font-sans">Phase 4</p>
               <p className="font-display font-bold text-base text-white">Growth Phase</p>
               <p className="text-sm md:text-base text-gray-400 leading-relaxed">Monitor rank increases, organic traffic patterns, and patient conversion opportunities.</p>
             </div>
