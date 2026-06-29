@@ -119,52 +119,28 @@ export default function SeoServicesClient() {
       <div className="absolute bottom-10 left-1/4 w-[600px] h-[600px] bg-brand-indigo/5 rounded-full blur-[140px] -z-10 pointer-events-none" />
 
       {/* 1. HERO SECTION */}
-      <section className="relative pt-16 pb-16 md:py-28 max-w-7xl mx-auto px-6 text-center lg:text-left">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          <div className="lg:col-span-7 space-y-6">
-            <div className="inline-flex items-center space-x-2 bg-brand-cyan/10 border border-brand-cyan/20 rounded-full px-4.5 py-1.5 mb-2 mx-auto lg:mx-0">
-              <Sparkles className="w-4.5 h-4.5 text-brand-cyan animate-pulse" />
-              <span className="text-xs font-semibold tracking-wide text-brand-cyan uppercase">Healthcare SEO Agency</span>
-            </div>
-            <h1 className="font-display font-extrabold text-4xl sm:text-6xl md:text-7xl text-white tracking-tight leading-none">
-              Grow Your Practice With <span className="text-gradient-cyan-indigo">SEO Services</span> for Doctors
-            </h1>
-            <p className="mt-6 text-base sm:text-xl text-gray-400 leading-relaxed max-w-2xl mx-auto lg:mx-0">
-              Patients are searching online before choosing a healthcare provider. Whether they are looking for a specialist, primary care physician, dentist, or medical clinic, your online visibility plays a major role in whether they discover your practice or choose a competitor.
-            </p>
-            <p className="text-sm md:text-base text-gray-400 leading-relaxed max-w-2xl mx-auto lg:mx-0">
-              At Med Clinic X, we provide specialized <strong>SEO services for doctors</strong> designed specifically for healthcare professionals who want to improve search rankings, attract qualified patients, and build a stronger digital presence.
-            </p>
-            <div className="pt-4 flex flex-col sm:flex-row justify-center lg:justify-start items-center gap-4">
-              <a href="#consultation" className="w-full sm:w-auto bg-gradient-to-r from-brand-cyan to-brand-indigo hover:opacity-95 text-white font-semibold px-8 py-4 rounded-xl shadow-xl shadow-brand-cyan/10 active:scale-[0.98] transition-all flex items-center justify-center space-x-2 hover:scale-[1.02] text-sm cursor-pointer">
-                <span>Book Free SEO Consultation</span>
-                <ArrowRight className="w-5 h-5" />
-              </a>
-              <a href="#packages" className="w-full sm:w-auto glass-panel glass-panel-hover text-white font-semibold px-8 py-4 rounded-xl flex items-center justify-center space-x-2 active:scale-[0.98] transition-all hover:scale-[1.02] text-sm cursor-pointer">
-                <span>View SEO Packages</span>
-              </a>
-            </div>
-          </div>
-
-          <div className="lg:col-span-5">
-            <div className="glass-panel border border-brand-border rounded-3xl p-6 relative overflow-hidden shadow-2xl bg-[#040D18]/40">
-              <div className="absolute inset-0 bg-gradient-to-tr from-brand-cyan/5 to-brand-indigo/5 pointer-events-none" />
-              <div className="flex items-center justify-between mb-4 border-b border-brand-border pb-3">
-                <span className="text-[10px] font-mono text-gray-500 font-bold uppercase tracking-wider">Image Placeholder</span>
-                <span className="w-2.5 h-2.5 rounded-full bg-brand-cyan animate-pulse" />
-              </div>
-              
-              <div className="h-64 rounded-2xl bg-brand-bg/50 border border-brand-border border-dashed flex flex-col items-center justify-center text-center p-6 space-y-3">
-                <Search className="w-12 h-12 text-brand-cyan" />
-                <div>
-                  <p className="text-xs font-bold text-white uppercase tracking-wider">SEO Traffic Acquisition Dashboard</p>
-                  <p className="text-sm md:text-base text-gray-400 max-w-[240px] mx-auto mt-1 leading-relaxed">
-                    Visual tracker detailing search queries, position mapping, click rates, and patient volume trends.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+      <section className="relative pt-16 pb-16 md:py-28 max-w-4xl mx-auto px-6 text-center space-y-6">
+        <div className="inline-flex items-center space-x-2 bg-brand-cyan/10 border border-brand-cyan/20 rounded-full px-4.5 py-1.5 mb-2 mx-auto">
+          <Sparkles className="w-4.5 h-4.5 text-brand-cyan animate-pulse" />
+          <span className="text-xs font-semibold tracking-wide text-brand-cyan uppercase">Healthcare SEO Agency</span>
+        </div>
+        <h1 className="font-display font-extrabold text-4xl sm:text-6xl md:text-7xl text-white tracking-tight leading-none">
+          Grow Your Practice With <span className="text-gradient-cyan-indigo">SEO Services</span> for Doctors
+        </h1>
+        <p className="mt-6 text-base sm:text-xl text-gray-400 leading-relaxed max-w-3xl mx-auto">
+          Patients are searching online before choosing a healthcare provider. Whether they are looking for a specialist, primary care physician, dentist, or medical clinic, your online visibility plays a major role in whether they discover your practice or choose a competitor.
+        </p>
+        <p className="text-sm md:text-base text-gray-400 leading-relaxed max-w-3xl mx-auto">
+          At Med Clinic X, we provide specialized <strong>SEO services for doctors</strong> designed specifically for healthcare professionals who want to improve search rankings, attract qualified patients, and build a stronger digital presence.
+        </p>
+        <div className="pt-4 flex flex-col sm:flex-row justify-center items-center gap-4">
+          <a href="#consultation" className="w-full sm:w-auto bg-gradient-to-r from-brand-cyan to-brand-indigo hover:opacity-95 text-white font-semibold px-8 py-4 rounded-xl shadow-xl shadow-brand-cyan/10 active:scale-[0.98] transition-all flex items-center justify-center space-x-2 hover:scale-[1.02] text-sm cursor-pointer">
+            <span>Book Free SEO Consultation</span>
+            <ArrowRight className="w-5 h-5" />
+          </a>
+          <a href="#packages" className="w-full sm:w-auto glass-panel glass-panel-hover text-white font-semibold px-8 py-4 rounded-xl flex items-center justify-center space-x-2 active:scale-[0.98] transition-all hover:scale-[1.02] text-sm cursor-pointer">
+            <span>View SEO Packages</span>
+          </a>
         </div>
       </section>
 
