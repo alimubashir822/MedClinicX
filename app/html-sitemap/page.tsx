@@ -66,6 +66,7 @@ const sitemapData = [
       { name: "Healthcare Automation", href: "/services/healthcare-automation" },
       { name: "Mobile Healthcare Apps", href: "/services/mobile-healthcare-apps" },
       { name: "Healthcare SEO & Growth", href: "/services/healthcare-seo-growth" },
+      { name: "SEO Services for Doctors", href: "/seo-services-for-doctors" },
     ],
   },
   {
