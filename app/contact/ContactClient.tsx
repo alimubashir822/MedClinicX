@@ -49,6 +49,7 @@ export default function ContactClient() {
   });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -57,6 +58,7 @@ export default function ContactClient() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setErrorMsg(null);
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
@@ -70,11 +72,11 @@ export default function ContactClient() {
         setSubmitted(true);
       } else {
         const errData = await response.json();
-        alert(errData.error || "Something went wrong. Please try again.");
+        setErrorMsg(errData.error || "Something went wrong. Please try again.");
       }
     } catch (error) {
       console.error("Submission error:", error);
-      alert("An error occurred while sending the message. Please try again.");
+      setErrorMsg("An error occurred while sending the message. Please check your connection and try again.");
     } finally {
       setLoading(false);
     }
@@ -249,6 +251,11 @@ export default function ContactClient() {
                       </>
                     )}
                   </button>
+                  {errorMsg && (
+                    <div className="flex items-start space-x-2 bg-red-500/10 border border-red-500/30 rounded-xl px-4 py-3">
+                      <span className="text-red-400 text-xs leading-relaxed">{errorMsg}</span>
+                    </div>
+                  )}
                   <p className="text-xs text-gray-600 text-center">
                     By submitting, you agree to our Privacy Policy. We never share your information.
                   </p>

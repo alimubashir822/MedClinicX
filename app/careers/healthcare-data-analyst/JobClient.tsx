@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -35,6 +35,7 @@ export default function JobClient() {
       
   // Submission States
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitSuccess, setSubmitSuccess] = useState(false);
 
   const technicalSkills: TechSkill[] = [
@@ -78,6 +79,7 @@ export default function JobClient() {
   
   const submitApplication = async () => {
     setIsSubmitting(true);
+    setSubmitError(null);
     try {
       const res = await fetch("/api/careers", {
         method: "POST",
@@ -94,13 +96,16 @@ export default function JobClient() {
         }),
       });
       if (!res.ok) {
-        console.error("Failed to submit application");
+        const errData = await res.json().catch(() => ({}));
+        setSubmitError(errData.error || "Submission failed. Please try again.");
+      } else {
+        setSubmitSuccess(true);
       }
     } catch (err) {
       console.error("Submit error:", err);
+      setSubmitError("Failed to submit application. Please try again.");
     }
     setIsSubmitting(false);
-    setSubmitSuccess(true);
   };
 
   return (
