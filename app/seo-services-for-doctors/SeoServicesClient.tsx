@@ -873,135 +873,151 @@ export default function SeoServicesClient() {
         </div>
       </section>
 
-      {/* 11.5. FINAL CTA SECTION */}
-      <section id="cta" className="max-w-7xl mx-auto px-6 py-12 relative z-10 scroll-mt-20">
-        <div className="relative rounded-3xl overflow-hidden border border-brand-cyan/20">
-          <div className="absolute inset-0 bg-gradient-to-br from-[#071828] via-[#0a1f30] to-[#0d1a2e]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(6,182,212,0.12),transparent_60%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(99,102,241,0.10),transparent_60%)]" />
-          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-cyan/40 to-transparent" />
-          <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.1) 1px,transparent 1px)", backgroundSize: "48px 48px" }} />
-
-          <div className="relative p-10 sm:p-16 text-center">
-            <div className="inline-flex items-center gap-2 bg-brand-cyan/15 rounded-full px-3 py-1 mb-6">
-              <Sparkles className="w-3.5 h-3.5 text-brand-cyan animate-pulse" />
-              <span className="text-[10px] font-bold text-brand-cyan uppercase tracking-wider">Ready to Build?</span>
-            </div>
-            <h2 className="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl text-white tracking-tight leading-tight mb-4 max-w-3xl mx-auto">
-              Ready To Build Your Healthcare Digital Experience?
-            </h2>
-            <p className="text-base text-gray-400 leading-relaxed mb-8 max-w-xl mx-auto">
-              Book a discovery call with our digital health engineering specialists to audit your current platform, calculate ROI, and plan your full software rollout — at no cost.
-            </p>
-
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <a href="#consultation" className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-bold text-sm px-8 py-4 rounded-xl shadow-lg shadow-brand-cyan/20 hover:scale-[1.01] active:scale-[0.99] transition-all cursor-pointer">
-                Schedule a Discovery Call <ArrowRight className="w-4 h-4" />
-              </a>
-              <Link href="/services" className="inline-flex items-center justify-center glass-panel border border-brand-border/60 hover:border-brand-cyan/25 text-sm font-semibold text-gray-300 hover:text-white px-8 py-4 rounded-xl transition-all">
-                View All Services
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* 12. CONSULTATION / BOOKING FORM SECTION */}
-      <section id="consultation" className="max-w-3xl mx-auto px-6 py-20 md:py-28 border-t border-brand-border/40 relative z-10">
-        <div className="glass-panel rounded-3xl p-6 md:p-10 border border-brand-border relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-brand-cyan/5 rounded-full blur-2xl pointer-events-none" />
+      <section id="consultation" className="max-w-7xl mx-auto px-6 py-20 md:py-28 border-t border-brand-border/40 relative z-10">
+        <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          {/* Decorative glowing backdrops */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-cyan/5 rounded-full blur-[120px] -z-10 pointer-events-none" />
           
-          <div className="text-center mb-8 space-y-3">
-            <h2 className="font-display font-bold text-2xl sm:text-3xl text-white">
-              Start Building Your Healthcare SEO Growth Strategy Today
+          {/* Left Column: Value Prop & Trust */}
+          <div className="lg:col-span-6 space-y-6 text-left">
+            <div className="inline-flex items-center space-x-2 bg-brand-cyan/10 border border-brand-cyan/20 rounded-full px-4 py-1">
+              <Award className="w-4 h-4 text-brand-cyan" />
+              <span className="text-[11px] font-bold tracking-wide text-brand-cyan uppercase">Free Growth Consultation</span>
+            </div>
+            <h2 className="font-display font-bold text-3xl md:text-5xl text-white leading-tight">
+              Ready to grow your practice? Let's build your <span className="text-gradient-cyan-indigo">SEO Roadmap</span>
             </h2>
-            <p className="text-sm md:text-base text-gray-400 leading-relaxed max-w-md mx-auto">
-              Improve your online visibility, reach more patients, and grow your medical practice with a professional SEO approach. Contact Med Clinic X to discuss your goals.
+            <p className="text-base text-gray-400 leading-relaxed">
+              Get an in-depth analysis of your practice's search presence, competitor rankings, and a concrete action plan to attract more patients.
             </p>
+            
+            <div className="space-y-4 pt-4 border-t border-brand-border/40">
+              <h4 className="text-sm font-bold uppercase tracking-wider text-gray-300">What you'll receive:</h4>
+              <div className="space-y-3">
+                {[
+                  { title: "Competitor Analysis", desc: "See exactly which keywords your local competitors rank for." },
+                  { title: "Google Maps Audit", desc: "Discover leaks in your local Google Business Profile." },
+                  { title: "Technical Performance Report", desc: "Identify speed and mobile usability issues hurting conversions." },
+                  { title: "30-Day Growth Blueprint", desc: "A step-by-step checklist customized for your medical specialty." }
+                ].map((item, idx) => (
+                  <div key={idx} className="flex items-start space-x-3">
+                    <CheckCircle2 className="w-5 h-5 text-brand-cyan shrink-0 mt-0.5" />
+                    <div>
+                      <p className="text-sm font-bold text-white">{item.title}</p>
+                      <p className="text-xs text-gray-400 mt-0.5 leading-relaxed">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex items-center space-x-6 pt-4 text-xs text-gray-500">
+              <div className="flex items-center space-x-2">
+                <Shield className="w-4 h-4 text-gray-600" />
+                <span>HIPAA Compliant</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Zap className="w-4 h-4 text-gray-600" />
+                <span>No Obligation Audit</span>
+              </div>
+            </div>
           </div>
 
-          {success ? (
-            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-8 space-y-4">
-              <div className="w-12 h-12 bg-brand-emerald/10 border border-brand-emerald/20 text-brand-emerald rounded-full flex items-center justify-center mx-auto">
-                <CheckCircle2 className="w-6 h-6" />
-              </div>
-              <h3 className="font-display font-bold text-lg text-white">Audit Request Received!</h3>
-              <p className="text-sm md:text-base text-gray-400 leading-relaxed max-w-sm mx-auto">
-                Thank you for reaching out. An SEO growth specialist from Med Clinic X will review your site and contact you within 24 hours.
-              </p>
-            </motion.div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-1.5 font-sans">Full Name</label>
-                  <input
-                    type="text"
-                    required
-                    value={form.name}
-                    onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    placeholder="Dr. John Doe"
-                    className="w-full bg-brand-bg/50 border border-brand-border rounded-xl px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-brand-cyan transition-colors"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-1.5 font-sans">Email Address</label>
-                  <input
-                    type="email"
-                    required
-                    value={form.email}
-                    onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    placeholder="doctor@practice.com"
-                    className="w-full bg-brand-bg/50 border border-brand-border rounded-xl px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-brand-cyan transition-colors"
-                  />
-                </div>
-              </div>
+          {/* Right Column: Floating Form Card */}
+          <div className="lg:col-span-6">
+            <div className="glass-panel rounded-3xl p-8 border border-brand-border shadow-2xl bg-[#040D18]/45 backdrop-blur-md relative">
+              {success ? (
+                <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-12 space-y-4">
+                  <div className="w-16 h-16 bg-brand-emerald/10 border border-brand-emerald/20 text-brand-emerald rounded-full flex items-center justify-center mx-auto">
+                    <CheckCircle2 className="w-8 h-8" />
+                  </div>
+                  <h3 className="font-display font-bold text-xl text-white">Audit Request Received!</h3>
+                  <p className="text-base text-gray-400 leading-relaxed max-w-sm mx-auto text-center">
+                    Thank you, Dr. {form.name.split(" ").pop()}. Our medical SEO specialists are analyzing your local market. We will reach out within 24 hours.
+                  </p>
+                </motion.div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  <div className="space-y-1 text-left">
+                    <h3 className="font-display font-bold text-lg text-white">Request Your Free SEO Audit</h3>
+                    <p className="text-xs text-gray-400">Fill out this quick form and we'll start analyzing your practice.</p>
+                  </div>
 
-              <div>
-                <label className="block text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-1.5 font-sans">Clinic or Practice Name</label>
-                <input
-                  type="text"
-                  required
-                  value={form.clinicName}
-                  onChange={(e) => setForm({ ...form, clinicName: e.target.value })}
-                  placeholder="Apex Medical Group"
-                  className="w-full bg-brand-bg/50 border border-brand-border rounded-xl px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-brand-cyan transition-colors"
-                />
-              </div>
+                  <div className="space-y-4 text-left">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-1.5 font-sans">Full Name</label>
+                        <input
+                          type="text"
+                          required
+                          value={form.name}
+                          onChange={(e) => setForm({ ...form, name: e.target.value })}
+                          placeholder="Dr. John Doe"
+                          className="w-full bg-brand-bg/60 border border-brand-border/60 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-brand-cyan focus:ring-2 focus:ring-brand-cyan/20 transition-all"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-1.5 font-sans">Email Address</label>
+                        <input
+                          type="email"
+                          required
+                          value={form.email}
+                          onChange={(e) => setForm({ ...form, email: e.target.value })}
+                          placeholder="doctor@practice.com"
+                          className="w-full bg-brand-bg/60 border border-brand-border/60 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-brand-cyan focus:ring-2 focus:ring-brand-cyan/20 transition-all"
+                        />
+                      </div>
+                    </div>
 
-              <div>
-                <label className="block text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-1.5 font-sans">Target Location or SEO Goals</label>
-                <textarea
-                  rows={4}
-                  value={form.msg}
-                  onChange={(e) => setForm({ ...form, msg: e.target.value })}
-                  placeholder="Tell us about your target city, medical specialty, or specific search ranking goals..."
-                  className="w-full bg-brand-bg/50 border border-brand-border rounded-xl px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-brand-cyan transition-colors resize-none"
-                />
-              </div>
+                    <div>
+                      <label className="block text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-1.5 font-sans">Clinic or Practice Name</label>
+                      <input
+                        type="text"
+                        required
+                        value={form.clinicName}
+                        onChange={(e) => setForm({ ...form, clinicName: e.target.value })}
+                        placeholder="Apex Medical Group"
+                        className="w-full bg-brand-bg/60 border border-brand-border/60 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-brand-cyan focus:ring-2 focus:ring-brand-cyan/20 transition-all"
+                      />
+                    </div>
 
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-semibold py-4 rounded-xl hover:opacity-95 disabled:opacity-60 text-sm cursor-pointer shadow-xl shadow-brand-cyan/10"
-              >
-                {loading ? (
-                  <span className="animate-pulse">Submitting Inquiry...</span>
-                ) : (
-                  <>
-                    <Send className="w-4 h-4" />
-                    <span>Request Free Consultation</span>
-                  </>
-                )}
-              </button>
+                    <div>
+                      <label className="block text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-1.5 font-sans">Target Location or SEO Goals</label>
+                      <textarea
+                        rows={3}
+                        value={form.msg}
+                        onChange={(e) => setForm({ ...form, msg: e.target.value })}
+                        placeholder="e.g. Cardiologist in Boston wanting to rank #1 on maps..."
+                        className="w-full bg-brand-bg/60 border border-brand-border/60 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-brand-cyan focus:ring-2 focus:ring-brand-cyan/20 transition-all resize-none"
+                      />
+                    </div>
+                  </div>
 
-              {errorMsg && (
-                <div className="bg-red-500/10 border border-red-500/30 rounded-xl px-4 py-3 text-center">
-                  <span className="text-red-400 text-xs">{errorMsg}</span>
-                </div>
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-brand-cyan to-brand-indigo text-white font-semibold py-4 rounded-xl hover:opacity-95 disabled:opacity-60 text-sm cursor-pointer shadow-lg shadow-brand-cyan/10 hover:shadow-brand-cyan/20 transition-all transform hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]"
+                  >
+                    {loading ? (
+                      <span className="animate-pulse">Analyzing Market Data...</span>
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4" />
+                        <span>Request Free Consultation</span>
+                      </>
+                    )}
+                  </button>
+
+                  {errorMsg && (
+                    <div className="bg-red-500/10 border border-red-500/30 rounded-xl px-4 py-3 text-center">
+                      <span className="text-red-400 text-xs">{errorMsg}</span>
+                    </div>
+                  )}
+                </form>
               )}
-            </form>
-          )}
+            </div>
+          </div>
         </div>
       </section>
     </div>
