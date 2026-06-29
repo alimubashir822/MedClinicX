@@ -232,9 +232,12 @@ export default function Footer() {
                 )}
               </form>
             )}
-            <div className="pt-2">
+            <div className="pt-2 flex flex-col space-y-2">
               <Link href="/blog" className="text-xs text-brand-cyan hover:underline font-semibold">
                 Read our Healthcare AI Blog &rarr;
+              </Link>
+              <Link href="/guide" className="text-xs text-brand-cyan hover:underline font-semibold">
+                Explore our Practice Growth Guides &rarr;
               </Link>
             </div>
           </div>

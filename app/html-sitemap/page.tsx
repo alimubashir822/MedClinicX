@@ -36,6 +36,15 @@ const sitemapData = [
     ],
   },
   {
+    title: "Practice Guides",
+    icon: <FileText className="w-5 h-5 text-brand-cyan" />,
+    desc: "Step-by-step handbooks on healthcare technology, marketing, and operations.",
+    links: [
+      { name: "Guides Index", href: "/guide" },
+      { name: "SEO for Doctors Guide", href: "/guide/seo-for-doctors" },
+    ],
+  },
+  {
     title: "AI Solutions",
     icon: <Layers className="w-5 h-5 text-brand-indigo" />,
     desc: "Intelligent clinical operating systems and automation pathways.",
