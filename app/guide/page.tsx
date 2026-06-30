@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { BookOpen, Search, ArrowRight, ShieldCheck, Milestone, Cpu } from "lucide-react";
+import { BookOpen, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Healthcare Practice Growth Guides | Med Clinic X",
@@ -27,9 +27,7 @@ export default function GuideIndexPage() {
         "Learn how to optimize your medical practice website, master local SEO & Google Maps, target patient-intent keywords, and attract new patient appointments sustainably.",
       readTime: "8 min read",
       category: "Marketing & SEO",
-      icon: Search,
       status: "Published",
-      color: "from-brand-cyan to-brand-indigo",
     },
     {
       slug: "hipaa-compliance-guide",
@@ -38,9 +36,7 @@ export default function GuideIndexPage() {
         "A comprehensive security checklist for protecting patient health information (PHI) across patient portals, telehealth platforms, and cloud databases.",
       readTime: "12 min read",
       category: "Compliance & Security",
-      icon: ShieldCheck,
       status: "Coming Soon",
-      color: "from-rose-500 to-red-600",
     },
     {
       slug: "patient-portal-integration",
@@ -49,9 +45,7 @@ export default function GuideIndexPage() {
         "An operational manual on connecting EMR/EHR systems with online scheduling, billing, and automated patient intake workflows to save administrative hours.",
       readTime: "10 min read",
       category: "Operations",
-      icon: Milestone,
       status: "Coming Soon",
-      color: "from-emerald-400 to-teal-600",
     },
     {
       slug: "ai-in-modern-healthcare",
@@ -60,9 +54,7 @@ export default function GuideIndexPage() {
         "Discover how medical practices are utilizing voice AI agents and large language models (LLMs) to handle incoming calls, schedule bookings, and chart patient notes.",
       readTime: "7 min read",
       category: "Healthcare AI",
-      icon: Cpu,
       status: "Coming Soon",
-      color: "from-amber-400 to-orange-500",
     },
   ];
 
@@ -90,7 +82,6 @@ export default function GuideIndexPage() {
         {/* Guides Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {guides.map((guide, idx) => {
-            const Icon = guide.icon;
             const isPublished = guide.status === "Published";
 
             return (
@@ -113,10 +104,7 @@ export default function GuideIndexPage() {
                     </span>
                   </div>
 
-                  <div className="flex items-start space-x-4 mb-4">
-                    <div className={`p-3 rounded-xl bg-gradient-to-br ${guide.color} bg-opacity-10 text-white shrink-0 shadow-lg shadow-black/30`}>
-                      <Icon className="w-6 h-6 text-white" />
-                    </div>
+                  <div className="mb-4">
                     <h2 className="font-display font-bold text-xl md:text-2xl text-white group-hover:text-brand-cyan transition-colors line-clamp-2">
                       {guide.title}
                     </h2>
